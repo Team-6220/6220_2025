@@ -129,39 +129,36 @@ public final class Constants {
         }
     }
 
-    public static final class ArmConstants{
+    public static final class EWIConstnats{
+        /*Elevator START*/
+        public static final int elevatorMotorAID = 13;//TODO: need to be changed 2025
+        public static final int elevatorMotorBID = 14;//TODO: need to be changed 2025
 
-        public static final int armMotorAID = 13;
-        public static final int armMotorBID = 14;
+        public static final boolean elevatorMotorAInverted = true;//TODO: need to be changed 2025
+        public static final boolean elevatorMotorBInverted = true;//TODO: need to be changed 2025
 
-        public static final boolean motorAInverted = true;
-        public static final boolean motorBInverted = false;
-
-        //FIXME: set pid values
+        //TODO: need to be changed 2025 (all of the pid values)
         public static final double kP = 0.3; //0.009
         public static final double kI = 0.1;//0.0005
         public static final double kD = 0.005;//0.001
-        public static final double kG = 0.37;
-        public static final double kV = 0.025;
-        public static final double kS = 0.45;
-        public static final double armMaxVel = 200;
-        public static final double armMaxAccel = 450;
-
+        public static final double kG = 0.37;//Feedforward
+        public static final double kV = 0.025;//Feedforward
+        public static final double kS = 0.45;//Feedforward
+        public static final double elevatorMaxVel = 200;//not sure if we need this
+        public static final double elevatorMaxAccel = 450;//not sure if we need this
 
         public static final double minElevatorEncoderReading = 0;//TODO: need to be changed 2025
         public static final double maxElevatorEncoderReading = 100;//TODO: need to be changed 2025
-        //FIXME: create lookup table
-        public static final double [][] armLookupTable = {
-            {1.1, 75},
-            {1.4986, 62},
-            {1.905, 58.5},
-            {2.8194, 50.5},
-            {3.302, 47.5},
-            {4.0132, 45},
-            {4.9784, 42}
+        //NOTE: this is an alternative for the elvatorL1-L4 & intake
+        public static final double [] elevatorLookUpTable = {//TODO: need to be changed 2025
+            70,//L1
+            70,//L2
+            70,//L3
+            70,//L4
+            70,//Intake
         };
 
-        public static final double elevatorOffset = 167.53781218844532; //TODO: need to be changed 2025
+        public static final double elevatorOffset = 167.53781218844532;//not sure if we need this//TODO: need to be changed 2025
         //FIXME: set setpoints
         public static final double intakeElevatorSetpoint = 84;//TODO: need to be changed 2025
         public static final double elevatorIdleSetpoint = 0;  //not sure if we need this//TODO: need to be changed 2025
@@ -169,41 +166,66 @@ public final class Constants {
         public static final double elevatorL2 = 70;//TODO: need to be changed 2025
         public static final double elevatorL3 = 70;//TODO: need to be changed 2025
         public static final double elevatorL4 = 70;//TODO: need to be changed 2025
+        public static final double elevatorIntake = 60;//TODO: need to be changed 2025
         //FIXME: set actual port values and reversed for elevator encoder
         public static final int k_ENC_PORT = 2;//TODO: need to be changed 2025
-    }
+        /*Elevator END */
 
-    public static final class IntakeConstants{
+
+
+        /*Wrist START */
+        public static final int wristMotorID = 20;//TODO: need to be changed 2025
+        public static final boolean wristMotorInverted = false;//TODO: need to be changed 2025
+
+        //Wrist PID and Feedforward//TODO: need to be changed 2025
+
+        /*Wrist END */
+
+
+
+        /*Intake START*/
         public static final int coralMotorID = 15;//TODO: need to be changed 2025
         public static final int algaeMotorID = 16;//TODO: need to be changed 2025
-        
+
         public static final boolean coralMotorInverted = false;//TODO: need to be changed 2025
         public static final boolean algaeMotorInverted = false;//TODO: need to be changed 2025
-
+        
+        public static final int coralLimitSwitchID = 1;//TODO: need to be changed 2025
+        public static final int algaeLimitSwitchID = 2;//TODO: need to be changed 2025
+        
         public static final int coralLimitSwitchPort = 1;//TODO: need to be changed 2025
         public static final int algaeLimitSwitchPort = 9;//TODO: need to be changed 2025
 
-        //FIXME: set intake speed
         public static final double intakeCoralSpeed = 0.5;//TODO: need to be changed 2025
         public static final double ejectCoralSpeed = .8;//TODO: need to be changed 2025
         public static final double intakeAlgaeSpeed = 0.5;//TODO: need to be changed 2025
         public static final double ejectAlgaeSpeed = .8;//TODO: need to be changed 2025
         
-        public static final double kP = 0.2;//TODO: need to be changed 2025
-        public static final double kI = 0;//TODO: need to be changed 2025
-        public static final double kD = 0;//TODO: need to be changed 2025
 
-        public static final double[] velocityPIDConstants = {0.00005,0,0};//TODO: need to be changed 2025
+        /*Use these pid and feedforward stuff is we are tryign to RPM contorl */
+        /*Coral intake pid optional if limit switch works*/
+        public static final double coral_kP = 0.2;//TODO: need to be changed 2025
+        public static final double coral_kI = 0;//TODO: need to be changed 2025
+        public static final double coral_kD = 0;//TODO: need to be changed 2025
+        
+        /*Algea intake pid, optional if using limit switch */
+        public static final double algea_kP = 0.2;//TODO: need to be changed 2025
+        public static final double algea_kI = 0;//TODO: need to be changed 2025
+        public static final double algea_kD = 0;//TODO: need to be changed 2025
 
-        public static final double Ks = 0.00009;
-        public static final double Kv = 0.000184;
+        public static final double[] velocityPIDConstants = {0.00005,0,0};//shooter stuff from 2024, not sure if we need this//TODO: need to be changed 2025
 
-        public static final double holdingPosition = -.5;
-        public static final double transitDistance = 1.2;
+        /*Feed forward variables, not sure if we need this*/
+        public static final double coral_Ks = 0.00009;//TODO: need to be changed 2025
+        public static final double coral_Kv = 0.000184;//TODO: need to be changed 2025
+        
+        public static final double algea_Ks = 0.00009;//TODO: need to be changed 2025
+        public static final double algea_Kv = 0.000184;//TODO: need to be changed 2025
+        
+        public static final double intakeRPMSpeed = 1000;//TODO: need to be changed 2025
 
-        public static final double distanceBetweenBreakBeamsInEncoderRotations = 4.8809452057;
-
-        public static final double intakeRPMSpeed = 1000;
+        /*rpm control stuff ends here */
+        /*Intake END */
     }
 
     public static final class ShooterConstants{
