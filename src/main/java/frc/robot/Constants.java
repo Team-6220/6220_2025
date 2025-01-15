@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.Pound;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -13,6 +16,7 @@ import org.opencv.core.Mat.Tuple2;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.path.PathConstraints;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
@@ -25,8 +29,11 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Mass;
+import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,14 +52,13 @@ public final class Constants {
     
     public static boolean TUNING_MODE = true;
 
-    public static Optional<DriverStation.Alliance> ALLIANCE_COLOR = DriverStation.getAlliance();
+    public static String isRed = "N/A";
 
-    public static String isRed = "N/A";//FIXME: MAKE AUTO UPDATE ISRED
+    public static final Mass robotMass = Pound.of(100);
+    public static final MomentOfInertia robotMOI = KilogramSquareMeters.of(4.563);
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
-
-        public static final int kDriverFieldOrientedButtonIdx = 1;
 
         public static final double kDeadband = 0.065;
 
@@ -60,6 +66,11 @@ public final class Constants {
         public static final int strafeAxis = XboxController.Axis.kLeftX.value;
         public static final int rotationAxis = XboxController.Axis.kRightX.value;
 
+        /*Start from zero after dead band.
+         * Eg. if your deadband is .05
+         *     if you don't have this function the minimum input would be .05
+         *     if you use this function the input would be 0 when the joystick reading is at .05
+        */
         public static double modifyMoveAxis(double value) {
             // Deadband
             if(Math.abs(value) < kDeadband) {
@@ -118,112 +129,103 @@ public final class Constants {
         }
     }
 
-    public static final class ArmConstants{
+    public static final class EWIConstnats{
+        /*Elevator START*/
+        public static final int elevatorMotorAID = 13;//TODO: need to be changed 2025
+        public static final int elevatorMotorBID = 14;//TODO: need to be changed 2025
 
-        public static double armDegreesOffset = 1;
-        
+        public static final boolean elevatorMotorAInverted = true;//TODO: need to be changed 2025
+        public static final boolean elevatorMotorBInverted = true;//TODO: need to be changed 2025
 
-        public static final int armMotorAID = 13;
-        public static final int armMotorBID = 14;
-
-        public static final boolean motorAInverted = true;
-        public static final boolean motorBInverted = false;
-
-        //FIXME: set pid values
+        //TODO: need to be changed 2025 (all of the pid values)
         public static final double kP = 0.3; //0.009
         public static final double kI = 0.1;//0.0005
         public static final double kD = 0.005;//0.001
-        public static final double kG = 0.37;
-        public static final double kV = 0.025;
-        public static final double kS = 0.45;
-        public static final double armMaxVel = 200;
-        public static final double armMaxAccel = 450;
+        public static final double kG = 0.37;//Feedforward
+        public static final double kV = 0.025;//Feedforward
+        public static final double kS = 0.45;//Feedforward
+        public static final double elevatorMaxVel = 200;//not sure if we need this
+        public static final double elevatorMaxAccel = 450;//not sure if we need this
 
-
-        public static final double minArmShootAngle = 75;
-        public static final double maxArmShootAngle = 40;
-        //FIXME: create lookup table
-        public static final double [][] armLookupTable = {
-            {1.1, 75},
-            {1.4986, 62},
-            {1.905, 58.5},
-            {2.8194, 50.5},
-            {3.302, 47.5},
-            {4.0132, 45},
-            {4.9784, 42}
+        public static final double minElevatorEncoderReading = 0;//TODO: need to be changed 2025
+        public static final double maxElevatorEncoderReading = 100;//TODO: need to be changed 2025
+        //NOTE: this is an alternative for the elvatorL1-L4 & intake
+        public static final double [] elevatorLookUpTable = {//TODO: need to be changed 2025
+            70,//L1
+            70,//L2
+            70,//L3
+            70,//L4
+            70,//Intake
         };
 
-        public static double getArmAngleFromDistance(double distance) {
-
-            if(distance < armLookupTable[0][0]) {
-                return minArmShootAngle;
-            }
-            if(distance > armLookupTable[armLookupTable.length-1][0]) {
-                return maxArmShootAngle;
-            }
-
-            double[] smaller = new double[2];
-            double[] larger = new double[2];
-
-            for(int i = 0; i < armLookupTable.length-1; i++) {
-                if(distance >= armLookupTable[i][0] && distance <= armLookupTable[i+1][0]) {
-                    smaller = armLookupTable[i];
-                    larger = armLookupTable[i+1];
-                    break;
-                }
-            }
-            //Y = Y1 + (X - X1) * ((Y2 - Y1)/(X2 - X1))
-            return smaller[1] + (distance - smaller[0]) * ((larger[1]-smaller[1])/(larger[0]-smaller[0]));
-            
-            
-        }
-
-        public static final double armOffset = 167.53781218844532; //157.280949; // arm up
-        // -202.719051
+        public static final double elevatorOffset = 167.53781218844532;//not sure if we need this//TODO: need to be changed 2025
         //FIXME: set setpoints
-        public static final double intakeSetpoint = 84;
-        public static final double hoverSetpoint = 0; //for like right above intake
-        public static final double restingSetpoint = 70;
-        public static final double ampSetPoint = -8;
-        public static final double ampShooterSpeed = 0.75; // TODO: change this accordingly
+        public static final double intakeElevatorSetpoint = 84;//TODO: need to be changed 2025
+        public static final double elevatorIdleSetpoint = 0;  //not sure if we need this//TODO: need to be changed 2025
+        public static final double elevatorL1 = 70;//TODO: need to be changed 2025
+        public static final double elevatorL2 = 70;//TODO: need to be changed 2025
+        public static final double elevatorL3 = 70;//TODO: need to be changed 2025
+        public static final double elevatorL4 = 70;//TODO: need to be changed 2025
+        public static final double elevatorIntake = 60;//TODO: need to be changed 2025
+        //FIXME: set actual port values and reversed for elevator encoder
+        public static final int k_ENC_PORT = 2;//TODO: need to be changed 2025
+        /*Elevator END */
 
-        //FIXME: set actual port values and reversed for arm encoder
-        public static final int k_ENC_PORT = 2;
-    }
 
-    public static final class IntakeConstants{
-        //FIXME: set id
-        public static final int intakeMotorID = 15;
 
-        public static int backupModeCount = 0;
-        //FIXME: set inverted
-        public static final boolean intakeMotorInverted = false;
+        /*Wrist START */
+        public static final int wristMotorID = 20;//TODO: need to be changed 2025
+        public static final boolean wristMotorInverted = false;//TODO: need to be changed 2025
 
-        //FIXME: set break beam port
-        public static final int frontBreakBeamPort = 9;
-        public static final int backBreakBeamPort = 1;
+        //Wrist PID and Feedforward//TODO: need to be changed 2025
 
-        //FIXME: set intake speed
-        public static final double intakeSpeed = 0.5;
-        public static final double ejectSpeedSpeaker = .8;
-        public static final double ejectSpeedAmp = .5;
-        public static final double manuelEjectSpeed = 0.5;
+        /*Wrist END */
 
-        public static final double kP = 0.2;
-        public static final double kI = 0;
-        public static final double kD = 0;
 
-        public static final double[] velocityPIDConstants = {0.00005,0,0};
 
-        public static final double Ks = 0.00009;
-        public static final double Kv = 0.000184;
+        /*Intake START*/
+        public static final int coralMotorID = 15;//TODO: need to be changed 2025
+        public static final int algaeMotorID = 16;//TODO: need to be changed 2025
 
-        public static final double holdingPosition = -.5;
-        public static final double transitDistance = 1.2;
+        public static final boolean coralMotorInverted = false;//TODO: need to be changed 2025
+        public static final boolean algaeMotorInverted = false;//TODO: need to be changed 2025
+        
+        public static final int coralLimitSwitchID = 1;//TODO: need to be changed 2025
+        public static final int algaeLimitSwitchID = 2;//TODO: need to be changed 2025
+        
+        public static final int coralLimitSwitchPort = 1;//TODO: need to be changed 2025
+        public static final int algaeLimitSwitchPort = 9;//TODO: need to be changed 2025
 
-        public static final double distanceBetweenBreakBeamsInEncoderRotations = 4.8809452057;
+        public static final double intakeCoralSpeed = 0.5;//TODO: need to be changed 2025
+        public static final double ejectCoralSpeed = .8;//TODO: need to be changed 2025
+        public static final double intakeAlgaeSpeed = 0.5;//TODO: need to be changed 2025
+        public static final double ejectAlgaeSpeed = .8;//TODO: need to be changed 2025
+        
 
-        public static final double intakeRPMSpeed = 1000;
+        /*Use these pid and feedforward stuff is we are tryign to RPM contorl */
+        /*Coral intake pid optional if limit switch works*/
+        public static final double coral_kP = 0.2;//TODO: need to be changed 2025
+        public static final double coral_kI = 0;//TODO: need to be changed 2025
+        public static final double coral_kD = 0;//TODO: need to be changed 2025
+        
+        /*Algea intake pid, optional if using limit switch */
+        public static final double algea_kP = 0.2;//TODO: need to be changed 2025
+        public static final double algea_kI = 0;//TODO: need to be changed 2025
+        public static final double algea_kD = 0;//TODO: need to be changed 2025
+
+        public static final double[] velocityPIDConstants = {0.00005,0,0};//shooter stuff from 2024, not sure if we need this//TODO: need to be changed 2025
+
+        /*Feed forward variables, not sure if we need this*/
+        public static final double coral_Ks = 0.00009;//TODO: need to be changed 2025
+        public static final double coral_Kv = 0.000184;//TODO: need to be changed 2025
+        
+        public static final double algea_Ks = 0.00009;//TODO: need to be changed 2025
+        public static final double algea_Kv = 0.000184;//TODO: need to be changed 2025
+        
+        public static final double intakeRPMSpeed = 1000;//TODO: need to be changed 2025
+
+        /*rpm control stuff ends here */
+        /*Intake END */
     }
 
     public static final class ShooterConstants{
@@ -400,15 +402,15 @@ public final class Constants {
         public static final double limelightMountAngleDegrees = 0; //TODO: CAD SPECS.
 
         public static final double heightOfCamAboveFloor = 2; //TODO: CAD SPECS
-        public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
-                                            ?
-                                                ALLIANCE_COLOR.get() == DriverStation.Alliance.Red
-                                                ?
-                                                    4d
-                                                :
-                                                    7d
-                                            :
-                                                -1d;
+        // public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
+        //                                     ?
+        //                                         ALLIANCE_COLOR.get() == DriverStation.Alliance.Red
+        //                                         ?
+        //                                             4d
+        //                                         :
+        //                                             7d
+        //                                     :
+        //                                         -1d;
                                                      
     }
 
@@ -425,12 +427,13 @@ public final class Constants {
         public static final double rotation_kI = 1.25;
         public static final double rotation_kD = 0.0;
 
-        public static final COTSTalonFXSwerveConstants chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
+        public static final COTSTalonFXSwerveConstants chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(21); //TODO: This must be tuned to specific robot
         public static final double wheelBase = Units.inchesToMeters(26); //TODO: This must be tuned to specific robot
         public static final double wheelCircumference = chosenModule.wheelCircumference;
+        public static final double wheelRadius = chosenModule.wheelDiameter/2;
 
         /* Swerve Kinematics 
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
@@ -439,7 +442,12 @@ public final class Constants {
             new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
-
+        
+        /* Swerve module configs -- for pathplanner autobuilder (auto)
+         * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
+         */
+        public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
+        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, Robot.ctreConfigs.swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit,4);
         /* Module Gear Ratios */
         public static final double driveGearRatio = chosenModule.driveGearRatio;
         public static final double angleGearRatio = chosenModule.angleGearRatio;

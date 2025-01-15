@@ -12,6 +12,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import frc.lib.util.RumbleManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -34,7 +35,7 @@ public class RobotContainer {
 
   private final Swerve s_Swerve = new Swerve();
 
-  private SendableChooser<Command> autoChooser;
+  // private SendableChooser<Command> autoChooser;
   
 
   private final CommandXboxController m_driverController =
@@ -42,9 +43,9 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    s_Swerve.zeroHeading();
+    s_Swerve.zeroHeading(m_driverController.getHID());
 
-    s_Swerve.configureAutoBuilder();
+    //s_Swerve.configureAutoBuilder();
 
     s_Swerve.setDefaultCommand(
         new TeleopSwerve(
@@ -53,14 +54,16 @@ public class RobotContainer {
             m_driverController.leftBumper())
         );
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // autoChooser = AutoBuilder.buildAutoChooser();
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
     //TODO: Register named commands as needed
     //NamedCommands.registerCommand(null, null);
 
     configureBindings();
-
+    
   }
+
+  
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -73,11 +76,10 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+    m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    
   }
 
   /**
@@ -87,7 +89,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    return new Command() {
+      
+    };
       
   }
 }

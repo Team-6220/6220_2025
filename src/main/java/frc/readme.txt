@@ -1,0 +1,1 @@
+EWI stands for: elevator wrist intake

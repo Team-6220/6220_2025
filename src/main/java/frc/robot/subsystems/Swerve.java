@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import frc.lib.util.RumbleManager;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants;
 // import frc.robot.LimelightCalculations;
@@ -23,6 +24,7 @@ import java.util.LinkedList;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import com.studica.frc.AHRS.NavXUpdateRate;
+import com.fasterxml.jackson.databind.deser.std.MapDeserializer;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -47,6 +49,7 @@ import edu.wpi.first.units.measure.MutMass;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -151,10 +154,13 @@ public class Swerve extends SubsystemBase {
         PathPlannerLogging.setLogActivePathCallback((poses) -> field2d.getObject("path").setPoses(poses));
         // Shuffleboard.getTab("Field Pose 2d tab (map)").add("Field 2d", field2d);
         // SmartDashboard.putData("Field", field2d);
+        // ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, /);
+        
         try{
         config = RobotConfig.fromGUISettings();
         } catch (Exception e) {
-        // Handle exception as needed
+            config = new RobotConfig(Constants.robotMass, Constants.robotMOI, SwerveConstants.swerveModuleConfig, SwerveConstants.swerveKinematics.getModules()); //see https://pathplanner.dev/robot-config.html#bumper-config-options for more details on what you need to set robotconfig up manuelly
+        //Also https://pathplanner.dev/api/java/com/pathplanner/lib/config/RobotConfig.html for API
         e.printStackTrace();
         }
         createShuffleOutputs();
@@ -206,27 +212,27 @@ public class Swerve extends SubsystemBase {
     /**
      * swerve auto init
      */
-    public void configureAutoBuilder() {
-        AutoBuilder.configure(
-            this::getPose,
-            this::resetOdometry,
-            this::getRobotRelativeSpeeds,
-            (speeds, feedforwards) -> driveRobotRelative(speeds),
-            new PPHolonomicDriveController(
-                new PIDConstants(autoTkP.get(), autoTkI.get(), autoTkD.get()),
-                new PIDConstants(autoRkP.get(), autoRkI.get(), autoRkD.get())
-            ),
-            config,
-            () -> {
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
-            },
-            this
-        );
-    }
+    // public void configureAutoBuilder() {
+    //     AutoBuilder.configure(
+    //         this::getPose,
+    //         this::resetOdometry,
+    //         this::getRobotRelativeSpeeds,
+    //         (speeds, feedforwards) -> driveRobotRelative(speeds),
+    //         new PPHolonomicDriveController(
+    //             new PIDConstants(autoTkP.get(), autoTkI.get(), autoTkD.get()),
+    //             new PIDConstants(autoRkP.get(), autoRkI.get(), autoRkD.get())
+    //         ),
+    //         config,
+    //         () -> {
+    //             var alliance = DriverStation.getAlliance();
+    //             if (alliance.isPresent()) {
+    //                 return alliance.get() == DriverStation.Alliance.Red;
+    //             }
+    //             return false;
+    //         },
+    //         this
+    //     );
+    // }
 
     
     
@@ -364,9 +370,10 @@ public class Swerve extends SubsystemBase {
         poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
     }
 
-    public void zeroHeading(){
+    public void zeroHeading(XboxController driverController){
         double offset = Constants.isRed.equals("red") ? 0 : Math.PI;
         poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d(offset)));
+        RumbleManager.rumble(driverController, .2);
     }
 
     public Rotation2d getGyroYaw() {
