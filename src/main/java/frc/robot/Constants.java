@@ -375,24 +375,32 @@ public final class Constants {
             tagHeights.put(16, 47.5);
         }
 
+        //Height in inches for all April Tags in order from 1 to 22
         public static final double[] aprilTagHeightInches = 
         {
-            53.38,
-            53.38,
-            57.13,
-            57.13,
-            53.38,
-            53.38,
-            57.13,
-            57.13,
-            53.38,
-            53.38,
-            52.00,
-            52.00,
-            52.00,
-            52.00,
-            52.00,
-            52.00
+            55.25,
+            55.25,
+            47.88,
+            70.73,
+            70.73,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            55.25,
+            55.25,
+            47.88,
+            70.73,
+            70.73,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            8.75
+
         };
 
         public static final double desiredDistanceToAprilTagY = 10; //DO NOT USE THIS BEFORE TUNE, DELTE AFTER TUNED TODO: CAD SPECS
