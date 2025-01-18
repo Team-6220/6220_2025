@@ -66,6 +66,7 @@ private static LEDCANdle INSTANCE = null;
 
   public void turnOff() {
     candleLED.setLEDs(0, 0, 0);
+    candleLED.modulateVBatOutput(0);
   }
 
   public void setLarson(int r, int g, int b) {
