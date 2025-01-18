@@ -5,8 +5,10 @@
 package frc.robot;
 
 //import frc.robot.commands.Autos;
-import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.Swerve;
+// import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.LEDCANdle;
+// import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.LEDSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -31,9 +33,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  
+  private final LEDCANdle candle = LEDCANdle.getInstance();
+  private final LEDSubsystem leds = LEDSubsystem.getInstance();
 
-  private final Swerve s_Swerve = new Swerve();
+  // private final Swerve s_Swerve = new Swerve();
 
   // private SendableChooser<Command> autoChooser;
   
@@ -43,16 +46,16 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    s_Swerve.zeroHeading(m_driverController.getHID());
+    // s_Swerve.zeroHeading(m_driverController.getHID());
 
     //s_Swerve.configureAutoBuilder();
 
-    s_Swerve.setDefaultCommand(
-        new TeleopSwerve(
-            s_Swerve,
-            m_driverController,
-            m_driverController.leftBumper())
-        );
+    // s_Swerve.setDefaultCommand(
+    //     new TeleopSwerve(
+    //         s_Swerve,
+    //         m_driverController,
+    //         m_driverController.leftBumper())
+    //     );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -76,8 +79,10 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-
+    // m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
+    m_driverController.b().onTrue( new InstantCommand(()->candle.setColor(255, 0, 0, 0, 0, 20, false)));
+    m_driverController.a().onTrue( new InstantCommand(()->leds.setGreen()));
+    m_driverController.y().onTrue( new InstantCommand(()->candle.turnOff()));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
