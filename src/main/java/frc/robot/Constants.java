@@ -16,6 +16,7 @@ import org.opencv.core.Mat.Tuple2;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.path.PathConstraints;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -668,7 +669,7 @@ public final class Constants {
 
     }
 
-    public static final class ClimberConstants{
+    /*public static final class ClimberConstants{
         //FIXME: set motor IDs
         public static final int climberDriverLeftID = 18;
         public static final int climberDriverRightID = 19;
@@ -685,9 +686,27 @@ public final class Constants {
         public static final double kP = 0;
         public static final double kI = 0;
         public static final double kD = 0;
-    }
+    }*/
 
     public static final class blinkinConstants {
         public static final int PWMPort = 9;
+    }
+    public static final class ElevatorConstants{
+        public static final int rightMotorID=0;
+        public static final IdleMode rightMotorIdleMode=IdleMode.kBrake;
+        public static final boolean rightMotorInvert=false;
+        public static final int leftMotorID=0;
+        public static final IdleMode leftMotorIdleMode=IdleMode.kBrake;
+        public static final boolean leftMotorInvert=false;
+        public static final double elevatorKp = 0;
+        public static final double elevatorKi = 0;
+        public static final double elevatorKd = 0;
+        public static final double elevatorKg = 0;
+        public static final double elevatorKv = 0;
+        public static final double elevatorKs = 0;
+        public static final double elevatorIZone = 0;
+        public static final double elevatorTolerance = 0;
+        public static final double elevatorMaxVel = 0;
+        public static final double elevatorMaxAccel = 0;
     }
 }

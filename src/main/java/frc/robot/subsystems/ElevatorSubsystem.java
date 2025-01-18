@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
+import frc.robot.Constants;
+import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private static ElevatorSubsystem INSTANCE = null;
@@ -40,7 +42,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   private SparkMaxConfig motorLeftConfig, motorRightConfig;
 
   private final blablaencoder elevatorEncoder;//TODO: ask what the encoders are 
-
   /*
     Elevator PID & FF stuff
     see:
