@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,7 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotorLeft, elevatorMotorRight;
   private SparkMaxConfig motorLeftConfig, motorRightConfig;
 
-  private final blablaencoder elevatorEncoder;//TODO: ask what the encoders are 
+  private final DutyCycleEncoder elevatorEncoder;//TODO: ask what the encoders are 
   /*
     Elevator PID & FF stuff
     see:
@@ -85,6 +86,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Controller.setIZone(elevatorIZone.get());//not sure if we need this
 
     m_Controller.setTolerance(elevatorTolerance.get());//default 1.5
+
+    elevatorEncoder = new DutyCycleEncoder(ElevatorConstants.elevatorEncoderID);
   }
 
   @Override
@@ -117,9 +120,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Controller.reset(getElevatorPosition());
   }
 
+  /**Raw encoder value subtracted by the offset at zero*/
   public double getElevatorPosition()
   {
-    double elevatorPosition = 0.0;
+    double elevatorPosition = elevatorEncoder.get() - ElevatorConstants.e_encoderOffset;
     return elevatorPosition;
   }
   /**
