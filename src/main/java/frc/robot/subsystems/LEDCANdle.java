@@ -2,9 +2,12 @@ package frc.robot.subsystems;
 
 import java.io.ObjectInputFilter.Config;
 
+import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
+import com.ctre.phoenix.led.RgbFadeAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
@@ -18,7 +21,8 @@ public class LEDCANdle extends SubsystemBase {
 private static LEDCANdle INSTANCE = null;
   private CANdle candleLED;
   private final CANdleConfiguration CANdleConfiguration;
-  
+  private int stripLength=308;
+  private double smootherStripLength=308.0;
 
 
   
@@ -37,11 +41,15 @@ private static LEDCANdle INSTANCE = null;
     // Configures all persistent settings
     candleLED.configAllSettings(CANdleConfiguration, 100);
     candleLED.configBrightnessScalar(0.5);
+
   }
 
   // Use RGB values to set the color of all the LEDs
   public void setColor(int r, int g, int b, int w, int stId, int count, boolean isBlinking) {
+    candleLED.clearAnimation(0);
+    candleLED.setLEDs(0, 0, 0, 0, 0, 308);
     candleLED.setLEDs(r, g, b, w, stId, count);
+    // candleLED.animate(new RgbFadeAnimation(b, 0.5, count));
     // Modulates the VBat output to the specified duty cycle percentage
     candleLED.modulateVBatOutput(0.95);
     if (isBlinking) {
@@ -61,12 +69,37 @@ private static LEDCANdle INSTANCE = null;
      * 8 is the number of LEDs (Might need to change)
     */
   public void setRainbow() {
-    candleLED.animate(new RainbowAnimation(1, 0.5, 8));
+    // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
+    candleLED.animate(new FireAnimation(.025, .02, 308, 1,0.001, false, 8), 0);
   }
 
+  public void setRai(boolean up){
+    if(up&&stripLength<308){
+      stripLength++;
+    }
+    else if(!up&&stripLength>0){
+      stripLength--;
+    }
+    candleLED.setLEDs(0, 0, 0, 0, stripLength-1, 308);
+    //System.out.println(stripLength);
+    candleLED.animate(new RainbowAnimation(1.0, 5.0, stripLength), 0);
+  }
+  public void setTesting(boolean up){
+    if(up&&smootherStripLength<=308){
+      smootherStripLength+=0.6;
+    }
+    else if(!up&&smootherStripLength>=0){
+      smootherStripLength-=0.5;
+    }
+    smootherStripLength=Math.min(Math.max(0, smootherStripLength), 308);
+    System.out.println(smootherStripLength);
+    candleLED.setLEDs(0, 0, 0, 0, (int)Math.round(smootherStripLength-1), 308);
+    candleLED.setLEDs(0, 245, 15, 5, 0, (int)Math.round(smootherStripLength));
+  }
   public void turnOff() {
     candleLED.setLEDs(0, 0, 0);
     candleLED.modulateVBatOutput(0);
+    candleLED.clearAnimation(0);
   }
 
   public void setLarson(int r, int g, int b) {
