@@ -11,9 +11,7 @@ public final class CTREConfigs {
     public TalonFXConfiguration swerveDriveFXConfig = new TalonFXConfiguration();
     public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
 
-    public TalonFXConfiguration wristAConfig = new TalonFXConfiguration();
-    public TalonFXConfiguration wristBConfig = new TalonFXConfiguration();
-
+    public TalonFXConfiguration wristConfig = new TalonFXConfiguration();
     public CTREConfigs(){
         /** Swerve CANCoder Configuration */
         swerveCANcoderConfig.MagnetSensor.SensorDirection = Constants.SwerveConstants.cancoderInvert;
@@ -72,40 +70,28 @@ public final class CTREConfigs {
 
         /** Shooter Motor A, Green, Configuration */
          /* Motor Inverts and Neutral Mode */
-        wristAConfig.MotorOutput.Inverted = WristConstants.wristMotorInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-        wristAConfig.MotorOutput.NeutralMode = WristConstants.WRISTMOTOR_NEUTRAL_MODE_VALUE;
+        wristConfig.MotorOutput.Inverted = WristConstants.wristMotorInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
+        wristConfig.MotorOutput.NeutralMode = WristConstants.WRISTMOTOR_NEUTRAL_MODE_VALUE;
 
         /* Gear Ratio Config */
-        // wristAConfig.Feedback.SensorToMechanismRatio = ;
+        // wristConfig.Feedback.SensorToMechanismRatio = ;
 
         /* Current Limiting */
-        wristAConfig.CurrentLimits.SupplyCurrentLimitEnable = WristConstants.wristEnableCurrentLimit;
-        wristAConfig.CurrentLimits.SupplyCurrentLowerLimit = WristConstants.wristCurrentLimit;
-        wristAConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.wristCurrentThreshold;
-        wristAConfig.CurrentLimits.SupplyCurrentLowerTime = WristConstants.wristCurrentThresholdTime;
+        wristConfig.CurrentLimits.SupplyCurrentLimitEnable = WristConstants.wristEnableCurrentLimit;
+        wristConfig.CurrentLimits.SupplyCurrentLowerLimit = WristConstants.wristCurrentLimit;
+        wristConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.wristCurrentThreshold;
+        wristConfig.CurrentLimits.SupplyCurrentLowerTime = WristConstants.wristCurrentThresholdTime;
 
         /* PID Config */
-        // wristAConfig.Slot0.kP = ;
-        // wristAConfig.Slot0.kI = ;
-        // wristAConfig.Slot0.kD = ;
+        // wristConfig.Slot0.kP = ;
+        // wristConfig.Slot0.kI = ;
+        // wristConfig.Slot0.kD = ;
 
         /* Open and Closed Loop Ramping */
-        // wristAConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = ;
-        // wristAConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = ;
+        // wristConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = ;
+        // wristConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = ;
 
-        // wristAConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = ;
-        // wristAConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = ;
-
-        /* PID Config */
-        // wristBConfig.Slot0.kP = ;
-        // wristBConfig.Slot0.kI = ;
-        // wristBConfig.Slot0.kD = ;
-
-        /* Open and Closed Loop Ramping */
-        // wristBConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = ;
-        // wristBConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = ;
-
-        // wristBConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = ;
-        // wristBConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = ;
+        // wristConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = ;
+        // wristConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = ;
     }
 }
