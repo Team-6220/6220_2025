@@ -4,7 +4,7 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
 
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.WristConstants;;
 
 public final class CTREConfigs {
     // public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
@@ -72,17 +72,17 @@ public final class CTREConfigs {
 
         /** Shooter Motor A, Green, Configuration */
          /* Motor Inverts and Neutral Mode */
-        wristAConfig.MotorOutput.Inverted = ShooterConstants.motorAInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-        wristAConfig.MotorOutput.NeutralMode = ShooterConstants.MOTOR_A_NEUTRAL_MODE_VALUE;
+        wristAConfig.MotorOutput.Inverted = WristConstants.wristMotorInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
+        wristAConfig.MotorOutput.NeutralMode = WristConstants.WRISTMOTOR_NEUTRAL_MODE_VALUE;
 
         /* Gear Ratio Config */
         // wristAConfig.Feedback.SensorToMechanismRatio = ;
 
         /* Current Limiting */
-        wristAConfig.CurrentLimits.SupplyCurrentLimitEnable = ShooterConstants.shooterAEnableCurrentLimit;
-        wristAConfig.CurrentLimits.SupplyCurrentLowerLimit = ShooterConstants.shooterACurrentLimit;
-        wristAConfig.CurrentLimits.SupplyCurrentLimit = ShooterConstants.shooterACurrentThreshold;
-        wristAConfig.CurrentLimits.SupplyCurrentLowerTime = ShooterConstants.shooterACurrentThresholdTime;
+        wristAConfig.CurrentLimits.SupplyCurrentLimitEnable = WristConstants.wristEnableCurrentLimit;
+        wristAConfig.CurrentLimits.SupplyCurrentLowerLimit = WristConstants.wristCurrentLimit;
+        wristAConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.wristCurrentThreshold;
+        wristAConfig.CurrentLimits.SupplyCurrentLowerTime = WristConstants.wristCurrentThresholdTime;
 
         /* PID Config */
         // wristAConfig.Slot0.kP = ;
@@ -95,20 +95,6 @@ public final class CTREConfigs {
 
         // wristAConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = ;
         // wristAConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = ;
-
-        /** Shooter Motor B, Red/orange Configuration */
-         /* Motor Inverts and Neutral Mode */
-        wristBConfig.MotorOutput.Inverted = Constants.ShooterConstants.motorBInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-        wristBConfig.MotorOutput.NeutralMode = Constants.ShooterConstants.MOTOR_B_NEUTRAL_MODE_VALUE;
-
-        /* Gear Ratio Config */
-        // wristBConfig.Feedback.SensorToMechanismRatio = ;
-
-        /* Current Limiting */
-        wristBConfig.CurrentLimits.SupplyCurrentLimitEnable = ShooterConstants.shooterBEnableCurrentLimit;
-        wristBConfig.CurrentLimits.SupplyCurrentLowerLimit = ShooterConstants.shooterBCurrentLimit;
-        wristBConfig.CurrentLimits.SupplyCurrentLimit = ShooterConstants.shooterBCurrentThreshold;
-        wristBConfig.CurrentLimits.SupplyCurrentLowerTime = ShooterConstants.shooterBCurrentThresholdTime;
 
         /* PID Config */
         // wristBConfig.Slot0.kP = ;

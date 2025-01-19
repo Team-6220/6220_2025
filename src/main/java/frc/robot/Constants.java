@@ -669,35 +669,35 @@ public final class Constants {
 
     }
 
-    /*public static final class ClimberConstants{
-        //FIXME: set motor IDs
-        public static final int climberDriverLeftID = 18;
-        public static final int climberDriverRightID = 19;
+    public static final class WristConstants
+    {
+        public static final int wristMotorID = 0;
+        public static final boolean wristMotorInverted = false;
 
-        public static final boolean motorAInverted = false;
-        public static final boolean motorBInverted = true;
+        public static final NeutralModeValue WRISTMOTOR_NEUTRAL_MODE_VALUE = NeutralModeValue.Brake;
 
-        //FIXME: set setpoints
-        public static final double topSetpoint = 0;
-        public static final double bottomSetpoint = 0;
-        public static final double climbedSetpoint = 0;
-
-        //FIXME: set PID constants
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
-    }*/
+        public static final boolean wristEnableCurrentLimit = true;
+        public static final double wristCurrentLimit = 25; //TODO: NEED CHANGE
+        public static final int wristCurrentThreshold = 25;//TODO: NEED CHANGE
+        public static final double wristCurrentThresholdTime = 0;
+    }
 
     public static final class blinkinConstants {
         public static final int PWMPort = 9;
     }
     public static final class ElevatorConstants{
+        //TODO: TUNE ALL THESE VALUES
         public static final int rightMotorID = 0;
         public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
         public static final boolean rightMotorInvert = false;
+
         public static final int leftMotorID = 0;
         public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
         public static final boolean leftMotorInvert = false;
+
+        public static final double elevatorEncoderOffset = 0;
+        public static final int elevatorEncoderID = 2;
+
         public static final double elevatorKp = 0;
         public static final double elevatorKi = 0;
         public static final double elevatorKd = 0;

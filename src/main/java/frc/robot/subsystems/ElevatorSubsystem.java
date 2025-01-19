@@ -11,6 +11,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -37,12 +38,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final TunableNumber elevatorMaxVel = new TunableNumber("Elevator max vel", ElevatorConstants.elevatorMaxVel);
   private final TunableNumber elevatorMaxAccel = new TunableNumber("Elevator max accel", ElevatorConstants.elevatorMaxAccel);
   
-  private final TunableNumber elevatorSetpointTest = new TunableNumber("Elevator goal setpoint", 30 );
+  private final TunableNumber elevatorSetpoint = new TunableNumber("Elevator goal setpoint", ElevatorConstants.elevatorEncoderOffset );
   
   private final SparkMax elevatorMotorLeft, elevatorMotorRight;
   private SparkMaxConfig motorLeftConfig, motorRightConfig;
 
-  private final DutyCycleEncoder elevatorEncoder;//TODO: ask what the encoders are 
+  private final DutyCycleEncoder elevatorEncoder;
   /*
     Elevator PID & FF stuff
     see:
@@ -55,7 +56,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private double feedForwardOutput, PIDOutput;
   private double lastUpdate = 0;
 
-
+  private String tableKey = "Elevator_";
 
   public ElevatorSubsystem()
   {
@@ -93,6 +94,38 @@ public class ElevatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber(tableKey + "rawPosition", getElevatorPositionRaw());
+    SmartDashboard.putNumber(tableKey + "Position", getElevatorPosition());
+    SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
+
+    if(elevatorKp.hasChanged()
+        || elevatorKi.hasChanged()
+        || elevatorKd.hasChanged())
+        {
+            m_Controller.setPID(elevatorKp.get(),elevatorKi.get(),elevatorKd.get());
+        }
+
+        if(elevatorKs.hasChanged()
+        || elevatorKg.hasChanged()
+        || elevatorKv.hasChanged()) {
+            m_Feedforward = new ElevatorFeedforward(elevatorKs.get(), elevatorKg.get(), elevatorKv.get());
+        }
+
+        if(elevatorMaxVel.hasChanged()
+        || elevatorMaxAccel.hasChanged()) {
+            m_Constraints = new TrapezoidProfile.Constraints(elevatorMaxVel.get(), elevatorMaxAccel.get());
+            m_Controller.setConstraints(m_Constraints);
+        }
+        
+        if(elevatorIZone.hasChanged())
+        {
+          m_Controller.setIZone(elevatorIZone.get());
+        }
+
+        if(elevatorTolerance.hasChanged())
+        {
+          m_Controller.setTolerance(elevatorTolerance.get());
+        }
   }
   
   public void driveToGoal(double goal)
@@ -108,11 +141,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     PIDOutput = m_Controller.calculate(getElevatorPosition());
 
-    feedForwardOutput = m_Feedforward.calculate((m_Controller.getSetpoint().position+90) * Math.PI/180, m_Controller.getSetpoint().velocity);
-        double calculatedSpeed = PIDOutput + feedForwardOutput;
+    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
+    double calculatedSpeed = PIDOutput + feedForwardOutput;
 
         
-        SmartDashboard.putNumber("Elevator Goal", goal);
+    SmartDashboard.putNumber("Elevator Goal", goal);
+
+    elevatorMotorLeft.setVoltage(calculatedSpeed);
+    elevatorMotorRight.setVoltage(calculatedSpeed);
   }
   
   public void resetPID()
@@ -123,8 +159,24 @@ public class ElevatorSubsystem extends SubsystemBase {
   /**Raw encoder value subtracted by the offset at zero*/
   public double getElevatorPosition()
   {
-    double elevatorPosition = elevatorEncoder.get() - ElevatorConstants.e_encoderOffset;
+    double elevatorPosition = elevatorEncoder.get() - elevatorSetpoint.get();
     return elevatorPosition;
+  }
+
+  public double getElevatorPositionRaw()
+  {
+    return elevatorEncoder.get();
+  }
+
+  public void simpleDrive(double motorOutput)
+  {
+    elevatorMotorLeft.set(motorOutput);
+    elevatorMotorRight.set(motorOutput);
+  }
+
+  public boolean elevatorAtGoal()
+  {
+    return m_Controller.atGoal();
   }
   /**
      * Accesses the static instance of the ArmSubsystem singleton
