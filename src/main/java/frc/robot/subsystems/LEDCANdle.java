@@ -6,13 +6,12 @@ import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.FireAnimation;
+import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.RgbFadeAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -45,30 +44,22 @@ private static LEDCANdle INSTANCE = null;
   }
 
   // Use RGB values to set the color of all the LEDs
-  public void setColor(int r, int g, int b, int w, int stId, int count, boolean isBlinking) {
+  public void setColor(int r, int g, int b, int w, int stId, int count) {
     candleLED.clearAnimation(0);
     candleLED.setLEDs(0, 0, 0, 0, 0, 308);
     candleLED.setLEDs(r, g, b, w, stId, count);
     // candleLED.animate(new RgbFadeAnimation(b, 0.5, count));
     // Modulates the VBat output to the specified duty cycle percentage
     candleLED.modulateVBatOutput(0.95);
-    if (isBlinking) {
-        
-
-        //while on, wait .5 sec, turn off
-        //while off, wait .5 sec, turn on
-    }
   }
 
-    /** 
-     * @param brightness
-     * 1 is max brightness
-     * @param speed
-     * 0.5 is half speed
-     * @param LEDs
-     * 8 is the number of LEDs (Might need to change)
-    */
-  public void setRainbow() {
+  public void setBlinking() {
+    candleLED.clearAnimation(0);
+    candleLED.animate(new StrobeAnimation(255, 0, 0), 1);
+    //candleLED.animate(new StrobeAnimation(240, 10, 180, 10, 98.0 / 256.0, 308));
+  }
+    
+  public void setFire() {
     // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
     candleLED.animate(new FireAnimation(.025, .02, 308, 1,0.001, false, 8), 0);
   }
