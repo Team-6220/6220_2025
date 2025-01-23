@@ -4,15 +4,19 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degree;
+
 //import frc.robot.commands.Autos;
-import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.Swerve;
+// import frc.robot.commands.TeleopSwerve;
+// import frc.robot.subsystems.Swerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.util.RumbleManager;
+import frc.lib.util.TunableNumber;
+import frc.robot.subsystems.WristSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -33,26 +37,30 @@ public class RobotContainer {
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   
 
-  private final Swerve s_Swerve = new Swerve();
+  // private final Swerve s_Swerve = new Swerve();
 
   // private SendableChooser<Command> autoChooser;
   
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
+
+  private final TunableNumber ordainedPosition = new TunableNumber("ordianed position", 0);
+
+  private final WristSubsystem s_WristSubsystem = WristSubsystem.getInstance();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    s_Swerve.zeroHeading(m_driverController.getHID());
+    // s_Swerve.zeroHeading(m_driverController.getHID());
 
     //s_Swerve.configureAutoBuilder();
 
-    s_Swerve.setDefaultCommand(
-        new TeleopSwerve(
-            s_Swerve,
-            m_driverController,
-            m_driverController.leftBumper())
-        );
+    // s_Swerve.setDefaultCommand(
+        // new TeleopSwerve(
+            // s_Swerve,
+            // m_driverController,
+            // m_driverController.leftBumper())
+        // );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
