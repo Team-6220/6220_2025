@@ -510,8 +510,8 @@ public final class Constants {
 
         public static final double wristMotorPositionOffset = 0;
 
-        public static final double wristSoftTopLimit = 0;
-        public static final double wristSoftLowLimit = 0;
+        public static final double wristSoftTopLimit = .75;
+        public static final double wristSoftLowLimit = -.5;
     }
 
     public static final class blinkinConstants {

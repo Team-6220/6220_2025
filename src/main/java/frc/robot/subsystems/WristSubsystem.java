@@ -81,7 +81,16 @@ public class WristSubsystem extends SubsystemBase {
     wristConfig.DifferentialConstants.PeakDifferentialTorqueCurrent = WristConstants.peakDifferentialTorqueCurrent;
 
     wristConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = rampPeriodVoltage.get();
-    wristMotor.getConfigurator().apply(wristConfig);
+    if(
+      kP.hasChanged()||
+      kI.hasChanged()||
+      kD.hasChanged()||
+      kS.hasChanged()||
+      kV.hasChanged()||
+      kA.hasChanged())
+      {
+        wristMotor.getConfigurator().apply(wristConfig);
+      }
   }
 
   @Override
