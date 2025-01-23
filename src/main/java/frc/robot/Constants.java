@@ -54,7 +54,7 @@ public final class Constants {
 
         public static final int kDriverFieldOrientedButtonIdx = 1;
 
-        public static final double kDeadband = 0.009;
+        public static final double kDeadband = 0.09;
 
         public static final int translationAxis = XboxController.Axis.kLeftY.value;
         public static final int strafeAxis = XboxController.Axis.kLeftX.value;
