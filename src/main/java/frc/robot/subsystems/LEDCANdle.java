@@ -7,11 +7,17 @@ import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
+import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.RgbFadeAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
+import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
+
+import java.io.*;
+import java.lang.Thread;
+
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -54,14 +60,46 @@ private static LEDCANdle INSTANCE = null;
   }
 
   public void setBlinking() {
-    candleLED.clearAnimation(0);
-    candleLED.animate(new StrobeAnimation(255, 0, 0), 1);
+      candleLED.clearAnimation(0);
+      candleLED.animate(new StrobeAnimation(255, 0, 0),  0);
+    
     //candleLED.animate(new StrobeAnimation(240, 10, 180, 10, 98.0 / 256.0, 308));
   }
     
   public void setFire() {
     // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
+    candleLED.clearAnimation(0);
     candleLED.animate(new FireAnimation(.025, .02, 308, 1,0.001, false, 8), 0);
+  }
+  public void setError() {
+    // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
+    candleLED.clearAnimation(0);
+    //candleLED.animate(new TwinkleAnimation(255,255,255,255,16.0,308, TwinklePercent.Percent42), 0);
+    candleLED.animate(new StrobeAnimation(255,0, 0, 0, 0.5, 308));
+  }
+  public void setGreen() {
+    // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
+    candleLED.clearAnimation(0);
+    //candleLED.animate(new TwinkleAnimation(255,255,255,255,16.0,308, TwinklePercent.Percent42), 0);
+    candleLED.setLEDs(0, 255, 0);
+  }
+  public void setRed() {
+    candleLED.clearAnimation(0);
+    candleLED.setLEDs(255, 0, 0);
+  }
+  public void setBlue() {
+    candleLED.clearAnimation(0);
+    candleLED.setLEDs(0, 0, 255);
+  }
+  public void setGold() {
+    candleLED.clearAnimation(0);
+    candleLED.setLEDs(230, 105, 0);
+  }
+  public void setModifiable(int m) {
+    // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
+    candleLED.clearAnimation(0);
+    //candleLED.animate(new TwinkleAnimation(255,255,255,255,16.0,308, TwinklePercent.Percent42), 0);
+    candleLED.setLEDs(m, 0, 255-m);
   }
 
   public void setRai(boolean up){
@@ -73,6 +111,7 @@ private static LEDCANdle INSTANCE = null;
     }
     candleLED.setLEDs(0, 0, 0, 0, stripLength-1, 308);
     //System.out.println(stripLength);
+    candleLED.clearAnimation(0);
     candleLED.animate(new RainbowAnimation(1.0, 5.0, stripLength), 0);
   }
   public void setTesting(boolean up){

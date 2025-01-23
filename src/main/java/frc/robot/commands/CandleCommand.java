@@ -45,6 +45,13 @@ public class CandleCommand extends Command {
         m_LEDCANdle.setTesting(true);
       }
     }
+    if(mode.equals("error")){
+        m_LEDCANdle.setError();
+    }
+    if(mode.equals("adj")){
+      m_LEDCANdle.setModifiable((int)((m_driverController.getLeftX()+1)*127));
+      System.out.println((int)((m_driverController.getLeftX()+1)*127));
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -83,11 +83,14 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    m_driverController.b().onTrue( new InstantCommand(()->candle.setColor(255, 123, 0, 5, 0, 308)));
+    //m_driverController.b().onTrue( new InstantCommand(()->candle.setColor(255, 123, 0, 5, 0, 308)));
     m_driverController.a().onTrue( new InstantCommand(()->candle.setFire()));
     m_driverController.x().onTrue( new InstantCommand(()->candle.setBlinking()));
+    m_driverController.b().onTrue( new InstantCommand(()->candle.setGold()));
     m_driverController.leftBumper().whileTrue(new CandleCommand(m_driverController, "rainbow"));
     m_driverController.rightBumper().whileTrue(new CandleCommand(m_driverController, "rainbow"));
+    m_driverController.x().onTrue(new CandleCommand(m_driverController, "error"));
+    m_driverController.y().whileTrue(new CandleCommand(m_driverController, "adj"));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
