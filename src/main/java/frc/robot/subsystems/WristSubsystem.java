@@ -76,6 +76,7 @@ public class WristSubsystem extends SubsystemBase {
     wristConfig.Slot0.kS = kS.get();
     wristConfig.Slot0.kV = kV.get();
     wristConfig.Slot0.kA = kA.get();
+    // SmartDashboard.putNumber(tableKey + "kp", wristConfig.Slot0.kP);
 
     wristConfig.DifferentialConstants.PeakDifferentialVoltage = WristConstants.peakDifferentialVoltage;
     wristConfig.DifferentialConstants.PeakDifferentialTorqueCurrent = WristConstants.peakDifferentialTorqueCurrent;
@@ -90,6 +91,7 @@ public class WristSubsystem extends SubsystemBase {
       kA.hasChanged())
       {
         wristMotor.getConfigurator().apply(wristConfig);
+        System.out.println("updated!");
       }
   }
 
