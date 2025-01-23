@@ -2,9 +2,9 @@ package frc.robot;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.signals.InvertedValue;
+// import com.ctre.phoenix6.signals.InvertedValue;
 
-import frc.robot.Constants.WristConstants;;
+// import frc.robot.Constants.WristConstants;;
 
 public final class CTREConfigs {
     // public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
@@ -69,19 +69,19 @@ public final class CTREConfigs {
 
         /** Shooter Motor A, Green, Configuration */
          /* Motor Inverts and Neutral Mode */
-        wristConfig.MotorOutput.Inverted = WristConstants.wristMotorInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-        wristConfig.MotorOutput.NeutralMode = WristConstants.WRISTMOTOR_NEUTRAL_MODE_VALUE;
+        // wristConfig.MotorOutput.Inverted = WristConstants.wristMotorInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
+        // wristConfig.MotorOutput.NeutralMode = WristConstants.WRISTMOTOR_NEUTRAL_MODE_VALUE;
 
-        /* Gear Ratio Config */
-        // wristConfig.Feedback.SensorToMechanismRatio = ;
+        // /* Gear Ratio Config */
+        // // wristConfig.Feedback.SensorToMechanismRatio = ;
 
-        /* Current Limiting */
-        wristConfig.CurrentLimits.SupplyCurrentLimitEnable = WristConstants.wristEnableCurrentLimit;
-        wristConfig.CurrentLimits.SupplyCurrentLowerLimit = WristConstants.wristCurrentLimit;
-        wristConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.wristCurrentThreshold;
-        wristConfig.CurrentLimits.SupplyCurrentLowerTime = WristConstants.wristCurrentThresholdTime;
+        // /* Current Limiting */
+        // wristConfig.CurrentLimits.SupplyCurrentLimitEnable = WristConstants.wristEnableCurrentLimit;
+        // wristConfig.CurrentLimits.SupplyCurrentLowerLimit = WristConstants.wristCurrentLimit;
+        // wristConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.wristCurrentThreshold;
+        // wristConfig.CurrentLimits.SupplyCurrentLowerTime = WristConstants.wristCurrentThresholdTime;
 
-        /* PID Config */
+        // /* PID Config */
         // wristConfig.Slot0.kP = ;
         // wristConfig.Slot0.kI = ;
         // wristConfig.Slot0.kD = ;

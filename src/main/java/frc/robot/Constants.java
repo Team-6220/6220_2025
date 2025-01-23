@@ -130,194 +130,6 @@ public final class Constants {
         }
     }
 
-    // public static final class EWIConstnats{
-    //     /*Elevator START*/
-    //     public static final int elevatorMotorAID = 13;//TODO: need to be changed 2025
-    //     public static final int elevatorMotorBID = 14;//TODO: need to be changed 2025
-
-    //     public static final boolean elevatorMotorAInverted = true;//TODO: need to be changed 2025
-    //     public static final boolean elevatorMotorBInverted = true;//TODO: need to be changed 2025
-
-    //     //TODO: need to be changed 2025 (all of the pid values)
-    //     public static final double kP = 0.3; //0.009
-    //     public static final double kI = 0.1;//0.0005
-    //     public static final double kD = 0.005;//0.001
-    //     public static final double kG = 0.37;//Feedforward
-    //     public static final double kV = 0.025;//Feedforward
-    //     public static final double kS = 0.45;//Feedforward
-    //     public static final double elevatorMaxVel = 200;//not sure if we need this
-    //     public static final double elevatorMaxAccel = 450;//not sure if we need this
-
-    //     public static final double minElevatorEncoderReading = 0;//TODO: need to be changed 2025
-    //     public static final double maxElevatorEncoderReading = 100;//TODO: need to be changed 2025
-    //     //NOTE: this is an alternative for the elvatorL1-L4 & intake
-    //     public static final double [] elevatorLookUpTable = {//TODO: need to be changed 2025
-    //         70,//L1
-    //         70,//L2
-    //         70,//L3
-    //         70,//L4
-    //         70,//Intake
-    //     };
-
-    //     public static final double elevatorOffset = 167.53781218844532;//not sure if we need this//TODO: need to be changed 2025
-    //     //FIXME: set setpoints
-    //     public static final double intakeElevatorSetpoint = 84;//TODO: need to be changed 2025
-    //     public static final double elevatorIdleSetpoint = 0;  //not sure if we need this//TODO: need to be changed 2025
-    //     public static final double elevatorL1 = 70;//TODO: need to be changed 2025
-    //     public static final double elevatorL2 = 70;//TODO: need to be changed 2025
-    //     public static final double elevatorL3 = 70;//TODO: need to be changed 2025
-    //     public static final double elevatorL4 = 70;//TODO: need to be changed 2025
-    //     public static final double elevatorIntake = 60;//TODO: need to be changed 2025
-    //     //FIXME: set actual port values and reversed for elevator encoder
-    //     public static final int k_ENC_PORT = 2;//TODO: need to be changed 2025
-    //     /*Elevator END */
-
-
-
-    //     /*Wrist START */
-    //     public static final int wristMotorID = 20;//TODO: need to be changed 2025
-    //     public static final boolean wristMotorInverted = false;//TODO: need to be changed 2025
-
-    //     //Wrist PID and Feedforward//TODO: need to be changed 2025
-
-    //     /*Wrist END */
-
-
-
-    //     /*Intake START*/
-    //     public static final int coralMotorID = 15;//TODO: need to be changed 2025
-    //     public static final int algaeMotorID = 16;//TODO: need to be changed 2025
-
-    //     public static final boolean coralMotorInverted = false;//TODO: need to be changed 2025
-    //     public static final boolean algaeMotorInverted = false;//TODO: need to be changed 2025
-        
-    //     public static final int coralLimitSwitchID = 1;//TODO: need to be changed 2025
-    //     public static final int algaeLimitSwitchID = 2;//TODO: need to be changed 2025
-        
-    //     public static final int coralLimitSwitchPort = 1;//TODO: need to be changed 2025
-    //     public static final int algaeLimitSwitchPort = 9;//TODO: need to be changed 2025
-
-    //     public static final double intakeCoralSpeed = 0.5;//TODO: need to be changed 2025
-    //     public static final double ejectCoralSpeed = .8;//TODO: need to be changed 2025
-    //     public static final double intakeAlgaeSpeed = 0.5;//TODO: need to be changed 2025
-    //     public static final double ejectAlgaeSpeed = .8;//TODO: need to be changed 2025
-        
-
-    //     /*Use these pid and feedforward stuff is we are tryign to RPM contorl */
-    //     /*Coral intake pid optional if limit switch works*/
-    //     public static final double coral_kP = 0.2;//TODO: need to be changed 2025
-    //     public static final double coral_kI = 0;//TODO: need to be changed 2025
-    //     public static final double coral_kD = 0;//TODO: need to be changed 2025
-        
-    //     /*Algea intake pid, optional if using limit switch */
-    //     public static final double algea_kP = 0.2;//TODO: need to be changed 2025
-    //     public static final double algea_kI = 0;//TODO: need to be changed 2025
-    //     public static final double algea_kD = 0;//TODO: need to be changed 2025
-
-    //     public static final double[] velocityPIDConstants = {0.00005,0,0};//shooter stuff from 2024, not sure if we need this//TODO: need to be changed 2025
-
-    //     /*Feed forward variables, not sure if we need this*/
-    //     public static final double coral_Ks = 0.00009;//TODO: need to be changed 2025
-    //     public static final double coral_Kv = 0.000184;//TODO: need to be changed 2025
-        
-    //     public static final double algea_Ks = 0.00009;//TODO: need to be changed 2025
-    //     public static final double algea_Kv = 0.000184;//TODO: need to be changed 2025
-        
-    //     public static final double intakeRPMSpeed = 1000;//TODO: need to be changed 2025
-
-    //     /*rpm control stuff ends here */
-    //     /*Intake END */
-    // }
-
-    // public static final class ShooterConstants{
-    //     //FIXME: set motor IDs
-    //     //Green
-    //     public static final int shooterMotorAID = 16;
-    //     //Orange
-    //     public static final int shooterMotorBID = 17;
-
-    //     /* Motor Inverts */
-    //     public static final boolean motorAInverted = false;
-    //     public static final boolean motorBInverted = true;
-
-    //     /* Motor Neutral Modes */
-    //     public static final NeutralModeValue MOTOR_A_NEUTRAL_MODE_VALUE = NeutralModeValue.Coast;//TODO: NEED CHANGE?
-    //     public static final NeutralModeValue MOTOR_B_NEUTRAL_MODE_VALUE = NeutralModeValue.Coast;//TODO: NEED CHANGE?
-        
-    //     /* Shooter Current Limits */
-    //     public static final boolean shooterAEnableCurrentLimit = true;
-    //     public static final double shooterACurrentLimit = 25; //TODO: NEED CHANGE
-    //     public static final int shooterACurrentThreshold = 25;//TODO: NEED CHANGE
-    //     public static final double shooterACurrentThresholdTime = 0;
-
-    //     public static final boolean shooterBEnableCurrentLimit = true;
-    //     public static final double shooterBCurrentLimit = 25; //TODO: NEED CHANGE
-    //     public static final int shooterBCurrentThreshold = 25;//TODO:NEED CHANGE
-    //     public static final double shooterBCurrentThresholdTime = 0;
-
-
-    //     public static final double idleOutput = .05;
-    //     public static final double fireTime = 1;
-
-    //     public static final double minShooterVelA = 2800;
-    //     public static final double minShooterVelB = 2800;
-
-    //     public static final double maxShooterVelA = 4400;
-    //     public static final double maxShooterVelB = 4400;
-    //     //FIXME: set break beam port
-    //     // public static final int breakBeamPort = 0;
-
-    //     //FIXME: set shooter velocity pid
-    //     public static final double kPA = 0.000;
-    //     public static final double kPB = 0.000;
-    //     public static final double kI = 0;
-    //     public static final double kD = 0;
-    //     public static final double kFFkS = 0;
-    //     public static final double kFFkVA = 0.00018;
-    //     public static final double kFFkVB = 0.000175;
-    //     public static final double kFFkA = 0;
-
-    //     //FIXME: create lookup table
-    //     public static final double[][] shooterLookupTable = {
-    //         {2800,2800,.9779},
-    //         {3000,3000,1.4986},
-    //         {3200,3200,1.905},
-    //         {3400,3400,2.8194},
-    //         {3600,3600,3.302},
-    //         {3900,3900,4.0132},
-    //         {4400,4400,4.9784}
-    //     };
-    //     public static double[] getVelocitiesFromDistance(double distance) {
-    //         double[] velocities = new double[2];
-
-    //         if(distance < shooterLookupTable[0][2]) {
-    //             velocities[0] = minShooterVelA;
-    //             velocities[1] = minShooterVelB;
-    //             return velocities;
-    //         }
-    //         if(distance > shooterLookupTable[shooterLookupTable.length-1][2]) {
-    //             velocities[0] = maxShooterVelA;
-    //             velocities[1] = maxShooterVelB;
-    //             return velocities;
-    //         }
-
-    //         double[] smaller = new double[3];
-    //         double[] larger = new double[3];
-
-    //         for(int i = 0; i < shooterLookupTable.length-1; i++) {
-    //             if(distance >= shooterLookupTable[i][2] && distance <= shooterLookupTable[i+1][2]) {
-    //                 smaller = shooterLookupTable[i];
-    //                 larger = shooterLookupTable[i+1];
-    //                 break;
-    //             }
-    //         }
-    //         //Y = Y1 + (X - X1) * ((Y2 - Y1)/(X2 - X1))
-    //         velocities[0] = smaller[0] + (distance - smaller[2]) * ((larger[0]-smaller[0])/(larger[2]-smaller[2]));
-    //         velocities[1] = smaller[0] + (distance - smaller[2]) * ((larger[1]-smaller[1])/(larger[2]-smaller[2]));
-    //         return velocities;
-    //     }
-    // }
-
     public static final class VisionConstants{
 
         public static final double fieldBorderMargin = 0.25;
@@ -448,7 +260,7 @@ public final class Constants {
          * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
          */
         public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
-        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, Robot.ctreConfigs.swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit,4);
+        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, Robot.ctreConfigs.swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerLimit,4);
         /* Module Gear Ratios */
         public static final double driveGearRatio = chosenModule.driveGearRatio;
         public static final double angleGearRatio = chosenModule.angleGearRatio;
@@ -671,8 +483,10 @@ public final class Constants {
 
     public static final class WristConstants
     {
-        public static final int wristMotorID = 0;
+        public static final int wristMotorID = 1;
         public static final boolean wristMotorInverted = false;
+
+        public static final int wristEncoderID = 2;
 
         public static final NeutralModeValue WRISTMOTOR_NEUTRAL_MODE_VALUE = NeutralModeValue.Brake;
 
@@ -680,6 +494,24 @@ public final class Constants {
         public static final double wristCurrentLimit = 25; //TODO: NEED CHANGE
         public static final int wristCurrentThreshold = 25;//TODO: NEED CHANGE
         public static final double wristCurrentThresholdTime = 0;
+
+        public static final double peakDifferentialVoltage = 0;
+        public static final double peakDifferentialTorqueCurrent = 0;
+
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kS = 0;
+        public static final double kV = 0;
+        public static final double kA = 0;
+        public static final double wristVoltageClosedLoopRampPeriod = 0;
+
+        public static final double wristSensorToMechanismRatio = 1;
+
+        public static final double wristMotorPositionOffset = 0;
+
+        public static final double wristSoftTopLimit = 0;
+        public static final double wristSoftLowLimit = 0;
     }
 
     public static final class blinkinConstants {
@@ -687,16 +519,16 @@ public final class Constants {
     }
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
-        public static final int rightMotorID = 0;
+        public static final int rightMotorID = 3;
         public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
         public static final boolean rightMotorInvert = false;
 
-        public static final int leftMotorID = 0;
+        public static final int leftMotorID = 4;
         public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
         public static final boolean leftMotorInvert = false;
 
         public static final double elevatorEncoderOffset = 0;
-        public static final int elevatorEncoderID = 2;
+        public static final int elevatorEncoderID = 5;
 
         public static final double elevatorKp = 0;
         public static final double elevatorKi = 0;

@@ -5,12 +5,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants.WristConstants;
 import frc.robot.Robot;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DifferentialPositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
@@ -31,9 +35,9 @@ public class WristSubsystem extends SubsystemBase {
   private final TunableNumber kV = new TunableNumber(tableKey + "FF Kv", WristConstants.kV);
   private final TunableNumber kA = new TunableNumber(tableKey + "FF Ka", WristConstants.kA);
 
-  private final TunableNumber rampPeriod
+  private final TunableNumber rampPeriodVoltage = new TunableNumber(tableKey + "rampPeriodVoltage", WristConstants.wristVoltageClosedLoopRampPeriod);
 
-  private final ProfiledPIDController m_Controller;
+  private final DutyCycleEncoder wristEncoder;
   
   public WristSubsystem()
   {
@@ -45,21 +49,73 @@ public class WristSubsystem extends SubsystemBase {
     wristConfig.CurrentLimits.SupplyCurrentLowerLimit = WristConstants.wristCurrentLimit;
     wristConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.wristCurrentThreshold;
     wristConfig.CurrentLimits.SupplyCurrentLowerTime = WristConstants.wristCurrentThresholdTime;
+    wristConfig.Feedback.SensorToMechanismRatio = WristConstants.wristSensorToMechanismRatio;
+
+    wristConfig.Slot0.kP = kP.get();
+    wristConfig.Slot0.kI = kI.get();
+    wristConfig.Slot0.kD = kD.get();
+
+    wristConfig.Slot0.kS = kS.get();
+    wristConfig.Slot0.kV = kV.get();
+    wristConfig.Slot0.kA = kA.get();
+
+    wristConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = rampPeriodVoltage.get();
 
     //Wrist "perminante" setup end
     wristMotor = new TalonFX(WristConstants.wristMotorID);
-    wristMotor.getConfigurator().apply(Robot.ctreConfigs.wristConfig);
+    wristMotor.getConfigurator().apply(wristConfig);
+
+    wristEncoder = new DutyCycleEncoder(WristConstants.wristEncoderID);
   }
 
-  public void updateConfig()
+  public void updateConfigs()
   {
-    if()
+    wristConfig.Slot0.kP = kP.get();
+    wristConfig.Slot0.kI = kI.get();
+    wristConfig.Slot0.kD = kD.get();
+    wristConfig.Slot0.kS = kS.get();
+    wristConfig.Slot0.kV = kV.get();
+    wristConfig.Slot0.kA = kA.get();
+
+    wristConfig.DifferentialConstants.PeakDifferentialVoltage = WristConstants.peakDifferentialVoltage;
+    wristConfig.DifferentialConstants.PeakDifferentialTorqueCurrent = WristConstants.peakDifferentialTorqueCurrent;
+
+    wristConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = rampPeriodVoltage.get();
+    wristMotor.getConfigurator().apply(wristConfig);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    updateConfigs();
+    SmartDashboard.putNumber(tableKey + "raw positoin", getPositionRaw());
   }
+
+  public void setToPosition(Angle targetPosition)
+  {
+    DifferentialPositionVoltage motorPositionRequest = new DifferentialPositionVoltage(targetPosition, wristMotor.getPosition().getValue());
+    SmartDashboard.putString(tableKey + "voltage request", motorPositionRequest.toString());
+    wristMotor.setControl(motorPositionRequest);
+  }
+
+  public double getPositionDegrees()
+  {
+    return wristMotor.getPosition().getValueAsDouble() - WristConstants.wristMotorPositionOffset;
+  }
+
+  public double getPositionRaw()
+  {
+    return wristMotor.getPosition().getValueAsDouble();
+  }
+
+  public boolean getSoftTopLimitReached()
+  {
+    return wristMotor.getPosition().getValueAsDouble() >= WristConstants.wristSoftTopLimit;
+  }
+
+  public boolean getSoftLowLimitReached()
+  {
+    return wristMotor.getPosition().getValueAsDouble() >= WristConstants.wristSoftLowLimit;
+  } 
 
   public static synchronized WristSubsystem getInstance()
   {
