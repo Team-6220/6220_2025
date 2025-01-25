@@ -495,9 +495,13 @@ public final class Constants {
         public static final int wristCurrentThreshold = 25;//TODO: NEED CHANGE
         public static final double wristCurrentThresholdTime = 0;
 
+        public static final double wristMaxForwardVoltage = 8;//TODO: need change
+        public static final double wristMaxReverseVoltage = -8;//TODO: need change
+
         public static final double peakDifferentialVoltage = 0;
         public static final double peakDifferentialTorqueCurrent = 0;
 
+        //TODO: CHANGE ALL OF THESE
         public static final double kP = 0;
         public static final double kI = 0;
         public static final double kD = 0;

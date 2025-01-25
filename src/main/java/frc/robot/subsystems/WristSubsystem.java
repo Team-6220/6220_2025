@@ -13,8 +13,11 @@ import frc.lib.util.TunableNumber;
 import frc.robot.Constants.WristConstants;
 import frc.robot.Robot;
 
+import static edu.wpi.first.units.Units.Volts;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DifferentialPositionVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
@@ -26,6 +29,8 @@ public class WristSubsystem extends SubsystemBase {
   private TalonFX wristMotor;
 
   public TalonFXConfiguration wristConfig = new TalonFXConfiguration();
+
+  private final PositionVoltage m_positionVoltage = new PositionVoltage(0).withSlot(0);
 
 
   private final TunableNumber kP = new TunableNumber(tableKey + "kP", WristConstants.kP);
@@ -61,6 +66,12 @@ public class WristSubsystem extends SubsystemBase {
 
     wristConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = rampPeriodVoltage.get();
 
+    wristConfig.DifferentialConstants.PeakDifferentialVoltage = WristConstants.peakDifferentialVoltage;
+    wristConfig.DifferentialConstants.PeakDifferentialTorqueCurrent = WristConstants.peakDifferentialTorqueCurrent;
+
+    wristConfig.Voltage.withPeakForwardVoltage(Volts.of(8))
+      .withPeakReverseVoltage(Volts.of(-8));
+
     //Wrist "perminante" setup end
     wristMotor = new TalonFX(WristConstants.wristMotorID);
     wristMotor.getConfigurator().apply(wristConfig);
@@ -70,29 +81,27 @@ public class WristSubsystem extends SubsystemBase {
 
   public void updateConfigs()
   {
-    wristConfig.Slot0.kP = kP.get();
-    wristConfig.Slot0.kI = kI.get();
-    wristConfig.Slot0.kD = kD.get();
-    wristConfig.Slot0.kS = kS.get();
-    wristConfig.Slot0.kV = kV.get();
-    wristConfig.Slot0.kA = kA.get();
     // SmartDashboard.putNumber(tableKey + "kp", wristConfig.Slot0.kP);
-
-    wristConfig.DifferentialConstants.PeakDifferentialVoltage = WristConstants.peakDifferentialVoltage;
-    wristConfig.DifferentialConstants.PeakDifferentialTorqueCurrent = WristConstants.peakDifferentialTorqueCurrent;
-
-    wristConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = rampPeriodVoltage.get();
+    
     if(
       kP.hasChanged()||
       kI.hasChanged()||
       kD.hasChanged()||
       kS.hasChanged()||
       kV.hasChanged()||
-      kA.hasChanged())
+      kA.hasChanged()
+      )
       {
+        wristConfig.Slot0.kP = kP.get();
+        wristConfig.Slot0.kI = kI.get();
+        wristConfig.Slot0.kD = kD.get();
+        wristConfig.Slot0.kS = kS.get();
+        wristConfig.Slot0.kV = kV.get();
+        wristConfig.Slot0.kA = kA.get();
         wristMotor.getConfigurator().apply(wristConfig);
         System.out.println("updated!");
       }
+      System.out.print("calling for update.....");
   }
 
   @Override
@@ -103,9 +112,8 @@ public class WristSubsystem extends SubsystemBase {
 
   public void setToPosition(Angle targetPosition)
   {
-    DifferentialPositionVoltage motorPositionRequest = new DifferentialPositionVoltage(targetPosition, wristMotor.getPosition().getValue());
-    SmartDashboard.putString(tableKey + "voltage request", motorPositionRequest.toString());
-    wristMotor.setControl(motorPositionRequest);
+    SmartDashboard.putString(tableKey + "voltage request", m_positionVoltage.toString());
+    wristMotor.setControl(m_positionVoltage.withPosition(targetPosition));
   }
 
   public double getPositionDegrees()

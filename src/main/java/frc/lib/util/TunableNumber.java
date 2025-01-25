@@ -76,9 +76,10 @@ public class TunableNumber {
         if (currentValue != lastHasChangeValue)
         {
             lastHasChangeValue = currentValue;
+            System.out.println(this.key+ " has changed");
             return true;
         }
-
+        System.out.print(this.key + " calledHasChanged");
         return false;
     }
 }
