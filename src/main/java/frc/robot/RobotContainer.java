@@ -4,11 +4,9 @@
 
 package frc.robot;
 
-import frc.robot.commands.CandleCommand;
 //import frc.robot.commands.Autos;
-// import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.LEDCANdle;
-// import frc.robot.subsystems.Swerve;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.Swerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -16,7 +14,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.util.RumbleManager;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -34,31 +31,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final LEDCANdle candle = LEDCANdle.getInstance();
   
-  //private int rgbCount=8;
 
-  // private final Swerve s_Swerve = new Swerve();
+  private final Swerve s_Swerve = new Swerve();
 
   // private SendableChooser<Command> autoChooser;
   
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
-      //private final CandleCommand m_candlecmd = new CandleCommand(m_driverController, "testing");
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    // s_Swerve.zeroHeading(m_driverController.getHID());
+    s_Swerve.zeroHeading(m_driverController.getHID());
 
     //s_Swerve.configureAutoBuilder();
 
-    // s_Swerve.setDefaultCommand(
-    //     new TeleopSwerve(
-    //         s_Swerve,
-    //         m_driverController,
-    //         m_driverController.leftBumper())
-    //     );
+    s_Swerve.setDefaultCommand(
+        new TeleopSwerve(
+            s_Swerve,
+            m_driverController,
+            m_driverController.leftBumper())
+        );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -82,15 +76,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    //m_driverController.b().onTrue( new InstantCommand(()->candle.setColor(255, 123, 0, 5, 0, 308)));
-    m_driverController.a().onTrue( new InstantCommand(()->candle.setLarson(255, 0, 0)));
-    m_driverController.x().onTrue( new InstantCommand(()->candle.setError()));
-    m_driverController.b().onTrue( new InstantCommand(()->candle.setGold()));
-    m_driverController.leftBumper().whileTrue(new CandleCommand(m_driverController, "rainbow"));
-    m_driverController.rightBumper().whileTrue(new CandleCommand(m_driverController, "rainbow"));
-    //m_driverController.x().onTrue(new CandleCommand(m_driverController, "error"));
-    m_driverController.y().whileTrue(new CandleCommand(m_driverController, "adj"));
+    m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }

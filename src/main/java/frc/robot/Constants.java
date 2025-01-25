@@ -52,17 +52,13 @@ public final class Constants {
     
     public static boolean TUNING_MODE = true;
 
-    public static Optional<DriverStation.Alliance> ALLIANCE_COLOR = DriverStation.getAlliance();
-
     public static String isRed = "N/A";
 
-    Mass robotMass = Pound.of(100);
-    MomentOfInertia robotMOI = KilogramSquareMeters.of(4.563);
+    public static final Mass robotMass = Pound.of(100);
+    public static final MomentOfInertia robotMOI = KilogramSquareMeters.of(4.563);
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
-
-        public static final int kDriverFieldOrientedButtonIdx = 1;
 
         public static final double kDeadband = 0.065;
 
@@ -70,6 +66,11 @@ public final class Constants {
         public static final int strafeAxis = XboxController.Axis.kLeftX.value;
         public static final int rotationAxis = XboxController.Axis.kRightX.value;
 
+        /*Start from zero after dead band.
+         * Eg. if your deadband is .05
+         *     if you don't have this function the minimum input would be .05
+         *     if you use this function the input would be 0 when the joystick reading is at .05
+        */
         public static double modifyMoveAxis(double value) {
             // Deadband
             if(Math.abs(value) < kDeadband) {
@@ -130,9 +131,6 @@ public final class Constants {
 
     public static final class ArmConstants{
 
-        public static double armDegreesOffset = 1;
-        
-
         public static final int armMotorAID = 13;
         public static final int armMotorBID = 14;
 
@@ -150,8 +148,8 @@ public final class Constants {
         public static final double armMaxAccel = 450;
 
 
-        public static final double minArmShootAngle = 75;
-        public static final double maxArmShootAngle = 40;
+        public static final double minElevatorEncoderReading = 0;//TODO: need to be changed 2025
+        public static final double maxElevatorEncoderReading = 100;//TODO: need to be changed 2025
         //FIXME: create lookup table
         public static final double [][] armLookupTable = {
             {1.1, 75},
@@ -163,67 +161,39 @@ public final class Constants {
             {4.9784, 42}
         };
 
-        public static double getArmAngleFromDistance(double distance) {
-
-            if(distance < armLookupTable[0][0]) {
-                return minArmShootAngle;
-            }
-            if(distance > armLookupTable[armLookupTable.length-1][0]) {
-                return maxArmShootAngle;
-            }
-
-            double[] smaller = new double[2];
-            double[] larger = new double[2];
-
-            for(int i = 0; i < armLookupTable.length-1; i++) {
-                if(distance >= armLookupTable[i][0] && distance <= armLookupTable[i+1][0]) {
-                    smaller = armLookupTable[i];
-                    larger = armLookupTable[i+1];
-                    break;
-                }
-            }
-            //Y = Y1 + (X - X1) * ((Y2 - Y1)/(X2 - X1))
-            return smaller[1] + (distance - smaller[0]) * ((larger[1]-smaller[1])/(larger[0]-smaller[0]));
-            
-            
-        }
-
-        public static final double armOffset = 167.53781218844532; //157.280949; // arm up
-        // -202.719051
+        public static final double elevatorOffset = 167.53781218844532; //TODO: need to be changed 2025
         //FIXME: set setpoints
-        public static final double intakeSetpoint = 84;
-        public static final double hoverSetpoint = 0; //for like right above intake
-        public static final double restingSetpoint = 70;
-        public static final double ampSetPoint = -8;
-        public static final double ampShooterSpeed = 0.75; // TODO: change this accordingly
-
-        //FIXME: set actual port values and reversed for arm encoder
-        public static final int k_ENC_PORT = 2;
+        public static final double intakeElevatorSetpoint = 84;//TODO: need to be changed 2025
+        public static final double elevatorIdleSetpoint = 0;  //not sure if we need this//TODO: need to be changed 2025
+        public static final double elevatorL1 = 70;//TODO: need to be changed 2025
+        public static final double elevatorL2 = 70;//TODO: need to be changed 2025
+        public static final double elevatorL3 = 70;//TODO: need to be changed 2025
+        public static final double elevatorL4 = 70;//TODO: need to be changed 2025
+        //FIXME: set actual port values and reversed for elevator encoder
+        public static final int k_ENC_PORT = 2;//TODO: need to be changed 2025
     }
 
     public static final class IntakeConstants{
-        //FIXME: set id
-        public static final int intakeMotorID = 15;
+        public static final int coralMotorID = 15;//TODO: need to be changed 2025
+        public static final int algaeMotorID = 16;//TODO: need to be changed 2025
+        
+        public static final boolean coralMotorInverted = false;//TODO: need to be changed 2025
+        public static final boolean algaeMotorInverted = false;//TODO: need to be changed 2025
 
-        public static int backupModeCount = 0;
-        //FIXME: set inverted
-        public static final boolean intakeMotorInverted = false;
-
-        //FIXME: set break beam port
-        public static final int frontBreakBeamPort = 9;
-        public static final int backBreakBeamPort = 1;
+        public static final int coralLimitSwitchPort = 1;//TODO: need to be changed 2025
+        public static final int algaeLimitSwitchPort = 9;//TODO: need to be changed 2025
 
         //FIXME: set intake speed
-        public static final double intakeSpeed = 0.5;
-        public static final double ejectSpeedSpeaker = .8;
-        public static final double ejectSpeedAmp = .5;
-        public static final double manuelEjectSpeed = 0.5;
+        public static final double intakeCoralSpeed = 0.5;//TODO: need to be changed 2025
+        public static final double ejectCoralSpeed = .8;//TODO: need to be changed 2025
+        public static final double intakeAlgaeSpeed = 0.5;//TODO: need to be changed 2025
+        public static final double ejectAlgaeSpeed = .8;//TODO: need to be changed 2025
+        
+        public static final double kP = 0.2;//TODO: need to be changed 2025
+        public static final double kI = 0;//TODO: need to be changed 2025
+        public static final double kD = 0;//TODO: need to be changed 2025
 
-        public static final double kP = 0.2;
-        public static final double kI = 0;
-        public static final double kD = 0;
-
-        public static final double[] velocityPIDConstants = {0.00005,0,0};
+        public static final double[] velocityPIDConstants = {0.00005,0,0};//TODO: need to be changed 2025
 
         public static final double Ks = 0.00009;
         public static final double Kv = 0.000184;
@@ -410,15 +380,15 @@ public final class Constants {
         public static final double limelightMountAngleDegrees = 0; //TODO: CAD SPECS.
 
         public static final double heightOfCamAboveFloor = 2; //TODO: CAD SPECS
-        public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
-                                            ?
-                                                ALLIANCE_COLOR.get() == DriverStation.Alliance.Red
-                                                ?
-                                                    4d
-                                                :
-                                                    7d
-                                            :
-                                                -1d;
+        // public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
+        //                                     ?
+        //                                         ALLIANCE_COLOR.get() == DriverStation.Alliance.Red
+        //                                         ?
+        //                                             4d
+        //                                         :
+        //                                             7d
+        //                                     :
+        //                                         -1d;
                                                      
     }
 
@@ -454,8 +424,8 @@ public final class Constants {
         /* Swerve module configs -- for pathplanner autobuilder (auto)
          * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
          */
-        DCMotor krackonX60 = new DCMotor(12, swerveAlignUpdateSecond, rotation_kP, rotation_kI, rotation_kD, pigeonID);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
-        ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, Robot.ctreConfigs.swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit,4);
+        public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
+        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, Robot.ctreConfigs.swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit,4);
         /* Module Gear Ratios */
         public static final double driveGearRatio = chosenModule.driveGearRatio;
         public static final double angleGearRatio = chosenModule.angleGearRatio;
@@ -522,9 +492,9 @@ public final class Constants {
        /* Module Specific Constants */
         // Back Right Module 0
         public static final class Mod0 { //FIXME: This must be tuned to specific robot
-            public static final int driveMotorID = 8;
-            public static final int angleMotorID = 10;
-            public static final int canCoderID = 4;
+            public static final int driveMotorID = 4;
+            public static final int angleMotorID = 8;
+            public static final int canCoderID = 20;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-3.8671875);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -532,9 +502,9 @@ public final class Constants {
 
         // Back Left Module 1
         public static final class Mod1 { //FIXME: This must be tuned to specific robot
-            public static final int driveMotorID = 5;
-            public static final int angleMotorID = 12;
-            public static final int canCoderID = 2;
+            public static final int driveMotorID = 7;
+            public static final int angleMotorID = 11;
+            public static final int canCoderID = 3;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-148.8867);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -542,9 +512,9 @@ public final class Constants {
         
         //Front Right - Module 2
         public static final class Mod2 { //FIXME: This must be tuned to specific robot
-            public static final int driveMotorID = 7;
-            public static final int angleMotorID = 11;
-            public static final int canCoderID = 1;
+            public static final int driveMotorID = 6;
+            public static final int angleMotorID = 15;
+            public static final int canCoderID = 2;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(2.373046875);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -552,9 +522,9 @@ public final class Constants {
 
         //Front left Module 3
         public static final class Mod3 { //FIXME: This must be tuned to specific robot
-            public static final int driveMotorID = 6;
+            public static final int driveMotorID = 5;
             public static final int angleMotorID = 9;
-            public static final int canCoderID = 3;
+            public static final int canCoderID = 21;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(114.697265625);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
