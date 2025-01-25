@@ -22,6 +22,7 @@ import java.lang.Thread;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+@SuppressWarnings("unused")
 public class LEDCANdle extends SubsystemBase {
 private static LEDCANdle INSTANCE = null;
   private CANdle candleLED;
@@ -58,29 +59,22 @@ private static LEDCANdle INSTANCE = null;
     // Modulates the VBat output to the specified duty cycle percentage
     candleLED.modulateVBatOutput(0.95);
   }
-
+  /* Use setError instead
   public void setBlinking() {
       candleLED.clearAnimation(0);
-      candleLED.animate(new StrobeAnimation(255, 0, 0),  0);
-    
-    //candleLED.animate(new StrobeAnimation(240, 10, 180, 10, 98.0 / 256.0, 308));
+      candleLED.animate(new StrobeAnimation(255, 0, 0, 0, 0.5, 308),  0);
   }
-    
+  */
   public void setFire() {
-    // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
     candleLED.clearAnimation(0);
     candleLED.animate(new FireAnimation(.025, .02, 308, 1,0.001, false, 8), 0);
   }
   public void setError() {
-    // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
     candleLED.clearAnimation(0);
-    //candleLED.animate(new TwinkleAnimation(255,255,255,255,16.0,308, TwinklePercent.Percent42), 0);
-    candleLED.animate(new StrobeAnimation(255,0, 0, 0, 0.5, 308));
+    candleLED.animate(new StrobeAnimation(255,0, 0, 0, 0.5, 308), 0);
   }
   public void setGreen() {
-    // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));
     candleLED.clearAnimation(0);
-    //candleLED.animate(new TwinkleAnimation(255,255,255,255,16.0,308, TwinklePercent.Percent42), 0);
     candleLED.setLEDs(0, 255, 0);
   }
   public void setRed() {
@@ -93,7 +87,13 @@ private static LEDCANdle INSTANCE = null;
   }
   public void setGold() {
     candleLED.clearAnimation(0);
+    //candleLED.setLEDs(225, 128, 35);
     candleLED.setLEDs(230, 105, 0);
+  }
+  public void setTwinkle() {
+    candleLED.clearAnimation(0);
+    candleLED.animate(new TwinkleAnimation(255,255,255,255,16.0,308, TwinklePercent.Percent42), 0);
+
   }
   public void setModifiable(int m) {
     // candleLED.animate(new RainbowAnimation(.5, 0.5, 308));

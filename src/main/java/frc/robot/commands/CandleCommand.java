@@ -48,6 +48,9 @@ public class CandleCommand extends Command {
     if(mode.equals("error")){
         m_LEDCANdle.setError();
     }
+    /*if(mode.equals("blinking")){
+      m_LEDCANdle.setBlinking();
+    } */
     if(mode.equals("adj")){
       m_LEDCANdle.setModifiable((int)((m_driverController.getLeftX()+1)*127));
       System.out.println((int)((m_driverController.getLeftX()+1)*127));
