@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+  // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -45,7 +45,7 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
 
-  private final TunableNumber ordainedPosition = new TunableNumber("ordianed position", 0);
+  private final TunableNumber ordainedPosition = new TunableNumber("ordianed position", 5);
 
   private final WristSubsystem s_WristSubsystem = WristSubsystem.getInstance();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -85,8 +85,8 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    m_driverController.a().onTrue(new InstantCommand(()->s_WristSubsystem.setToPosition(Degree.of(ordainedPosition.get()))));
-
+    m_driverController.a().onTrue(new InstantCommand(()->s_WristSubsystem.setToPosition(5.0)));
+    m_driverController.b().onTrue(new InstantCommand(()->s_WristSubsystem.setToPosition(0.5)));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }

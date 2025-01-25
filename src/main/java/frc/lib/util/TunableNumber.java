@@ -62,6 +62,8 @@ public class TunableNumber {
      */
     public double get()
     {
+        SmartDashboard.putNumber("oh ye" + this.key, SmartDashboard.getNumber(key, defaultValue));
+        // System.out.println("get got caught");
         return TUNING_MODE ? SmartDashboard.getNumber(key, defaultValue) : defaultValue;
     }
 
@@ -79,7 +81,7 @@ public class TunableNumber {
             System.out.println(this.key+ " has changed");
             return true;
         }
-        System.out.print(this.key + " calledHasChanged");
+        // System.out.println(this.key + " calledHasChanged");
         return false;
     }
 }

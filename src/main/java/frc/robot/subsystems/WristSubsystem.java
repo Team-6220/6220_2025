@@ -19,6 +19,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DifferentialPositionVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 public class WristSubsystem extends SubsystemBase {
@@ -69,6 +70,8 @@ public class WristSubsystem extends SubsystemBase {
     wristConfig.DifferentialConstants.PeakDifferentialVoltage = WristConstants.peakDifferentialVoltage;
     wristConfig.DifferentialConstants.PeakDifferentialTorqueCurrent = WristConstants.peakDifferentialTorqueCurrent;
 
+    wristConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+
     wristConfig.Voltage.withPeakForwardVoltage(Volts.of(8))
       .withPeakReverseVoltage(Volts.of(-8));
 
@@ -82,7 +85,7 @@ public class WristSubsystem extends SubsystemBase {
   public void updateConfigs()
   {
     // SmartDashboard.putNumber(tableKey + "kp", wristConfig.Slot0.kP);
-    
+    // System.out.print("blablabla");
     if(
       kP.hasChanged()||
       kI.hasChanged()||
@@ -92,6 +95,7 @@ public class WristSubsystem extends SubsystemBase {
       kA.hasChanged()
       )
       {
+        // TalonFXConfiguration tesTalonFXConfiguration = wristConfig;
         wristConfig.Slot0.kP = kP.get();
         wristConfig.Slot0.kI = kI.get();
         wristConfig.Slot0.kD = kD.get();
@@ -101,12 +105,13 @@ public class WristSubsystem extends SubsystemBase {
         wristMotor.getConfigurator().apply(wristConfig);
         System.out.println("updated!");
       }
-      System.out.print("calling for update.....");
+      // System.out.print("updateConfigs");
   }
 
   @Override
   public void periodic() {
     updateConfigs();
+    
     SmartDashboard.putNumber(tableKey + "raw positoin", getPositionRaw());
   }
 
@@ -114,6 +119,14 @@ public class WristSubsystem extends SubsystemBase {
   {
     SmartDashboard.putString(tableKey + "voltage request", m_positionVoltage.toString());
     wristMotor.setControl(m_positionVoltage.withPosition(targetPosition));
+    System.out.println("ohye");
+  }
+
+  public void setToPosition(double targetPosition)
+  {
+    SmartDashboard.putString(tableKey + "voltage request", m_positionVoltage.toString());
+    wristMotor.setControl(m_positionVoltage.withPosition(targetPosition));
+    System.out.println("ohye double");
   }
 
   public double getPositionDegrees()

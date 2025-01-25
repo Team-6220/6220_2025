@@ -502,8 +502,8 @@ public final class Constants {
         public static final double peakDifferentialTorqueCurrent = 0;
 
         //TODO: CHANGE ALL OF THESE
-        public static final double kP = 0;
-        public static final double kI = 0;
+        public static final double kP = 5;
+        public static final double kI = 3;
         public static final double kD = 0;
         public static final double kS = 0;
         public static final double kV = 0;
