@@ -6,6 +6,7 @@ package frc.robot;
 
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.LEDCANdle;
 import frc.robot.subsystems.Swerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -36,7 +37,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
 
   // private SendableChooser<Command> autoChooser;
-  
+  private final LEDCANdle candle = LEDCANdle.getInstance();
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
