@@ -28,8 +28,8 @@ public class PhotonVisionCalculations {
         if (tagID > 22 || tagID < 1) {
             return -1;
         }
-        CameraTargetRelation relation = new CameraTargetRelation(null, null)
-        Rotation2d temp = cameras[cameraID].targToCamAngle();
+        CameraTargetRelation relation = new CameraTargetRelation(null, null);
+        //Rotation2d temp = cameras[cameraID].targToCamAngle();
         double aprilTagHeightInches = VisionConstants.aprilTagHeightInches[tagID];
         NetworkTable table = NetworkTableInstance.getDefault().getTable("photon");
         NetworkTableEntry ty = table.getEntry("ty");
