@@ -2,6 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+//DO NOT USE -- INCOMPLETE
+//USE THE PID IN PHOENIX TUNER INSTEAD OF TUNABLE NUMBERS
+
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -13,6 +17,7 @@ import frc.lib.util.TunableNumber;
 import frc.robot.Constants.WristConstants;
 import frc.robot.Robot;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -22,12 +27,14 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 
-public class WristSubsystem extends SubsystemBase {
-  private static WristSubsystem INSTANCE = null;
+public class WristSubsystemTalonFx extends SubsystemBase {
+  private static WristSubsystemTalonFx INSTANCE = null;
 
   private String tableKey = "Shooter_";
 
   private TalonFX wristMotor;
+
+  private double positionToHold = 0;
 
   public TalonFXConfiguration wristConfig = new TalonFXConfiguration();
 
@@ -45,7 +52,7 @@ public class WristSubsystem extends SubsystemBase {
 
   private final DutyCycleEncoder wristEncoder;
   
-  public WristSubsystem()
+  public WristSubsystemTalonFx()
   {
     //Wrist "perminante" setup begin
     wristConfig.MotorOutput.Inverted = WristConstants.wristMotorInverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
@@ -103,7 +110,7 @@ public class WristSubsystem extends SubsystemBase {
         wristConfig.Slot0.kV = kV.get();
         wristConfig.Slot0.kA = kA.get();
         wristMotor.getConfigurator().apply(wristConfig);
-        System.out.println("updated!");
+        System.out.println("updated!\n\n\n\n\n\n\n\n\n\n\n\noh ye");
       }
       // System.out.print("updateConfigs");
   }
@@ -113,20 +120,24 @@ public class WristSubsystem extends SubsystemBase {
     updateConfigs();
     
     SmartDashboard.putNumber(tableKey + "raw positoin", getPositionRaw());
-  }
-
-  public void setToPosition(Angle targetPosition)
-  {
-    SmartDashboard.putString(tableKey + "voltage request", m_positionVoltage.toString());
-    wristMotor.setControl(m_positionVoltage.withPosition(targetPosition));
-    System.out.println("ohye");
+    SmartDashboard.putBoolean("is motor upper limit meet", getSoftTopLimitReached());
+    SmartDashboard.putBoolean("is motor low limit meet", getSoftLowLimitReached());
   }
 
   public void setToPosition(double targetPosition)
   {
+    targetPosition = targetPosition > WristConstants.wristSoftTopLimit ?//DO NOT DELETE: to make sure wrist doesn't snap
+    WristConstants.wristSoftTopLimit : targetPosition < WristConstants.wristSoftLowLimit ?//DO NOT DELETE: to make sure wrist doesn't snap
+    WristConstants.wristSoftLowLimit : targetPosition;//DO NOT DELETE: to make sure wrist doesn't snap
+    wristMotor.setControl(m_positionVoltage.withPosition(targetPosition)
+    .withLimitForwardMotion(getSoftTopLimitReached())
+    .withLimitReverseMotion(getSoftLowLimitReached()));
     SmartDashboard.putString(tableKey + "voltage request", m_positionVoltage.toString());
-    wristMotor.setControl(m_positionVoltage.withPosition(targetPosition));
-    System.out.println("ohye double");
+  }
+
+  public void updatePosition(double targetPosition)
+  {
+    positionToHold = targetPosition;
   }
 
   public double getPositionDegrees()
@@ -146,14 +157,14 @@ public class WristSubsystem extends SubsystemBase {
 
   public boolean getSoftLowLimitReached()
   {
-    return wristMotor.getPosition().getValueAsDouble() >= WristConstants.wristSoftLowLimit;
+    return wristMotor.getPosition().getValueAsDouble() <= WristConstants.wristSoftLowLimit;
   } 
 
-  public static synchronized WristSubsystem getInstance()
+  public static synchronized WristSubsystemTalonFx getInstance()
   {
     if(INSTANCE == null)
     {
-      INSTANCE = new WristSubsystem();
+      INSTANCE = new WristSubsystemTalonFx();
     }
     return INSTANCE;
   }

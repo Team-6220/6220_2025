@@ -113,6 +113,11 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+        if (m_autonomousCommand != null) {
+          m_autonomousCommand.cancel();
+        }
+
+    //Allience color updator start
     Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
@@ -125,10 +130,7 @@ public class Robot extends TimedRobot {
     else {
         Constants.isRed = "N/A";
     }
-
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    //Allience color updator end
   }
 
   /** This function is called periodically during operator control. */
