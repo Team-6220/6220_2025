@@ -480,40 +480,7 @@ public final class Constants {
 
 
     }
-
-    public static final class WristConstants
-    {
-        public static final int wristMotorID = 1;
-        public static final boolean wristMotorInverted = false;
-
-        public static final int wristEncoderID = 2;
-
-        public static final NeutralModeValue WRISTMOTOR_NEUTRAL_MODE_VALUE = NeutralModeValue.Brake;
-
-        public static final boolean wristEnableCurrentLimit = true;
-        public static final double wristCurrentLimit = 25; //TODO: NEED CHANGE
-        public static final int wristCurrentThreshold = 25;//TODO: NEED CHANGE
-        public static final double wristCurrentThresholdTime = 0;
-
-        public static final double peakDifferentialVoltage = 0;
-        public static final double peakDifferentialTorqueCurrent = 0;
-
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double kS = 0;
-        public static final double kV = 0;
-        public static final double kA = 0;
-        public static final double wristVoltageClosedLoopRampPeriod = 0;
-
-        public static final double wristSensorToMechanismRatio = 1;
-
-        public static final double wristMotorPositionOffset = 0;
-
-        public static final double wristSoftTopLimit = 0;
-        public static final double wristSoftLowLimit = 0;
-    }
-
+    
     public static final class blinkinConstants {
         public static final int PWMPort = 9;
     }
