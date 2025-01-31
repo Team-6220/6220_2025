@@ -7,6 +7,7 @@ import frc.robot.subsystems.Swerve;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.DoubleArrayTopic;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -29,14 +30,13 @@ public class PhotonVisionCalculations {
             return -1;
         }
         CameraTargetRelation relation = new CameraTargetRelation(null, null);
-        //Rotation2d temp = cameras[cameraID].targToCamAngle();
         double aprilTagHeightInches = VisionConstants.aprilTagHeightInches[tagID];
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("photon");
-        NetworkTableEntry ty = table.getEntry("ty");
-        double targetOffsetAngle_Vertical = ty.getDouble(0.0);
+        NetworkTable table = NetworkTableInstance.getDefault().getTable("X");
+        
+    
         double cameraHeight = 20; //TODO: https://discord.com/channels/270263988615380993/270264069234098179/1329262819685826593
         double cameraMountAngle = 45.0;
-        double totalAngleToTarget_deg = targetOffsetAngle_Vertical + cameraMountAngle;
+        double totalAngleToTarget_deg = x + cameraMountAngle;
         double totalAngleToTarget_rad = (totalAngleToTarget_deg * Math.PI) / 180.0;
         
         double instance = (aprilTagHeightInches + cameraHeight) / Math.tan(totalAngleToTarget_rad);
@@ -44,5 +44,8 @@ public class PhotonVisionCalculations {
         return instance;
     }
 
-
+    public static double getXY() {
+        
+        return 1.0;
+    }
 }
