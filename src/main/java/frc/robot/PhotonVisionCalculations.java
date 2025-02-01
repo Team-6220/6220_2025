@@ -50,7 +50,8 @@ public class PhotonVisionCalculations {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("Yaw");
         NetworkTableEntry ty = table.getEntry("Yaw");
         double yaw = ty.getDouble(0.0);
-        double instance = hypo * Math.cos(yaw);
+        
+        double instance = hypo * Math.sin(yaw);
 
         return instance;
     }
