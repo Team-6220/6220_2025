@@ -38,8 +38,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
   
   private final TunableNumber FrontIntakeSetpoint = new TunableNumber("FrontIntake goal setpoint", FrontIntakeConstants.frontIntakeEncoderOffset );
   
-  private final SparkMax pivotMotorLeft, pivotMotorRight;
-  private SparkMaxConfig motorLeftConfig, motorRightConfig;
+  private final SparkMax pivotMotorLeft, pivotMotorRight, frontMotor;
+  private SparkMaxConfig motorLeftConfig, motorRightConfig, MotorfrontConfig;
 
   private final DutyCycleEncoder elevatorEncoder;
   private final ProfiledPIDController m_Controller;
@@ -53,8 +53,12 @@ public class frontIntakeSubsystem extends SubsystemBase {
   public frontIntakeSubsystem() {
     pivotMotorLeft = new SparkMax(FrontIntakeConstants.leftMotorID, MotorType.kBrushless);//TODO: CHANGE TO CONSTANTS
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
+    frontMotor = new SparkMax(FrontIntakeConstants.frontMotorID, MotorType.kBrushless);
 
     motorLeftConfig
+      .inverted(FrontIntakeConstants.leftMotorInvert)
+      .idleMode(FrontIntakeConstants.leftMotorIdleMode);
+    MotorfrontConfig
       .inverted(FrontIntakeConstants.leftMotorInvert)
       .idleMode(FrontIntakeConstants.leftMotorIdleMode);
     
@@ -64,7 +68,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
       .follow(pivotMotorLeft);
     
     pivotMotorLeft.configure(motorLeftConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+    frontMotor.configure(MotorfrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_Constraints = new TrapezoidProfile.Constraints(FrontIntakeMaxVel.get(), FrontIntakeMaxAccel.get());
 
     m_Controller = new ProfiledPIDController(
@@ -159,13 +163,21 @@ public class frontIntakeSubsystem extends SubsystemBase {
 
   public void simpleDrive(double motorOutput)
   {
-    elevatorMotorLeft.set(motorOutput);
-    elevatorMotorRight.set(motorOutput);
+    pivotMotorLeft.set(motorOutput);
+    pivotMotorRight.set(motorOutput);
   }
 
   public boolean elevatorAtGoal()
   {
     return m_Controller.atGoal();
+  }
+  public void spinFront(boolean on){
+    if(on){
+      frontMotor.set(FrontIntakeConstants.wheelSpeed);
+    }
+    else{
+      frontMotor.set(0);
+    } 
   }
   /**
      * Accesses the static instance of the ArmSubsystem singleton
