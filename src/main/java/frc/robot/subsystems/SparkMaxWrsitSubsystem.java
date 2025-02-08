@@ -59,18 +59,20 @@ public class SparkMaxWrsitSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  public void setPosition(Angle position)
+  public void setPosition(Angle positionDegrees)
   {
-    if(position.baseUnitMagnitude() > WristConstants.wristMaxDegrees)
+    if(positionDegrees.magnitude() > WristConstants.wristMaxDegrees)
     {
-      position = Degrees.of(WristConstants.wristMaxDegrees);
+      positionDegrees = Degrees.of(WristConstants.wristMaxDegrees);
     }
-    if(position.baseUnitMagnitude() < WristConstants.wristMinDegrees)
+    if(positionDegrees.magnitude() < WristConstants.wristMinDegrees)
     {
-      position = Degrees.of(WristConstants.wristMinDegrees);
+      positionDegrees = Degrees.of(WristConstants.wristMinDegrees);
     }
+  
+    double posInRad = positionDegrees.
 
-    wristPID.setReference(position, ControlType.kPosition,0, wristFF.calculate(position//MAKE SURE THIS IS IN RADIANS
+    wristPID.setReference(positionDegrees, ControlType.kPosition,0, wristFF.calculate(positionDegrees//MAKE SURE THIS IS IN RADIANS
     , wristMotor.get()));
   }
 
