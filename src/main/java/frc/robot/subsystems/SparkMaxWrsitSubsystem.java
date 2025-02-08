@@ -39,13 +39,14 @@ public class SparkMaxWrsitSubsystem extends SubsystemBase {
   AbsoluteEncoder wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder();
 
   ArmFeedforward wristFF = new ArmFeedforward(WristConstants.kS,WristConstants.kG,WristConstants.kV,WristConstants.kA);
+  double wristPrevPos = 0;
 
   SparkMaxConfig wristConfig = new SparkMaxConfig();
   public SparkMaxWrsitSubsystem()
   {
     wristConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
     wristConfig.closedLoop
-    .pidf(WristConstants.kP, WristConstants.kI, WristConstants.kD, WristConstants.kFF)
+    .pid(WristConstants.kP, WristConstants.kI, WristConstants.kD)
     .maxOutput(.95)
     .maxMotion
       .allowedClosedLoopError(WristConstants.allowedClosedLoopError)
@@ -70,10 +71,10 @@ public class SparkMaxWrsitSubsystem extends SubsystemBase {
       positionDegrees = Degrees.of(WristConstants.wristMinDegrees);
     }
   
-    double posInRad = positionDegrees.
+    double posInRad = (positionDegrees.magnitude() * Math.PI) / 180;
 
-    wristPID.setReference(positionDegrees, ControlType.kPosition,0, wristFF.calculate(positionDegrees//MAKE SURE THIS IS IN RADIANS
-    , wristMotor.get()));
+    wristPID.setReference(positionDegrees.magnitude(), ControlType.kPosition,ClosedLoopSlot.kSlot0, wristFF.calculate(posInRad
+    , wristAbsoluteEncoder.getVelocity()));
   }
 
   public double getAbsolutePosition()
