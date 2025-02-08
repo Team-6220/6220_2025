@@ -4,7 +4,12 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
+
+import java.util.concurrent.ConcurrentHashMap.KeySetView;
+
+import javax.crypto.KeyGenerator;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
@@ -19,6 +24,8 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants.WristConstants;
@@ -30,6 +37,8 @@ public class SparkMaxWrsitSubsystem extends SubsystemBase {
   SparkClosedLoopController wristPID = wristMotor.getClosedLoopController();
 
   AbsoluteEncoder wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder();
+
+  ArmFeedforward wristFF = new ArmFeedforward(WristConstants.kS,WristConstants.kG,WristConstants.kV,WristConstants.kA);
 
   SparkMaxConfig wristConfig = new SparkMaxConfig();
   public SparkMaxWrsitSubsystem()
@@ -50,18 +59,19 @@ public class SparkMaxWrsitSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  public void setPosition(double position)
+  public void setPosition(Angle position)
   {
-    if(position > WristConstants.wristMaxDegrees)
+    if(position.baseUnitMagnitude() > WristConstants.wristMaxDegrees)
     {
-      position = WristConstants.wristMaxDegrees;
+      position = Degrees.of(WristConstants.wristMaxDegrees);
     }
-    if(position < WristConstants.wristMinDegrees)
+    if(position.baseUnitMagnitude() < WristConstants.wristMinDegrees)
     {
-      position = WristConstants.wristMinDegrees;
+      position = Degrees.of(WristConstants.wristMinDegrees);
     }
 
-    wristPID.setReference(position, ControlType.kPosition);
+    wristPID.setReference(position, ControlType.kPosition,0, wristFF.calculate(position//MAKE SURE THIS IS IN RADIANS
+    , wristMotor.get()));
   }
 
   public double getAbsolutePosition()

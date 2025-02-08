@@ -694,7 +694,8 @@ public final class Constants {
     public static final class WristConstants{
         public static final int WristMotorID = 10;
 
-        public static final double kP = 0, kI = 0, kD = 0, kFF = 0;
+        public static final double kP = 0, kI = 0, kD = 0;
+        public static final double kS = 0, kG = 0, kV = 0, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
         public static final double maxAcceleration = 5, maxVelocity = 10;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
         public static final double wristMaxDegrees = 60, wristMinDegrees = -60;
