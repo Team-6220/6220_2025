@@ -4,15 +4,17 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SparkMaxWrsitSubsystem;
+import frc.robot.subsystems.SparkMaxWristSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class wristTEst extends Command {
-  SparkMaxWrsitSubsystem wrist = new SparkMaxWrsitSubsystem();
-  public wristTEst() {
+public class wristTest extends Command {
+  SparkMaxWristSubsystem wrist;
+  public wristTest() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.wrist=SparkMaxWrsitSubsystem.getInstance();
+    wrist = SparkMaxWristSubsystem.getInstance();
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +24,7 @@ public class wristTEst extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    wrist.setPosition(123.2);
+    wrist.setPosition(Degrees.of(123.2));
   }
 
   // Called once the command ends or is interrupted.
