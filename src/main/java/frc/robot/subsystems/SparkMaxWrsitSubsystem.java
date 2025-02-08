@@ -80,4 +80,7 @@ public class SparkMaxWrsitSubsystem extends SubsystemBase {
   {
     return wristAbsoluteEncoder.getPosition();
   }
+  public static synchronized SparkMaxWrsitSubsystem getInstance() {
+    return  new SparkMaxWrsitSubsystem();
+}
 }
