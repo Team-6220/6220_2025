@@ -5,8 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -15,7 +13,7 @@ public class elevatorCommand extends Command {
   private ElevatorSubsystem elevator;
   private GenericHID driver;
   public elevatorCommand(GenericHID driver) {
-    this.elevator=ElevatorSubsystem.getInstance();
+    elevator=ElevatorSubsystem.getInstance();
     this.driver = driver;
   }
 
