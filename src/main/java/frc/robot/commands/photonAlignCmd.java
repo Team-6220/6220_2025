@@ -4,30 +4,60 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.PhotonVisionCalculations;
+import frc.robot.subsystems.Swerve;
+
+import java.util.List;
+
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class photonAlign extends Command {
+public class photonAlignCmd extends Command {
+  private Swerve s_Swerve;
+  private PhotonCamera camera;
   /** Creates a new photonAlign. */
-  public photonAlign() {
+  public photonAlignCmd() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    camera = new PhotonCamera("Camera_Module_v1");
+    s_Swerve.resetTurnController();
+    s_Swerve.alignXYYaw(s_Swerve.targetX, s_Swerve.targetY, s_Swerve.targetYaw);
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    List<PhotonPipelineResult> result = camera.getAllUnreadResults();
+    if(!result.isEmpty())
+    {
+      PhotonPipelineResult topReulst = result.get(0);
+      PhotonTrackedTarget bestTarget = topReulst.getBestTarget();
+      Translation2d targetPosition = new Translation2d(PhotonVisionCalculations.estimateAdjacent(camera, bestTarget.fiducialId), PhotonVisionCalculations.estimateOpposite(camera, bestTarget.fiducialId));
+      //s_Swerve.get;
+      /s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
+      s_Swerve.drive(targetPosition, PhotonVisionCalculations.getYaw(), isFinished(), isScheduled());
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
-
+  public void end(boolean interrupted) {
+    s_Swerve.stopDriving();
+  }
+()
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return s_Swerve.getPidAtGoalX() && s_Swerve.getPidAtGoalY() && s_Swerve.getPidAtGoalYaw();
   }
 }

@@ -20,6 +20,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
+
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import com.studica.frc.AHRS.NavXUpdateRate;
@@ -74,11 +77,14 @@ public class Swerve extends SubsystemBase {
      */
     private static final Vector<N3> visionMeasurementStdDevs = VecBuilder.fill(1.5, 1.5, Double.MAX_VALUE);
 
+    private PhotonCamera camera = new PhotonCamera("Camera_Module_v1");
 
     public SwerveModule[] mSwerveMods;
     public AHRS gyro;
     private boolean isAutoTurning;
     private ProfiledPIDController turnPidController;// ProfiledPIDController creates a "trapazoid" when it speeds up to avoid pulling too much voltage from the battery at once.
+    private ProfiledPIDController xPidController;
+    private ProfiledPIDController yPidController;
 
     private HashMap<Double, Rotation2d> gyro_headings = new HashMap<Double, Rotation2d>();
     private LinkedList<Double> gyro_timestamps = new LinkedList<Double>();
@@ -96,6 +102,18 @@ public class Swerve extends SubsystemBase {
     private final TunableNumber turnMaxVel = new TunableNumber("turn MaxVel", Constants.SwerveConstants.turnMaxVel);
     private final TunableNumber turnMaxAccel = new TunableNumber("turn Accel", Constants.SwerveConstants.turnMaxAccel);
 
+    private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
+    private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
+    private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
+    private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
+    private final TunableNumber xMaxAccel = new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
+
+    private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
+    private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
+    private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
+    private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
+    private final TunableNumber yMaxAccel = new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
+
     private final TunableNumber autoRkP = new TunableNumber("auto R kP", Constants.SwerveConstants.rotation_kP);
     private final TunableNumber autoRkI = new TunableNumber("auto R kI", Constants.SwerveConstants.rotation_kI);
     private final TunableNumber autoRkD = new TunableNumber("auto R kD", Constants.SwerveConstants.rotation_kD);
@@ -107,6 +125,12 @@ public class Swerve extends SubsystemBase {
 
     private boolean autoIsOverShoot = false, isAuto = false;
 
+    public double targetX;
+    public double targetY;
+    public double targetYaw;
+    public double targetPitch;
+
+    PhotonPipelineResult result;
     
     public final TunableNumber visionMeasurementStdDevConstant = new TunableNumber("visionStdDev Constant", VisionConstants.visionStdDev);
 
@@ -146,6 +170,16 @@ public class Swerve extends SubsystemBase {
         turnPidController.setIZone(Constants.SwerveConstants.turnIZone);
         turnPidController.setTolerance(Constants.SwerveConstants.turnTolerance);
         turnPidController.enableContinuousInput(-180, 180);
+
+        xPidController = new ProfiledPIDController(xKP.get(), xKI.get(), xKP.get(), new TrapezoidProfile.Constraints(xMaxVel.get(), xMaxAccel.get()));
+        xPidController.setIZone(Constants.SwerveConstants.xIZone);
+        xPidController.setTolerance(Constants.SwerveConstants.xTolerance);
+        xPidController.enableContinuousInput(-180, 180);
+
+        yPidController = new ProfiledPIDController(yKP.get(), yKI.get(), yKP.get(), new TrapezoidProfile.Constraints(yMaxVel.get(), yMaxAccel.get()));
+        yPidController.setIZone(Constants.SwerveConstants.yIZone);
+        yPidController.setTolerance(Constants.SwerveConstants.yTolerance);
+        yPidController.enableContinuousInput(-180, 180);
 
         // Set up custom logging to add the current path to a field 2d widget
         PathPlannerLogging.setLogActivePathCallback((poses) -> field2d.getObject("path").setPoses(poses));
@@ -419,7 +453,7 @@ public class Swerve extends SubsystemBase {
 
     
         double speed = turnPidController.calculate(getHeadingDegrees());
-
+        getPose().getX() - offset; //TODO: get this
         //SmartDashboard.putNumber(" raw speed", speed);
 
         if(speed > SwerveConstants.maxAngularVelocity) {
@@ -480,6 +514,26 @@ public class Swerve extends SubsystemBase {
     {
         return autoIsOverShoot;
     }
+    
+    public ProfiledPIDController getPidX() {
+        return xPidController;
+    }
+ 
+    public boolean getPidAtGoalX() {
+        return xPidController.atGoal();
+    }
+
+    public boolean getPidAtGoalY() {
+        return yPidController.atGoal();
+    }
+
+    public boolean getPidAtGoalYaw() {
+        return turnPidController.atGoal();
+    }
+
+    public PhotonPipelineResult getResult() {
+        return result;
+    }
 
     @Override
     public void periodic(){
@@ -491,6 +545,16 @@ public class Swerve extends SubsystemBase {
         //     timestamp = gyro_timestamps.removeLast();
         //     gyro_headings.remove(timestamp);
         // }
+        
+        result = camera.getAllUnreadResults().isEmpty() ? new PhotonPipelineResult(): camera.getAllUnreadResults().get(0);
+        targetX = result.getBestTarget().bestCameraToTarget.getX();
+        targetY = result.getBestTarget().bestCameraToTarget.getY();
+        targetYaw = result.getBestTarget().yaw;
+        targetPitch = result.getBestTarget().pitch;
+        SmartDashboard.putNumber("distance x", targetX);
+        SmartDashboard.putNumber("distance y", targetY);
+        SmartDashboard.putNumber("distance yaw", targetYaw);
+        SmartDashboard.putNumber("distance pitch", targetPitch);
 
         if(timestamp - SwerveConstants.swerveAlignUpdateSecond >= lastTurnUpdate)
         {
@@ -565,4 +629,15 @@ public class Swerve extends SubsystemBase {
         }
         return -1;        
     }
+    
+    public void alignXYYaw(double X, double Y, double Yaw) {
+        xPidController.setGoal(X);
+        yPidController.setGoal(Y);
+        turnPidController.setGoal(Yaw);
+    }
+
+    //possibly dont need
+    // public void updateAlignXYYaw() {
+    //     drive(xPidController.calculate(getcurrentPose() - xPidstart), autoTurnHeading, false, autoIsOverShoot);
+    // }
 }
