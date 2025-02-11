@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.Constants.ElevatorConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class elevatorCommand extends Command
@@ -24,34 +25,39 @@ public class elevatorCommand extends Command
   @Override
   public void initialize()
   {
-    int stage = 1;
+    //We're not scoring on stage 1, the wood shaft
+    int stage = 0;
     if (driver.getRawButtonPressed(1))
     {
-      stage = 3;
+      stage = 4;
     } 
     else if (driver.getRawButtonPressed(2))
     {
-      stage = 2;
+      stage = 3;
     }
     else if (driver.getRawButtonPressed(3))
     {
-      stage = 1;
+      stage = 2;
     }
 
+    if (stage == 4)
+    {
+      // add actual values
+      elevator.driveToGoal(ElevatorConstants.L4HeightRaw);
+    }
     if (stage == 3)
     {
       // add actual values
-      elevator.driveToGoal(0);
+      elevator.driveToGoal(ElevatorConstants.L3HeightRaw);
     }
     if (stage == 2)
     {
       // add actual values
-      elevator.driveToGoal(0);
+      elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     }
-    if (stage == 1)
+    if (stage == 0)
     {
-      // add actual values
-      elevator.driveToGoal(0);
+      elevator.driveToGoal(ElevatorConstants.L2HeightRaw); //prevent the pivet bumping into the wooden thign when it extends.
     }
   }
 

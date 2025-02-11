@@ -494,7 +494,7 @@ public final class Constants {
         public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
         public static final boolean leftMotorInvert = true;
 
-        public static final double elevatorEncoderOffset = 0;//TODO: RESET THIS
+        public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
         public static final double elevatorKp = 0.05;
@@ -507,5 +507,9 @@ public final class Constants {
         public static final double elevatorTolerance = 0;
         public static final double elevatorMaxVel = 0;
         public static final double elevatorMaxAccel = 0;
+
+        public static final double L2HeightRaw = 10;//TODO: CHANGE THESE
+        public static final double L3HeightRaw = 20;//TODO: CHANGE THESE
+        public static final double L4HeightRaw = 30;//TODO: CHANGE THESE
     }
 }
