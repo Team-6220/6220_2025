@@ -486,18 +486,18 @@ public final class Constants {
     }
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
-        public static final int rightMotorID = 3;
+        public static final int rightMotorID = 13;
         public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
         public static final boolean rightMotorInvert = false;
 
-        public static final int leftMotorID = 4;
+        public static final int leftMotorID = 14;
         public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
-        public static final boolean leftMotorInvert = false;
+        public static final boolean leftMotorInvert = true;
 
-        public static final double elevatorEncoderOffset = 0;
-        public static final int elevatorEncoderID = 5;
+        public static final double elevatorEncoderOffset = 0;//TODO: RESET THIS
+        public static final int elevatorEncoderID = 1;
 
-        public static final double elevatorKp = 0;
+        public static final double elevatorKp = 0.05;
         public static final double elevatorKi = 0;
         public static final double elevatorKd = 0;
         public static final double elevatorKg = 0;
