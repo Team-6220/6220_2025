@@ -317,6 +317,12 @@ public final class Constants {
 
     public static final class VisionConstants{
 
+        /*THESE ARE FROM LAST YEAR START
+         *Change them as needed (eg. change field size if it's differnet.)
+         *DELETE THEM IF YOU DIDN'T ENDED UP USING THEM, JUST USE THEM AS A REFERENCE
+         *(you can use the same class, just swap the "fillings")
+         *Sam may put on some comments that say "2025 Note" but they are just comments/guidance, none of the code are changed (you gotta look em' up)
+        */
         public static final double fieldBorderMargin = 0.25;
         public static final double zMargin = 0.5;
         public static final double xyStdDevCoefficient = 0.02;
@@ -325,36 +331,18 @@ public final class Constants {
 
         public static final Translation2d fieldSize = new Translation2d(16.54, 8.21);
 
-        public static final String LIMELIGHT3_NAME_STRING = "limelight";
-        public static final String LIMELIGHT2_NAME_STRING = "Limelight_2";
-
-
-        public static final Pose2d SPEAKER_POSE2D_BLUE = new Pose2d(new Translation2d(-.0381, 5.547868), new Rotation2d(0));
-        public static final Pose2d SPEAKER_POSE2D_RED = new Pose2d(new Translation2d(16.5793, 5.547868), new Rotation2d(180));
-        public static final Pose2d AMP_POSE2D_RED = new Pose2d(new Translation2d(Units.inchesToMeters(580.77), Units.inchesToMeters(323-7.25)), new Rotation2d(270));
-        public static final Pose2d AMP_POSE2D_BLUE = new Pose2d(new Translation2d(Units.inchesToMeters(72.5), Units.inchesToMeters(323-7.25)), new Rotation2d(270));
-
-        
-        public static final Translation2d CENTER_OF_FIELD = new Translation2d(8.2706,4.105148);
-        //FIXME: set limelight values
-        public static final double limelightHeightInches = 0;
-        public static final double limelightAngleDegrees = 0;
+        public static final Translation2d CENTER_OF_FIELD = new Translation2d((fieldSize.getX()/2.0),(fieldSize.getY()/2.0));
 
         public static HashMap<Integer, Double> tagHeights = new HashMap<Integer, Double>();
 
-        // public static final Transform3d camToCenterRobotZero = new Transform3d(new Translation3d(-.254, -.254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
-        // public static final Transform3d camToCenterRobotOne = new Transform3d(new Translation3d(.254, .254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
-
         public static final Transform3d[] camerasToCenter = {
+        //2025 Note: you might want to add another one cuz there are three cameras on the bot
             new Transform3d(new Translation3d(.256032, -0.26035, 0.21209), new Rotation3d(0,Rotation2d.fromDegrees(-35).getRadians(),Rotation2d.fromDegrees(24.12).getRadians())),// Cam zero, left//TODO: need change
             new Transform3d(new Translation3d(.252222, 0.258318, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-35).getRadians(),Rotation2d.fromDegrees(-16.90).getRadians()))//Cam one, right //TODO: need chagne
         };
 
         public static final double leftArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
         public static final double rightArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
-
-        /**Trust value of the vision */
-        public static final double visionStdDev = 0.5;
 
         public static void setTagHeights(){
             tagHeights.put(1, 48.125);
@@ -376,6 +364,9 @@ public final class Constants {
         }
 
         //Height in inches for all April Tags in order from 1 to 22
+        //Note 2025: They are kinda repetitive, the "aprilTagHeightInches" and "tagHeights", decide on to use one that's the easiest & delete the other one
+        //Note 2025: Also, know that if you're using the array it starts at zero... but the tag # is 1.
+        //Note 2025: maybe make two arraylist/hashmap one's red, one's blue. Then use them based on the "isRed"
         public static final double[] aprilTagHeightInches = 
         {
             55.25,
@@ -408,15 +399,6 @@ public final class Constants {
         public static final double limelightMountAngleDegrees = 0; //TODO: CAD SPECS.
 
         public static final double heightOfCamAboveFloor = 2; //TODO: CAD SPECS
-        public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
-                                            ?
-                                                ALLIANCE_COLOR.get() == DriverStation.Alliance.Red
-                                                ?
-                                                    4d
-                                                :
-                                                    7d
-                                            :
-                                                -1d;
                                                      
     }
 
