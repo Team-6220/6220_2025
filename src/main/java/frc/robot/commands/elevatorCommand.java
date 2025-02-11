@@ -9,46 +9,55 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class elevatorCommand extends Command {
+public class elevatorCommand extends Command
+{
   private ElevatorSubsystem elevator;
   private GenericHID driver;
-  public elevatorCommand(GenericHID driver) {
-    elevator=ElevatorSubsystem.getInstance();
+
+  public elevatorCommand(GenericHID driver)
+  {
+    elevator = ElevatorSubsystem.getInstance();
     this.driver = driver;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    int stage=1;
-    if(driver.getRawButtonPressed(1)){
-      stage=3;
+  public void initialize()
+  {
+    int stage = 1;
+    if (driver.getRawButtonPressed(1))
+    {
+      stage = 3;
+    } 
+    else if (driver.getRawButtonPressed(2))
+    {
+      stage = 2;
     }
-    else if(driver.getRawButtonPressed(2)){
-      stage=2;
-    }
-    else if(driver.getRawButtonPressed(3)){
-      stage=1;
+    else if (driver.getRawButtonPressed(3))
+    {
+      stage = 1;
     }
 
-    if(stage==3){
-      //add actual values
+    if (stage == 3)
+    {
+      // add actual values
       elevator.driveToGoal(0);
     }
-    if(stage==2){
-      //add actual values
+    if (stage == 2)
+    {
+      // add actual values
       elevator.driveToGoal(0);
     }
-    if(stage==1){
-      //add actual values
+    if (stage == 1)
+    {
+      // add actual values
       elevator.driveToGoal(0);
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  }
+  public void execute()  {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -56,7 +65,8 @@ public class elevatorCommand extends Command {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished()
+  {
     return false;
   }
 }
