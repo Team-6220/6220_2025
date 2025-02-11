@@ -391,94 +391,11 @@ public final class Constants {
         public static final double kPThetaController = 3;
     
         public static final PathConstraints pathConstraints = new PathConstraints(autoMaxVelocityMps, kMaxAccelerationMetersPerSecondSquared, maxAngularVelocityRps, maxAngularAcceleratRpsSq);
-
-        // public static final Pose2d AMP_POSE2D = isRed ? new Pose2d(14.65, 7.63, new Rotation2d(Rotation2d.fromDegrees(90).getRadians())) : new Pose2d(1.9, 7.63, new Rotation2d(Rotation2d.fromDegrees(90).getRadians()));
-        public static final Pose2d AMP_POSE2D = new Pose2d(AlienceColorCoordinateFlip.flip(2.0), 7.67, new Rotation2d(Rotation2d.fromDegrees(90).getRadians()));
-        // public static final double maxXDistance = isRed ? 8.81 : 7.75;
-        public static final double maxXDistance = isRed.equals("red") ? 8.6 : 8; // maximum x distance during auto so that it doesn't cross the middle of the field
-
         
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-
-        public static final Pose2d[] CENTERNOTE_POSE2DS =
-        {
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5), 7.5, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),//Top one
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5),5.7, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5), 4.1, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5), 2.45, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5), 0.75, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180)))
-        };
-        
-        public static final Pose2d[] NEARNOTE_POSE2DS =
-        {
-            new Pose2d(AlienceColorCoordinateFlip.flip(2.15), 7, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))), //Top BLUE SIDE
-            new Pose2d(AlienceColorCoordinateFlip.flip(2.15), 5.55, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(2.15), 4.1, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180)))
-        };
-
-        public static final Pose2d[] MULTITARGETPOSES_FORINTAKECAMERA =
-        {
-            new Pose2d(6.00, 6.75, new Rotation2d(Rotation2d.fromDegrees(-170).getRadians())),
-            new Pose2d(6.00, 4.00, new Rotation2d(Rotation2d.fromDegrees(-161.98).getRadians())),
-            new Pose2d(6.00, 1.45, new Rotation2d(Rotation2d.fromDegrees(-170).getRadians()))
-        };
-        public static final Pose2d[] MULTITARGETPOSES_FORINTAKECAMERA_RED =
-        {
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.00), 6.75, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(-170))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.00), 4.00, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(-161.98))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.00), 1.45, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(-170)))
-        };
-
-        /**These are specially for the bezier points, as their rotation 2d is the heading of the curve, not the robot base itself. */
-        // public static final Pose2d[] BEZIER_CENTERNOTE_POSE2DS = 
-        // {
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6), 7.45, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90))),//Top one
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6),5.8, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90))),
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6), 4.1, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90))),
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6), 2.45, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90))),
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6), 0.75, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90)))
-        // };
-        /** Top shooting pose, top on pathplanner
-         * @note that it is very close to the speaker, which means in order to get there you must need to travel through the three notes.
-         */
-        public static final Pose2d topShootingPose = new Pose2d(AlienceColorCoordinateFlip.flip(1.6), 6.25, new Rotation2d(Rotation2d.fromDegrees(AlienceColorCoordinateFlip.flipDegrees(-165)).getRadians()));
-
-    
-        public static final Pose2d openSideShootingPose = new Pose2d(AlienceColorCoordinateFlip.flip(1.85), 3.5, new Rotation2d(Rotation2d.fromDegrees(AlienceColorCoordinateFlip.flipDegrees(140)).getRadians()));
-        
-        public static final Pose2d middleShootingPose = new Pose2d(AlienceColorCoordinateFlip.flip(3.85), 5.50, new Rotation2d(Rotation2d.fromDegrees(AlienceColorCoordinateFlip.flipDegrees(180)).getRadians()));
-        /**This value is increasement of currentcenternotepos, positive for it to go from top of the field in pathplanner, negative for it to go from the bottom to the top*/
-        // public static final int centernoteIncrementVal = 1; //DO NOT CHANGE THIS VALUE (go from big to little in notePoseIDForAttempting instead)
-
-        public static final double bufferVelocityForInBetweenPaths = 4;
-
-        public static final double bufferVelocityForIntake = 2;
-
-        public static final double bufferVelocityForShooting = 2;
-
-        // public static double firstShootDelayInSeconds = 0.2;
-
-        // public static int howManyNotesAreWeAttempting = 2;
-
-        // public static int[] notePoseIDForAttempting = 
-        // {
-            // 0,
-            // 1
-        // };
-
-        /**
-         * Starting index for the pose that the robot will attempt
-         * @IMPORTANT If go from BOTTOM to TOP, set this NO LOWER THAN MIN, if from TOP to BOTTOM, NO HIGHER THAN MAX
-         */
-        // public static int currentCenterNotePos = 0;//Starting index for the pose that the robot will attempt
-
-        // public static final int centerNoteMax = 4; //from 0 to 4, 0 is top
-        // public static final int centerNoteMin = 0;//from 0 to 4
-
-
     }
     
     public static final class blinkinConstants {
