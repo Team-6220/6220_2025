@@ -18,8 +18,11 @@ import org.photonvision.estimation.CameraTargetRelation;
 
 /** Add your docs here. */
 public class PhotonVisionCalculations {
-    public static PhotonCamera[] cameras = {new PhotonCamera("limelight")};
+    private static PhotonCamera[] cameras;
+    private static NetworkTable table;
+    
     public PhotonVisionCalculations() {
+        cameras = new PhotonCamera[3];
         for (int i = 0; i < cameras.length; i++) {
             cameras[i].setPipelineIndex(0);
         }
@@ -29,10 +32,10 @@ public class PhotonVisionCalculations {
     public static void initPhoton() {
         
     }
-    public static double estimateDistance (int cameraID, int tagID) {
+    public static double estimateDistance (int tagID) {
         
-        double aprilTagHeightInches = VisionConstants.aprilTagHeightInches[tagID];
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("X");
+        double aprilTagHeightInches = VisionConstants.aprilTagHeightInches[tagID - 1];
+        table = NetworkTableInstance.getDefault().getTable("X");
         NetworkTableEntry ty = table.getEntry("X");
         double cameraOffset = ty.getDouble(0.0);
         double cameraHeight = 20; //TODO: https://discord.com/channels/270263988615380993/270264069234098179/1329262819685826593
@@ -45,15 +48,29 @@ public class PhotonVisionCalculations {
         return instance;
     }
 
-    public static double estimateOpposite(int cameraID, int tagID) {
-        double hypo = estimateDistance(cameraID, tagID);
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("Yaw");
-        NetworkTableEntry ty = table.getEntry("Yaw");
-        double yaw = ty.getDouble(0.0);
-        
+    public static double estimateOpposite(int tagID) {
+        double hypo = estimateDistance(tagID);
+        double yaw = getYaw();
+
         double instance = hypo * Math.sin(yaw);
 
         return instance;
+    }
+
+    public static double estimateAdjacent(int tagID) {
+        double hypo = estimateDistance(tagID);
+        double yaw = getYaw();
+        
+        double instance = hypo * Math.cos(yaw);
+
+        return instance;
+    }
+
+    public static double getYaw() {
+        table = NetworkTableInstance.getDefault().getTable("Yaw");
+        NetworkTableEntry ty = table.getEntry("Yaw");
+        double yaw = ty.getDouble(0.0);
+        return yaw;
     }
 
     public static double getXY() {

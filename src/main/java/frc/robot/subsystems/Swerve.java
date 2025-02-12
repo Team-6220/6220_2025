@@ -454,6 +454,7 @@ public class Swerve extends SubsystemBase {
     
         double speed = turnPidController.calculate(getHeadingDegrees());
         getPose().getX() - offset; //TODO: get this
+        
         //SmartDashboard.putNumber(" raw speed", speed);
 
         if(speed > SwerveConstants.maxAngularVelocity) {

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import org.opencv.core.Mat.Tuple2;
+import org.photonvision.PhotonCamera;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -317,12 +318,6 @@ public final class Constants {
 
     public static final class VisionConstants{
 
-        /*THESE ARE FROM LAST YEAR START
-         *Change them as needed (eg. change field size if it's differnet.)
-         *DELETE THEM IF YOU DIDN'T ENDED UP USING THEM, JUST USE THEM AS A REFERENCE
-         *(you can use the same class, just swap the "fillings")
-         *Sam may put on some comments that say "2025 Note" but they are just comments/guidance, none of the code are changed (you gotta look em' up)
-        */
         public static final double fieldBorderMargin = 0.25;
         public static final double zMargin = 0.5;
         public static final double xyStdDevCoefficient = 0.02;
@@ -331,12 +326,27 @@ public final class Constants {
 
         public static final Translation2d fieldSize = new Translation2d(16.54, 8.21);
 
-        public static final Translation2d CENTER_OF_FIELD = new Translation2d((fieldSize.getX()/2.0),(fieldSize.getY()/2.0));
+        public static final String LIMELIGHT3_NAME_STRING = "limelight";
+        public static final String LIMELIGHT2_NAME_STRING = "Limelight_2";
 
-        public static HashMap<Integer, Double> tagHeights = new HashMap<Integer, Double>();
+
+        public static final Pose2d SPEAKER_POSE2D_BLUE = new Pose2d(new Translation2d(-.0381, 5.547868), new Rotation2d(0));
+        public static final Pose2d SPEAKER_POSE2D_RED = new Pose2d(new Translation2d(16.5793, 5.547868), new Rotation2d(180));
+        public static final Pose2d AMP_POSE2D_RED = new Pose2d(new Translation2d(Units.inchesToMeters(580.77), Units.inchesToMeters(323-7.25)), new Rotation2d(270));
+        public static final Pose2d AMP_POSE2D_BLUE = new Pose2d(new Translation2d(Units.inchesToMeters(72.5), Units.inchesToMeters(323-7.25)), new Rotation2d(270));
+
+        
+        public static final Translation2d CENTER_OF_FIELD = new Translation2d(8.2706,4.105148);
+        //FIXME: set limelight values
+        public static final double limelightHeightInches = 0;
+        public static final double limelightAngleDegrees = 0;
+
+    
+
+        // public static final Transform3d camToCenterRobotZero = new Transform3d(new Translation3d(-.254, -.254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
+        // public static final Transform3d camToCenterRobotOne = new Transform3d(new Translation3d(.254, .254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
 
         public static final Transform3d[] camerasToCenter = {
-        //2025 Note: you might want to add another one cuz there are three cameras on the bot
             new Transform3d(new Translation3d(.256032, -0.26035, 0.21209), new Rotation3d(0,Rotation2d.fromDegrees(-35).getRadians(),Rotation2d.fromDegrees(24.12).getRadians())),// Cam zero, left//TODO: need change
             new Transform3d(new Translation3d(.252222, 0.258318, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-35).getRadians(),Rotation2d.fromDegrees(-16.90).getRadians()))//Cam one, right //TODO: need chagne
         };
@@ -344,29 +354,10 @@ public final class Constants {
         public static final double leftArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
         public static final double rightArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
 
-        public static void setTagHeights(){
-            tagHeights.put(1, 48.125);
-            tagHeights.put(2, 48.125);
-            tagHeights.put(9, 48.125);
-            tagHeights.put(10, 48.125);
-            tagHeights.put(3, 53.875);
-            tagHeights.put(4, 53.875);
-            tagHeights.put(7, 53.875);
-            tagHeights.put(8, 53.875);
-            tagHeights.put(5, 53.125);
-            tagHeights.put(6, 53.125);
-            tagHeights.put(11, 47.5);
-            tagHeights.put(12, 47.5);
-            tagHeights.put(13, 47.5);
-            tagHeights.put(14, 47.5);
-            tagHeights.put(15, 47.5);
-            tagHeights.put(16, 47.5);
-        }
+        /**Trust value of the vision */
+        public static final double visionStdDev = 0.5;
 
         //Height in inches for all April Tags in order from 1 to 22
-        //Note 2025: They are kinda repetitive, the "aprilTagHeightInches" and "tagHeights", decide on to use one that's the easiest & delete the other one
-        //Note 2025: Also, know that if you're using the array it starts at zero... but the tag # is 1.
-        //Note 2025: maybe make two arraylist/hashmap one's red, one's blue. Then use them based on the "isRed"
         public static final double[] aprilTagHeightInches = 
         {
             55.25,
@@ -391,14 +382,108 @@ public final class Constants {
             8.75,
             8.75,
             8.75
-
         };
+
+        public static final double[] aprilTagCoordsX = {
+            657.37,
+            657.37,
+            455.15,
+            365.20,
+            365.20,
+            530.49,
+            546.87,
+            530.49,
+            497.77,
+            481.39,
+            497.77,
+            33.51,
+            33.51,
+            325.68,
+            325.68,
+            235.73,
+            160.39,
+            144.00,
+            160.39,
+            193.10,
+            209.49,
+            193.10
+        };
+
+        public static final double[] aprilTagCoordsY = {
+            25.80,
+            291.20,
+            317.15,
+            241.64,
+            75.39,
+            130.17,
+            158.50,
+            186.83,
+            186.83,
+            158.50,
+            130.17,
+            25.80,
+            291.20,
+            241.64,
+            75.39,
+            -0.15,
+            130.17,
+            158.50,
+            186.83,
+            186.83,
+            158.50,
+            130.17
+        };
+
+        //creates a hash map of the X Y and Height in that order for april tags
+        public static HashMap<Integer, Double[]> aprilTagXYHeight = new HashMap<Integer, Double[]>();
+
+        public static void setTagHeights(){
+            aprilTagXYHeight.put(1, new Double[3]);
+            aprilTagXYHeight.put(2, new Double[3]);
+            aprilTagXYHeight.put(3, new Double[3]);
+            aprilTagXYHeight.put(4, new Double[3]);
+            aprilTagXYHeight.put(5, new Double[3]);
+            aprilTagXYHeight.put(6, new Double[3]);
+            aprilTagXYHeight.put(7, new Double[3]);
+            aprilTagXYHeight.put(8, new Double[3]);
+            aprilTagXYHeight.put(9, new Double[3]);
+            aprilTagXYHeight.put(10, new Double[3]);
+            aprilTagXYHeight.put(11, new Double[3]);
+            aprilTagXYHeight.put(12, new Double[3]);
+            aprilTagXYHeight.put(13, new Double[3]);
+            aprilTagXYHeight.put(14, new Double[3]);
+            aprilTagXYHeight.put(15, new Double[3]);
+            aprilTagXYHeight.put(16, new Double[3]);
+            aprilTagXYHeight.put(17, new Double[3]);
+            aprilTagXYHeight.put(18, new Double[3]);
+            aprilTagXYHeight.put(19, new Double[3]);
+            aprilTagXYHeight.put(20, new Double[3]);
+            aprilTagXYHeight.put(21, new Double[3]);
+            aprilTagXYHeight.put(22, new Double[3]);
+
+            for (int i = 1; i <= aprilTagXYHeight.size(); i++) {
+                aprilTagXYHeight.get(i)[0] = aprilTagCoordsX[i];
+                aprilTagXYHeight.get(i)[1] = aprilTagCoordsY[i];
+                aprilTagXYHeight.get(i)[2] = aprilTagHeightInches[i];
+            }
+
+        }
+
 
         public static final double desiredDistanceToAprilTagY = 10; //DO NOT USE THIS BEFORE TUNE, DELTE AFTER TUNED TODO: CAD SPECS
 
         public static final double limelightMountAngleDegrees = 0; //TODO: CAD SPECS.
 
         public static final double heightOfCamAboveFloor = 2; //TODO: CAD SPECS
+        public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
+                                            ?
+                                                ALLIANCE_COLOR.get() == DriverStation.Alliance.Red
+                                                ?
+                                                    4d
+                                                :
+                                                    7d
+                                            :
+                                                -1d;
                                                      
     }
 
@@ -482,6 +567,23 @@ public final class Constants {
         public static final double turnMaxAccel = 800;
         public static final double turnTolerance = 1.75;
         public static final double turnIZone = .4;
+
+        //X + Y position Pid Constants for Vision autos
+        public static final double xKP = 5;
+        public static final double xKD = 0;
+        public static final double xKI = 0;
+        public static final double xMaxVel = 400;
+        public static final double xMaxAccel = 800;
+        public static final double xTolerance = 1.75;
+        public static final double xIZone = .4;
+
+        public static final double yKP = 5;
+        public static final double yKD = 0;
+        public static final double yKI = 0;
+        public static final double yMaxVel = 400;
+        public static final double yMaxAccel = 800;
+        public static final double yTolerance = 1.75;
+        public static final double yIZone = .4;
 
         /* Swerve Profiling Values */
         /** Meters per Second */
