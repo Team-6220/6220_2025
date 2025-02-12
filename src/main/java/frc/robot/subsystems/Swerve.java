@@ -9,7 +9,6 @@ import frc.robot.Constants;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.Constants.VisionConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -111,7 +110,6 @@ public class Swerve extends SubsystemBase {
     private boolean autoIsOverShoot = false, isAuto = false;
 
     
-    public final TunableNumber visionMeasurementStdDevConstant = new TunableNumber("visionStdDev Constant", VisionConstants.visionStdDev);
 
     private SwerveModulePosition[] positions = {
         new SwerveModulePosition(),
@@ -270,41 +268,6 @@ public class Swerve extends SubsystemBase {
 
   }
 
-  /**
-     * AKA get x value to amp as of map in pathplanner, forward/positvie is away from DRIVER'S POINT OF VIEW at BLUE SIDE
-     * @return the forward/backward/x distance from robot to amp
-     */
-    public double getAmpX()
-    {
-        //Pose2d currPose = getPose();
-        Pose2d ampPose = Constants.isRed.equals("red") ? VisionConstants.AMP_POSE2D_RED : VisionConstants.AMP_POSE2D_BLUE;
-        double xDistance = ampPose.getX(); // - currPose.getX() // I don't think we need this
-        SmartDashboard.putNumber("forward backward", xDistance);
-        return xDistance;
-    }
-
-    /**
-     * AKA get y value to amp as of map in pathplanner
-     * @return the left/right/y distance from robot to amp, right/negative is to the right side of the driver FROM THE BLUE SIDE
-     */
-    public double getAmpY()
-    {
-        Pose2d currPose = getPose();
-        Pose2d ampPose = Constants.isRed.equals("red") ? VisionConstants.AMP_POSE2D_RED : VisionConstants.AMP_POSE2D_BLUE;
-        double yDistance = ampPose.getY() ; //- currPose.getY() // I don't think we need it
-        SmartDashboard.putNumber("left and right", yDistance);
-        return yDistance;
-    }
-
-    /**
-     * use for auto
-     * @return The amp position based on team color
-     */
-    public Pose2d getAmpPose()
-    {
-        return Constants.isRed.equals("red") ? VisionConstants.AMP_POSE2D_RED : VisionConstants.AMP_POSE2D_BLUE;
-    }
-
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.maxSpeed);
@@ -347,18 +310,6 @@ public class Swerve extends SubsystemBase {
 
     public Rotation2d getHeading(){
         return getPose().getRotation();
-    }
-
-    /**
-     * @return the direction to the speaker
-     */
-    public double getHeadingToSpeaker(){
-        
-        Pose2d currPose = getPose();
-        Pose2d speakerPose = Constants.isRed.equals("red") ? VisionConstants.SPEAKER_POSE2D_RED : VisionConstants.SPEAKER_POSE2D_BLUE;
-        double angle = Math.toDegrees(Math.atan2(speakerPose.getY() - currPose.getY(), speakerPose.getX() - currPose.getX()));
-        angle += (Constants.isRed.equals("red") ? 0 : -180);
-        return angle;
     }
 
     public double getHeadingDegrees()
@@ -516,16 +467,6 @@ public class Swerve extends SubsystemBase {
         field2d.setRobotPose(getPose());
 
         // SmartDashboard.putData("fieldSwerve",field2d);
-        
-
-        if (isAuto && ((Constants.isRed.equals("red") && field2d.getRobotPose().getX() < AutoConstants.maxXDistance) || (!Constants.isRed.equals("red") && field2d.getRobotPose().getX() > AutoConstants.maxXDistance)))
-        {
-            autoIsOverShoot = true;
-        }
-        else
-        {
-            autoIsOverShoot = false;
-        }
 
         if(turnKP.hasChanged()
         || turnKD.hasChanged()
@@ -558,20 +499,5 @@ public class Swerve extends SubsystemBase {
         Shuffleboard.getTab(title).addNumber("Turn Controller Setpoint", ()->turnPidController.getSetpoint().position);
 
         
-    }
-
-    /**
-     * @deprecated?
-     * Gets the closest not position during autonomous
-     */
-    public int getClosestNotePosition()
-    {
-        Pose2d rightPose = poseEstimator.getEstimatedPosition().nearest(Arrays.asList(AutoConstants.CENTERNOTE_POSE2DS));
-        for(int i = 0; i < AutoConstants.CENTERNOTE_POSE2DS.length; i++)
-        {
-            if(AutoConstants.CENTERNOTE_POSE2DS[i].equals(rightPose))
-            return i;
-        }
-        return -1;        
     }
 }
