@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.PhotonVisionCalculations;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class photonAlignCmd extends Command {
   private Swerve s_Swerve;
   private PhotonCamera camera;
+  public double offset;
   /** Creates a new photonAlign. */
   public photonAlignCmd() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,7 +33,7 @@ public class photonAlignCmd extends Command {
     camera = new PhotonCamera("Camera_Module_v1");
     s_Swerve.resetTurnController();
     s_Swerve.alignXYYaw(s_Swerve.targetX, s_Swerve.targetY, s_Swerve.targetYaw);
-
+    offset = PhotonVisionCalculations.estimateDistance(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,10 +44,10 @@ public class photonAlignCmd extends Command {
     {
       PhotonPipelineResult topReulst = result.get(0);
       PhotonTrackedTarget bestTarget = topReulst.getBestTarget();
-      Translation2d targetPosition = new Translation2d(PhotonVisionCalculations.estimateAdjacent(camera, bestTarget.fiducialId), PhotonVisionCalculations.estimateOpposite(camera, bestTarget.fiducialId));
+      Translation2d targetPosition = new Translation2d(PhotonVisionCalculations.estimateAdjacent(bestTarget.fiducialId), PhotonVisionCalculations.estimateOpposite(bestTarget.fiducialId));
       //s_Swerve.get;
-      /s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
-      s_Swerve.drive(targetPosition, PhotonVisionCalculations.getYaw(), isFinished(), isScheduled());
+      //s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
+      s_Swerve.drive(targetPosition, PhotonVisionCalculations.getYaw(), false, false);
     }
   }
 
@@ -54,7 +56,7 @@ public class photonAlignCmd extends Command {
   public void end(boolean interrupted) {
     s_Swerve.stopDriving();
   }
-()
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
