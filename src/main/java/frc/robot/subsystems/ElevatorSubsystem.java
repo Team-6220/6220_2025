@@ -42,7 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final TunableNumber elevatorSetpoint = new TunableNumber("Elevator goal setpoint", ElevatorConstants.elevatorEncoderOffset );
   
   private final SparkMax elevatorMotorLeft, elevatorMotorRight;
-  private SparkMaxConfig motorLeftConfig, motorRightConfig;
+  private SparkMaxConfig motorLeftConfig = new SparkMaxConfig(), motorRightConfig = new SparkMaxConfig();
 
   private final RelativeEncoder elevatorEncoder;
   /*
@@ -91,14 +91,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     elevatorEncoder = elevatorMotorLeft.getEncoder();
   }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "rawPosition", getElevatorPositionRaw());
     SmartDashboard.putNumber(tableKey + "Position", getElevatorPosition());
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
-
+    // System.out.println(getElevatorPosition());
     if(elevatorKp.hasChanged()
         || elevatorKi.hasChanged()
         || elevatorKd.hasChanged())
@@ -161,7 +161,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public double getElevatorPosition()
   {
     //Pivit position
-    double elevatorPosition = getElevatorPosition() * (1/12) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
+    double elevatorPosition = getElevatorPositionRaw() * (1/12) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
     return elevatorPosition;
   }
 
