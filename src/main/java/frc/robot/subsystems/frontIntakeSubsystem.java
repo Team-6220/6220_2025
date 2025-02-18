@@ -7,11 +7,11 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -38,7 +38,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
   
   private final TunableNumber FrontIntakeSetpoint = new TunableNumber("FrontIntake goal setpoint", FrontIntakeConstants.frontIntakeEncoderOffset );
   
-  private final SparkMax pivotMotorLeft, pivotMotorRight, frontMotor;
+  private final SparkMax pivotMotorLeft, pivotMotorRight;
+  private final TalonFX frontMotor;
   private SparkMaxConfig motorLeftConfig, motorRightConfig, MotorfrontConfig;
 
   private final DutyCycleEncoder elevatorEncoder;
@@ -53,7 +54,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
   public frontIntakeSubsystem() {
     pivotMotorLeft = new SparkMax(FrontIntakeConstants.leftMotorID, MotorType.kBrushless);//TODO: CHANGE TO CONSTANTS
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
-    frontMotor = new SparkMax(FrontIntakeConstants.frontMotorID, MotorType.kBrushless);
+    frontMotor = new TalonFX(FrontIntakeConstants.frontMotorID);
 
     motorLeftConfig
       .inverted(FrontIntakeConstants.leftMotorInvert)
@@ -68,7 +69,6 @@ public class frontIntakeSubsystem extends SubsystemBase {
       .follow(pivotMotorLeft);
     
     pivotMotorLeft.configure(motorLeftConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    frontMotor.configure(MotorfrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_Constraints = new TrapezoidProfile.Constraints(FrontIntakeMaxVel.get(), FrontIntakeMaxAccel.get());
 
     m_Controller = new ProfiledPIDController(
@@ -124,6 +124,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
   }
     public void swingToGoal(double goal)
   {
+    SmartDashboard.putNumber(tableKey + "Position", goal);
     if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
     {
       resetPID();
