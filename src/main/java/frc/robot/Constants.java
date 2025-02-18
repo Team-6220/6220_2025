@@ -434,34 +434,16 @@ public final class Constants {
             130.17
         };
 
+        // public static final double[] aprilTagAngle = {
+            
+        // }
+
         //creates a hash map of the X Y and Height in that order for april tags
         public static HashMap<Integer, Double[]> aprilTagXYHeight = new HashMap<Integer, Double[]>();
 
-        public static void setTagHeights(){
-            aprilTagXYHeight.put(1, new Double[3]);
-            aprilTagXYHeight.put(2, new Double[3]);
-            aprilTagXYHeight.put(3, new Double[3]);
-            aprilTagXYHeight.put(4, new Double[3]);
-            aprilTagXYHeight.put(5, new Double[3]);
-            aprilTagXYHeight.put(6, new Double[3]);
-            aprilTagXYHeight.put(7, new Double[3]);
-            aprilTagXYHeight.put(8, new Double[3]);
-            aprilTagXYHeight.put(9, new Double[3]);
-            aprilTagXYHeight.put(10, new Double[3]);
-            aprilTagXYHeight.put(11, new Double[3]);
-            aprilTagXYHeight.put(12, new Double[3]);
-            aprilTagXYHeight.put(13, new Double[3]);
-            aprilTagXYHeight.put(14, new Double[3]);
-            aprilTagXYHeight.put(15, new Double[3]);
-            aprilTagXYHeight.put(16, new Double[3]);
-            aprilTagXYHeight.put(17, new Double[3]);
-            aprilTagXYHeight.put(18, new Double[3]);
-            aprilTagXYHeight.put(19, new Double[3]);
-            aprilTagXYHeight.put(20, new Double[3]);
-            aprilTagXYHeight.put(21, new Double[3]);
-            aprilTagXYHeight.put(22, new Double[3]);
-
+        public static void setTagXYHeight() {
             for (int i = 1; i <= aprilTagXYHeight.size(); i++) {
+                aprilTagXYHeight.put(i, new Double[3]);
                 aprilTagXYHeight.get(i)[0] = aprilTagCoordsX[i];
                 aprilTagXYHeight.get(i)[1] = aprilTagCoordsY[i];
                 aprilTagXYHeight.get(i)[2] = aprilTagHeightInches[i];
