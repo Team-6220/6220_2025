@@ -6,6 +6,7 @@ package frc.robot;
 
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -34,7 +35,7 @@ public class RobotContainer {
   
 
   private final Swerve s_Swerve = new Swerve();
-
+  private final ElevatorSubsystem elevatorTest = ElevatorSubsystem.getInstance();
   // private SendableChooser<Command> autoChooser;
   
 

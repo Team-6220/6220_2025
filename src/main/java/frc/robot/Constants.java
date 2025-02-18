@@ -512,5 +512,8 @@ public final class Constants {
         public static final double L2HeightRaw = 10;//TODO: CHANGE THESE
         public static final double L3HeightRaw = 20;//TODO: CHANGE THESE
         public static final double L4HeightRaw = 30;//TODO: CHANGE THESE
+
+        public static final double lowerEncoderExtreme = 0.0;
+        public static final double upperEncoderExtreme = 55.0;
     }
 }

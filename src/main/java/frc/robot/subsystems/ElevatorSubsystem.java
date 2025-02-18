@@ -66,13 +66,12 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     motorLeftConfig
       .inverted(ElevatorConstants.leftMotorInvert)
-      .idleMode(ElevatorConstants.leftMotorIdleMode);
+      .idleMode(ElevatorConstants.leftMotorIdleMode)
+      .follow(elevatorMotorRight); //Mainly because we're using the right encoder and we want to keep things organized
     
     motorRightConfig
       .inverted(ElevatorConstants.rightMotorInvert)
-      .idleMode(ElevatorConstants.rightMotorIdleMode)
-      .follow(elevatorMotorLeft);
-    
+      .idleMode(ElevatorConstants.rightMotorIdleMode);
     elevatorMotorLeft.configure(motorLeftConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     m_Constraints = new TrapezoidProfile.Constraints(elevatorMaxVel.get(), elevatorMaxAccel.get());
@@ -89,14 +88,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     m_Controller.setTolerance(elevatorTolerance.get());//default 1.5
 
-    elevatorEncoder = elevatorMotorLeft.getEncoder();
+    elevatorEncoder = elevatorMotorRight.getEncoder(); //used right side because it provide positive values
+    elevatorEncoder.setPosition(0);
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "rawPosition", getElevatorPositionRaw());
-    SmartDashboard.putNumber(tableKey + "Position", getElevatorPosition());
+    SmartDashboard.putNumber(tableKey + "Position", getElevatorPositionRaw());
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
     // System.out.println(getElevatorPosition());
     if(elevatorKp.hasChanged()
@@ -138,9 +138,19 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     lastUpdate = Timer.getFPGATimestamp();
 
+    if(goal > ElevatorConstants.upperEncoderExtreme)
+    {
+      goal = ElevatorConstants.upperEncoderExtreme;
+    }
+
+    if(goal < ElevatorConstants.lowerEncoderExtreme)
+    {
+      goal = ElevatorConstants.lowerEncoderExtreme;
+    }
+
     m_Controller.setGoal(goal);
 
-    PIDOutput = m_Controller.calculate(getElevatorPosition());
+    PIDOutput = m_Controller.calculate(getElevatorPositionRaw());
 
     feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
     double calculatedSpeed = PIDOutput + feedForwardOutput;
@@ -154,16 +164,16 @@ public class ElevatorSubsystem extends SubsystemBase {
   
   public void resetPID()
   {
-    m_Controller.reset(getElevatorPosition());
+    m_Controller.reset(getElevatorPositionRaw());
   }
 
   /**Raw encoder value subtracted by the offset at zero*/
-  public double getElevatorPosition()
-  {
-    //Pivit position
-    double elevatorPosition = getElevatorPositionRaw() * (1/12) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
-    return elevatorPosition;
-  }
+  // public double getElevatorPosition()
+  // {
+  //   //Pivit position
+  //   double elevatorPosition = getElevatorPositionRaw() * (1/12) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
+  //   return elevatorPosition;
+  // }
 
   public double getElevatorPositionRaw()
   {
