@@ -30,9 +30,8 @@ public class photonAlignCmd extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    camera = new PhotonCamera("Camera_Module_v1");
     s_Swerve.resetTurnController();
-    s_Swerve.alignXYYaw(s_Swerve.targetX, s_Swerve.targetY, s_Swerve.targetYaw);
+    s_Swerve.alignXYYaw(s_Swerve.getTargetX(), s_Swerve.getTargetY(), s_Swerve.getTargetYaw());
     offset = PhotonVisionCalculations.estimateDistance(0);
   }
 

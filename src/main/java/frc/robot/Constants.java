@@ -434,19 +434,41 @@ public final class Constants {
             130.17
         };
 
-        // public static final double[] aprilTagAngle = {
-            
-        // }
+        public static final double[] aprilTagAngle = {
+            126.0,
+            234.0,
+            270.0,
+            0.0,
+            0.0,
+            300.0,
+            0.0,
+            60.0,
+            120.0,
+            180.0,
+            240.0,
+            54.0,
+            306.0,
+            180.0,
+            180.0,
+            90.0,
+            240.0,
+            180.0,
+            120.0,
+            60.0,
+            0.0,
+            300.0
+        };
 
         //creates a hash map of the X Y and Height in that order for april tags
-        public static HashMap<Integer, Double[]> aprilTagXYHeight = new HashMap<Integer, Double[]>();
+        public static HashMap<Integer, Double[]> aprilTagXYHeightAngle = new HashMap<Integer, Double[]>();
 
-        public static void setTagXYHeight() {
-            for (int i = 1; i <= aprilTagXYHeight.size(); i++) {
-                aprilTagXYHeight.put(i, new Double[3]);
-                aprilTagXYHeight.get(i)[0] = aprilTagCoordsX[i];
-                aprilTagXYHeight.get(i)[1] = aprilTagCoordsY[i];
-                aprilTagXYHeight.get(i)[2] = aprilTagHeightInches[i];
+        public static void setTagXYHeightAngle() {
+            for (int i = 1; i <= aprilTagAngle.length; i++) {
+                aprilTagXYHeightAngle.put(i, new Double[4]);
+                aprilTagXYHeightAngle.get(i)[0] = aprilTagCoordsX[i];
+                aprilTagXYHeightAngle.get(i)[1] = aprilTagCoordsY[i];
+                aprilTagXYHeightAngle.get(i)[2] = aprilTagHeightInches[i];
+                aprilTagXYHeightAngle.get(i)[3] = aprilTagAngle[i];
             }
 
         }

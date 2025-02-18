@@ -125,10 +125,10 @@ public class Swerve extends SubsystemBase {
 
     private boolean autoIsOverShoot = false, isAuto = false;
 
-    public double targetX;
-    public double targetY;
-    public double targetYaw;
-    public double targetPitch;
+    private double targetX;
+    private double targetY;
+    private double targetYaw;
+    private double targetPitch;
 
     PhotonPipelineResult result;
     
@@ -534,6 +534,22 @@ public class Swerve extends SubsystemBase {
 
     public PhotonPipelineResult getResult() {
         return result;
+    }
+
+    public double getTargetX() {
+        return targetX;
+    }
+
+    public double getTargetY() {
+        return targetY;
+    }
+
+    public double getTargetYaw() {
+        return targetYaw;
+    }
+
+    public double getTargetPitch() {
+        return targetPitch;
     }
 
     @Override
