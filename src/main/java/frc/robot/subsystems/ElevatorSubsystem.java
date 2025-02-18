@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -43,7 +44,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotorLeft, elevatorMotorRight;
   private SparkMaxConfig motorLeftConfig, motorRightConfig;
 
-  private final DutyCycleEncoder elevatorEncoder;
+  private final RelativeEncoder elevatorEncoder;
   /*
     Elevator PID & FF stuff
     see:
@@ -88,7 +89,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     m_Controller.setTolerance(elevatorTolerance.get());//default 1.5
 
-    elevatorEncoder = new DutyCycleEncoder(ElevatorConstants.elevatorEncoderID);
+    elevatorEncoder = elevatorMotorLeft.getEncoder();
   }
 
   @Override
@@ -159,14 +160,16 @@ public class ElevatorSubsystem extends SubsystemBase {
   /**Raw encoder value subtracted by the offset at zero*/
   public double getElevatorPosition()
   {
-    double elevatorPosition = elevatorEncoder.get() - elevatorSetpoint.get();
+    //Pivit position
+    double elevatorPosition = getElevatorPosition() * (1/12) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
     return elevatorPosition;
   }
 
   public double getElevatorPositionRaw()
   {
-    return elevatorEncoder.get();
+    return elevatorEncoder.getPosition();
   }
+
 
   public void simpleDrive(double motorOutput)
   {
