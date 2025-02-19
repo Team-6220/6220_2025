@@ -84,7 +84,7 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
   @Override
   public void periodic() {
         // This method will be called once per scheduler run
-    SmartDashboard.putNumber(tableKey + "Position", getElevatorPosition());
+    SmartDashboard.putNumber(tableKey + "Position", getPosition());
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
 
     if(FrontIntakeKp.hasChanged()
@@ -128,7 +128,7 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
 
     m_Controller.setGoal(goal);
 
-    PIDOutput = m_Controller.calculate(getElevatorPosition());
+    PIDOutput = m_Controller.calculate(getPosition());
 
     feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
     double calculatedSpeed = PIDOutput + feedForwardOutput;
@@ -142,11 +142,11 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
   
   public void resetPID()
   {
-    m_Controller.reset(getElevatorPosition());
+    m_Controller.reset(getPosition());
   }
 
   /**Raw encoder value subtracted by the offset at zero*/
-  public double getElevatorPosition()
+  public double getPosition()
   {
     return elevatorEncoder.get();
   }

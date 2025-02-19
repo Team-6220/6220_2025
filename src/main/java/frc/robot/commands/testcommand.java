@@ -21,7 +21,7 @@ public class testcommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    a= m_fiss.getElevatorPosition();
+    a= m_fiss.getPosition();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
