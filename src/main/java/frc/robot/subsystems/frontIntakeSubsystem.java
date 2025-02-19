@@ -118,7 +118,7 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
   }
     public void swingToGoal(double goal)
   {
-    SmartDashboard.putNumber(tableKey + "Position", goal);
+    // SmartDashboard.putNumber(tableKey + "Position", goal);
     if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
     {
       resetPID();
@@ -161,9 +161,15 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
   {
     return m_Controller.atGoal();
   }
-  public void spinFront(boolean on){
-    if(on){
+  public void simpleintakeDrive(double speed){
+    frontMotor.set(speed);
+  }
+  public void spinFront(boolean on, boolean in){
+    if(on&&in){
       frontMotor.set(FrontIntakeConstants.wheelSpeed);
+    }
+    if(on&&!in){
+      frontMotor.set(-FrontIntakeConstants.wheelSpeed);
     }
     else{
       frontMotor.set(0);

@@ -5,13 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class testcommand extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
+  CommandXboxController m_driverController;
   double a;
-  public testcommand() {
+  public testcommand(CommandXboxController driver) {
+    m_driverController=driver;
     addRequirements(m_fiss);
   }
 
@@ -24,13 +27,18 @@ public class testcommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_fiss.spinFront(true);
+    // if(m_driverController.a().getAsBoolean()){}
+    m_fiss.simpleintakeDrive(0.25);
+    // if(m_driverController.y().getAsBoolean()){
+      // m_fiss.spinFront(true, false);}
     m_fiss.swingToGoal(0.50); //range 0.67 - 0.23
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_fiss.simpleintakeDrive(0);
+  }
 
   // Returns true when the command should end.
   @Override

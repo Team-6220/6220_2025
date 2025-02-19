@@ -78,8 +78,8 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    m_driverController.a().onTrue(new testcommand());
-
+    m_driverController.a().whileTrue(new testcommand(m_driverController));
+    //m_driverController.a().onFalse(new testcommand(m_driverController));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
