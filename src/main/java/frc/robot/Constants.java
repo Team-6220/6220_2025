@@ -346,4 +346,10 @@ public final class Constants {
         public static final double elevatorMaxVel = 0;
         public static final double elevatorMaxAccel = 0;
     }
+    public static final class WristIntakeConstants {
+        public static final int wristintakeMotorID = 18;
+        public static final double ejectSpeed = .1;
+        public static final double intakeSpeed = .1;
+    }
+
 }
