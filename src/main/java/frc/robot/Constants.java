@@ -511,26 +511,26 @@ public final class Constants {
     }
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
-        public static final int rightMotorID = 16;
+        public static final int rightMotorID = 15; //nonclimber
         public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
-        public static final boolean rightMotorInvert = false;
+        public static final boolean rightMotorInvert = true;
 
-        public static final int leftMotorID = 15;
+        public static final int leftMotorID = 16; //climber
         public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
         public static final boolean leftMotorInvert = false;
-        public static final int frontMotorID = 19;
+        public static final int frontMotorID = 19; 
         public static final IdleMode frontMotorIdleMode = IdleMode.kBrake;
         public static final boolean frontMotorInvert = false;
-        public static final double frontIntakeKp = 0.08;
+        public static final double frontIntakeKp = 0.4;//.4;
         public static final double frontIntakeKi = 0;
         public static final double frontIntakeKd = 0;
-        public static final double frontIntakeKg = 0;
+        public static final double frontIntakeKg = 0.01;//.01;
         public static final double frontIntakeKv = 0;
         public static final double frontIntakeKs = 0;
         public static final double frontIntakeIZone = 0;
-        public static final double frontIntakeTolerance = 0;
-        public static final double frontIntakeMaxVel = 0;
-        public static final double frontIntakeMaxAccel = 0;
-        public static final double wheelSpeed=0.25; //0-1
+        public static final double frontIntakeTolerance = 1.5;
+        public static final double frontIntakeMaxVel = 5;
+        public static final double frontIntakeMaxAccel = 10;
+        public static final double wheelSpeed = 0.25; //0-1
     }
 }

@@ -116,7 +116,11 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
           m_Controller.setTolerance(FrontIntakeTolerance.get());
         }
   }
-    public void swingToGoal(double goal)
+
+  public void setGoal(double goal) {
+    m_Controller.setGoal(goal);
+  }
+    public void swingToGoal()
   {
     // SmartDashboard.putNumber(tableKey + "Position", goal);
     if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
@@ -126,16 +130,14 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
 
     lastUpdate = Timer.getFPGATimestamp();
 
-    m_Controller.setGoal(goal);
-
     PIDOutput = m_Controller.calculate(getPosition());
 
     feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
         
-    SmartDashboard.putNumber("intake pivot Goal", goal);
-
+    SmartDashboard.putNumber("ff low intake", feedForwardOutput);
+    SmartDashboard.putNumber("calculatedSpeed", calculatedSpeed);
     pivotMotorLeft.setVoltage(calculatedSpeed);
     pivotMotorRight.setVoltage(calculatedSpeed);
   }
@@ -148,7 +150,7 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
   /**Raw encoder value subtracted by the offset at zero*/
   public double getPosition()
   {
-    return elevatorEncoder.get();
+    return (elevatorEncoder.get() - 0.23) * 360;//.23 offset, *360 to get degrees
   }
 
   public void simpleDrive(double motorOutput)
