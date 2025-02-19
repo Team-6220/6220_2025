@@ -20,9 +20,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants.FrontIntakeConstants;
+import frc.robot.Robot;
 
 public class frontIntakeSubsystem extends SubsystemBase {
-  private static ElevatorSubsystem INSTANCE = null;
+  private static frontIntakeSubsystem INSTANCE = null;
 
   private final TunableNumber FrontIntakeKp = new TunableNumber("FrontIntake kP", FrontIntakeConstants.frontIntakeKp);//TODO: match/make to constant.java
   private final TunableNumber FrontIntakeKi = new TunableNumber("FrontIntake kI", FrontIntakeConstants.frontIntakeKi);
@@ -36,11 +37,9 @@ public class frontIntakeSubsystem extends SubsystemBase {
   private final TunableNumber FrontIntakeMaxVel = new TunableNumber("FrontIntake max vel", FrontIntakeConstants.frontIntakeMaxVel);
   private final TunableNumber FrontIntakeMaxAccel = new TunableNumber("FrontIntake max accel", FrontIntakeConstants.frontIntakeMaxAccel);
   
-  private final TunableNumber FrontIntakeSetpoint = new TunableNumber("FrontIntake goal setpoint", FrontIntakeConstants.frontIntakeEncoderOffset );
-  
   private final SparkMax pivotMotorLeft, pivotMotorRight;
   private final TalonFX frontMotor;
-  private SparkMaxConfig motorLeftConfig, motorRightConfig, MotorfrontConfig;
+  private SparkMaxConfig motorLeftConfig = new SparkMaxConfig(), motorRightConfig = new SparkMaxConfig();
 
   private final DutyCycleEncoder elevatorEncoder;
   private final ProfiledPIDController m_Controller;
@@ -55,14 +54,10 @@ public class frontIntakeSubsystem extends SubsystemBase {
     pivotMotorLeft = new SparkMax(FrontIntakeConstants.leftMotorID, MotorType.kBrushless);//TODO: CHANGE TO CONSTANTS
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
     frontMotor = new TalonFX(FrontIntakeConstants.frontMotorID);
-
+frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
     motorLeftConfig
       .inverted(FrontIntakeConstants.leftMotorInvert)
       .idleMode(FrontIntakeConstants.leftMotorIdleMode);
-    MotorfrontConfig
-      .inverted(FrontIntakeConstants.leftMotorInvert)
-      .idleMode(FrontIntakeConstants.leftMotorIdleMode);
-    
     motorRightConfig
       .inverted(FrontIntakeConstants.rightMotorInvert)
       .idleMode(FrontIntakeConstants.rightMotorIdleMode)
@@ -83,13 +78,12 @@ public class frontIntakeSubsystem extends SubsystemBase {
 
     m_Controller.setTolerance(FrontIntakeTolerance.get());//default 1.5
 
-    elevatorEncoder = new DutyCycleEncoder(FrontIntakeConstants.frontIntakeEncoderID);
+    elevatorEncoder = new DutyCycleEncoder(2);
   }
 
   @Override
   public void periodic() {
         // This method will be called once per scheduler run
-    SmartDashboard.putNumber(tableKey + "rawPosition", getElevatorPositionRaw());
     SmartDashboard.putNumber(tableKey + "Position", getElevatorPosition());
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
 
@@ -154,11 +148,6 @@ public class frontIntakeSubsystem extends SubsystemBase {
   /**Raw encoder value subtracted by the offset at zero*/
   public double getElevatorPosition()
   {
-    return elevatorEncoder.get() - FrontIntakeSetpoint.get();
-  }
-
-  public double getElevatorPositionRaw()
-  {
     return elevatorEncoder.get();
   }
 
@@ -184,9 +173,9 @@ public class frontIntakeSubsystem extends SubsystemBase {
      * Accesses the static instance of the ArmSubsystem singleton
      * @return ArmSubsystem Singleton Instance
      */
-    public static synchronized ElevatorSubsystem getInstance() {
+    public static synchronized frontIntakeSubsystem getInstance() {
       if (INSTANCE == null) {
-          INSTANCE = new ElevatorSubsystem();
+          INSTANCE = new frontIntakeSubsystem();
       }
       return INSTANCE;
   }

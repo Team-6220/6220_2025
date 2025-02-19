@@ -9,11 +9,10 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class testcommand extends Command {
-  private frontIntakeSubsystem m_fiss;
+  private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
   double a;
-  public testcommand(frontIntakeSubsystem s_fiss) {
-    m_fiss=s_fiss;
-    addRequirements(s_fiss);
+  public testcommand() {
+    addRequirements(m_fiss);
   }
 
   // Called when the command is initially scheduled.
@@ -26,7 +25,7 @@ public class testcommand extends Command {
   @Override
   public void execute() {
     m_fiss.spinFront(true);
-    m_fiss.swingToGoal(a);
+    m_fiss.swingToGoal(0.50); //range 0.67 - 0.23
   }
 
   // Called once the command ends or is interrupted.

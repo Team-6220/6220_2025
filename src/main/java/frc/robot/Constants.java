@@ -256,32 +256,33 @@ public final class Constants {
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
         
-        /* Swerve module configs -- for pathplanner autobuilder (auto)
-         * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
-         */
-        public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
-        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, Robot.ctreConfigs.swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerLimit,4);
-        /* Module Gear Ratios */
-        public static final double driveGearRatio = chosenModule.driveGearRatio;
-        public static final double angleGearRatio = chosenModule.angleGearRatio;
-
-        /* Motor Inverts */
-        public static final boolean angleMotorInvert = chosenModule.driveMotorInvert == InvertedValue.CounterClockwise_Positive;
-        public static final InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
+            /* Module Gear Ratios */
+            public static final double driveGearRatio = chosenModule.driveGearRatio;
+            public static final double angleGearRatio = chosenModule.angleGearRatio;
+            
+            /* Motor Inverts */
+            public static final boolean angleMotorInvert = chosenModule.driveMotorInvert == InvertedValue.CounterClockwise_Positive;
+            public static final InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
 
         /* Angle Encoder Invert */
         public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
-
+        
         /* Swerve Current Limiting */
         public static final int angleCurrentLimit = 25;
         public static final int angleCurrentThreshold = 40;
         public static final double angleCurrentThresholdTime = 0.1;
         public static final boolean angleEnableCurrentLimit = true;
-
+        
         public static final int driveCurrentLimit = 35;
-        public static final int driveMaxCurrent = 60;
+        public static final double driveMaxCurrent = 60;
         public static final double driveMaxCurrentTime = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
+
+        /* Swerve module configs -- for pathplanner autobuilder (auto)
+         * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
+         */
+        public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
+        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, driveMaxCurrent,4);
 
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
@@ -510,20 +511,16 @@ public final class Constants {
     }
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
-        public static final int rightMotorID = 3;
+        public static final int rightMotorID = 59;
         public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
         public static final boolean rightMotorInvert = false;
 
-        public static final int leftMotorID = 4;
+        public static final int leftMotorID = 25;
         public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
         public static final boolean leftMotorInvert = false;
-        public static final int frontMotorID = 4;
+        public static final int frontMotorID = 20;
         public static final IdleMode frontMotorIdleMode = IdleMode.kBrake;
         public static final boolean frontMotorInvert = false;
-
-        public static final double frontIntakeEncoderOffset = 0;
-        public static final int frontIntakeEncoderID = 5;
-
         public static final double frontIntakeKp = 0;
         public static final double frontIntakeKi = 0;
         public static final double frontIntakeKd = 0;
@@ -534,6 +531,6 @@ public final class Constants {
         public static final double frontIntakeTolerance = 0;
         public static final double frontIntakeMaxVel = 0;
         public static final double frontIntakeMaxAccel = 0;
-        public static final double wheelSpeed=1; //0-1
+        public static final double wheelSpeed=0.5; //0-1
     }
 }
