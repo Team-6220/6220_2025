@@ -41,7 +41,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
   private final TalonFX frontMotor;
   private SparkMaxConfig motorLeftConfig = new SparkMaxConfig(), motorRightConfig = new SparkMaxConfig();
 
-  private final DutyCycleEncoder elevatorEncoder;
+  private final DutyCycleEncoder lowerintakeEncoder;
   private final ProfiledPIDController m_Controller;
   private ArmFeedforward m_Feedforward;
   private TrapezoidProfile.Constraints m_Constraints;
@@ -78,14 +78,14 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
 
     m_Controller.setTolerance(FrontIntakeTolerance.get());//default 1.5
 
-    elevatorEncoder = new DutyCycleEncoder(2);
+    lowerintakeEncoder = new DutyCycleEncoder(2);
   }
 
   @Override
   public void periodic() {
         // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "Position", getPosition());
-    SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
+    SmartDashboard.putBoolean(tableKey + "atGoal", controllerAtGoal());
 
     if(FrontIntakeKp.hasChanged()
         || FrontIntakeKi.hasChanged()
@@ -148,7 +148,7 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
   /**Raw encoder value subtracted by the offset at zero*/
   public double getPosition()
   {
-    return elevatorEncoder.get();
+    return lowerintakeEncoder.get();
   }
 
   public void simpleDrive(double motorOutput)
@@ -157,7 +157,7 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
     pivotMotorRight.set(motorOutput);
   }
 
-  public boolean elevatorAtGoal()
+  public boolean controllerAtGoal()
   {
     return m_Controller.atGoal();
   }
