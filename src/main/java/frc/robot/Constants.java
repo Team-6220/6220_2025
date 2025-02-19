@@ -680,7 +680,7 @@ public final class Constants {
         
         public static final boolean encoderInverted = false;
         
-        public static final double kP = 0, kI = 0, kD = 0, izone = 2, tolerance = 1.5;
+        public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = 1.5;
         public static final double kS = 0, kG = .25, kV = 0, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
         public static final double maxAcceleration = 5, maxVelocity = 10;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
