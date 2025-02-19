@@ -443,33 +443,34 @@ public final class Constants {
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
         
-        /* Swerve module configs -- for pathplanner autobuilder (auto)
-         * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
-         */
-        public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
-        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, Robot.ctreConfigs.swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit,4);
-        /* Module Gear Ratios */
-        public static final double driveGearRatio = chosenModule.driveGearRatio;
-        public static final double angleGearRatio = chosenModule.angleGearRatio;
+            /* Module Gear Ratios */
+            public static final double driveGearRatio = chosenModule.driveGearRatio;
+            public static final double angleGearRatio = chosenModule.angleGearRatio;
 
         /* Motor Inverts */
         public static final boolean angleMotorInvert = chosenModule.driveMotorInvert == InvertedValue.CounterClockwise_Positive;
         public static final InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
-
+        
         /* Angle Encoder Invert */
         public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
-
+        
         /* Swerve Current Limiting */
         public static final int angleCurrentLimit = 25;
         public static final int angleCurrentThreshold = 40;
         public static final double angleCurrentThresholdTime = 0.1;
         public static final boolean angleEnableCurrentLimit = true;
-
-        public static final int driveCurrentLimit = 35;
-        public static final int driveMaxCurrent = 60;
+        
+        public static final double driveCurrentLimit = 35;
+        public static final double driveMaxCurrent = 60;
         public static final double driveMaxCurrentTime = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
-
+       
+        /* Swerve module configs -- for pathplanner autobuilder (auto)
+         * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
+         */
+        public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
+        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, driveCurrentLimit,4);
+        
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
         public static final double openLoopRamp = 0.25;
@@ -668,36 +669,21 @@ public final class Constants {
 
     }
 
-    public static final class ClimberConstants{
-        //FIXME: set motor IDs
-        public static final int climberDriverLeftID = 18;
-        public static final int climberDriverRightID = 19;
-
-        public static final boolean motorAInverted = false;
-        public static final boolean motorBInverted = true;
-
-        //FIXME: set setpoints
-        public static final double topSetpoint = 0;
-        public static final double bottomSetpoint = 0;
-        public static final double climbedSetpoint = 0;
-
-        //FIXME: set PID constants
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
-    }
-
     public static final class blinkinConstants {
         public static final int PWMPort = 9;
     }
 
     public static final class WristConstants{
-        public static final int WristMotorID = 10;
-
-        public static final double kP = 0, kI = 0, kD = 0;
-        public static final double kS = 0, kG = 0, kV = 0, kA = 0;
+        public static final int WristMotorID = 17;
+        public static final boolean motorInverted = false;
+        public static final IdleMode wristIdleMode = IdleMode.kBrake;
+        
+        public static final boolean encoderInverted = false;
+        
+        public static final double kP = 0, kI = 0, kD = 0, izone = 2, tolerance = 1.5;
+        public static final double kS = 0, kG = .25, kV = 0, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
         public static final double maxAcceleration = 5, maxVelocity = 10;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
-        public static final double wristMaxDegrees = 60, wristMinDegrees = -60;
+        public static final double wristMaxDegrees = 165, wristMinDegrees = -135;
     }
 }

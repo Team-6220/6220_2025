@@ -6,7 +6,9 @@ package frc.robot;
 
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.wristTest;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -77,7 +79,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-
+    m_driverController.a().onTrue(new wristTest());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
