@@ -169,6 +169,28 @@ public final class Constants {
                 new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
+                /* Module Gear Ratios */
+                public static final double driveGearRatio = chosenModule.driveGearRatio;
+                public static final double angleGearRatio = chosenModule.angleGearRatio;
+                
+                /* Motor Inverts */
+        public static final boolean angleMotorInvert = chosenModule.driveMotorInvert == InvertedValue.CounterClockwise_Positive;
+        public static final InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
+        
+        /* Angle Encoder Invert */
+        public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
+        
+        /* Swerve Current Limiting */
+        public static final int angleCurrentLimit = 25;
+        public static final int angleCurrentThreshold = 40;
+        public static final double angleCurrentThresholdTime = 0.1;
+        public static final boolean angleEnableCurrentLimit = true;
+        
+        public static final double driveCurrentLimit = 35;
+        public static final double driveMaxCurrent = 60;
+        public static final double driveMaxCurrentTime = 0.1;
+        public static final boolean driveEnableCurrentLimit = true;
+        
         /*
          * Swerve module configs -- for pathplanner autobuilder (auto)
          * API:
@@ -176,29 +198,8 @@ public final class Constants {
          */
         public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);// https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
         public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius, SwerveConstants.maxSpeed,
-                1.0, krackonX60, Robot.ctreConfigs.swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerLimit, 4);
-        /* Module Gear Ratios */
-        public static final double driveGearRatio = chosenModule.driveGearRatio;
-        public static final double angleGearRatio = chosenModule.angleGearRatio;
-
-        /* Motor Inverts */
-        public static final boolean angleMotorInvert = chosenModule.driveMotorInvert == InvertedValue.CounterClockwise_Positive;
-        public static final InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
-
-        /* Angle Encoder Invert */
-        public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
-
-        /* Swerve Current Limiting */
-        public static final int angleCurrentLimit = 25;
-        public static final int angleCurrentThreshold = 40;
-        public static final double angleCurrentThresholdTime = 0.1;
-        public static final boolean angleEnableCurrentLimit = true;
-
-        public static final int driveCurrentLimit = 35;
-        public static final int driveMaxCurrent = 60;
-        public static final double driveMaxCurrentTime = 0.1;
-        public static final boolean driveEnableCurrentLimit = true;
-
+                1.0, krackonX60,driveCurrentLimit , 4);
+        
         /*
          * These values are used by the drive falcon to ramp in open loop and closed
          * loop driving.
