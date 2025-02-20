@@ -44,7 +44,7 @@ public class TeleopSwerve extends Command {
         /* Drive */
         s_Swerve.drive(
             new Translation2d(driverInputs[0],driverInputs[1]),
-            driverInputs[2], 
+            -driverInputs[2], 
             !robotCentricSup.getAsBoolean(), 
             true
         );

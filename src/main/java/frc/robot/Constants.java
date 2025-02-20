@@ -158,6 +158,7 @@ public final class Constants {
         public static final double wheelCircumference = chosenModule.wheelCircumference;
         public static final double wheelRadius = chosenModule.wheelDiameter / 2;
 
+<<<<<<< HEAD
         /*
          * Swerve Kinematics
          * No need to ever change this unless you are not doing a traditional
@@ -168,6 +169,19 @@ public final class Constants {
                 new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
                 new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+=======
+        /* Swerve Kinematics 
+         * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
+         public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+            new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+            new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+            new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+                  
+            /* Module Gear Ratios */
+            public static final double driveGearRatio = chosenModule.driveGearRatio;
+        public static final double angleGearRatio = chosenModule.angleGearRatio;
+>>>>>>> implement-elevator
 
                 /* Module Gear Ratios */
                 public static final double driveGearRatio = chosenModule.driveGearRatio;
@@ -186,11 +200,16 @@ public final class Constants {
         public static final double angleCurrentThresholdTime = 0.1;
         public static final boolean angleEnableCurrentLimit = true;
         
+<<<<<<< HEAD
         public static final double driveCurrentLimit = 35;
+=======
+        public static final int driveCurrentLimit = 35;
+>>>>>>> implement-elevator
         public static final double driveMaxCurrent = 60;
         public static final double driveMaxCurrentTime = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
         
+<<<<<<< HEAD
         /*
          * Swerve module configs -- for pathplanner autobuilder (auto)
          * API:
@@ -205,14 +224,24 @@ public final class Constants {
          * loop driving.
          * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc
          */
+=======
+        /* Swerve module configs -- for pathplanner autobuilder (auto)
+         * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
+         */
+        public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
+        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, driveMaxCurrent,4);
+        
+        /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
+        * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
+>>>>>>> implement-elevator
         public static final double openLoopRamp = 0.25;
         public static final double closedLoopRamp = 0.0;
-
+        
         /* Angle Motor PID Values */
         public static final double angleKP = 0.5;
         public static final double angleKI = 0;
         public static final double angleKD = 0.15;
-
+        
         /* Drive Motor PID Values */
         public static final double driveKP = 0.12; // TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
@@ -249,9 +278,15 @@ public final class Constants {
             public static final int driveMotorID = 8;
             public static final int angleMotorID = 10;
             public static final int canCoderID = 4;
+<<<<<<< HEAD
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-3.8671875);
             public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
                     canCoderID, angleOffset);
+=======
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-59.35);
+            public static final SwerveModuleConstants constants = 
+                new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+>>>>>>> implement-elevator
         }
 
         // Back Left Module 1
@@ -259,9 +294,15 @@ public final class Constants {
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 12;
             public static final int canCoderID = 2;
+<<<<<<< HEAD
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-148.8867);
             public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
                     canCoderID, angleOffset);
+=======
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-94);
+            public static final SwerveModuleConstants constants = 
+                new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+>>>>>>> implement-elevator
         }
 
         // Front Right - Module 2
@@ -269,9 +310,15 @@ public final class Constants {
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 11;
             public static final int canCoderID = 1;
+<<<<<<< HEAD
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(2.373046875);
             public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
                     canCoderID, angleOffset);
+=======
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(23.46);
+            public static final SwerveModuleConstants constants = 
+                new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+>>>>>>> implement-elevator
         }
 
         // Front left Module 3
@@ -279,9 +326,15 @@ public final class Constants {
             public static final int driveMotorID = 6;
             public static final int angleMotorID = 9;
             public static final int canCoderID = 3;
+<<<<<<< HEAD
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(114.697265625);
             public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
                     canCoderID, angleOffset);
+=======
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(91.31);
+            public static final SwerveModuleConstants constants = 
+                new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+>>>>>>> implement-elevator
         }
     }
 
@@ -324,30 +377,34 @@ public final class Constants {
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
         public static final int rightMotorID = 13;
-        public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode rightMotorIdleMode = IdleMode.kCoast;
         public static final boolean rightMotorInvert = false;
 
         public static final int leftMotorID = 14;
-        public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
         public static final boolean leftMotorInvert = true;
 
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
-        public static final double elevatorKp = 0.05;
-        public static final double elevatorKi = 0;
-        public static final double elevatorKd = 0;
-        public static final double elevatorKg = 0;
-        public static final double elevatorKv = 0;
-        public static final double elevatorKs = 0;
-        public static final double elevatorIZone = 0;
-        public static final double elevatorTolerance = 0;
-        public static final double elevatorMaxVel = 0;
-        public static final double elevatorMaxAccel = 0;
+        public static final double elevatorKp = 0.15;
+        public static final double elevatorKi = 0.0;
+        public static final double elevatorKd = 0.0;
+        public static final double elevatorKg = 0.3;
+        public static final double elevatorKv = 0.02;
+        public static final double elevatorKa = 0.01;
+        public static final double elevatorIZone = 3.0;
+        public static final double elevatorTolerance = 1.5;
+        public static final double elevatorMaxVel = 0.5
+        ;
+        public static final double elevatorMaxAccel = 0.5;
 
-        public static final double L2HeightRaw = 10;//TODO: CHANGE THESE
-        public static final double L3HeightRaw = 20;//TODO: CHANGE THESE
-        public static final double L4HeightRaw = 30;//TODO: CHANGE THESE
+        public static final double L2HeightRaw = 10.0;//TODO: CHANGE THESE
+        public static final double L3HeightRaw = 15.0;//TODO: CHANGE THESE
+        public static final double L4HeightRaw = 20.0;//TODO: CHANGE THESE
+
+        public static final double lowerEncoderExtreme = 0.0;
+        public static final double upperEncoderExtreme = 55.0;
     }
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
