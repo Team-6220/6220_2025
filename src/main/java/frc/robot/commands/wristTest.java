@@ -6,15 +6,20 @@ package frc.robot.commands;
 
 import static edu.wpi.first.units.Units.Degrees;
 
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class wristTest extends Command {
   V2_SparkMaxWristSubsystem wrist;
-  public wristTest() {
+  XboxController cXboxController;
+  public wristTest(XboxController cXboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
     wrist = V2_SparkMaxWristSubsystem.getInstance();
+    this.cXboxController = cXboxController;
+    addRequirements(wrist);
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +29,7 @@ public class wristTest extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    wrist.driveToGoal(0);
+    wrist.simpleDrive(cXboxController.getLeftY());
   }
 
   // Called once the command ends or is interrupted.
