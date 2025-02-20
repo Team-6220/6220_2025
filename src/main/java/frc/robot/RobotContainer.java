@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.commands.EjectCoralTest;
+import frc.robot.commands.IntakeCoralTest;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.wristTest;
@@ -82,7 +84,8 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    // m_driverController.a().onTrue(new wristTest());
+    m_driverController.a().whileTrue(new IntakeCoralTest());
+    m_driverController.b().whileTrue(new EjectCoralTest());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }

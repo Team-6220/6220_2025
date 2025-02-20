@@ -742,5 +742,10 @@ public final class Constants {
         public static final double frontIntakeMaxAccel = 10;
         public static final double wheelSpeed = 0.25; //0-1
     }
-    
+    public static final class WristIntakeConstants {
+        public static final int wristintakeMotorID = 18;
+        public static final double ejectSpeed = .1;
+        public static final double intakeSpeed = .1;
+    }
+
 }
