@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.ElevatorManuel;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.ManualDownElevator;
@@ -60,13 +61,15 @@ public class RobotContainer {
     s_Swerve.zeroHeading(m_driverController.getHID());
 
     //s_Swerve.configureAutoBuilder();
-
-    s_Swerve.setDefaultCommand(
-        new TeleopSwerve(
-            s_Swerve,
-            m_driverController,
-            m_driverController.leftBumper())
-        );
+    elevatorTest.setDefaultCommand(
+      new ElevatorManuel(m_driverController.getHID())
+    );
+    // s_Swerve.setDefaultCommand(
+    //     new TeleopSwerve(
+    //         s_Swerve,
+    //         m_driverController,
+    //         m_driverController.leftBumper())
+    //     );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);

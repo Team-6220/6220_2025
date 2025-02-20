@@ -488,11 +488,11 @@ public final class Constants {
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
         public static final int rightMotorID = 13;
-        public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode rightMotorIdleMode = IdleMode.kCoast;
         public static final boolean rightMotorInvert = false;
 
         public static final int leftMotorID = 14;
-        public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
         public static final boolean leftMotorInvert = true;
 
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS

@@ -185,7 +185,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void simpleDrive(double motorOutput)
   {
-    elevatorMotorLeft.set(motorOutput);
+    SmartDashboard.putNumber("output", motorOutput);
+    // elevatorMotorLeft.set(motorOutput);
     elevatorMotorRight.set(motorOutput);
   }
 
