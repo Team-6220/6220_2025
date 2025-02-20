@@ -39,6 +39,7 @@ public class RobotContainer {
 
   // private SendableChooser<Command> autoChooser;
   
+  private final V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
@@ -55,7 +56,9 @@ public class RobotContainer {
     //         m_driverController,
     //         m_driverController.leftBumper())
     //     );
-
+    wrist.setDefaultCommand(
+      new wristTest(m_driverController.getHID())
+    );
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
     //TODO: Register named commands as needed
@@ -79,7 +82,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    m_driverController.a().onTrue(new wristTest());
+    // m_driverController.a().onTrue(new wristTest());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }

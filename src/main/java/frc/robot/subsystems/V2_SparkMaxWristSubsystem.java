@@ -53,7 +53,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
   private double feedForwardOutput, PIDOutput;
   private double lastUpdate = 0;
 
-  private final AbsoluteEncoder wristEncoder;
+  // private final AbsoluteEncoder wristEncoder;
   public V2_SparkMaxWristSubsystem()
   {
     wristMotor = new SparkMax(WristConstants.WristMotorID, MotorType.kBrushless);
@@ -84,7 +84,8 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
 
     m_Controller.setTolerance(wristTolerance.get());//default 1.5
 
-    wristEncoder = wristMotor.getAbsoluteEncoder();
+    // wristEncoder = wristMotor.getAbsoluteEncoder();
+    // wristEncoder = new AbsoluteEncoder();
   }
 
   @Override
@@ -167,14 +168,24 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
   /**Raw encoder value subtracted by the offset at zero*/
   public double getwristPosition()
   {
-    double wristPosition = wristEncoder.getPosition();
+    double wristPosition = 5;
+    // double wristPosition = wristEncoder.getPosition();
     return wristPosition;
   }
 
   /**Driving in Decimal Perent */
   public void simpleDrive(double motorOutput)
   {
-    wristMotor.set(motorOutput);
+    if(motorOutput > 0.9)
+    {
+      motorOutput = .9;
+    }
+    if(motorOutput < -.9)
+    {
+      motorOutput = -0.9;
+    }
+    SmartDashboard.putNumber("outputCurrent", wristMotor.getOutputCurrent());
+    wristMotor.setVoltage(motorOutput*10);
   }
 
   public boolean wristAtGoal()
