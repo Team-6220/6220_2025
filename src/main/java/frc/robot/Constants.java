@@ -686,4 +686,61 @@ public final class Constants {
         public static final double maxAcceleration = 5, maxVelocity = 10;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
         public static final double wristMaxDegrees = 165, wristMinDegrees = -135;
     }
+    public static final class ElevatorConstants{
+        //TODO: TUNE ALL THESE VALUES
+        public static final int rightMotorID = 13;
+        public static final IdleMode rightMotorIdleMode = IdleMode.kCoast;
+        public static final boolean rightMotorInvert = false;
+
+        public static final int leftMotorID = 14;
+        public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
+        public static final boolean leftMotorInvert = true;
+
+        public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
+        public static final int elevatorEncoderID = 1;
+
+        public static final double elevatorKp = 0.15;
+        public static final double elevatorKi = 0.0;
+        public static final double elevatorKd = 0.0;
+        public static final double elevatorKg = 0.3;
+        public static final double elevatorKv = 0.02;
+        public static final double elevatorKa = 0.01;
+        public static final double elevatorIZone = 3.0;
+        public static final double elevatorTolerance = 1.5;
+        public static final double elevatorMaxVel = 0.5
+        ;
+        public static final double elevatorMaxAccel = 0.5;
+
+        public static final double L2HeightRaw = 10.0;//TODO: CHANGE THESE
+        public static final double L3HeightRaw = 15.0;//TODO: CHANGE THESE
+        public static final double L4HeightRaw = 20.0;//TODO: CHANGE THESE
+
+        public static final double lowerEncoderExtreme = 0.0;
+        public static final double upperEncoderExtreme = 55.0;
+    }
+    public static final class FrontIntakeConstants{
+        //TODO: TUNE ALL THESE VALUES
+        public static final int rightMotorID = 15; //nonclimber
+        public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
+        public static final boolean rightMotorInvert = true;
+
+        public static final int leftMotorID = 16; //climber
+        public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
+        public static final boolean leftMotorInvert = false;
+        public static final int frontMotorID = 19; 
+        public static final IdleMode frontMotorIdleMode = IdleMode.kBrake;
+        public static final boolean frontMotorInvert = false;
+        public static final double frontIntakeKp = 0.4;//.4;
+        public static final double frontIntakeKi = 0;
+        public static final double frontIntakeKd = 0;
+        public static final double frontIntakeKg = 0.01;//.01;
+        public static final double frontIntakeKv = 0;
+        public static final double frontIntakeKs = 0;
+        public static final double frontIntakeIZone = 0;
+        public static final double frontIntakeTolerance = 1.5;
+        public static final double frontIntakeMaxVel = 5;
+        public static final double frontIntakeMaxAccel = 10;
+        public static final double wheelSpeed = 0.25; //0-1
+    }
+    
 }
