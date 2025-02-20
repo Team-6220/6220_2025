@@ -32,7 +32,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final TunableNumber elevatorKd = new TunableNumber("Elevator kD", ElevatorConstants.elevatorKd);
   private final TunableNumber elevatorKg = new TunableNumber("Elevator kG",ElevatorConstants.elevatorKg);
   private final TunableNumber elevatorKv = new TunableNumber("Elevator kV", ElevatorConstants.elevatorKv);
-  private final TunableNumber elevatorKs = new TunableNumber("Elevator kS", ElevatorConstants.elevatorKs);
+  private final TunableNumber elevatorKa = new TunableNumber("Elevator kS", ElevatorConstants.elevatorKa);
   private final TunableNumber elevatorIZone = new TunableNumber("Elevator izone", ElevatorConstants.elevatorIZone);//default 3
   private final TunableNumber elevatorTolerance = new TunableNumber("Elevator tolerance", ElevatorConstants.elevatorTolerance);//default 1.5
 
@@ -82,7 +82,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       elevatorKd.get(),
       m_Constraints);
     
-    m_Feedforward = new ElevatorFeedforward(elevatorKs.get(), elevatorKg.get(), elevatorKv.get());
+    m_Feedforward = new ElevatorFeedforward(elevatorKa.get(), elevatorKg.get(), elevatorKv.get());
 
     m_Controller.setIZone(elevatorIZone.get());//not sure if we need this
 
@@ -106,10 +106,10 @@ public class ElevatorSubsystem extends SubsystemBase {
             m_Controller.setPID(elevatorKp.get(),elevatorKi.get(),elevatorKd.get());
         }
 
-        if(elevatorKs.hasChanged()
+        if(elevatorKa.hasChanged()
         || elevatorKg.hasChanged()
         || elevatorKv.hasChanged()) {
-            m_Feedforward = new ElevatorFeedforward(elevatorKs.get(), elevatorKg.get(), elevatorKv.get());
+            m_Feedforward = new ElevatorFeedforward(elevatorKa.get(), elevatorKg.get(), elevatorKv.get());
         }
 
         if(elevatorMaxVel.hasChanged()
@@ -160,6 +160,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     elevatorMotorLeft.setVoltage(calculatedSpeed);
     elevatorMotorRight.setVoltage(calculatedSpeed);
+    SmartDashboard.putNumber("calculated Speed", calculatedSpeed);
+    SmartDashboard.putNumber("current Elevator pos", getElevatorPositionRaw());
   }
   
   public void resetPID()
@@ -191,6 +193,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   {
     return m_Controller.atGoal();
   }
+
+  public void stop(){
+    elevatorMotorRight.set(0);
+    m_Controller.reset(getElevatorPositionRaw());
+}
   /**
      * Accesses the static instance of the ArmSubsystem singleton
      * @return ArmSubsystem Singleton Instance

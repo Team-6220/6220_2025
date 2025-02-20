@@ -6,12 +6,18 @@ package frc.robot;
 
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.ManualDownElevator;
+import frc.robot.commands.ManualUpElevator;
+import frc.robot.commands.Stage2CMD;
+import frc.robot.commands.Stage3CMD;
+import frc.robot.commands.Stage4CMD;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.util.RumbleManager;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,8 +45,15 @@ public class RobotContainer {
   // private SendableChooser<Command> autoChooser;
   
 
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(0);
+  private final CommandXboxController m_driverController = new CommandXboxController(0);
+  private final GenericHID m_buttonBoard = new GenericHID(2);
+
+  private final Trigger stage4 = new Trigger(() -> m_buttonBoard.getRawButtonPressed(1));
+  private final Trigger stage3 = new Trigger(() -> m_buttonBoard.getRawButtonPressed(2));
+  private final Trigger stage2 = new Trigger(() -> m_buttonBoard.getRawButtonPressed(3));
+  private final Trigger manualUp = new Trigger(() -> m_buttonBoard.getRawButtonPressed(13));
+  private final Trigger manualDown = new Trigger(() -> m_buttonBoard.getRawButtonPressed(14));
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -78,6 +91,14 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
+    stage4.onTrue(new Stage4CMD());
+    stage3.onTrue(new Stage3CMD());
+    stage2.onTrue(new Stage2CMD());
+    manualUp.whileTrue(new ManualUpElevator());
+    manualDown.whileTrue(new ManualDownElevator());
+
+
+    //getRawButtonPressed(1).onTrue(new InstantCommand(() -> elevatorCommand(1)));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

@@ -498,20 +498,21 @@ public final class Constants {
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
-        public static final double elevatorKp = 0.05;
-        public static final double elevatorKi = 0;
-        public static final double elevatorKd = 0;
-        public static final double elevatorKg = 0;
-        public static final double elevatorKv = 0;
-        public static final double elevatorKs = 0;
-        public static final double elevatorIZone = 0;
-        public static final double elevatorTolerance = 0;
-        public static final double elevatorMaxVel = 0;
-        public static final double elevatorMaxAccel = 0;
+        public static final double elevatorKp = 0.15;
+        public static final double elevatorKi = 0.0;
+        public static final double elevatorKd = 0.0;
+        public static final double elevatorKg = 0.3;
+        public static final double elevatorKv = 0.02;
+        public static final double elevatorKa = 0.01;
+        public static final double elevatorIZone = 3.0;
+        public static final double elevatorTolerance = 1.5;
+        public static final double elevatorMaxVel = 0.5
+        ;
+        public static final double elevatorMaxAccel = 0.5;
 
-        public static final double L2HeightRaw = 10;//TODO: CHANGE THESE
-        public static final double L3HeightRaw = 20;//TODO: CHANGE THESE
-        public static final double L4HeightRaw = 30;//TODO: CHANGE THESE
+        public static final double L2HeightRaw = 10.0;//TODO: CHANGE THESE
+        public static final double L3HeightRaw = 15.0;//TODO: CHANGE THESE
+        public static final double L4HeightRaw = 20.0;//TODO: CHANGE THESE
 
         public static final double lowerEncoderExtreme = 0.0;
         public static final double upperEncoderExtreme = 55.0;
