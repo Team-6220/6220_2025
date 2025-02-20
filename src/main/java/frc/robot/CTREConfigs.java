@@ -3,12 +3,14 @@ package frc.robot;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 // import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 // import frc.robot.Constants.WristConstants;;
 
 public final class CTREConfigs {
     // public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
     public TalonFXConfiguration swerveDriveFXConfig = new TalonFXConfiguration();
+    public TalonFXConfiguration lowerIntakeConfig = new TalonFXConfiguration();
     public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
 
     public CTREConfigs(){
@@ -39,6 +41,8 @@ public final class CTREConfigs {
         /* Motor Inverts and Neutral Mode */
         swerveDriveFXConfig.MotorOutput.Inverted = Constants.SwerveConstants.driveMotorInvert;
         swerveDriveFXConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
+        lowerIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        lowerIntakeConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
 
         /* Gear Ratio Config */
         swerveDriveFXConfig.Feedback.SensorToMechanismRatio = Constants.SwerveConstants.driveGearRatio;

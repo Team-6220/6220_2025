@@ -6,6 +6,7 @@ package frc.robot;
 
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.testcommand;
 import frc.robot.subsystems.Swerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -77,7 +78,8 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-
+    m_driverController.a().whileTrue(new testcommand(m_driverController));
+    //m_driverController.a().onFalse(new testcommand(m_driverController));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
