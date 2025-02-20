@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
+import frc.robot.Constants.FrontIntakeConstants;
 import frc.robot.Constants.WristConstants;
 
 public class V2_SparkMaxWristSubsystem extends SubsystemBase {
@@ -60,6 +61,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
 
     wristMotorConfig
       .inverted(WristConstants.motorInverted)
+      .smartCurrentLimit(WristConstants.stallLimit, WristConstants.freeLimit)
       .idleMode(WristConstants.wristIdleMode);
     wristMotorConfig.absoluteEncoder
       .inverted(WristConstants.encoderInverted)
@@ -174,7 +176,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
   /**Driving in Decimal Perent */
   public void simpleDrive(double motorOutput)
   {
-    SmartDashboard.putNumber("wrist output raw", motorOutput);
+    SmartDashboard.putNumber("wrist output", motorOutput);
     wristMotor.setVoltage(motorOutput);
   }
 

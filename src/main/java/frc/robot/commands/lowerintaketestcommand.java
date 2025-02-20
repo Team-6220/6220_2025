@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class testcommand extends Command {
+public class lowerintaketestcommand extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
   private CommandXboxController m_driverController;
   private double a;
 
-  public testcommand(CommandXboxController driver) {
+  public lowerintaketestcommand(CommandXboxController driver) {
     m_driverController = driver;
     a = m_fiss.getPosition();
     addRequirements(m_fiss);
@@ -33,7 +33,7 @@ public class testcommand extends Command {
     //m_fiss.simpleintakeDrive(0.25);
     // if(m_driverController.y().getAsBoolean()){
       // m_fiss.spinFront(true, false);}
-    m_fiss.swingToGoal(); //range 0.67 - 0.23
+    m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
   }
 
   // Called once the command ends or is interrupted.

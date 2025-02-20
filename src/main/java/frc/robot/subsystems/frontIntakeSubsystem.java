@@ -7,7 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -19,6 +21,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
+import frc.robot.Constants;
 import frc.robot.Constants.FrontIntakeConstants;
 import frc.robot.Robot;
 
@@ -39,6 +42,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
   
   private final SparkMax pivotMotorLeft, pivotMotorRight;
   private final TalonFX frontMotor;
+  public TalonFXConfiguration lowerIntakeConfig = new TalonFXConfiguration();
+
   private SparkMaxConfig motorLeftConfig = new SparkMaxConfig(), motorRightConfig = new SparkMaxConfig();
 
   private final DutyCycleEncoder lowerintakeEncoder;
@@ -54,13 +59,26 @@ public class frontIntakeSubsystem extends SubsystemBase {
     pivotMotorLeft = new SparkMax(FrontIntakeConstants.leftMotorID, MotorType.kBrushless);//TODO: CHANGE TO CONSTANTS
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
     frontMotor = new TalonFX(FrontIntakeConstants.frontMotorID);
-frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
+
+    lowerIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    lowerIntakeConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
+
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.FrontIntakeConstants.enableCurrentLimit;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.FrontIntakeConstants.maxCurrent;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = Constants.FrontIntakeConstants.currentLimit;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = Constants.FrontIntakeConstants.maxCurrentTime;
+    
+
+    frontMotor.getConfigurator().apply(lowerIntakeConfig);
+
     motorLeftConfig
       .inverted(FrontIntakeConstants.leftMotorInvert)
-      .idleMode(FrontIntakeConstants.leftMotorIdleMode);
+      .idleMode(FrontIntakeConstants.leftMotorIdleMode)
+      .smartCurrentLimit(FrontIntakeConstants.stallLimit, FrontIntakeConstants.freeLimit);
     motorRightConfig
       .inverted(FrontIntakeConstants.rightMotorInvert)
       .idleMode(FrontIntakeConstants.rightMotorIdleMode)
+      .smartCurrentLimit(FrontIntakeConstants.stallLimit, FrontIntakeConstants.freeLimit)
       .follow(pivotMotorLeft);
     
     pivotMotorLeft.configure(motorLeftConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -164,7 +182,7 @@ frontMotor.getConfigurator().apply(Robot.ctreConfigs.lowerIntakeConfig);
     return m_Controller.atGoal();
   }
   public void simpleintakeDrive(double speed){
-    frontMotor.set(speed);
+    frontMotor.setVoltage(speed);
   }
   public void spinFront(boolean on, boolean in){
     if(on&&in){

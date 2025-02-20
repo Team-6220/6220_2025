@@ -8,9 +8,11 @@ import frc.robot.commands.EjectCoralTest;
 import frc.robot.commands.IntakeCoralTest;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.lowerintaketestcommand;
 import frc.robot.commands.wristTest;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
+import frc.robot.subsystems.frontIntakeSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -41,6 +43,8 @@ public class RobotContainer {
 
   private final V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();  
 
+  private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
+
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -50,8 +54,8 @@ public class RobotContainer {
 
     //s_Swerve.configureAutoBuilder();
 
-    wrist.setDefaultCommand(
-      new wristTest(m_driverController.getHID())
+    frontIntake.setDefaultCommand(
+      new lowerintaketestcommand(m_driverController)
     );
 
     // s_Swerve.setDefaultCommand(

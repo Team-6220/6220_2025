@@ -129,291 +129,6 @@ public final class Constants {
         }
     }
 
-    public static final class EWIConstnats{
-        /*Elevator START*/
-        public static final int elevatorMotorAID = 13;//TODO: need to be changed 2025
-        public static final int elevatorMotorBID = 14;//TODO: need to be changed 2025
-
-        public static final boolean elevatorMotorAInverted = true;//TODO: need to be changed 2025
-        public static final boolean elevatorMotorBInverted = true;//TODO: need to be changed 2025
-
-        //TODO: need to be changed 2025 (all of the pid values)
-        public static final double kP = 0.3; //0.009
-        public static final double kI = 0.1;//0.0005
-        public static final double kD = 0.005;//0.001
-        public static final double kG = 0.37;//Feedforward
-        public static final double kV = 0.025;//Feedforward
-        public static final double kS = 0.45;//Feedforward
-        public static final double elevatorMaxVel = 200;//not sure if we need this
-        public static final double elevatorMaxAccel = 450;//not sure if we need this
-
-        public static final double minElevatorEncoderReading = 0;//TODO: need to be changed 2025
-        public static final double maxElevatorEncoderReading = 100;//TODO: need to be changed 2025
-        //NOTE: this is an alternative for the elvatorL1-L4 & intake
-        public static final double [] elevatorLookUpTable = {//TODO: need to be changed 2025
-            70,//L1
-            70,//L2
-            70,//L3
-            70,//L4
-            70,//Intake
-        };
-
-        public static final double elevatorOffset = 167.53781218844532;//not sure if we need this//TODO: need to be changed 2025
-        //FIXME: set setpoints
-        public static final double intakeElevatorSetpoint = 84;//TODO: need to be changed 2025
-        public static final double elevatorIdleSetpoint = 0;  //not sure if we need this//TODO: need to be changed 2025
-        public static final double elevatorL1 = 70;//TODO: need to be changed 2025
-        public static final double elevatorL2 = 70;//TODO: need to be changed 2025
-        public static final double elevatorL3 = 70;//TODO: need to be changed 2025
-        public static final double elevatorL4 = 70;//TODO: need to be changed 2025
-        public static final double elevatorIntake = 60;//TODO: need to be changed 2025
-        //FIXME: set actual port values and reversed for elevator encoder
-        public static final int k_ENC_PORT = 2;//TODO: need to be changed 2025
-        /*Elevator END */
-
-
-
-        /*Wrist START */
-        public static final int wristMotorID = 20;//TODO: need to be changed 2025
-        public static final boolean wristMotorInverted = false;//TODO: need to be changed 2025
-
-        //Wrist PID and Feedforward//TODO: need to be changed 2025
-
-        /*Wrist END */
-
-
-
-        /*Intake START*/
-        public static final int coralMotorID = 15;//TODO: need to be changed 2025
-        public static final int algaeMotorID = 16;//TODO: need to be changed 2025
-
-        public static final boolean coralMotorInverted = false;//TODO: need to be changed 2025
-        public static final boolean algaeMotorInverted = false;//TODO: need to be changed 2025
-        
-        public static final int coralLimitSwitchID = 1;//TODO: need to be changed 2025
-        public static final int algaeLimitSwitchID = 2;//TODO: need to be changed 2025
-        
-        public static final int coralLimitSwitchPort = 1;//TODO: need to be changed 2025
-        public static final int algaeLimitSwitchPort = 9;//TODO: need to be changed 2025
-
-        public static final double intakeCoralSpeed = 0.5;//TODO: need to be changed 2025
-        public static final double ejectCoralSpeed = .8;//TODO: need to be changed 2025
-        public static final double intakeAlgaeSpeed = 0.5;//TODO: need to be changed 2025
-        public static final double ejectAlgaeSpeed = .8;//TODO: need to be changed 2025
-        
-
-        /*Use these pid and feedforward stuff is we are tryign to RPM contorl */
-        /*Coral intake pid optional if limit switch works*/
-        public static final double coral_kP = 0.2;//TODO: need to be changed 2025
-        public static final double coral_kI = 0;//TODO: need to be changed 2025
-        public static final double coral_kD = 0;//TODO: need to be changed 2025
-        
-        /*Algea intake pid, optional if using limit switch */
-        public static final double algea_kP = 0.2;//TODO: need to be changed 2025
-        public static final double algea_kI = 0;//TODO: need to be changed 2025
-        public static final double algea_kD = 0;//TODO: need to be changed 2025
-
-        public static final double[] velocityPIDConstants = {0.00005,0,0};//shooter stuff from 2024, not sure if we need this//TODO: need to be changed 2025
-
-        /*Feed forward variables, not sure if we need this*/
-        public static final double coral_Ks = 0.00009;//TODO: need to be changed 2025
-        public static final double coral_Kv = 0.000184;//TODO: need to be changed 2025
-        
-        public static final double algea_Ks = 0.00009;//TODO: need to be changed 2025
-        public static final double algea_Kv = 0.000184;//TODO: need to be changed 2025
-        
-        public static final double intakeRPMSpeed = 1000;//TODO: need to be changed 2025
-
-        /*rpm control stuff ends here */
-        /*Intake END */
-    }
-
-    public static final class ShooterConstants{
-        //FIXME: set motor IDs
-        //Green
-        public static final int shooterMotorAID = 16;
-        //Orange
-        public static final int shooterMotorBID = 17;
-
-        /* Motor Inverts */
-        public static final boolean motorAInverted = false;
-        public static final boolean motorBInverted = true;
-
-        /* Motor Neutral Modes */
-        public static final NeutralModeValue MOTOR_A_NEUTRAL_MODE_VALUE = NeutralModeValue.Coast;//TODO: NEED CHANGE?
-        public static final NeutralModeValue MOTOR_B_NEUTRAL_MODE_VALUE = NeutralModeValue.Coast;//TODO: NEED CHANGE?
-        
-        /* Shooter Current Limits */
-        public static final boolean shooterAEnableCurrentLimit = true;
-        public static final double shooterACurrentLimit = 25; //TODO: NEED CHANGE
-        public static final int shooterACurrentThreshold = 25;//TODO: NEED CHANGE
-        public static final double shooterACurrentThresholdTime = 0;
-
-        public static final boolean shooterBEnableCurrentLimit = true;
-        public static final double shooterBCurrentLimit = 25; //TODO: NEED CHANGE
-        public static final int shooterBCurrentThreshold = 25;//TODO:NEED CHANGE
-        public static final double shooterBCurrentThresholdTime = 0;
-
-
-        public static final double idleOutput = .05;
-        public static final double fireTime = 1;
-
-        public static final double minShooterVelA = 2800;
-        public static final double minShooterVelB = 2800;
-
-        public static final double maxShooterVelA = 4400;
-        public static final double maxShooterVelB = 4400;
-        //FIXME: set break beam port
-        // public static final int breakBeamPort = 0;
-
-        //FIXME: set shooter velocity pid
-        public static final double kPA = 0.000;
-        public static final double kPB = 0.000;
-        public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double kFFkS = 0;
-        public static final double kFFkVA = 0.00018;
-        public static final double kFFkVB = 0.000175;
-        public static final double kFFkA = 0;
-
-        //FIXME: create lookup table
-        public static final double[][] shooterLookupTable = {
-            {2800,2800,.9779},
-            {3000,3000,1.4986},
-            {3200,3200,1.905},
-            {3400,3400,2.8194},
-            {3600,3600,3.302},
-            {3900,3900,4.0132},
-            {4400,4400,4.9784}
-        };
-        public static double[] getVelocitiesFromDistance(double distance) {
-            double[] velocities = new double[2];
-
-            if(distance < shooterLookupTable[0][2]) {
-                velocities[0] = minShooterVelA;
-                velocities[1] = minShooterVelB;
-                return velocities;
-            }
-            if(distance > shooterLookupTable[shooterLookupTable.length-1][2]) {
-                velocities[0] = maxShooterVelA;
-                velocities[1] = maxShooterVelB;
-                return velocities;
-            }
-
-            double[] smaller = new double[3];
-            double[] larger = new double[3];
-
-            for(int i = 0; i < shooterLookupTable.length-1; i++) {
-                if(distance >= shooterLookupTable[i][2] && distance <= shooterLookupTable[i+1][2]) {
-                    smaller = shooterLookupTable[i];
-                    larger = shooterLookupTable[i+1];
-                    break;
-                }
-            }
-            //Y = Y1 + (X - X1) * ((Y2 - Y1)/(X2 - X1))
-            velocities[0] = smaller[0] + (distance - smaller[2]) * ((larger[0]-smaller[0])/(larger[2]-smaller[2]));
-            velocities[1] = smaller[0] + (distance - smaller[2]) * ((larger[1]-smaller[1])/(larger[2]-smaller[2]));
-            return velocities;
-        }
-    }
-
-    public static final class VisionConstants{
-
-        public static final double fieldBorderMargin = 0.25;
-        public static final double zMargin = 0.5;
-        public static final double xyStdDevCoefficient = 0.02;
-        public static final double thetaStdDevCoefficient = 0.04;
-        public static final double ambiguityThreshold = 0.15;
-
-        public static final Translation2d fieldSize = new Translation2d(16.54, 8.21);
-
-        public static final String LIMELIGHT3_NAME_STRING = "limelight";
-        public static final String LIMELIGHT2_NAME_STRING = "Limelight_2";
-
-
-        public static final Pose2d SPEAKER_POSE2D_BLUE = new Pose2d(new Translation2d(-.0381, 5.547868), new Rotation2d(0));
-        public static final Pose2d SPEAKER_POSE2D_RED = new Pose2d(new Translation2d(16.5793, 5.547868), new Rotation2d(180));
-        public static final Pose2d AMP_POSE2D_RED = new Pose2d(new Translation2d(Units.inchesToMeters(580.77), Units.inchesToMeters(323-7.25)), new Rotation2d(270));
-        public static final Pose2d AMP_POSE2D_BLUE = new Pose2d(new Translation2d(Units.inchesToMeters(72.5), Units.inchesToMeters(323-7.25)), new Rotation2d(270));
-
-        
-        public static final Translation2d CENTER_OF_FIELD = new Translation2d(8.2706,4.105148);
-        //FIXME: set limelight values
-        public static final double limelightHeightInches = 0;
-        public static final double limelightAngleDegrees = 0;
-
-        public static HashMap<Integer, Double> tagHeights = new HashMap<Integer, Double>();
-
-        // public static final Transform3d camToCenterRobotZero = new Transform3d(new Translation3d(-.254, -.254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
-        // public static final Transform3d camToCenterRobotOne = new Transform3d(new Translation3d(.254, .254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
-
-        public static final Transform3d[] camerasToCenter = {
-            new Transform3d(new Translation3d(.256032, -0.26035, 0.21209), new Rotation3d(0,Rotation2d.fromDegrees(-35).getRadians(),Rotation2d.fromDegrees(24.12).getRadians())),// Cam zero, left//TODO: need change
-            new Transform3d(new Translation3d(.252222, 0.258318, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-35).getRadians(),Rotation2d.fromDegrees(-16.90).getRadians()))//Cam one, right //TODO: need chagne
-        };
-
-        public static final double leftArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
-        public static final double rightArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
-
-        /**Trust value of the vision */
-        public static final double visionStdDev = 0.5;
-
-        public static void setTagHeights(){
-            tagHeights.put(1, 48.125);
-            tagHeights.put(2, 48.125);
-            tagHeights.put(9, 48.125);
-            tagHeights.put(10, 48.125);
-            tagHeights.put(3, 53.875);
-            tagHeights.put(4, 53.875);
-            tagHeights.put(7, 53.875);
-            tagHeights.put(8, 53.875);
-            tagHeights.put(5, 53.125);
-            tagHeights.put(6, 53.125);
-            tagHeights.put(11, 47.5);
-            tagHeights.put(12, 47.5);
-            tagHeights.put(13, 47.5);
-            tagHeights.put(14, 47.5);
-            tagHeights.put(15, 47.5);
-            tagHeights.put(16, 47.5);
-        }
-
-        public static final double[] aprilTagHeightInches = 
-        {
-            53.38,
-            53.38,
-            57.13,
-            57.13,
-            53.38,
-            53.38,
-            57.13,
-            57.13,
-            53.38,
-            53.38,
-            52.00,
-            52.00,
-            52.00,
-            52.00,
-            52.00,
-            52.00
-        };
-
-        public static final double desiredDistanceToAprilTagY = 10; //DO NOT USE THIS BEFORE TUNE, DELTE AFTER TUNED TODO: CAD SPECS
-
-        public static final double limelightMountAngleDegrees = 0; //TODO: CAD SPECS.
-
-        public static final double heightOfCamAboveFloor = 2; //TODO: CAD SPECS
-        // public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
-        //                                     ?
-        //                                         ALLIANCE_COLOR.get() == DriverStation.Alliance.Red
-        //                                         ?
-        //                                             4d
-        //                                         :
-        //                                             7d
-        //                                     :
-        //                                         -1d;
-                                                     
-    }
-
     public static final class SwerveConstants {
 
         public static int swerveAlignUpdateSecond = 20;
@@ -590,22 +305,7 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-
-        public static final Pose2d[] CENTERNOTE_POSE2DS =
-        {
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5), 7.5, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),//Top one
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5),5.7, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5), 4.1, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5), 2.45, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(6.5), 0.75, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180)))
-        };
         
-        public static final Pose2d[] NEARNOTE_POSE2DS =
-        {
-            new Pose2d(AlienceColorCoordinateFlip.flip(2.15), 7, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))), //Top BLUE SIDE
-            new Pose2d(AlienceColorCoordinateFlip.flip(2.15), 5.55, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180))),
-            new Pose2d(AlienceColorCoordinateFlip.flip(2.15), 4.1, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(180)))
-        };
 
         public static final Pose2d[] MULTITARGETPOSES_FORINTAKECAMERA =
         {
@@ -620,24 +320,8 @@ public final class Constants {
             new Pose2d(AlienceColorCoordinateFlip.flip(6.00), 1.45, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(-170)))
         };
 
-        /**These are specially for the bezier points, as their rotation 2d is the heading of the curve, not the robot base itself. */
-        // public static final Pose2d[] BEZIER_CENTERNOTE_POSE2DS = 
-        // {
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6), 7.45, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90))),//Top one
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6),5.8, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90))),
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6), 4.1, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90))),
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6), 2.45, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90))),
-        //     new Pose2d(AlienceColorCoordinateFlip.flip(7.6), 0.75, new Rotation2d(AlienceColorCoordinateFlip.flipDegrees(90)))
-        // };
-        /** Top shooting pose, top on pathplanner
-         * @note that it is very close to the speaker, which means in order to get there you must need to travel through the three notes.
-         */
-        public static final Pose2d topShootingPose = new Pose2d(AlienceColorCoordinateFlip.flip(1.6), 6.25, new Rotation2d(Rotation2d.fromDegrees(AlienceColorCoordinateFlip.flipDegrees(-165)).getRadians()));
-
     
-        public static final Pose2d openSideShootingPose = new Pose2d(AlienceColorCoordinateFlip.flip(1.85), 3.5, new Rotation2d(Rotation2d.fromDegrees(AlienceColorCoordinateFlip.flipDegrees(140)).getRadians()));
         
-        public static final Pose2d middleShootingPose = new Pose2d(AlienceColorCoordinateFlip.flip(3.85), 5.50, new Rotation2d(Rotation2d.fromDegrees(AlienceColorCoordinateFlip.flipDegrees(180)).getRadians()));
         /**This value is increasement of currentcenternotepos, positive for it to go from top of the field in pathplanner, negative for it to go from the bottom to the top*/
         // public static final int centernoteIncrementVal = 1; //DO NOT CHANGE THIS VALUE (go from big to little in notePoseIDForAttempting instead)
 
@@ -679,6 +363,8 @@ public final class Constants {
         public static final IdleMode wristIdleMode = IdleMode.kBrake;
         
         public static final boolean encoderInverted = false;
+        public static final int stallLimit = 5;
+        public static final int freeLimit = 20;
         
         public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = 1.5;
         public static final double kS = 0, kG = .25, kV = 0, kA = 0;
@@ -695,6 +381,9 @@ public final class Constants {
         public static final int leftMotorID = 14;
         public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
         public static final boolean leftMotorInvert = true;
+
+        public static final int stallLimit = 5;
+        public static final int freeLimit = 20;
 
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
@@ -727,6 +416,15 @@ public final class Constants {
         public static final int leftMotorID = 16; //climber
         public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
         public static final boolean leftMotorInvert = false;
+
+        public static final boolean enableCurrentLimit = true;
+        public static final double maxCurrent = 25;
+        public static final double currentLimit = 10;
+        public static final double maxCurrentTime = 1;
+
+        public static final int stallLimit = 8; //amps
+        public static final int freeLimit = 25; //amps
+
         public static final int frontMotorID = 19; 
         public static final IdleMode frontMotorIdleMode = IdleMode.kBrake;
         public static final boolean frontMotorInvert = false;
@@ -746,6 +444,11 @@ public final class Constants {
         public static final int wristintakeMotorID = 18;
         public static final double ejectSpeed = .1;
         public static final double intakeSpeed = .1;
+
+        public static final boolean enableCurrentLimit = true;
+        public static final double maxCurrent = 25;
+        public static final double currentLimit = 10;
+        public static final double maxCurrentTime = 1;
     }
 
 }

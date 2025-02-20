@@ -67,11 +67,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     motorLeftConfig
       .inverted(ElevatorConstants.leftMotorInvert)
       .idleMode(ElevatorConstants.leftMotorIdleMode)
+      .smartCurrentLimit(ElevatorConstants.stallLimit, ElevatorConstants.freeLimit)
       .follow(elevatorMotorRight); //Mainly because we're using the right encoder and we want to keep things organized
     
     motorRightConfig
       .inverted(ElevatorConstants.rightMotorInvert)
-      .idleMode(ElevatorConstants.rightMotorIdleMode);
+      .idleMode(ElevatorConstants.rightMotorIdleMode)
+      .smartCurrentLimit(ElevatorConstants.stallLimit, ElevatorConstants.freeLimit);
     elevatorMotorLeft.configure(motorLeftConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     m_Constraints = new TrapezoidProfile.Constraints(elevatorMaxVel.get(), elevatorMaxAccel.get());
@@ -186,8 +188,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void simpleDrive(double motorOutput)
   {
     SmartDashboard.putNumber("output", motorOutput);
-    // elevatorMotorLeft.set(motorOutput);
-    elevatorMotorRight.set(motorOutput);
+    elevatorMotorLeft.setVoltage(motorOutput);
+    elevatorMotorRight.setVoltage(motorOutput);
   }
 
   public boolean elevatorAtGoal()
