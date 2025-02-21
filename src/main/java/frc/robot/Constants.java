@@ -54,7 +54,7 @@ public final class Constants {
 
     public static String isRed = "N/A";
 
-    public static final Mass robotMass = Pound.of(100);
+    public static final Mass robotMass = Pound.of(112);
     public static final MomentOfInertia robotMOI = KilogramSquareMeters.of(4.563);
 
     public static final class OIConstants {
