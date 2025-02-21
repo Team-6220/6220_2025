@@ -19,6 +19,7 @@ public class Stage2CMD extends Command
   public Stage2CMD()
   {
     elevator = ElevatorSubsystem.getInstance();
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.

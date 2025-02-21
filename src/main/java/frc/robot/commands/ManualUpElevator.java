@@ -19,6 +19,7 @@ public class ManualUpElevator extends Command
   public ManualUpElevator()
   {
     elevator = ElevatorSubsystem.getInstance();
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.

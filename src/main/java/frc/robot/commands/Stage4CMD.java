@@ -19,6 +19,7 @@ public class Stage4CMD extends Command
   public Stage4CMD()
   {
     elevator = ElevatorSubsystem.getInstance();
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.
