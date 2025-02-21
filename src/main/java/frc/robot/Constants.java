@@ -411,11 +411,11 @@ public final class Constants {
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
         public static final int rightMotorID = 15; //nonclimber
-        public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode rightMotorIdleMode = IdleMode.kCoast;
         public static final boolean rightMotorInvert = true;
 
         public static final int leftMotorID = 16; //climber
-        public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
         public static final boolean leftMotorInvert = false;
 
         public static final boolean enableCurrentLimit = true;

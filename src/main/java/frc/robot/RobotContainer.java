@@ -96,7 +96,7 @@ public class RobotContainer {
     // m_driverController.a().whileTrue(new IntakeCoralTest());
     // m_driverController.b().whileTrue(new EjectCoralTest());
     m_driverController.y().onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    m_driverController.a().onTrue(new Stage2CMD());
+    m_driverController.a().onTrue(new wristTest());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
