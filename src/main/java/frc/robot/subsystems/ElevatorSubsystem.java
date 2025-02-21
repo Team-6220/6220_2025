@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -186,8 +187,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void simpleDrive(double motorOutput)
   {
     SmartDashboard.putNumber("output", motorOutput);
-    // elevatorMotorLeft.set(motorOutput);
-    elevatorMotorRight.set(motorOutput);
+    // elevatorMotorLeft.setVoltage(motorOutput);
+    elevatorMotorRight.setVoltage(motorOutput);
   }
 
   public boolean elevatorAtGoal()
