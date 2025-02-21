@@ -32,7 +32,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final TunableNumber elevatorKd = new TunableNumber("Elevator kD", ElevatorConstants.elevatorKd);
   private final TunableNumber elevatorKg = new TunableNumber("Elevator kG",ElevatorConstants.elevatorKg);
   private final TunableNumber elevatorKv = new TunableNumber("Elevator kV", ElevatorConstants.elevatorKv);
-  private final TunableNumber elevatorKa = new TunableNumber("Elevator kS", ElevatorConstants.elevatorKa);
+  private final TunableNumber elevatorKa = new TunableNumber("Elevator kA", ElevatorConstants.elevatorKa);
+  private final TunableNumber elevatorKs = new TunableNumber("Elevator kS", ElevatorConstants.elevatorKs);
   private final TunableNumber elevatorIZone = new TunableNumber("Elevator izone", ElevatorConstants.elevatorIZone);//default 3
   private final TunableNumber elevatorTolerance = new TunableNumber("Elevator tolerance", ElevatorConstants.elevatorTolerance);//default 1.5
 
@@ -67,15 +68,17 @@ public class ElevatorSubsystem extends SubsystemBase {
     motorLeftConfig
       .inverted(ElevatorConstants.leftMotorInvert)
       .idleMode(ElevatorConstants.leftMotorIdleMode)
-      .smartCurrentLimit(ElevatorConstants.stallLimit, ElevatorConstants.freeLimit);
+      .smartCurrentLimit(ElevatorConstants.stallLimit, ElevatorConstants.freeLimit)
+      .secondaryCurrentLimit(ElevatorConstants.freeLimit);
       //.follow(elevatorMotorRight); //Mainly because we're using the right encoder and we want to keep things organized
     
     motorRightConfig
       .inverted(ElevatorConstants.rightMotorInvert)
       .idleMode(ElevatorConstants.rightMotorIdleMode)
-      .smartCurrentLimit(ElevatorConstants.stallLimit, ElevatorConstants.freeLimit);
+      .smartCurrentLimit(ElevatorConstants.stallLimit, ElevatorConstants.freeLimit)
+      .secondaryCurrentLimit(ElevatorConstants.freeLimit);
     elevatorMotorLeft.configure(motorLeftConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+    elevatorMotorRight.configure(motorRightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_Constraints = new TrapezoidProfile.Constraints(elevatorMaxVel.get(), elevatorMaxAccel.get());
 
     m_Controller = new ProfiledPIDController(
@@ -84,22 +87,23 @@ public class ElevatorSubsystem extends SubsystemBase {
       elevatorKd.get(),
       m_Constraints);
     
-    m_Feedforward = new ElevatorFeedforward(elevatorKa.get(), elevatorKg.get(), elevatorKv.get());
+    m_Feedforward = new ElevatorFeedforward(elevatorKs.get(), elevatorKg.get(), elevatorKv.get());
 
     m_Controller.setIZone(elevatorIZone.get());//not sure if we need this
 
     m_Controller.setTolerance(elevatorTolerance.get());//default 1.5
 
-    elevatorEncoder = elevatorMotorRight.getEncoder(); //used right side because it provide positive values
+    elevatorEncoder = elevatorMotorLeft.getEncoder(); //used right side because it provide positive values
     elevatorEncoder.setPosition(0);
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber(tableKey + "rawPosition", getElevatorPositionRaw());
     SmartDashboard.putNumber(tableKey + "Position", getElevatorPositionRaw());
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
+    SmartDashboard.putNumber(tableKey + "leftCurrent", elevatorMotorLeft.getOutputCurrent());
+    SmartDashboard.putNumber(tableKey + "rightCurrent", elevatorMotorRight.getOutputCurrent());
     // System.out.println(getElevatorPosition());
     if(elevatorKp.hasChanged()
         || elevatorKi.hasChanged()
@@ -158,12 +162,16 @@ public class ElevatorSubsystem extends SubsystemBase {
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
         
-    SmartDashboard.putNumber("Elevator Goal", goal);
+    SmartDashboard.putNumber(tableKey + "Elevator Goal", goal);
 
     elevatorMotorLeft.setVoltage(calculatedSpeed);
     elevatorMotorRight.setVoltage(calculatedSpeed);
-    SmartDashboard.putNumber("calculated Speed", calculatedSpeed);
-    SmartDashboard.putNumber("current Elevator pos", getElevatorPositionRaw());
+    SmartDashboard.putNumber(tableKey + "positionError", m_Controller.getPositionError());
+    // SmartDashboard.putNumber(tableKey ;
+    SmartDashboard.putNumber(tableKey + "calculated Speed", calculatedSpeed);
+    SmartDashboard.putNumber(tableKey + "ffOutput", feedForwardOutput);
+    SmartDashboard.putNumber(tableKey + "PIDOutput", PIDOutput);
+    // SmartDashboard.putNumber(tableKey + "current Elevator pos", getElevatorPositionRaw());
   }
   
   public void resetPID()
@@ -187,7 +195,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void simpleDrive(double motorOutput)
   {
-    SmartDashboard.putNumber("output", motorOutput);
+    // motorOutput *= 10;
+    SmartDashboard.putNumber(tableKey + "output", motorOutput);
     elevatorMotorLeft.setVoltage(motorOutput);
     elevatorMotorRight.setVoltage(motorOutput);
   }
@@ -200,7 +209,12 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void stop(){
     elevatorMotorRight.set(0);
     m_Controller.reset(getElevatorPositionRaw());
-}
+  }
+
+  public void resetEncoder()
+  {
+    elevatorEncoder.setPosition(0);
+  }
   /**
      * Accesses the static instance of the ArmSubsystem singleton
      * @return ArmSubsystem Singleton Instance

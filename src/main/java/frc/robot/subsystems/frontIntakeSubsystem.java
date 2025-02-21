@@ -82,6 +82,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
       .follow(pivotMotorLeft);
     
     pivotMotorLeft.configure(motorLeftConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    pivotMotorRight.configure(motorRightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_Constraints = new TrapezoidProfile.Constraints(FrontIntakeMaxVel.get(), FrontIntakeMaxAccel.get());
 
     m_Controller = new ProfiledPIDController(

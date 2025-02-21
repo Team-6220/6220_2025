@@ -19,6 +19,7 @@ public class Stage2CMD extends Command
   public Stage2CMD()
   {
     elevator = ElevatorSubsystem.getInstance();
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.
@@ -37,6 +38,7 @@ public class Stage2CMD extends Command
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("we ended");
     elevator.stop();
   }
 

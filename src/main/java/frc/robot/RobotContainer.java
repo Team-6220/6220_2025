@@ -6,10 +6,13 @@ package frc.robot;
 
 import frc.robot.commands.EjectCoralTest;
 import frc.robot.commands.IntakeCoralTest;
+import frc.robot.commands.Stage2CMD;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerintaketestcommand;
 import frc.robot.commands.wristTest;
+import frc.robot.commands.ElevatorManuel;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.robot.subsystems.frontIntakeSubsystem;
@@ -45,6 +48,8 @@ public class RobotContainer {
 
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
 
+  private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
+
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -54,8 +59,8 @@ public class RobotContainer {
 
     //s_Swerve.configureAutoBuilder();
 
-    frontIntake.setDefaultCommand(
-      new lowerintaketestcommand(m_driverController)
+    elevator.setDefaultCommand(
+      new ElevatorManuel(m_driverController.getHID())
     );
 
     // s_Swerve.setDefaultCommand(
@@ -88,8 +93,10 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    m_driverController.a().whileTrue(new IntakeCoralTest());
-    m_driverController.b().whileTrue(new EjectCoralTest());
+    // m_driverController.a().whileTrue(new IntakeCoralTest());
+    // m_driverController.b().whileTrue(new EjectCoralTest());
+    m_driverController.y().onTrue(new InstantCommand(() -> elevator.resetEncoder()));
+    m_driverController.a().onTrue(new Stage2CMD());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
