@@ -67,8 +67,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     motorLeftConfig
       .inverted(ElevatorConstants.leftMotorInvert)
-      .idleMode(ElevatorConstants.leftMotorIdleMode)
-      .follow(elevatorMotorRight); //Mainly because we're using the right encoder and we want to keep things organized
+      .idleMode(ElevatorConstants.leftMotorIdleMode);
+      // .follow(elevatorMotorRight); //Mainly because we're using the right encoder and we want to keep things organized
     
     motorRightConfig
       .inverted(ElevatorConstants.rightMotorInvert)
