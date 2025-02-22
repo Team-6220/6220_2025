@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.EjectCoralTest;
 import frc.robot.commands.IntakeCoralTest;
 import frc.robot.commands.Stage2CMD;
+import frc.robot.commands.Stage3CMD;
+import frc.robot.commands.Stage4CMD;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.WristPIDTest;
@@ -21,6 +24,8 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.util.RumbleManager;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -53,6 +58,17 @@ public class RobotContainer {
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
+
+  private final Joystick m_joystick = new Joystick(1);
+
+  private final GenericHID m_buttonBoard = new GenericHID(2);
+
+  private final Trigger wristStage2 = new Trigger(() -> m_buttonBoard.getRawButton(5));
+  private final Trigger wristStage3 = new Trigger(() -> m_buttonBoard.getRawButton(3));
+  private final Trigger wristStage4 = new Trigger(() -> m_buttonBoard.getRawButton(1));
+  private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
+  private final Trigger intake = new Trigger(() -> m_joystick.getRawButton(1));
+  private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(2));
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -60,9 +76,9 @@ public class RobotContainer {
 
     //s_Swerve.configureAutoBuilder();
 
-    // elevator.setDefaultCommand(
-      // new ElevatorManuel(m_driverController.getHID())
-    // );
+    elevator.setDefaultCommand(
+      new ElevatorManuel(m_joystick)
+    );
 
     // wrist.setDefaultCommand(
       // new wristTest(m_driverController.getHID())
@@ -107,6 +123,13 @@ public class RobotContainer {
     // m_driverControlleÖr.y().onTrue(new WristPIDTest());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
+    wristStage2.onTrue(new Stage2CMD());
+    wristStage3.onTrue(new Stage3CMD());
+    wristStage4.onTrue(new Stage4CMD());
+
+    coralStation.onTrue(new CoralStationCmd());
+    intake.whileTrue(new IntakeCoralTest());
+    outtake.whileTrue(new EjectCoralTest());
   }
 
   /**

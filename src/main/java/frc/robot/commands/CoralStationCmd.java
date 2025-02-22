@@ -12,13 +12,13 @@ import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.robot.Constants.ElevatorConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Stage3CMD extends Command
+public class CoralStationCmd extends Command
 {
    // private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
   
 
-  public Stage3CMD()
+  public CoralStationCmd()
   {
     // elevator = ElevatorSubsystem.getInstance();
     // addRequirements(elevator);
@@ -37,7 +37,7 @@ public class Stage3CMD extends Command
   @Override
   public void execute()  {
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
-    wrist.driveToGoal(-64);
+    wrist.driveToGoal(35);
   }
 
   // Called once the command ends or is interrupted.
