@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -12,10 +13,10 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorManuel extends Command {
   /** Creates a new ElevatorManuel. */
   ElevatorSubsystem elevSub = ElevatorSubsystem.getInstance();
-  XboxController xboxController;
-  public ElevatorManuel(XboxController xboxController) {
+  Joystick joystick;
+  public ElevatorManuel(Joystick joystick) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.xboxController = xboxController;
+    this.joystick = joystick;
     addRequirements(elevSub);
   }
 
@@ -27,7 +28,7 @@ public class ElevatorManuel extends Command {
   @Override
   public void execute()
   {
-    elevSub.simpleDrive(-xboxController.getRightY()); 
+    elevSub.simpleDrive(-joystick.getY()); 
   }
 
   // Called once the command ends or is interrupted.

@@ -21,6 +21,8 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.util.RumbleManager;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,15 +46,15 @@ public class RobotContainer {
   
 
   private final Swerve s_Swerve = new Swerve();
-
   private final V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();  
-
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
-
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
 
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(0);
+  private final CommandXboxController m_driverController = new CommandXboxController(0);
+  private final Joystick m_joystick = new Joystick(1);
+  private final GenericHID m_buttonBoard = new GenericHID(2);
+
+  private final Trigger stage2 = new Trigger(m_buttonBoard.getRawButtonPressed(5));
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -60,9 +62,15 @@ public class RobotContainer {
 
     //s_Swerve.configureAutoBuilder();
 
+<<<<<<< Updated upstream
     // elevator.setDefaultCommand(
       // new ElevatorManuel(m_driverController.getHID())
     // );
+=======
+    elevator.setDefaultCommand(
+      new ElevatorManuel(m_joystick)
+    );
+>>>>>>> Stashed changes
 
     // wrist.setDefaultCommand(
       // new wristTest(m_driverController.getHID())
@@ -103,8 +111,15 @@ public class RobotContainer {
     // m_driverController.y().onTrue(new InstantCommand(() -> elevator.resetEncoder()));
     // m_driverController.a().onTrue(new Stage2CMD());
     // m_driverController.x().onTrue(new wristTest(m_driverController.getHID()));
+<<<<<<< Updated upstream
     // m_driverController.x().onTrue(new ElevatorManuel(m_driverController.getHID()));
     // m_driverControlleÖr.y().onTrue(new WristPIDTest());
+=======
+    
+    
+
+    // m_driverController.y().onTrue(new WristPIDTest());
+>>>>>>> Stashed changes
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
