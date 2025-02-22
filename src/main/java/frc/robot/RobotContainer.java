@@ -60,20 +60,20 @@ public class RobotContainer {
 
     //s_Swerve.configureAutoBuilder();
 
-    elevator.setDefaultCommand(
-      new ElevatorManuel(m_driverController.getHID())
-    );
+    // elevator.setDefaultCommand(
+      // new ElevatorManuel(m_driverController.getHID())
+    // );
 
-    wrist.setDefaultCommand(
-      new wristTest(m_driverController.getHID())
-    );
+    // wrist.setDefaultCommand(
+      // new wristTest(m_driverController.getHID())
+    // );
 
-    // s_Swerve.setDefaultCommand(
-    //     new TeleopSwerve(
-    //         s_Swerve,
-    //         m_driverController,
-    //         m_driverController.leftBumper())
-    //     );
+    s_Swerve.setDefaultCommand(
+        new TeleopSwerve(
+            s_Swerve,
+            m_driverController,
+            m_driverController.leftBumper())
+        );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -98,13 +98,13 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    m_driverController.a().whileTrue(new IntakeCoralTest());
-    m_driverController.b().whileTrue(new EjectCoralTest());
-    m_driverController.y().onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    m_driverController.a().onTrue(new Stage2CMD());
+    // m_driverController.a().whileTrue(new IntakeCoralTest());
+    // m_driverController.b().whileTrue(new EjectCoralTest());
+    // m_driverController.y().onTrue(new InstantCommand(() -> elevator.resetEncoder()));
+    // m_driverController.a().onTrue(new Stage2CMD());
     // m_driverController.x().onTrue(new wristTest(m_driverController.getHID()));
-    m_driverController.x().onTrue(new ElevatorManuel(m_driverController.getHID()));
-    // m_driverController.y().onTrue(new WristPIDTest());
+    // m_driverController.x().onTrue(new ElevatorManuel(m_driverController.getHID()));
+    // m_driverControlleÖr.y().onTrue(new WristPIDTest());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
