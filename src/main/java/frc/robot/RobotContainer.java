@@ -7,6 +7,8 @@ package frc.robot;
 import frc.robot.commands.EjectCoralTest;
 import frc.robot.commands.IntakeCoralTest;
 import frc.robot.commands.Stage2CMD;
+import frc.robot.commands.Stage3CMD;
+import frc.robot.commands.Stage4CMD;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.WristPIDTest;
@@ -54,7 +56,12 @@ public class RobotContainer {
   private final Joystick m_joystick = new Joystick(1);
   private final GenericHID m_buttonBoard = new GenericHID(2);
 
-  private final Trigger stage2 = new Trigger(m_buttonBoard.getRawButtonPressed(5));
+  private final Trigger stage2 = new Trigger(()->m_buttonBoard.getRawButtonPressed(5));
+  private final Trigger stage3 = new Trigger(()->m_buttonBoard.getRawButtonPressed(3));
+  private final Trigger stage4 = new Trigger(()->m_buttonBoard.getRawButtonPressed(1));
+  
+  private final Trigger intake = new Trigger(() -> m_joystick.getTrigger());
+  private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(2));
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -62,15 +69,9 @@ public class RobotContainer {
 
     //s_Swerve.configureAutoBuilder();
 
-<<<<<<< Updated upstream
-    // elevator.setDefaultCommand(
-      // new ElevatorManuel(m_driverController.getHID())
-    // );
-=======
     elevator.setDefaultCommand(
       new ElevatorManuel(m_joystick)
     );
->>>>>>> Stashed changes
 
     // wrist.setDefaultCommand(
       // new wristTest(m_driverController.getHID())
@@ -111,15 +112,16 @@ public class RobotContainer {
     // m_driverController.y().onTrue(new InstantCommand(() -> elevator.resetEncoder()));
     // m_driverController.a().onTrue(new Stage2CMD());
     // m_driverController.x().onTrue(new wristTest(m_driverController.getHID()));
-<<<<<<< Updated upstream
     // m_driverController.x().onTrue(new ElevatorManuel(m_driverController.getHID()));
     // m_driverControlleÖr.y().onTrue(new WristPIDTest());
-=======
     
-    
+    stage2.onTrue(new Stage2CMD());
+    stage3.onTrue(new Stage3CMD());
+    stage4.onTrue(new Stage4CMD());
 
+    intake.onTrue(new IntakeCoralTest());
+    outtake.onTrue(new EjectCoralTest());
     // m_driverController.y().onTrue(new WristPIDTest());
->>>>>>> Stashed changes
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
