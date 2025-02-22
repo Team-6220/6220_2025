@@ -9,6 +9,7 @@ import frc.robot.commands.IntakeCoralTest;
 import frc.robot.commands.Stage2CMD;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.WristPIDTest;
 import frc.robot.commands.lowerintaketestcommand;
 import frc.robot.commands.wristTest;
 import frc.robot.commands.ElevatorManuel;
@@ -63,6 +64,10 @@ public class RobotContainer {
       new ElevatorManuel(m_driverController.getHID())
     );
 
+    wrist.setDefaultCommand(
+      new wristTest(m_driverController.getHID())
+    );
+
     // s_Swerve.setDefaultCommand(
     //     new TeleopSwerve(
     //         s_Swerve,
@@ -93,10 +98,13 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    // m_driverController.a().whileTrue(new IntakeCoralTest());
-    // m_driverController.b().whileTrue(new EjectCoralTest());
+    m_driverController.a().whileTrue(new IntakeCoralTest());
+    m_driverController.b().whileTrue(new EjectCoralTest());
     m_driverController.y().onTrue(new InstantCommand(() -> elevator.resetEncoder()));
     m_driverController.a().onTrue(new Stage2CMD());
+    // m_driverController.x().onTrue(new wristTest(m_driverController.getHID()));
+    m_driverController.x().onTrue(new ElevatorManuel(m_driverController.getHID()));
+    // m_driverController.y().onTrue(new WristPIDTest());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }

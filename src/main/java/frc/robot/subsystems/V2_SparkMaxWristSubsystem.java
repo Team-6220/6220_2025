@@ -106,7 +106,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
         if(wristKs.hasChanged()
         || wristKg.hasChanged()
         || wristKv.hasChanged()) {
-          System.out.println("update w/ new FF value: " + "kg: " + wristKg.get());
+          System.out.println("update w/ new FF value: " + "kg: " + wristKg.get() + ", ks" + wristKs.get() + ", kv" + wristKv.get());
             m_Feedforward = new ArmFeedforward(wristKs.get(), wristKg.get(), wristKv.get());
         }
 

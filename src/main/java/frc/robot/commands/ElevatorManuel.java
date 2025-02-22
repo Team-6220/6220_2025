@@ -27,7 +27,7 @@ public class ElevatorManuel extends Command {
   @Override
   public void execute()
   {
-    elevSub.simpleDrive(-xboxController.getLeftY()); 
+    elevSub.simpleDrive(-xboxController.getRightY()); 
   }
 
   // Called once the command ends or is interrupted.

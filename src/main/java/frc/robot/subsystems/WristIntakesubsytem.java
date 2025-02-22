@@ -40,10 +40,10 @@ public class WristIntakesubsytem extends SubsystemBase {
 }
   
   public void intakeCoral(){
-    simpleDrive(true, WristIntakeConstants.intakeSpeed);
+    simpleDrive(false, WristIntakeConstants.intakeSpeed);
   }
   public void ejectCoral(){
-    simpleDrive(false, WristIntakeConstants.ejectSpeed);
+    simpleDrive(true, WristIntakeConstants.ejectSpeed);
 
   }
   @Override

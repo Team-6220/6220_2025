@@ -369,8 +369,8 @@ public final class Constants {
         public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = 1.5;
         public static final double kS = 0, kG = .25, kV = 0, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
-        public static final double maxAcceleration = 5, maxVelocity = 10;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
-        public static final double wristMaxDegrees = 165, wristMinDegrees = -135;
+        public static final double maxAcceleration = 5000, maxVelocity = 10000;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
+        public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
     }
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
@@ -388,7 +388,7 @@ public final class Constants {
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
-        public static final double elevatorKp = 0.0;
+        public static final double elevatorKp = 0.1;
         public static final double elevatorKi = 0.0;
         public static final double elevatorKd = 0.0;
         public static final double elevatorKg = 0.2;

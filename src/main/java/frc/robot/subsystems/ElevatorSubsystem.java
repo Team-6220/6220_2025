@@ -87,7 +87,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       elevatorKd.get(),
       m_Constraints);
     
-    m_Feedforward = new ElevatorFeedforward(elevatorKs.get(), elevatorKg.get(), elevatorKv.get());
+    m_Feedforward = new ElevatorFeedforward(elevatorKs.get(), elevatorKg.get(), elevatorKv.get(), elevatorKa.get());
 
     m_Controller.setIZone(elevatorIZone.get());//not sure if we need this
 
@@ -104,6 +104,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
     SmartDashboard.putNumber(tableKey + "leftCurrent", elevatorMotorLeft.getOutputCurrent());
     SmartDashboard.putNumber(tableKey + "rightCurrent", elevatorMotorRight.getOutputCurrent());
+    SmartDashboard.putNumber(tableKey + "output", elevatorMotorLeft.getBusVoltage());
+    SmartDashboard.putNumber(tableKey + "leftTemp", elevatorMotorLeft.getMotorTemperature());
+    SmartDashboard.putNumber(tableKey + "rightTemp", elevatorMotorRight.getMotorTemperature());
     // System.out.println(getElevatorPosition());
     if(elevatorKp.hasChanged()
         || elevatorKi.hasChanged()
@@ -112,16 +115,19 @@ public class ElevatorSubsystem extends SubsystemBase {
             m_Controller.setPID(elevatorKp.get(),elevatorKi.get(),elevatorKd.get());
         }
 
-        if(elevatorKa.hasChanged()
+        if(elevatorKs.hasChanged()
         || elevatorKg.hasChanged()
-        || elevatorKv.hasChanged()) {
-            m_Feedforward = new ElevatorFeedforward(elevatorKa.get(), elevatorKg.get(), elevatorKv.get());
-        }
+        || elevatorKv.hasChanged()
+        || elevatorKa.hasChanged()) {
+            m_Feedforward = new ElevatorFeedforward(elevatorKs.get(), elevatorKg.get(), elevatorKv.get(),elevatorKa.get());
+            System.out.println("ff changed w/ ks" + elevatorKs.get() + ",kg" + elevatorKg.get() + ",kv" + elevatorKv.get() +",ka"+ elevatorKa.get());
+          }
 
         if(elevatorMaxVel.hasChanged()
         || elevatorMaxAccel.hasChanged()) {
             m_Constraints = new TrapezoidProfile.Constraints(elevatorMaxVel.get(), elevatorMaxAccel.get());
             m_Controller.setConstraints(m_Constraints);
+            System.out.println("constraints created w/ new max vel" + elevatorMaxVel.get() + ", max accel" + elevatorMaxAccel.get());
         }
         
         if(elevatorIZone.hasChanged())
@@ -195,8 +201,9 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void simpleDrive(double motorOutput)
   {
-    // motorOutput *= 10;
+    motorOutput *= 10;
     SmartDashboard.putNumber(tableKey + "output", motorOutput);
+    SmartDashboard.putNumber(tableKey + "sd_velocity", elevatorEncoder.getVelocity());
     elevatorMotorLeft.setVoltage(motorOutput);
     elevatorMotorRight.setVoltage(motorOutput);
   }
