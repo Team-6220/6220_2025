@@ -66,7 +66,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
     wristMotorConfig.absoluteEncoder
       .inverted(WristConstants.encoderInverted)
       .positionConversionFactor(360)//basically this turns the encoder reading from radians to degrees
-      .zeroOffset(.830)
+      .zeroOffset(-82.2)
       .zeroCentered(true); 
 
       // wristMotorConfig.absoluteEncoder.zeroOffset(.2);//Don't know if we need this

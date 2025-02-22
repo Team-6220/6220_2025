@@ -48,7 +48,7 @@ public class RobotContainer {
   
 
   private final Swerve s_Swerve = new Swerve();
-  private final V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();  
+  private final V2_SparkMaxWristSubsystem wrist;  
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
 
@@ -64,6 +64,7 @@ public class RobotContainer {
   private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(2));
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    wrist = V2_SparkMaxWristSubsystem.getInstance();
     // Configure the trigger bindings
     s_Swerve.zeroHeading(m_driverController.getHID());
 
@@ -111,7 +112,7 @@ public class RobotContainer {
     // m_driverController.b().whileTrue(new EjectCoralTest());
     // m_driverController.y().onTrue(new InstantCommand(() -> elevator.resetEncoder()));
     // m_driverController.a().onTrue(new Stage2CMD());
-    // m_driverController.x().onTrue(new wristTest(m_driverController.getHID()));
+    m_driverController.x().onTrue(new wristTest(m_driverController.getHID()));
     // m_driverController.x().onTrue(new ElevatorManuel(m_driverController.getHID()));
     // m_driverControlleÖr.y().onTrue(new WristPIDTest());
     
