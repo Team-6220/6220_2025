@@ -28,7 +28,7 @@ public class LowerIntakeManual extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    frontIntake.simpleDrive(m_joystick.getZ());
+    frontIntake.simpleDrive(m_joystick.getRawAxis(3));
   }
 
   // Called once the command ends or is interrupted.

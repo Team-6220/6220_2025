@@ -23,14 +23,13 @@ public class EjectCoralTest extends Command {
   @Override
   public void execute() {
     wristIntake.ejectCoral();
-  
-    
    }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    wristIntake.simpleDrive(interrupted, 0);
+    // wristIntake.simpleDrive(interrupted, 0);
+    wristIntake.endOccupied();
   }
 
   // Returns true when the command should end.

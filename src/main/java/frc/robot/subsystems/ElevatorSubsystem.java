@@ -201,7 +201,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void simpleDrive(double motorOutput)
   {
-    motorOutput *= 10;
+    motorOutput *= 12 ;
     SmartDashboard.putNumber(tableKey + "output", motorOutput);
     SmartDashboard.putNumber(tableKey + "sd_velocity", elevatorEncoder.getVelocity());
     elevatorMotorLeft.setVoltage(motorOutput);

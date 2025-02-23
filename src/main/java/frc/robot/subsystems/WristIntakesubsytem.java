@@ -20,12 +20,13 @@ public class WristIntakesubsytem extends SubsystemBase {
   private boolean coralInWrist;
   private boolean coralAtBack;
   private boolean hasExited;
+  private boolean occupied;
   public TalonFXConfiguration wristIntakeConfig = new TalonFXConfiguration();
 
 
   public WristIntakesubsytem() {
-        wristIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-    wristIntakeConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
+        wristIntakeConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    wristIntakeConfig.MotorOutput.NeutralMode = Constants.WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
 
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.WristIntakeConstants.enableCurrentLimit;
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.WristIntakeConstants.maxCurrent;
@@ -40,15 +41,24 @@ public class WristIntakesubsytem extends SubsystemBase {
 }
   
   public void intakeCoral(){
+    occupied = true;
     simpleDrive(false, WristIntakeConstants.intakeSpeed);
   }
   public void ejectCoral(){
+    occupied = true;
     simpleDrive(true, WristIntakeConstants.ejectSpeed);
-
+  }
+  public void endOccupied()
+  {
+    occupied = false;
   }
   @Override
   public void periodic() {
-
+    if(!occupied)
+    {
+      // intakeMotor.set(-0.04);
+      intakeMotor.setVoltage(-0.5);
+    }
     // This method will be called once per scheduler run
   }
 

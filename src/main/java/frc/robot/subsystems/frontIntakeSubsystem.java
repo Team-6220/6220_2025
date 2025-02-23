@@ -104,6 +104,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "Position", getPosition());
     SmartDashboard.putBoolean(tableKey + "atGoal", controllerAtGoal());
+    SmartDashboard.putNumber(tableKey + "leftCurrent", pivotMotorLeft.getOutputCurrent());
+    SmartDashboard.putNumber(tableKey + "rightCurrent", pivotMotorRight.getOutputCurrent());
 
     if(FrontIntakeKp.hasChanged()
         || FrontIntakeKi.hasChanged()
@@ -173,8 +175,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
 
   public void simpleDrive(double motorOutput)
   {
-    pivotMotorLeft.set(motorOutput);
-    //pivotMotorRight.set(motorOutput);
+    pivotMotorLeft.setVoltage(motorOutput);
+    pivotMotorRight.setVoltage(motorOutput);
   }
 
   public boolean controllerAtGoal()

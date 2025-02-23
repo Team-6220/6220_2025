@@ -32,7 +32,8 @@ public class IntakeCoralTest extends Command {
   @Override
   public void end(boolean interrupted)
   {
-    wristIntake.simpleDrive(interrupted, 0);
+    // wristIntake.simpleDrive(interrupted, 0);
+    wristIntake.endOccupied();
   }
 
   // Returns true when the command should end.

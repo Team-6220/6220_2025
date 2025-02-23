@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import org.opencv.core.Mat.Tuple2;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
@@ -105,6 +106,31 @@ public final class Constants {
                 return -b + (1-b)*(a*Math.pow(value, 3) + (1-a)*value);
             }
           }
+
+          public static double modifyVoltageAxis(double value) {
+            // Deadband
+            if (Math.abs(value) < kDeadband) {
+                return 0;
+            }
+    
+            // Change the axis
+            double b = 0.1;
+            double a = 0.5;
+            double x = value;
+    
+            // Calculate modified value
+            double modifiedValue;
+            if (value >= 0) {
+                modifiedValue = b + (1 - b) * (a * Math.pow(x, 3) + (1 - a) * x);
+            } else {
+                modifiedValue = -b + (1 - b) * (a * Math.pow(x, 3) + (1 - a) * x);
+            }
+    
+            // Convert to voltage (assuming input ranges from 0 to 1 corresponds to 0 to 12 volts)
+            double voltage = modifiedValue * 12;
+    
+            return voltage;
+        }
 
         public static double[] getDriverInputs(XboxController driver) {
             double[] inputs = new double[3];
@@ -391,10 +417,16 @@ public final class Constants {
         public static final double elevatorKp = 0.1;
         public static final double elevatorKi = 0.0;
         public static final double elevatorKd = 0.0;
-        public static final double elevatorKg = 0.2;
-        public static final double elevatorKv = 0.0;
-        public static final double elevatorKa = 0.0;
-        public static final double elevatorKs = 0.3;
+        public static final double elevatorKg = 0.2;//Tune this first 
+        //carret in the middle, if it stil move up, lower it until it holds it in position
+        //Then give a little kp to go to position
+        //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
+        public static final double elevatorKv = 0.0;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKa = 0.0; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
+        //stall load -- how much weight it can handle at all
+        public static final double elevatorKs = 0;//start with 0
+        //if it's getting stuck to go down or up then increase ks by a little bit to fight friction
+        //if rasiing ks might have to lower kg 
         public static final double elevatorIZone = 3.0;
         public static final double elevatorTolerance = 1.5;
         public static final double elevatorMaxVel = 0.5
@@ -442,6 +474,7 @@ public final class Constants {
         public static final double wheelSpeed = .1; //0-1
     }
     public static final class WristIntakeConstants {
+        public static final NeutralModeValue INTAKENEU_NEUTRAL_MODE = NeutralModeValue.Brake;
         public static final int wristintakeMotorID = 18;
         public static final double ejectSpeed = .1;
         public static final double intakeSpeed = .1;
