@@ -78,8 +78,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
     motorRightConfig
       .inverted(FrontIntakeConstants.rightMotorInvert)
       .idleMode(FrontIntakeConstants.rightMotorIdleMode)
-      .smartCurrentLimit(FrontIntakeConstants.stallLimit, FrontIntakeConstants.freeLimit)
-      .follow(pivotMotorLeft);
+      .smartCurrentLimit(FrontIntakeConstants.stallLimit, FrontIntakeConstants.freeLimit);
     
     pivotMotorLeft.configure(motorLeftConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     pivotMotorRight.configure(motorRightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -175,21 +174,23 @@ public class frontIntakeSubsystem extends SubsystemBase {
   public void simpleDrive(double motorOutput)
   {
     pivotMotorLeft.set(motorOutput);
-    pivotMotorRight.set(motorOutput);
+    //pivotMotorRight.set(motorOutput);
   }
 
   public boolean controllerAtGoal()
   {
     return m_Controller.atGoal();
   }
+
   public void simpleintakeDrive(double speed){
     frontMotor.setVoltage(speed);
   }
-  public void spinFront(boolean on, boolean in){
-    if(on&&in){
+
+  public void spinFront(boolean spin, boolean intake){
+    if(spin&&intake){
       frontMotor.set(FrontIntakeConstants.wheelSpeed);
     }
-    if(on&&!in){
+    if(spin&&!intake){
       frontMotor.set(-FrontIntakeConstants.wheelSpeed);
     }
     else{

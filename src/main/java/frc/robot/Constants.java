@@ -427,7 +427,7 @@ public final class Constants {
         public static final int freeLimit = 25; //amps
 
         public static final int frontMotorID = 19; 
-        public static final IdleMode frontMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode frontMotorIdleMode = IdleMode.kCoast;
         public static final boolean frontMotorInvert = false;
         public static final double frontIntakeKp = 0.4;//.4;
         public static final double frontIntakeKi = 0;
@@ -439,7 +439,7 @@ public final class Constants {
         public static final double frontIntakeTolerance = 1.5;
         public static final double frontIntakeMaxVel = 5;
         public static final double frontIntakeMaxAccel = 10;
-        public static final double wheelSpeed = 0.25; //0-1
+        public static final double wheelSpeed = .1; //0-1
     }
     public static final class WristIntakeConstants {
         public static final int wristintakeMotorID = 18;
