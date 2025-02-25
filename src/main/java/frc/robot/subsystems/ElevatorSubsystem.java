@@ -101,6 +101,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "Position", getElevatorPositionRaw());
+    SmartDashboard.putNumber(tableKey + "Position Meters", getElevatorPositionMeters());
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
     SmartDashboard.putNumber(tableKey + "leftCurrent", elevatorMotorLeft.getOutputCurrent());
     SmartDashboard.putNumber(tableKey + "rightCurrent", elevatorMotorRight.getOutputCurrent());
@@ -162,7 +163,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     m_Controller.setGoal(goal);
 
-    PIDOutput = m_Controller.calculate(getElevatorPositionRaw());
+    PIDOutput = m_Controller.calculate(getElevatorPositionMeters());
 
     feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
     double calculatedSpeed = PIDOutput + feedForwardOutput;
@@ -177,21 +178,26 @@ public class ElevatorSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(tableKey + "calculated Speed", calculatedSpeed);
     SmartDashboard.putNumber(tableKey + "ffOutput", feedForwardOutput);
     SmartDashboard.putNumber(tableKey + "PIDOutput", PIDOutput);
-    // SmartDashboard.putNumber(tableKey + "current Elevator pos", getElevatorPositionRaw());
+    // SmartDashboard.putNumber(tableKey + "current Elevator pos", getElevatorPositionMeters());
   }
+
+  // public double getPositionMeters()
+  // {
+  //   return elevatorEncoder.getPosition() / (1/20) * SproketRadius * (2*Math.PI);
+  // }
   
   public void resetPID()
   {
-    m_Controller.reset(getElevatorPositionRaw());
+    m_Controller.reset(getElevatorPositionMeters());
   }
 
-  /**Raw encoder value subtracted by the offset at zero*/
-  // public double getElevatorPosition()
-  // {
-  //   //Pivit position
-  //   double elevatorPosition = getElevatorPositionRaw() * (1/12) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
-  //   return elevatorPosition;
-  // }
+  /**In meters*/
+  public double getElevatorPositionMeters()
+  {
+    //Pivit position
+    double elevatorPosition = elevatorEncoder.getPosition() * (1/20) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
+    return elevatorPosition;
+  }
 
   public double getElevatorPositionRaw()
   {

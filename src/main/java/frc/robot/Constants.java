@@ -61,7 +61,7 @@ public final class Constants {
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
 
-        public static final double kDeadband = 0.065;
+        public static final double kDeadband = 0.085;
 
         public static final int translationAxis = XboxController.Axis.kLeftY.value;
         public static final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -414,15 +414,15 @@ public final class Constants {
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
-        public static final double elevatorKp = 0.0;
+        public static final double elevatorKp = 0.01;
         public static final double elevatorKi = 0.0;
         public static final double elevatorKd = 0.0;
-        public static final double elevatorKg = 0.2;//Tune this first
+        public static final double elevatorKg = 0.32;//Tune this first
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 0.0;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
-        public static final double elevatorKa = 0.0; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
+        public static final double elevatorKv = 17.44;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKa = 0.05; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
         //if it's getting stuck to go down or up then increase ks by a little bit to fight friction
@@ -475,7 +475,7 @@ public final class Constants {
         public static final double frontIntakeTolerance = 1.5;
         public static final double frontIntakeMaxVel = 5;
         public static final double frontIntakeMaxAccel = 10;
-        public static final double wheelSpeed = .1; //0-1
+        public static final double wheelSpeed = 5; //volts
     }
     public static final class WristIntakeConstants {
         public static final NeutralModeValue INTAKENEU_NEUTRAL_MODE = NeutralModeValue.Brake;
@@ -484,8 +484,8 @@ public final class Constants {
         public static final double intakeSpeed = .1;
 
         public static final boolean enableCurrentLimit = true;
-        public static final double maxCurrent = 25;
-        public static final double currentLimit = 10;
+        public static final double maxCurrent = 20;
+        public static final double currentLimit = 5;
         public static final double maxCurrentTime = 1;
     }
 

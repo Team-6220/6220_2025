@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.WristIntakeConstants;
@@ -21,6 +22,9 @@ public class WristIntakesubsytem extends SubsystemBase {
   private boolean coralAtBack;
   private boolean hasExited;
   private boolean occupied;
+  private double currentLimitToHold = -20;
+
+  private String tableKey = "WristIntake_";
   public TalonFXConfiguration wristIntakeConfig = new TalonFXConfiguration();
 
 
@@ -54,11 +58,18 @@ public class WristIntakesubsytem extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    if(!occupied)
+    if(!occupied && intakeMotor.getTorqueCurrent().getValueAsDouble() > currentLimitToHold)
     {
       // intakeMotor.set(-0.04);
       intakeMotor.setVoltage(-0.5);
     }
+    if(intakeMotor.getTorqueCurrent().getValueAsDouble() <= currentLimitToHold)
+    {
+      intakeMotor.setVoltage(-0.15);
+    }
+    SmartDashboard.putNumber(tableKey + "stator current", intakeMotor.getStatorCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey + "supply current", intakeMotor.getSupplyCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey + "torque current", intakeMotor.getTorqueCurrent().getValueAsDouble());
     // This method will be called once per scheduler run
   }
 

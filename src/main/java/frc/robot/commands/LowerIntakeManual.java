@@ -29,6 +29,22 @@ public class LowerIntakeManual extends Command {
   @Override
   public void execute() {
     frontIntake.simpleDrive(m_joystick.getRawAxis(3));
+    if(m_joystick.getRawButton(3))
+    {
+      frontIntake.spinFront(true, true);
+    }
+    else
+    {
+      frontIntake.spinFront(false, true);
+    }
+    if(m_joystick.getRawButton(1))
+    {
+      frontIntake.spinFront(true, false);
+    }
+    else
+    {
+      frontIntake.spinFront(false, true);
+    }
   }
 
   // Called once the command ends or is interrupted.

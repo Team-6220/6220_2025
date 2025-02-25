@@ -25,8 +25,9 @@ public class ElevatorStage2 extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    elevator.driveToGoal(ElevatorConstants.encoderFormula * ElevatorConstants.L2HeightRaw);
+  public void execute()
+  {
+    elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
   }
 
   // Called once the command ends or is interrupted.

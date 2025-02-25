@@ -90,7 +90,7 @@ public class RobotContainer {
       new ElevatorManuel(m_joystick)
     );
 
-    // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
+    frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
     // wrist.setDefaultCommand(
       // new wristTest(m_driverController.getHID())
