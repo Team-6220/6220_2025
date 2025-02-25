@@ -19,6 +19,7 @@ import frc.robot.commands.WristPIDTest;
 import frc.robot.commands.lowerintaketestcommand;
 import frc.robot.commands.wristTest;
 import frc.robot.commands.ElevatorManuel;
+import frc.robot.commands.ElevatorStage2;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
@@ -72,8 +73,12 @@ public class RobotContainer {
   private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
   private final Trigger intake = new Trigger(() -> m_joystick.getRawButton(1));
   private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(2));
-  private final Trigger lowerIntake = new Trigger(() -> m_buttonBoard.getRawButton(4));
-  private final Trigger lowerOuttake = new Trigger(() -> m_buttonBoard.getRawButton(6));
+  private final Trigger test = new Trigger(() -> m_buttonBoard.getRawButton(4));
+
+  // private final Trigger lowerIntake = new Trigger(() -> m_buttonBoard.getRawButton(4));
+  // private final Trigger lowerOuttake = new Trigger(() -> m_buttonBoard.getRawButton(6));
+
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -85,7 +90,7 @@ public class RobotContainer {
       new ElevatorManuel(m_joystick)
     );
 
-    frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
+    // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
     // wrist.setDefaultCommand(
       // new wristTest(m_driverController.getHID())
@@ -138,8 +143,10 @@ public class RobotContainer {
     intake.whileTrue(new IntakeCoralTest());
     outtake.whileTrue(new EjectCoralTest());
 
-    lowerIntake.whileTrue(new IntakeGround());
-    lowerOuttake.whileTrue(new OuttakeGround());
+    test.onTrue(new ElevatorStage2());
+
+    // lowerIntake.whileTrue(new IntakeGround());
+    // lowerOuttake.whileTrue(new OuttakeGround());
   }
 
   /**
