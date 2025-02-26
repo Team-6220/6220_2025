@@ -20,11 +20,15 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class photonAlignCmd extends Command {
   private Swerve s_Swerve;
+  private PhotonVisionSubsystem s_Photon;
   private PhotonCamera camera;
+  private double offset;
   
   /** Creates a new photonAlign. */
   public photonAlignCmd() {
     // Use addRequirements() here to declare subsystem dependencies.
+    s_Photon = PhotonVisionSubsystem.getInstance();
+    addRequirements(s_Photon);
 
   }
 

@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,14 +19,12 @@ import org.photonvision.estimation.CameraTargetRelation;
 
 /** Add your docs here. */
 public class PhotonVisionCalculations {
+    private static PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance();
     private static PhotonCamera[] cameras;
     private static NetworkTable table;
     
     public PhotonVisionCalculations() {
-        cameras = new PhotonCamera[3];
-        for (int i = 0; i < cameras.length; i++) {
-            cameras[i].setPipelineIndex(0);
-        }
+        
     }
 
 
@@ -34,11 +33,10 @@ public class PhotonVisionCalculations {
     }
     public static double estimateDistance (int tagID) {
         
-        double aprilTagHeightInches = VisionConstants.aprilTagHeightInches[tagID - 1];
-        table = NetworkTableInstance.getDefault().getTable("X");
-        NetworkTableEntry ty = table.getEntry("X");
-        double cameraOffset = ty.getDouble(0.0);
-        double cameraHeight = 20; //TODO: https://discord.com/channels/270263988615380993/270264069234098179/1329262819685826593
+        double aprilTagHeightInches = VisionConstants.aprilTagXYHeightAngle.get(tagID)[2];
+        
+        
+        double cameraHeight = 20;
         double cameraMountAngle = 45.0;
         double totalAngleToTarget_deg = cameraOffset + cameraMountAngle;
         double totalAngleToTarget_rad = (totalAngleToTarget_deg * Math.PI) / 180.0;
@@ -78,3 +76,20 @@ public class PhotonVisionCalculations {
         return 1.0;
     }
 }
+/*
+Arducam lens locations
+Bottom right:
+Z: 29.5” + 1.724” up
+Y: 3.3” towards back
+Angled 210° (down 30° from level)
+
+Top right:
+Z: 35.707” + 1.724” up
+Y: 1.257” towards back
+Angled 135° (45° up)
+
+Top left:
+Z: 35.707” + 1.724” up
+Y: 0.157” towards front
+Angled 45° (45° up)
+*/
