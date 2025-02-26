@@ -90,7 +90,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
       FrontIntakeKd.get(),
       m_Constraints);
     
-    m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get());
+    m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeConstants.frontIntakeKa);
 
     m_Controller.setIZone(FrontIntakeIZone.get());//not sure if we need this
 
@@ -117,7 +117,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
         if(FrontIntakeKs.hasChanged()
         || FrontIntakeKg.hasChanged()
         || FrontIntakeKv.hasChanged()) {
-            m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get());
+            m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeConstants.frontIntakeKs);
         }
 
         if(FrontIntakeMaxVel.hasChanged()

@@ -462,8 +462,9 @@ public final class Constants {
         public static final double frontIntakeKp = 0.4;//.4;
         public static final double frontIntakeKi = 0;
         public static final double frontIntakeKd = 0;
-        public static final double frontIntakeKg = 0.01;//.01;
-        public static final double frontIntakeKv = 0;
+        public static final double frontIntakeKa = 0.04;
+        public static final double frontIntakeKg = 0.84;//.01;
+        public static final double frontIntakeKv = 0.58;
         public static final double frontIntakeKs = 0;
         public static final double frontIntakeIZone = 0;
         public static final double frontIntakeTolerance = 1.5;
