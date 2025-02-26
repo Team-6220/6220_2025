@@ -56,7 +56,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private ElevatorFeedforward m_Feedforward;
   private TrapezoidProfile.Constraints m_Constraints;
   private double feedForwardOutput, PIDOutput;
-  private double lastUpdate = 0;
+  private double lastUpdate = 0, lastVelocity = 0, encoderAcceleration = 0;
 
   private String tableKey = "Elevator_";
 
@@ -99,8 +99,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
+    lastUpdate = Timer.getFPGATimestamp();
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber(tableKey + "Position", getElevatorPositionRaw());
+    // SmartDashboard.putNumber(tableKey + "Position", getElevatorPositionMeters());
     SmartDashboard.putNumber(tableKey + "Position Meters", getElevatorPositionMeters());
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
     SmartDashboard.putNumber(tableKey + "leftCurrent", elevatorMotorLeft.getOutputCurrent());
@@ -108,7 +109,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(tableKey + "output", elevatorMotorLeft.getBusVoltage());
     SmartDashboard.putNumber(tableKey + "leftTemp", elevatorMotorLeft.getMotorTemperature());
     SmartDashboard.putNumber(tableKey + "rightTemp", elevatorMotorRight.getMotorTemperature());
+    SmartDashboard.putNumber(tableKey + "leftVoltage", elevatorMotorLeft.getBusVoltage());
+    SmartDashboard.putNumber(tableKey + "rightVoltage", elevatorMotorRight.getBusVoltage());
     // System.out.println(getElevatorPosition());
+    if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
+    {
+      resetPID();
+    }
     if(elevatorKp.hasChanged()
         || elevatorKi.hasChanged()
         || elevatorKd.hasChanged())
@@ -144,28 +151,31 @@ public class ElevatorSubsystem extends SubsystemBase {
   
   public void driveToGoal(double goal)
   {
+    lastUpdate = Timer.getFPGATimestamp();
+
     if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
     {
       resetPID();
+      encoderAcceleration = (elevatorEncoder.getVelocity() - lastVelocity) / 0.2;
+      lastVelocity = elevatorEncoder.getVelocity();
+      System.out.println("update pid");
     }
 
-    lastUpdate = Timer.getFPGATimestamp();
-
-    if(goal > ElevatorConstants.upperEncoderExtreme)
+    if(goal > ElevatorConstants.elevatorMaxHeightMeters)
     {
-      goal = ElevatorConstants.upperEncoderExtreme;
+      goal = ElevatorConstants.elevatorMaxHeightMeters;
     }
 
-    if(goal < ElevatorConstants.lowerEncoderExtreme)
+    if(goal < ElevatorConstants.elevatorMinHeightMeters)
     {
-      goal = ElevatorConstants.lowerEncoderExtreme;
+      goal = ElevatorConstants.elevatorMinHeightMeters;
     }
 
     m_Controller.setGoal(goal);
 
     PIDOutput = m_Controller.calculate(getElevatorPositionMeters());
 
-    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
+    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().velocity, ElevatorConstants.elevatorMaxAccel);
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
         
@@ -175,6 +185,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorMotorRight.setVoltage(calculatedSpeed);
     SmartDashboard.putNumber(tableKey + "positionError", m_Controller.getPositionError());
     // SmartDashboard.putNumber(tableKey ;
+    SmartDashboard.putNumber(tableKey + "setpoint accel", encoderAcceleration);
+    SmartDashboard.putNumber(tableKey + "setpoint velocity", m_Controller.getSetpoint().velocity);
     SmartDashboard.putNumber(tableKey + "calculated Speed", calculatedSpeed);
     SmartDashboard.putNumber(tableKey + "ffOutput", feedForwardOutput);
     SmartDashboard.putNumber(tableKey + "PIDOutput", PIDOutput);
@@ -195,14 +207,14 @@ public class ElevatorSubsystem extends SubsystemBase {
   public double getElevatorPositionMeters()
   {
     //Pivit position
-    double elevatorPosition = elevatorEncoder.getPosition() * (1/20) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
+    double elevatorPosition = elevatorEncoder.getPosition() * (1.0/20.0) * 5.4978 * .0254 * 2.0;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
     return elevatorPosition;
   }
 
-  public double getElevatorPositionRaw()
-  {
-    return elevatorEncoder.getPosition();
-  }
+  // public double getElevatorPositionRaw()
+  // {
+  //   return elevatorEncoder.getPosition();
+  // }
 
 
   public void simpleDrive(double motorOutput)
@@ -221,7 +233,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void stop(){
     elevatorMotorRight.set(0);
-    m_Controller.reset(getElevatorPositionRaw());
+    resetPID();
   }
 
   public void resetEncoder()

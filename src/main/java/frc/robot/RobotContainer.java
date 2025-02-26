@@ -73,7 +73,8 @@ public class RobotContainer {
   private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
   private final Trigger intake = new Trigger(() -> m_joystick.getRawButton(1));
   private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(2));
-  private final Trigger test = new Trigger(() -> m_buttonBoard.getRawButton(4));
+  private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
+  private final Trigger resetElevator = new Trigger(() -> m_joystick.getTrigger());
 
   // private final Trigger lowerIntake = new Trigger(() -> m_buttonBoard.getRawButton(4));
   // private final Trigger lowerOuttake = new Trigger(() -> m_buttonBoard.getRawButton(6));
@@ -82,7 +83,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    s_Swerve.zeroHeading(m_driverController.getHID());
+    // s_Swerve.zeroHeading(m_driverController.getHID());
 
     //s_Swerve.configureAutoBuilder();
 
@@ -90,18 +91,18 @@ public class RobotContainer {
       new ElevatorManuel(m_joystick)
     );
 
-    frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
+    // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
     // wrist.setDefaultCommand(
       // new wristTest(m_driverController.getHID())
     // );
 
-    s_Swerve.setDefaultCommand(
-        new TeleopSwerve(
-            s_Swerve,
-            m_driverController,
-            m_driverController.leftBumper())
-        );
+    // s_Swerve.setDefaultCommand(
+    //     new TeleopSwerve(
+    //         s_Swerve,
+    //         m_driverController,
+    //         m_driverController.leftBumper())
+    //     );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -139,11 +140,13 @@ public class RobotContainer {
     wristStage3.onTrue(new Stage3CMD());
     wristStage4.onTrue(new Stage4CMD());
 
+    resetElevator.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
+    
     coralStation.onTrue(new CoralStationCmd());
-    intake.whileTrue(new IntakeCoralTest());
-    outtake.whileTrue(new EjectCoralTest());
-
+    // intake.whileTrue(new IntakeCoralTest());
+    // outtake.whileTrue(new EjectCoralTest());
     test.onTrue(new ElevatorStage2());
+
 
     // lowerIntake.whileTrue(new IntakeGround());
     // lowerOuttake.whileTrue(new OuttakeGround());

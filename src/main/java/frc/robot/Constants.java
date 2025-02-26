@@ -422,21 +422,18 @@ public final class Constants {
         //if it's getting stuck to go down or up then increase ks by a little bit to fight friction
         //if rasiing ks might have to lower kg
         public static final double elevatorIZone = 3.0;
-        public static final double elevatorTolerance = 1.5;
-        public static final double elevatorMaxVel = 0.5;
-        public static final double elevatorMaxAccel = 0.5;
+        public static final double elevatorTolerance = 0.05;
+        public static final double elevatorMaxVel = 10;
+        public static final double elevatorMaxAccel = 10;
 
         
         //These values should be percents
         public static final double L2HeightRaw = 0.7;//TODO: CHANGE THESE
-        public static final double L3HeightRaw = 15.0;//TODO: CHANGE THESE
-        public static final double L4HeightRaw = 20.0;//TODO: CHANGE THESE
+        public static final double L3HeightRaw = 1.0;//TODO: CHANGE THESE
+        public static final double L4HeightRaw = 2.0;//TODO: CHANGE THESE
 
-        public static final double lowerEncoderExtreme = 0.0; 
-        public static final double upperEncoderExtreme = 55.0;
-
-        // lower limit + ((upper limmit - lower limit) * level Percent) - formula for heights
-        public static final double encoderFormula = lowerEncoderExtreme + ((upperEncoderExtreme - lowerEncoderExtreme));
+        public static final double elevatorMinHeightMeters = 0.0; 
+        public static final double elevatorMaxHeightMeters = 1.32;
     }
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
@@ -466,7 +463,7 @@ public final class Constants {
         public static final double frontIntakeKv = 0;
         public static final double frontIntakeKs = 0;
         public static final double frontIntakeIZone = 0;
-        public static final double frontIntakeTolerance = 1.5;
+        public static final double frontIntakeTolerance = .5;
         public static final double frontIntakeMaxVel = 5;
         public static final double frontIntakeMaxAccel = 10;
         public static final double wheelSpeed = 10; //volts

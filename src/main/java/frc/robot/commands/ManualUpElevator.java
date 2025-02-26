@@ -26,7 +26,7 @@ public class ManualUpElevator extends Command
   @Override
   public void initialize()
   {
-    elevator.driveToGoal(elevator.getElevatorPositionRaw() + 0.1);
+    elevator.driveToGoal(elevator.getElevatorPositionMeters() + 0.1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
