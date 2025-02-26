@@ -21,10 +21,11 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class photonAlignCmd extends Command {
   private Swerve s_Swerve;
   private PhotonCamera camera;
-  public double offset;
+  
   /** Creates a new photonAlign. */
   public photonAlignCmd() {
     // Use addRequirements() here to declare subsystem dependencies.
+
   }
 
   // Called when the command is initially scheduled.
@@ -38,11 +39,10 @@ public class photonAlignCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    List<PhotonPipelineResult> result = camera.getAllUnreadResults();
-    if(!result.isEmpty())
+    
+    if(!resultList.isEmpty())
     {
-      PhotonPipelineResult topReulst = result.get(0);
-      PhotonTrackedTarget bestTarget = topReulst.getBestTarget();
+      PhotonTrackedTarget bestTarget = result.getBestTarget();
       Translation2d targetPosition = new Translation2d(PhotonVisionCalculations.estimateAdjacent(bestTarget.fiducialId), PhotonVisionCalculations.estimateOpposite(bestTarget.fiducialId));
       //s_Swerve.get;
       //s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);

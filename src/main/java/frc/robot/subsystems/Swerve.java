@@ -82,6 +82,7 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public AHRS gyro;
     private boolean isAutoTurning;
+    
     private ProfiledPIDController turnPidController;// ProfiledPIDController creates a "trapazoid" when it speeds up to avoid pulling too much voltage from the battery at once.
     private ProfiledPIDController xPidController;
     private ProfiledPIDController yPidController;
@@ -632,20 +633,7 @@ public class Swerve extends SubsystemBase {
         
     }
 
-    /**
-     * @deprecated?
-     * Gets the closest not position during autonomous
-     */
-    public int getClosestNotePosition()
-    {
-        Pose2d rightPose = poseEstimator.getEstimatedPosition().nearest(Arrays.asList(AutoConstants.CENTERNOTE_POSE2DS));
-        for(int i = 0; i < AutoConstants.CENTERNOTE_POSE2DS.length; i++)
-        {
-            if(AutoConstants.CENTERNOTE_POSE2DS[i].equals(rightPose))
-            return i;
-        }
-        return -1;        
-    }
+    
     
     public void alignXYYaw(double X, double Y, double Yaw) {
         xPidController.setGoal(X);
