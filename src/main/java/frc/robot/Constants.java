@@ -286,7 +286,7 @@ public final class Constants {
 
         //Front left Module 3
         public static final class Mod3 { //FIXME: This must be tuned to specific robot
-            public static final int driveMotorID = 6;
+            public static final int driveMotorID = 5;
             public static final int angleMotorID = 9;
             public static final int canCoderID = 3;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(90.5);
@@ -320,12 +320,6 @@ public final class Constants {
         public static final double kPThetaController = 3;
     
         public static final PathConstraints pathConstraints = new PathConstraints(autoMaxVelocityMps, kMaxAccelerationMetersPerSecondSquared, maxAngularVelocityRps, maxAngularAcceleratRpsSq);
-
-        // public static final Pose2d AMP_POSE2D = isRed ? new Pose2d(14.65, 7.63, new Rotation2d(Rotation2d.fromDegrees(90).getRadians())) : new Pose2d(1.9, 7.63, new Rotation2d(Rotation2d.fromDegrees(90).getRadians()));
-        public static final Pose2d AMP_POSE2D = new Pose2d(AlienceColorCoordinateFlip.flip(2.0), 7.67, new Rotation2d(Rotation2d.fromDegrees(90).getRadians()));
-        // public static final double maxXDistance = isRed ? 8.81 : 7.75;
-        public static final double maxXDistance = isRed.equals("red") ? 8.6 : 8; // maximum x distance during auto so that it doesn't cross the middle of the field
-
         
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
