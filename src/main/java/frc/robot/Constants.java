@@ -475,7 +475,7 @@ public final class Constants {
         public static final double frontIntakeTolerance = 1.5;
         public static final double frontIntakeMaxVel = 5;
         public static final double frontIntakeMaxAccel = 10;
-        public static final double wheelSpeed = 5; //volts
+        public static final double wheelSpeed = 10; //volts
     }
     public static final class WristIntakeConstants {
         public static final NeutralModeValue INTAKENEU_NEUTRAL_MODE = NeutralModeValue.Brake;
