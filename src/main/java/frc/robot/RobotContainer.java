@@ -60,6 +60,8 @@ public class RobotContainer {
 
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
 
+  private final frontIntakeSubsystem lowerintake = frontIntakeSubsystem.getInstance();
+
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
 
@@ -73,7 +75,7 @@ public class RobotContainer {
   private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
   private final Trigger intake = new Trigger(() -> m_joystick.getRawButton(1));
   private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(2));
-  private final Trigger test = new Trigger(() -> m_buttonBoard.getRawButton(4));
+  private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
 
   // private final Trigger lowerIntake = new Trigger(() -> m_buttonBoard.getRawButton(4));
   // private final Trigger lowerOuttake = new Trigger(() -> m_buttonBoard.getRawButton(6));
@@ -96,12 +98,12 @@ public class RobotContainer {
       // new wristTest(m_driverController.getHID())
     // );
 
-    s_Swerve.setDefaultCommand(
-        new TeleopSwerve(
-            s_Swerve,
-            m_driverController,
-            m_driverController.leftBumper())
-        );
+    // s_Swerve.setDefaultCommand(
+    //     new TeleopSwerve(
+    //         s_Swerve,
+    //         m_driverController,
+    //         m_driverController.leftBumper())
+    //     );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -140,10 +142,11 @@ public class RobotContainer {
     wristStage4.onTrue(new Stage4CMD());
 
     coralStation.onTrue(new CoralStationCmd());
-    intake.whileTrue(new IntakeCoralTest());
-    outtake.whileTrue(new EjectCoralTest());
-
-    test.onTrue(new ElevatorStage2());
+    intake.whileTrue(new InstantCommand(() -> lowerintake.spinFront(true, true)));
+    intake.onFalse(new InstantCommand(() -> lowerintake.spinFront(false, true)));
+    outtake.whileTrue(new InstantCommand(() -> lowerintake.spinFront(true, false)));
+    outtake.onFalse(new InstantCommand(() -> lowerintake.spinFront(false, false)));
+    test.onTrue(new lowerintaketestcommand(m_driverController));
 
     // lowerIntake.whileTrue(new IntakeGround());
     // lowerOuttake.whileTrue(new OuttakeGround());

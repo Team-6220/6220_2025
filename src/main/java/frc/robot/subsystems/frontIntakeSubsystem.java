@@ -106,24 +106,31 @@ public class frontIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean(tableKey + "atGoal", controllerAtGoal());
     SmartDashboard.putNumber(tableKey + "leftCurrent", pivotMotorLeft.getOutputCurrent());
     SmartDashboard.putNumber(tableKey + "rightCurrent", pivotMotorRight.getOutputCurrent());
+    SmartDashboard.putNumber(tableKey +"motorOutputLeft", pivotMotorLeft.getAppliedOutput());
+    SmartDashboard.putNumber(tableKey +"motorOutputRight", pivotMotorRight.getAppliedOutput());
+    SmartDashboard.putNumber(tableKey + "motorOutputManuel", 0);
 
     if(FrontIntakeKp.hasChanged()
         || FrontIntakeKi.hasChanged()
         || FrontIntakeKd.hasChanged())
         {
             m_Controller.setPID(FrontIntakeKp.get(),FrontIntakeKi.get(),FrontIntakeKd.get());
+            System.out.println("new PID;P:" + FrontIntakeKp.get() + "I:" + FrontIntakeKi.get() + "D:" + FrontIntakeKd.get());
         }
 
         if(FrontIntakeKs.hasChanged()
         || FrontIntakeKg.hasChanged()
         || FrontIntakeKv.hasChanged()) {
-            m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeConstants.frontIntakeKs);
-        }
+            m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeConstants.frontIntakeKa);
+            System.out.println("new ff;s:" + FrontIntakeKs.get() + "g:" + FrontIntakeKg.get() + "v:" + FrontIntakeKv.get());
+          }
 
         if(FrontIntakeMaxVel.hasChanged()
         || FrontIntakeMaxAccel.hasChanged()) {
             m_Constraints = new TrapezoidProfile.Constraints(FrontIntakeMaxVel.get(),FrontIntakeMaxAccel.get());
             m_Controller.setConstraints(m_Constraints);
+            System.out.println("new contraints;max vel:" + FrontIntakeMaxVel.get() + "max accel:" + FrontIntakeMaxAccel.get());
+
         }
         
         if(FrontIntakeIZone.hasChanged())
@@ -137,10 +144,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
         }
   }
 
-  public void setGoal(double goal) {
-    m_Controller.setGoal(goal);
-  }
-    public void swingToGoal()
+  public void swingToGoal(double goal)
   {
     // SmartDashboard.putNumber(tableKey + "Position", goal);
     if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
@@ -148,6 +152,17 @@ public class frontIntakeSubsystem extends SubsystemBase {
       resetPID();
     }
 
+    if(goal > FrontIntakeConstants.maxDegrees)
+    {
+      goal = FrontIntakeConstants.maxDegrees;
+    }
+    if(goal < FrontIntakeConstants.minDegrees)
+    {
+      goal = FrontIntakeConstants.minDegrees;
+    }
+
+    m_Controller.setGoal(goal);
+    
     lastUpdate = Timer.getFPGATimestamp();
 
     PIDOutput = m_Controller.calculate(getPosition());
@@ -156,8 +171,11 @@ public class frontIntakeSubsystem extends SubsystemBase {
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
         
-    SmartDashboard.putNumber("ff low intake", feedForwardOutput);
-    SmartDashboard.putNumber("calculatedSpeed", calculatedSpeed);
+    SmartDashboard.putNumber(tableKey + "ffOut", feedForwardOutput);
+    SmartDashboard.putNumber(tableKey + "pidOut", PIDOutput);
+    SmartDashboard.putNumber(tableKey + "calculatedSpeed", calculatedSpeed);
+    SmartDashboard.putNumber(tableKey + "setPoint", m_Controller.getSetpoint().position);
+    SmartDashboard.putNumber(tableKey + "goal", goal);
     pivotMotorLeft.setVoltage(calculatedSpeed);
     pivotMotorRight.setVoltage(calculatedSpeed);
   }
@@ -170,12 +188,13 @@ public class frontIntakeSubsystem extends SubsystemBase {
   /**Raw encoder value subtracted by the offset at zero*/
   public double getPosition()
   {
-    return (lowerintakeEncoder.get() - 0.23) * 360;//.23 offset, *360 to get degrees
+    return (lowerintakeEncoder.get()-0.51) *(20.0/32.0) * 360.0;//(encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
   }
 
   public void simpleDrive(double motorOutput)
   {
     motorOutput *= 5;
+    SmartDashboard.putNumber(tableKey + "motorOutputManuel", motorOutput);
     pivotMotorLeft.setVoltage(motorOutput);
     pivotMotorRight.setVoltage(motorOutput);
   }
