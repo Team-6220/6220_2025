@@ -20,7 +20,7 @@ import org.photonvision.estimation.CameraTargetRelation;
 /** Add your docs here. */
 public class PhotonVisionCalculations {
     private static PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance();
-    private static PhotonCamera[] cameras;
+    private static PhotonCamera[] cameras = s_Photon.getCameras();
     private static NetworkTable table;
     
     public PhotonVisionCalculations() {
@@ -31,13 +31,12 @@ public class PhotonVisionCalculations {
     public static void initPhoton() {
         
     }
-    public static double estimateDistance (int tagID) {
-        
+    public static double estimateDistance (int tagID, int cameraNum) {
         double aprilTagHeightInches = VisionConstants.aprilTagXYHeightAngle.get(tagID)[2];
         
-        
-        double cameraHeight = 20;
-        double cameraMountAngle = 45.0;
+        double cameraHeight = VisionConstants.cameraSpecs.get(cameraNum)[0];
+        double cameraMountAngle = VisionConstants.cameraSpecs.get(cameraNum)[1];
+
         double totalAngleToTarget_deg = cameraOffset + cameraMountAngle;
         double totalAngleToTarget_rad = (totalAngleToTarget_deg * Math.PI) / 180.0;
         
@@ -46,34 +45,22 @@ public class PhotonVisionCalculations {
         return instance;
     }
 
-    public static double estimateOpposite(int tagID) {
-        double hypo = estimateDistance(tagID);
-        double yaw = getYaw();
+    public static double estimateOpposite(int tagID, int cameraNum) {
+        double hypo = estimateDistance(tagID, cameraNum);
+        double yaw = s_Photon.getBestTarget().get(cameraNum).getYaw();
 
         double instance = hypo * Math.sin(yaw);
 
         return instance;
     }
 
-    public static double estimateAdjacent(int tagID) {
-        double hypo = estimateDistance(tagID);
-        double yaw = getYaw();
+    public static double estimateAdjacent(int tagID, int cameraNum) {
+        double hypo = estimateDistance(tagID, cameraNum);
+        double yaw = s_Photon.getBestTarget().get(cameraNum).getYaw();
         
         double instance = hypo * Math.cos(yaw);
 
         return instance;
-    }
-
-    public static double getYaw() {
-        table = NetworkTableInstance.getDefault().getTable("Yaw");
-        NetworkTableEntry ty = table.getEntry("Yaw");
-        double yaw = ty.getDouble(0.0);
-        return yaw;
-    }
-
-    public static double getXY() {
-        
-        return 1.0;
     }
 }
 /*
@@ -92,4 +79,7 @@ Top left:
 Z: 35.707” + 1.724” up
 Y: 0.157” towards front
 Angled 45° (45° up)
+
+top - Processor, Barge, and Coral Station
+bot - Reef
 */

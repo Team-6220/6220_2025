@@ -462,6 +462,8 @@ public final class Constants {
         //creates a hash map of the X Y and Height in that order for april tags
         public static HashMap<Integer, Double[]> aprilTagXYHeightAngle = new HashMap<Integer, Double[]>();
 
+        public static HashMap<Integer, Double[]> cameraSpecs = new HashMap<Integer, Double[]>();
+
         public static void setTagXYHeightAngle() {
             for (int i = 1; i <= aprilTagAngle.length; i++) {
                 aprilTagXYHeightAngle.put(i, new Double[4]);
@@ -471,12 +473,17 @@ public final class Constants {
                 aprilTagXYHeightAngle.get(i)[3] = aprilTagAngle[i];
             }
 
+            for (int x = 0; x < 3; x++) {
+                cameraSpecs.put(x, new Double[2]);
+                cameraSpecs.get(x)[0] = cameraHeight[x];
+                cameraSpecs.get(x)[1] = cameraAngles[x];
+            }
         }
 
+        //                                     bottom right     top right       top left
+        public static double[] cameraHeight = {29.5 + 1.724, 35.707 + 1.724, 35.707 + 1.724};
 
-        public static final double desiredDistanceToAprilTagY = 10; //DO NOT USE THIS BEFORE TUNE, DELTE AFTER TUNED TODO: CAD SPECS
-
-        public static final double limelightMountAngleDegrees = 0; //TODO: CAD SPECS.
+        public static double[] cameraAngles = {210.0, 135.0, 45.0};
 
         public static final double heightOfCamAboveFloor = 2; //TODO: CAD SPECS
         public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
@@ -488,7 +495,6 @@ public final class Constants {
                                                     7d
                                             :
                                                 -1d;
-                                                     
     }
 
     public static final class SwerveConstants {
