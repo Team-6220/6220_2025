@@ -459,17 +459,17 @@ public final class Constants {
         public static final int frontMotorID = 19; 
         public static final IdleMode frontMotorIdleMode = IdleMode.kCoast;
         public static final boolean frontMotorInvert = false;
-        public static final double frontIntakeKp = 0.25;//.4;
+        public static final double frontIntakeKp = 0.24;//.4;
         public static final double frontIntakeKi = 0;
-        public static final double frontIntakeKd = 0;
+        public static final double frontIntakeKd = 0.0005;
         public static final double frontIntakeKa = 0.04;
-        public static final double frontIntakeKg = 0.84;//.01;
-        public static final double frontIntakeKv = 0.58;
+        public static final double frontIntakeKg = 0.73;//.01;
+        public static final double frontIntakeKv = 0.04;
         public static final double frontIntakeKs = 0;
         public static final double frontIntakeIZone = 0;
         public static final double frontIntakeTolerance = 1.5;
-        public static final double frontIntakeMaxVel = 5;
-        public static final double frontIntakeMaxAccel = 10;
+        public static final double frontIntakeMaxVel = 20;
+        public static final double frontIntakeMaxAccel = 30; //note : everytime increase max accel & velocity decrease kd
         public static final double wheelSpeed = 10; //volts
 
         public static final double maxDegrees = 90; //volts

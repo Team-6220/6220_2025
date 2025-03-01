@@ -24,6 +24,7 @@ public class lowerintaketestcommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_fiss.setGoal(a);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,8 +34,12 @@ public class lowerintaketestcommand extends Command {
     //m_fiss.simpleintakeDrive(0.25);
     // if(m_driverController.y().getAsBoolean()){
       // m_fiss.spinFront(true, false);}
-      a = goal.hasChanged()? goal.get() : a;
-      m_fiss.swingToGoal(a);
+      if(goal.hasChanged())
+      {
+        a = goal.get();
+        m_fiss.setGoal(a);
+      }
+      m_fiss.swingToGoal();
     // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
   }
 
