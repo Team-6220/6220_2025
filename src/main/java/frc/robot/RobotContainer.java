@@ -146,7 +146,7 @@ public class RobotContainer {
     intake.onFalse(new InstantCommand(() -> lowerintake.spinFront(false, true)));
     outtake.whileTrue(new InstantCommand(() -> lowerintake.spinFront(true, false)));
     outtake.onFalse(new InstantCommand(() -> lowerintake.spinFront(false, false)));
-    test.onTrue(new lowerintaketestcommand(m_driverController));
+    test.whileTrue(new lowerintaketestcommand(m_driverController));
 
     // lowerIntake.whileTrue(new IntakeGround());
     // lowerOuttake.whileTrue(new OuttakeGround());

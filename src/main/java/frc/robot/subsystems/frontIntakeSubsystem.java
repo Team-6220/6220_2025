@@ -165,27 +165,24 @@ public class frontIntakeSubsystem extends SubsystemBase {
   public void swingToGoal()
   {
     // SmartDashboard.putNumber(tableKey + "Position", goal);
-    if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
-    {
-      feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
-    }
+      feedForwardOutput = m_Feedforward.calculate((m_Controller.getSetpoint().position)*Math.PI/180, m_Controller.getSetpoint().velocity*Math.PI/180);
     
     lastUpdate = Timer.getFPGATimestamp();
 
     PIDOutput = m_Controller.calculate(getPosition());
 
-    double calculatedSpeed = PIDOutput + feedForwardOutput;
+    double calculatedOutput = PIDOutput + feedForwardOutput;
 
         
     SmartDashboard.putNumber(tableKey + "ffOut", feedForwardOutput);
     SmartDashboard.putNumber(tableKey + "pidOut", PIDOutput);
-    SmartDashboard.putNumber(tableKey + "calculatedSpeed", calculatedSpeed);
+    SmartDashboard.putNumber(tableKey + "calculatedOutput", calculatedOutput);
     SmartDashboard.putNumber(tableKey + "setPoint", m_Controller.getSetpoint().position);
     SmartDashboard.putNumber(tableKey + "setPointVelocity", m_Controller.getSetpoint().velocity);
     SmartDashboard.putBoolean(tableKey + "atsetpoint", m_Controller.atSetpoint());
     SmartDashboard.putNumber(tableKey + "goal", m_Controller.getGoal().position);
-    pivotMotorLeft.setVoltage(calculatedSpeed);
-    pivotMotorRight.setVoltage(calculatedSpeed);
+    pivotMotorLeft.setVoltage(calculatedOutput);
+    pivotMotorRight.setVoltage(calculatedOutput);
   }
   
   public void resetPID()
