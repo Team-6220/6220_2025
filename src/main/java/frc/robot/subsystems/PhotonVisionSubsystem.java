@@ -14,6 +14,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   private PhotonCamera[] cameras = new PhotonCamera[3];
   private static PhotonVisionSubsystem INSTANCE = null;
   private ArrayList<PhotonTrackedTarget> bestTarget;
+  private PhotonTrackedTarget noErrorHopefully;
 
   private HashMap<Integer, List<PhotonPipelineResult>> results;
 
@@ -27,16 +28,17 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     }
   
     VisionConstants.setTagXYHeightAngle();
-    results = new HashMap<Integer, List<PhotonPipelineResult>>();
 
+    results = new HashMap<Integer, List<PhotonPipelineResult>>();
     results.put(0, cameras[0].getAllUnreadResults());
     results.put(1, cameras[1].getAllUnreadResults());
     results.put(2, cameras[2].getAllUnreadResults());
 
     bestTarget = new ArrayList<PhotonTrackedTarget>();
-    bestTarget.add(results.get(0).get(0).getBestTarget());
-    bestTarget.add(results.get(1).get(1).getBestTarget());
-    bestTarget.add(results.get(2).get(2).getBestTarget());
+    noErrorHopefully = new PhotonTrackedTarget();
+      bestTarget.add(noErrorHopefully);
+      bestTarget.add(noErrorHopefully);
+      bestTarget.add(noErrorHopefully);
   }
 
   @Override
@@ -46,6 +48,22 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       results.put(0, cameras[0].getAllUnreadResults());
       results.put(1, cameras[1].getAllUnreadResults());
       results.put(2, cameras[2].getAllUnreadResults());
+    }
+
+    if (!results.get(0).isEmpty()) {
+      bestTarget.remove(0);
+      bestTarget.add(0, results.get(0).get(0).getBestTarget());
+    }
+    
+
+    if (!results.get(1).isEmpty()) {
+      bestTarget.remove(1);
+      bestTarget.add(1, results.get(1).get(0).getBestTarget());
+    }
+
+    if (!results.get(1).isEmpty()) {
+      bestTarget.remove(1);
+      bestTarget.add(1, results.get(1).get(0).getBestTarget());
     }
   }
 
