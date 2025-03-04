@@ -34,6 +34,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
   private final TunableNumber FrontIntakeKg = new TunableNumber("FrontIntake kG",FrontIntakeConstants.frontIntakeKg);
   private final TunableNumber FrontIntakeKv = new TunableNumber("FrontIntake kV", FrontIntakeConstants.frontIntakeKv);
   private final TunableNumber FrontIntakeKs = new TunableNumber("FrontIntake kS", FrontIntakeConstants.frontIntakeKs);
+  private final TunableNumber FrontIntakeKa = new TunableNumber("FrontIntake kA", FrontIntakeConstants.frontIntakeKa);
   private final TunableNumber FrontIntakeIZone = new TunableNumber("FrontIntake izone", FrontIntakeConstants.frontIntakeIZone);//default 3
   private final TunableNumber FrontIntakeTolerance = new TunableNumber("FrontIntake tolerance", FrontIntakeConstants.frontIntakeTolerance);//default 1.5
 
@@ -90,7 +91,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
       FrontIntakeKd.get(),
       m_Constraints);
     
-    m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeConstants.frontIntakeKa);
+    m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeKa.get());
 
     m_Controller.setIZone(FrontIntakeIZone.get());//not sure if we need this
 
@@ -103,27 +104,36 @@ public class frontIntakeSubsystem extends SubsystemBase {
   public void periodic() {
         // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "Position", getPosition());
+    SmartDashboard.putNumber(tableKey+"rawPosition", lowerintakeEncoder.get());
     SmartDashboard.putBoolean(tableKey + "atGoal", controllerAtGoal());
     SmartDashboard.putNumber(tableKey + "leftCurrent", pivotMotorLeft.getOutputCurrent());
     SmartDashboard.putNumber(tableKey + "rightCurrent", pivotMotorRight.getOutputCurrent());
+    SmartDashboard.putNumber(tableKey +"motorOutputLeft", pivotMotorLeft.getAppliedOutput());
+    SmartDashboard.putNumber(tableKey +"motorOutputRight", pivotMotorRight.getAppliedOutput());
+    SmartDashboard.putNumber(tableKey + "motorOutputManuel", 0);
+    // SmartDashboard.putNumber(tableKey + "encoder vel");
 
     if(FrontIntakeKp.hasChanged()
         || FrontIntakeKi.hasChanged()
         || FrontIntakeKd.hasChanged())
         {
             m_Controller.setPID(FrontIntakeKp.get(),FrontIntakeKi.get(),FrontIntakeKd.get());
+            System.out.println("new PID;P:" + FrontIntakeKp.get() + "I:" + FrontIntakeKi.get() + "D:" + FrontIntakeKd.get());
         }
 
         if(FrontIntakeKs.hasChanged()
         || FrontIntakeKg.hasChanged()
         || FrontIntakeKv.hasChanged()) {
-            m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeConstants.frontIntakeKs);
-        }
+            m_Feedforward = new ArmFeedforward(FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeConstants.frontIntakeKa);
+            System.out.println("new ff;s:" + FrontIntakeKs.get() + "g:" + FrontIntakeKg.get() + "v:" + FrontIntakeKv.get());
+          }
 
         if(FrontIntakeMaxVel.hasChanged()
         || FrontIntakeMaxAccel.hasChanged()) {
             m_Constraints = new TrapezoidProfile.Constraints(FrontIntakeMaxVel.get(),FrontIntakeMaxAccel.get());
             m_Controller.setConstraints(m_Constraints);
+            System.out.println("new contraints;max vel:" + FrontIntakeMaxVel.get() + "max accel:" + FrontIntakeMaxAccel.get());
+
         }
         
         if(FrontIntakeIZone.hasChanged())
@@ -137,47 +147,62 @@ public class frontIntakeSubsystem extends SubsystemBase {
         }
   }
 
-  public void setGoal(double goal) {
-    m_Controller.setGoal(goal);
-  }
-    public void swingToGoal()
+  public void setGoal(double goal)
   {
-    // SmartDashboard.putNumber(tableKey + "Position", goal);
-    if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
+    resetPID();
+
+    if(goal > FrontIntakeConstants.maxDegrees)
     {
-      resetPID();
+      goal = FrontIntakeConstants.maxDegrees;
+    }
+    if(goal < FrontIntakeConstants.minDegrees)
+    {
+      goal = FrontIntakeConstants.minDegrees;
     }
 
+    m_Controller.setGoal(goal);
+  }
+
+  public void swingToGoal()
+  {
+    // SmartDashboard.putNumber(tableKey + "Position", goal);
+    feedForwardOutput = m_Feedforward.calculate((m_Controller.getSetpoint().position)*Math.PI/180, m_Controller.getSetpoint().velocity*Math.PI/180);
+    
     lastUpdate = Timer.getFPGATimestamp();
 
     PIDOutput = m_Controller.calculate(getPosition());
 
-    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
-    double calculatedSpeed = PIDOutput + feedForwardOutput;
+    double calculatedOutput = PIDOutput + feedForwardOutput;
 
         
-    SmartDashboard.putNumber("ff low intake", feedForwardOutput);
-    SmartDashboard.putNumber("calculatedSpeed", calculatedSpeed);
-    pivotMotorLeft.setVoltage(calculatedSpeed);
-    pivotMotorRight.setVoltage(calculatedSpeed);
+    SmartDashboard.putNumber(tableKey + "ffOut", feedForwardOutput);
+    SmartDashboard.putNumber(tableKey + "pidOut", PIDOutput);
+    SmartDashboard.putNumber(tableKey + "calculatedOutput", calculatedOutput);
+    SmartDashboard.putNumber(tableKey + "setPoint", m_Controller.getSetpoint().position);
+    SmartDashboard.putNumber(tableKey + "setPointVelocity", m_Controller.getSetpoint().velocity);
+    SmartDashboard.putBoolean(tableKey + "atsetpoint", m_Controller.atSetpoint());
+    SmartDashboard.putNumber(tableKey + "goal", m_Controller.getGoal().position);
+    pivotMotorLeft.setVoltage(calculatedOutput);
+    pivotMotorRight.setVoltage(calculatedOutput);
   }
   
   public void resetPID()
   {
+    
     m_Controller.reset(getPosition());
   }
 
   /**Raw encoder value subtracted by the offset at zero*/
   public double getPosition()
   {
-    return (lowerintakeEncoder.get() - 0.23) * 360;//.23 offset, *360 to get degrees
+    return ((lowerintakeEncoder.get()) *(24.0/32.0) * 360.0)-304+185.5+31.5;//(encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
   }
-
   public void simpleDrive(double motorOutput)
   {
-    motorOutput *= 5;
-    pivotMotorLeft.setVoltage(motorOutput);
-    pivotMotorRight.setVoltage(motorOutput);
+    // motorOutput *= 12;
+    SmartDashboard.putNumber(tableKey + "motorOutputManuel", motorOutput);
+    pivotMotorLeft.set(motorOutput);
+    pivotMotorRight.set(motorOutput);
   }
 
   public boolean controllerAtGoal()

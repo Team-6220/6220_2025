@@ -129,10 +129,9 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
 
   public void driveToGoal(double goal)
   {
-    if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
-    {
+    
       resetPID();
-    }
+    
 
     lastUpdate = Timer.getFPGATimestamp();
 
@@ -150,7 +149,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
 
     PIDOutput = m_Controller.calculate(getwristPosition());
 
-    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
+    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position * Math.PI/180, m_Controller.getSetpoint().velocity * Math.PI/180);
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
         
@@ -170,7 +169,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
   public double getwristPosition()
   {
     double wristPosition = wristEncoder.getPosition();
-    return wristPosition;
+    return wristPosition * 360;
   }
 
   /**Driving in Decimal Perent */

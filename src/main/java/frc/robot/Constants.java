@@ -408,7 +408,7 @@ public final class Constants {
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
-        public static final double elevatorKp = 0.01;
+        public static final double elevatorKp = 0.0;
         public static final double elevatorKi = 0.0;
         public static final double elevatorKd = 0.0;
         public static final double elevatorKg = 0.32;//Tune this first
@@ -423,8 +423,8 @@ public final class Constants {
         //if rasiing ks might have to lower kg
         public static final double elevatorIZone = 3.0;
         public static final double elevatorTolerance = 1.5;
-        public static final double elevatorMaxVel = 0.5;
-        public static final double elevatorMaxAccel = 0.5;
+        public static final double elevatorMaxVel = 26.05;
+        public static final double elevatorMaxAccel = 269.93;
 
         
         //These values should be percents
@@ -441,36 +441,39 @@ public final class Constants {
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
         public static final int rightMotorID = 15; //nonclimber
-        public static final IdleMode rightMotorIdleMode = IdleMode.kCoast;
+        public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
         public static final boolean rightMotorInvert = true;
 
         public static final int leftMotorID = 16; //climber
-        public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
+        public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
         public static final boolean leftMotorInvert = false;
 
         public static final boolean enableCurrentLimit = true;
         public static final double maxCurrent = 25;
-        public static final double currentLimit = 10;
+        public static final double currentLimit = 20;
         public static final double maxCurrentTime = 1;
 
-        public static final int stallLimit = 8; //amps
+        public static final int stallLimit = 25; //amps
         public static final int freeLimit = 25; //amps
 
         public static final int frontMotorID = 19; 
         public static final IdleMode frontMotorIdleMode = IdleMode.kCoast;
         public static final boolean frontMotorInvert = false;
-        public static final double frontIntakeKp = 0.4;//.4;
-        public static final double frontIntakeKi = 0;
-        public static final double frontIntakeKd = 0;
-        public static final double frontIntakeKa = 0.04;
-        public static final double frontIntakeKg = 0.84;//.01;
-        public static final double frontIntakeKv = 0.58;
+        public static final double frontIntakeKp = .05;//.4;
+        public static final double frontIntakeKi = 0.05;
+        public static final double frontIntakeKd = 0.0;
+        public static final double frontIntakeKa = 0.0;
+        public static final double frontIntakeKg = 0.87;//.01;
+        public static final double frontIntakeKv = 0.35;
         public static final double frontIntakeKs = 0;
-        public static final double frontIntakeIZone = 0;
+        public static final double frontIntakeIZone = 5;
         public static final double frontIntakeTolerance = 1.5;
-        public static final double frontIntakeMaxVel = 5;
-        public static final double frontIntakeMaxAccel = 10;
+        public static final double frontIntakeMaxVel = 200;
+        public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
         public static final double wheelSpeed = 10; //volts
+
+        public static final double maxDegrees = 90; //volts
+        public static final double minDegrees = 0; //volts
     }
     public static final class WristIntakeConstants {
         public static final NeutralModeValue INTAKENEU_NEUTRAL_MODE = NeutralModeValue.Brake;
