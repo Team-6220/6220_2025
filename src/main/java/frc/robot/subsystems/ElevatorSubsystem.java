@@ -144,10 +144,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   
   public void driveToGoal(double goal)
   {
-    if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
-    {
-      resetPID();
-    }
 
     lastUpdate = Timer.getFPGATimestamp();
 
@@ -165,7 +161,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     PIDOutput = m_Controller.calculate(getElevatorPositionMeters());
 
-    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
+    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().velocity);
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
         
@@ -195,8 +191,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   public double getElevatorPositionMeters()
   {
     //Pivit position
-    double elevatorPosition = elevatorEncoder.getPosition() * (1/20) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
-    return elevatorPosition;
+    //* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
+    return elevatorEncoder.getPosition() * (1/20) * 5.4978 * .0254 * 2;
   }
 
   public double getElevatorPositionRaw()

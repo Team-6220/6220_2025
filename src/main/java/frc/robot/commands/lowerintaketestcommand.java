@@ -24,6 +24,7 @@ public class lowerintaketestcommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
     m_fiss.setGoal(a);
   }
 
@@ -47,6 +48,7 @@ public class lowerintaketestcommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_fiss.simpleintakeDrive(0);
+    m_fiss.resetPID();
   }
 
   // Returns true when the command should end.

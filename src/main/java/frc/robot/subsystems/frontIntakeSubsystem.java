@@ -104,6 +104,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
   public void periodic() {
         // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "Position", getPosition());
+    SmartDashboard.putNumber(tableKey+"rawPosition", lowerintakeEncoder.get());
     SmartDashboard.putBoolean(tableKey + "atGoal", controllerAtGoal());
     SmartDashboard.putNumber(tableKey + "leftCurrent", pivotMotorLeft.getOutputCurrent());
     SmartDashboard.putNumber(tableKey + "rightCurrent", pivotMotorRight.getOutputCurrent());
@@ -165,7 +166,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
   public void swingToGoal()
   {
     // SmartDashboard.putNumber(tableKey + "Position", goal);
-      feedForwardOutput = m_Feedforward.calculate((m_Controller.getSetpoint().position)*Math.PI/180, m_Controller.getSetpoint().velocity*Math.PI/180);
+    feedForwardOutput = m_Feedforward.calculate((m_Controller.getSetpoint().position)*Math.PI/180, m_Controller.getSetpoint().velocity*Math.PI/180);
     
     lastUpdate = Timer.getFPGATimestamp();
 
@@ -187,21 +188,21 @@ public class frontIntakeSubsystem extends SubsystemBase {
   
   public void resetPID()
   {
+    
     m_Controller.reset(getPosition());
   }
 
   /**Raw encoder value subtracted by the offset at zero*/
   public double getPosition()
   {
-    return (lowerintakeEncoder.get()-0.51) *(20.0/32.0) * 360.0;//(encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
+    return ((lowerintakeEncoder.get()) *(24.0/32.0) * 360.0)-304+185.5+31.5;//(encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
   }
-
   public void simpleDrive(double motorOutput)
   {
-    motorOutput *= 5;
+    // motorOutput *= 12;
     SmartDashboard.putNumber(tableKey + "motorOutputManuel", motorOutput);
-    pivotMotorLeft.setVoltage(motorOutput);
-    pivotMotorRight.setVoltage(motorOutput);
+    pivotMotorLeft.set(motorOutput);
+    pivotMotorRight.set(motorOutput);
   }
 
   public boolean controllerAtGoal()

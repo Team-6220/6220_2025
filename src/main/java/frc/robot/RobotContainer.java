@@ -137,8 +137,8 @@ public class RobotContainer {
     // m_driverControlleÖr.y().onTrue(new WristPIDTest());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    wristStage2.onTrue(new Stage2CMD());
-    wristStage3.onTrue(new Stage3CMD());
+    wristStage2.whileTrue(new ElevatorStage2());
+    wristStage3.whileTrue(new Stage3CMD());
     wristStage4.onTrue(new Stage4CMD());
 
     coralStation.onTrue(new CoralStationCmd());
