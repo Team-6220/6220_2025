@@ -489,4 +489,8 @@ public final class Constants {
         public static final double maxCurrentTime = 1;
     }
 
+    public static final class ClimberConstants {
+        public static final int climbMotorID = 20;
+        
+    }
 }

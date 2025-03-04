@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ClimberConstants;
+import frc.robot.commands.ClimberTest;
 import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.EjectCoralTest;
 import frc.robot.commands.IntakeCoralTest;
@@ -20,6 +22,7 @@ import frc.robot.commands.lowerintaketestcommand;
 import frc.robot.commands.wristTest;
 import frc.robot.commands.ElevatorManuel;
 import frc.robot.commands.ElevatorStage2;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
@@ -60,6 +63,8 @@ public class RobotContainer {
 
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
 
+  private final ClimberSubsystem climber = ClimberSubsystem.getInstance();
+
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
 
@@ -86,11 +91,13 @@ public class RobotContainer {
 
     //s_Swerve.configureAutoBuilder();
 
-    elevator.setDefaultCommand(
-      new ElevatorManuel(m_joystick)
-    );
+    // elevator.setDefaultCommand(
+    //   new ElevatorManuel(m_joystick)
+    // );
 
-    frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
+    //frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
+
+    climber.setDefaultCommand(new ClimberTest(m_joystick));
 
     // wrist.setDefaultCommand(
       // new wristTest(m_driverController.getHID())
