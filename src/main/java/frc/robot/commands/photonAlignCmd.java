@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.PhotonVisionCalculations;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 
@@ -22,14 +23,15 @@ public class photonAlignCmd extends Command {
   private Swerve s_Swerve;
   private PhotonVisionSubsystem s_Photon;
   private PhotonCamera camera;
-  private double offset;
+  private double offsetX, offsetY;
+  private int cameraNum;
   
   /** Creates a new photonAlign. */
-  public photonAlignCmd() {
+  public photonAlignCmd(int cameraNum) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Photon = PhotonVisionSubsystem.getInstance();
     addRequirements(s_Photon);
-
+    this.cameraNum = cameraNum;
   }
 
   // Called when the command is initially scheduled.
@@ -37,20 +39,25 @@ public class photonAlignCmd extends Command {
   public void initialize() {
     s_Swerve.resetTurnController();
     s_Swerve.alignXYYaw(s_Swerve.getTargetX(), s_Swerve.getTargetY(), s_Swerve.getTargetYaw());
-    offset = PhotonVisionCalculations.estimateDistance(0);
+    offsetX = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId())[0] - PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
+    offsetY = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId())[1] - PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
-    if(!resultList.isEmpty())
+    if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
     {
-      PhotonTrackedTarget bestTarget = result.getBestTarget();
-      Translation2d targetPosition = new Translation2d(PhotonVisionCalculations.estimateAdjacent(bestTarget.fiducialId), PhotonVisionCalculations.estimateOpposite(bestTarget.fiducialId));
+      PhotonTrackedTarget bestTarget = s_Photon.getBestTarget().get(cameraNum);
+      Translation2d targetPosition = new Translation2d(PhotonVisionCalculations.estimateAdjacent(bestTarget.fiducialId, cameraNum), PhotonVisionCalculations.estimateOpposite(bestTarget.fiducialId, cameraNum));
       //s_Swerve.get;
       //s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
-      s_Swerve.drive(targetPosition, PhotonVisionCalculations.getYaw(), false, false);
+      s_Swerve.drive(targetPosition, 0.0, false, false);
+      s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagXYHeightAngle.get(bestTarget.fiducialId)[3]);
+    }
+    else {
+      end(true);
     }
   }
 

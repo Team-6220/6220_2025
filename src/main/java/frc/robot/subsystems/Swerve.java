@@ -273,7 +273,7 @@ public class Swerve extends SubsystemBase {
     
         SwerveModuleState[] targetStates = SwerveConstants.swerveKinematics.toSwerveModuleStates(targetSpeeds);
         setModuleStates(targetStates);
-      }
+    }
     /**
      * Resets the odometer value
      */
@@ -284,20 +284,19 @@ public class Swerve extends SubsystemBase {
         this.positions[2] = new SwerveModulePosition();
         this.positions[3] = new SwerveModulePosition();
         poseEstimator.resetPosition(getGyroYaw(), positions, pose2d);
-  }
+    }
 
 /**
  * Get's the chassis speed of the robot in ROBOT RELATIVE SPEED
  */
 
-  public ChassisSpeeds getRobotRelativeSpeeds()
-  {
-    ChassisSpeeds chassisSpeeds = SwerveConstants.swerveKinematics.toChassisSpeeds(getModuleStates());
-    return chassisSpeeds;
+    public ChassisSpeeds getRobotRelativeSpeeds()
+    {
+        ChassisSpeeds chassisSpeeds = SwerveConstants.swerveKinematics.toChassisSpeeds(getModuleStates());
+        return chassisSpeeds;
+    }
 
-  }
-
-  /**
+    /**
      * AKA get x value to amp as of map in pathplanner, forward/positvie is away from DRIVER'S POINT OF VIEW at BLUE SIDE
      * @return the forward/backward/x distance from robot to amp
      */
@@ -618,7 +617,7 @@ public class Swerve extends SubsystemBase {
         // Shuffleboard.getTab(title).addString("Robot Pose", () -> getPose().toString());
         Shuffleboard.getTab(title).add(field2d);
         //SmartDashboard.putString("getRobotPoseField 2d", field2d.getRobotPose().toString());
- 
+
         for(SwerveModule mod : mSwerveMods){
             // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             Shuffleboard.getTab(title).addNumber("Mod " + mod.moduleNumber + " CANcoder", () -> mod.getCANcoder().getDegrees());
