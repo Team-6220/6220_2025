@@ -32,7 +32,7 @@ public class ManualDownElevator extends Command
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute()  {
-    elevator.driveToGoal(elevator.getElevatorPositionRaw() - 0.1);
+    elevator.setGoal(elevator.getElevatorPositionRaw() - 0.1);
   }
 
   // Called once the command ends or is interrupted.

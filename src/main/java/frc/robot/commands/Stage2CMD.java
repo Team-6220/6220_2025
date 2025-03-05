@@ -14,14 +14,14 @@ import frc.robot.Constants.ElevatorConstants;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage2CMD extends Command
 {
-  // private ElevatorSubsystem elevator;
+  private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
   
 
   public Stage2CMD()
   {
-    // elevator = ElevatorSubsystem.getInstance();
-    // addRequirements(elevator);
+    elevator = ElevatorSubsystem.getInstance();
+    addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     addRequirements(wrist);
   }
@@ -30,7 +30,7 @@ public class Stage2CMD extends Command
   @Override
   public void initialize()
   {
-    
+    elevator.setGoal(ElevatorConstants.L2HeightRaw);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +38,7 @@ public class Stage2CMD extends Command
   public void execute()  {
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     wrist.driveToGoal(-55);
+    elevator.driveToGoal();
   }
 
   // Called once the command ends or is interrupted.

@@ -402,42 +402,39 @@ public final class Constants {
         public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
         public static final boolean leftMotorInvert = false ;
 
-        public static final int stallLimit = 5;
+        public static final int stallLimit = 20;
         public static final int freeLimit = 20;
 
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
         public static final double elevatorKp = 0.0;
-        public static final double elevatorKi = 0.0;
+        public static final double elevatorKi = 0.075;
         public static final double elevatorKd = 0.0;
-        public static final double elevatorKg = 0.32;//Tune this first
+        public static final double elevatorKg = 0.23;//Tune this first
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 17.44;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
-        public static final double elevatorKa = 0.05; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
+        public static final double elevatorKv = 13;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
         //if it's getting stuck to go down or up then increase ks by a little bit to fight friction
         //if rasiing ks might have to lower kg
-        public static final double elevatorIZone = 3.0;
-        public static final double elevatorTolerance = 1.5;
-        public static final double elevatorMaxVel = 26.05;
-        public static final double elevatorMaxAccel = 269.93;
+        public static final double elevatorIZone = 0.1;
+        public static final double elevatorTolerance = .005;
+        public static final double elevatorMaxVel = 25;
+        public static final double elevatorMaxAccel = 5;
 
         
         //These values should be percents
-        public static final double L2HeightRaw = 0.7;//TODO: CHANGE THESE
-        public static final double L3HeightRaw = 15.0;//TODO: CHANGE THESE
-        public static final double L4HeightRaw = 20.0;//TODO: CHANGE THESE
+        public static final double L2HeightRaw = 0.3;//TODO: CHANGE THESE
+        public static final double L3HeightRaw = .5;//TODO: CHANGE THESE
+        public static final double L4HeightRaw = 0.7;//TODO: CHANGE THESE
 
         public static final double lowerEncoderExtreme = 0.0; 
-        public static final double upperEncoderExtreme = 55.0;
-
-        // lower limit + ((upper limmit - lower limit) * level Percent) - formula for heights
-        public static final double encoderFormula = lowerEncoderExtreme + ((upperEncoderExtreme - lowerEncoderExtreme));
-    }
+        public static final double upperEncoderExtreme = 1.2;
+        }
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
         public static final int rightMotorID = 15; //nonclimber
