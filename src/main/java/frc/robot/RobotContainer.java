@@ -16,6 +16,8 @@ import frc.robot.commands.Stage4CMD;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.WristPIDTest;
+import frc.robot.commands.lowerIntakePickUp;
+import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.lowerintaketestcommand;
 import frc.robot.commands.wristTest;
 import frc.robot.commands.ElevatorManuel;
@@ -70,6 +72,7 @@ public class RobotContainer {
   private final GenericHID m_buttonBoard = new GenericHID(2);
 
   private final Trigger wristStage2 = new Trigger(() -> m_buttonBoard.getRawButton(5));
+  private final Trigger setLowerIn = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger wristStage3 = new Trigger(() -> m_buttonBoard.getRawButton(3));
   private final Trigger wristStage4 = new Trigger(() -> m_buttonBoard.getRawButton(1));
   private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
@@ -140,8 +143,10 @@ public class RobotContainer {
     wristStage2.whileTrue(new ElevatorStage2());
     wristStage3.whileTrue(new Stage3CMD());
     wristStage4.onTrue(new Stage4CMD());
+    setLowerIn.whileTrue(new lowerIntakePickUp());
+    setLowerIn.whileFalse(new lowerIntakeSet());
 
-    coralStation.onTrue(new CoralStationCmd());
+    coralStation.whileTrue(new CoralStationCmd());
     intake.whileTrue(new InstantCommand(() -> lowerintake.spinFront(true, true)));
     intake.onFalse(new InstantCommand(() -> lowerintake.spinFront(false, true)));
     outtake.whileTrue(new InstantCommand(() -> lowerintake.spinFront(true, false)));

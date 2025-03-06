@@ -37,6 +37,6 @@ public class Autos {
         new IdealStartingState(0, new Rotation2d(0)),
         new GoalEndState(0, new Rotation2d(0)));
 
-        pathHashMap.put("Template Path", template);
+        //hHashMap.put("Template Path", template);
 
 }
