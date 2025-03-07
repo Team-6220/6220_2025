@@ -221,7 +221,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
     if(spin&&!intake){
       frontMotor.setVoltage(-FrontIntakeConstants.wheelSpeed);
     }
-    else{
+    if(!spin){
       frontMotor.set(0);
     } 
   }

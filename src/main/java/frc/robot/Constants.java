@@ -470,7 +470,7 @@ public final class Constants {
         public static final double frontIntakeTolerance = 1.5;
         public static final double frontIntakeMaxVel = 200;
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
-        public static final double wheelSpeed = 10; //volts
+        public static final double wheelSpeed = 2; //volts
 
         public static final double maxDegrees = 90; //volts
         public static final double minDegrees = 0; //volts

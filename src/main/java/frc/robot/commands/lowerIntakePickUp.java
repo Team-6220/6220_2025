@@ -22,7 +22,7 @@ public class lowerIntakePickUp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    m_fiss.spinFront(true, false);
     m_fiss.setGoal(a);
   }
 
@@ -39,7 +39,6 @@ public class lowerIntakePickUp extends Command {
         m_fiss.setGoal(a);
       }
       m_fiss.swingToGoal();
-      m_fiss.spinFront(true, true);
     // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
   }
 
