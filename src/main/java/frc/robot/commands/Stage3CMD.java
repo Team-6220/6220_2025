@@ -9,41 +9,43 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
+import frc.lib.util.TunableNumber;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage3CMD extends Command
 {
-   // private ElevatorSubsystem elevator;
+   private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
-  
 
   public Stage3CMD()
   {
-    // elevator = ElevatorSubsystem.getInstance();
-    // addRequirements(elevator);
+    elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
-    addRequirements(wrist);
+    addRequirements(elevator,wrist);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize()
   {
-    
+    wrist.setGoal(WristConstants.L3);
+    elevator.setGoal(ElevatorConstants.E_L3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute()  {
-    wrist.driveToGoal(-55);
+    wrist.driveToGoal();
+    elevator.driveToGoal();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     // System.out.println("we ended");
-    // elevator.stop();
+    elevator.stop();
     wrist.stop();
   }
 

@@ -220,6 +220,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void stop(){
     elevatorMotorRight.set(0);
+    elevatorMotorLeft.set(0);
     m_Controller.reset(getElevatorPositionRaw());
   }
 

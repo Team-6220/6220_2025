@@ -286,7 +286,7 @@ public final class Constants {
 
         //Front left Module 3
         public static final class Mod3 { //FIXME: This must be tuned to specific robot
-            public static final int driveMotorID = 5;
+            public static final int driveMotorID = 6;
             public static final int angleMotorID = 9;
             public static final int canCoderID = 3;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(90.5);
@@ -386,11 +386,15 @@ public final class Constants {
         public static final int stallLimit = 5;
         public static final int freeLimit = 20;
         
-        public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = 1.5;
+        public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = .5;
         public static final double kS = 0, kG = .25, kV = 0, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
         public static final double maxAcceleration = 5000, maxVelocity = 10000;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
         public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
+
+        public static final double L2 = -48.8018;
+        public static final double L3 = -46.2412;
+        public static final double L4 = -20.6963;
     }
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
@@ -405,17 +409,19 @@ public final class Constants {
         public static final int stallLimit = 20;
         public static final int freeLimit = 20;
 
+        public static final double elevatorOffset = 0; //FOR COMP
+
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
         public static final double elevatorKp = 0.0;
-        public static final double elevatorKi = 0.075;
+        public static final double elevatorKi = 0.0;
         public static final double elevatorKd = 0.0;
         public static final double elevatorKg = 0.23;//Tune this first
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 13;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKv = 10.5;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
         public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
@@ -428,9 +434,9 @@ public final class Constants {
 
         
         //These values should be percents
-        public static final double L2HeightRaw = 0.3;//TODO: CHANGE THESE
-        public static final double L3HeightRaw = .5;//TODO: CHANGE THESE
-        public static final double L4HeightRaw = 0.7;//TODO: CHANGE THESE
+        public static final double E_L2 = 0.485757;//TODO: CHANGE THESE
+        public static final double E_L3 = .929;//TODO: CHANGE THESE
+        public static final double E_L4 = 1.21;//TODO: CHANGE THESE
 
         public static final double lowerEncoderExtreme = 0.0; 
         public static final double upperEncoderExtreme = 1.2;

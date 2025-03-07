@@ -14,7 +14,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorStage2 extends Command {
   /** Creates a new ElevatorStage2. */
   private ElevatorSubsystem elevator;
-  private TunableNumber goal = new TunableNumber("elevator goal", ElevatorConstants.L3HeightRaw);
+  private TunableNumber goal = new TunableNumber("elevator goal", ElevatorConstants.E_L3);
   public ElevatorStage2() {
     elevator = ElevatorSubsystem.getInstance();
     addRequirements(elevator);

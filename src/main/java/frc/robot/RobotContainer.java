@@ -73,11 +73,13 @@ public class RobotContainer {
   private final Trigger wristStage3 = new Trigger(() -> m_buttonBoard.getRawButton(3));
   private final Trigger wristStage4 = new Trigger(() -> m_buttonBoard.getRawButton(1));
   private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
-  private final Trigger intake = new Trigger(() -> m_joystick.getRawButton(1));
-  private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(2));
-  private final Trigger resetEncoder = new Trigger(() -> m_joystick.getTrigger());
+  private final Trigger intake = new Trigger(() -> m_joystick.getRawButton(2));
+  private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(1));
+  private final Trigger resetEncoder = new Trigger(() -> m_buttonBoard.getRawButton(11));
   private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
-
+  private final Trigger elevatorUp = new Trigger(() -> m_buttonBoard.getRawButton(13));
+  private final Trigger elevatorDown = new Trigger(() -> m_buttonBoard.getRawButton(14));
+  private final Trigger twisterTest = new Trigger(() -> m_buttonBoard.getRawButton(22));//turn right
   // private final Trigger lowerIntake = new Trigger(() -> m_buttonBoard.getRawButton(4));
   // private final Trigger lowerOuttake = new Trigger(() -> m_buttonBoard.getRawButton(6));
 
@@ -99,12 +101,12 @@ public class RobotContainer {
       // new wristTest(m_driverController.getHID())
     // );
 
-    // s_Swerve.setDefaultCommand(
-    //     new TeleopSwerve(
-    //         s_Swerve,
-    //         m_driverController,
-    //         m_driverController.leftBumper())
-    //     );
+    s_Swerve.setDefaultCommand(
+        new TeleopSwerve(
+            s_Swerve,
+            m_driverController,
+            m_driverController.leftBumper())
+        );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -144,10 +146,12 @@ public class RobotContainer {
 
     coralStation.onTrue(new CoralStationCmd());
     intake.whileTrue(new IntakeCoralTest());
-    // outtake.whileTrue(new EjectCoralTest());
+    outtake.whileTrue(new EjectCoralTest());
     // test.whileTrue(new lowerintaketestcommand(m_driverController));
     intake.whileTrue(new IntakeCoralTest());
 
+    // elevatorUp.onTrue()
+    twisterTest.onTrue(new InstantCommand(()-> System.out.println("^^^^^^^^^^^pressed")));
     test.whileTrue(new ElevatorStage2());
 
     // lowerIntake.whileTrue(new IntakeGround());
