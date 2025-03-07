@@ -39,8 +39,8 @@ public class photonAlignCmd extends Command {
   public void initialize() {
     s_Swerve.resetTurnController();
     s_Swerve.alignXYYaw(s_Swerve.getTargetX(), s_Swerve.getTargetY());
-    offsetX = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId())[0] - PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
-    offsetY = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId())[1] - PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
+    offsetX = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId()).get(0) - PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
+    offsetY = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId()).get(1) - PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
     VisionConstants.setTagXYHeightAngle();
   }
 
@@ -55,7 +55,7 @@ public class photonAlignCmd extends Command {
       //s_Swerve.get;
       //s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
       s_Swerve.drive(targetPosition, 0.0, false, false);
-      s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagXYHeightAngle.get(bestTarget.fiducialId)[3]);
+      s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagXYHeightAngle.get(bestTarget.fiducialId).get(3));
     }
     else {
       end(true);

@@ -13,7 +13,7 @@ public class PhotonVisionCalculations {
     public static void initPhoton() {}
 
     public static double estimateDistance (int tagID, int cameraNum) {
-        double aprilTagHeightInches = VisionConstants.aprilTagXYHeightAngle.get(tagID)[2];
+        double aprilTagHeightInches = VisionConstants.aprilTagXYHeightAngle.get(tagID).get(0);
         
         double cameraHeight = VisionConstants.cameraSpecs.get(cameraNum)[0];
         double cameraMountAngle = VisionConstants.cameraSpecs.get(cameraNum)[1];

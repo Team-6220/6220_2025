@@ -470,19 +470,19 @@ public final class Constants {
         };
 
         //creates a hash map of the X Y and Height in that order for april tags
-        public static HashMap<Integer, Double[]> aprilTagXYHeightAngle = new HashMap<Integer, Double[]>();
+        public static HashMap<Integer, ArrayList<Double>> aprilTagXYHeightAngle = new HashMap<Integer, ArrayList<Double>>();
 
         public static HashMap<Integer, Double[]> cameraSpecs = new HashMap<Integer, Double[]>();
 
         public static void setTagXYHeightAngle() {
             for (int i = 1; i <= aprilTagAngle.length; i++) {
-                aprilTagXYHeightAngle.put(i, new Double[4]);
-                aprilTagXYHeightAngle.get(i)[0] = aprilTagCoordsX[i - 1];
-                aprilTagXYHeightAngle.get(i)[1] = aprilTagCoordsY[i - 1];
-                aprilTagXYHeightAngle.get(i)[2] = aprilTagHeightInches[i - 1];
-                aprilTagXYHeightAngle.get(i)[3] = aprilTagAngle[i - 1];
+                aprilTagXYHeightAngle.put(i, new ArrayList<Double>());
+                aprilTagXYHeightAngle.get(i).add(aprilTagCoordsX[i - 1]);
+                aprilTagXYHeightAngle.get(i).add(aprilTagCoordsY[i - 1]);
+                aprilTagXYHeightAngle.get(i).add(aprilTagHeightInches[i - 1]);
+                aprilTagXYHeightAngle.get(i).add(aprilTagAngle[i - 1]);
             }
-
+            System.out.print(aprilTagXYHeightAngle);
             for (int x = 0; x < 3; x++) {
                 cameraSpecs.put(x, new Double[2]);
                 cameraSpecs.get(x)[0] = cameraHeight[x];
@@ -494,6 +494,8 @@ public final class Constants {
         public static double[] cameraHeight = {29.5 + 1.724, 35.707 + 1.724, 35.707 + 1.724};
 
         public static double[] cameraAngles = {210.0, 135.0, 45.0};
+
+        //aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
 
         public static final double heightOfCamAboveFloor = 2; //TODO: CAD SPECS
         public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
