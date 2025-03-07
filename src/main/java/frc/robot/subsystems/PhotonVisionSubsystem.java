@@ -20,9 +20,9 @@ public class PhotonVisionSubsystem extends SubsystemBase {
 
   /** Creates a new PhotonVisionSubsystem. */
   public PhotonVisionSubsystem() {
-    cameras[0] = new PhotonCamera("Left_Ardu_Cam");
-    cameras[1] = new PhotonCamera("Another_Ardu_Cam");
-    cameras[2] = new PhotonCamera("Right_Ardu_Cam");
+    cameras[0] = new PhotonCamera("Bottom_Right_Cam"); //Top Right USB
+    cameras[1] = new PhotonCamera("Right_Ardu_Cam"); //Bottom Right USB
+    cameras[2] = new PhotonCamera("Left_Ardu_Cam");
     for (int i = 0; i < cameras.length; i++) {
       cameras[i].setPipelineIndex(0);
     }
@@ -30,23 +30,37 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     VisionConstants.setTagXYHeightAngle();
 
     results = new HashMap<Integer, List<PhotonPipelineResult>>();
-    results.put(0, cameras[0].getAllUnreadResults());
-    results.put(1, cameras[1].getAllUnreadResults());
-    results.put(2, cameras[2].getAllUnreadResults());
+    if (!cameras[0].getAllUnreadResults().isEmpty()) {
+      results.put(0, cameras[0].getAllUnreadResults());
+    }
+
+    if (!cameras[1].getAllUnreadResults().isEmpty()) {
+      results.put(1, cameras[1].getAllUnreadResults());
+    }
+
+    if (!cameras[2].getAllUnreadResults().isEmpty()) {
+      results.put(2, cameras[2].getAllUnreadResults());
+    }
 
     bestTarget = new ArrayList<PhotonTrackedTarget>();
     noErrorHopefully = new PhotonTrackedTarget();
-      bestTarget.add(noErrorHopefully);
-      bestTarget.add(noErrorHopefully);
-      bestTarget.add(noErrorHopefully);
+    bestTarget.add(noErrorHopefully);
+    bestTarget.add(noErrorHopefully);
+    bestTarget.add(noErrorHopefully);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (!cameras[0].getAllUnreadResults().isEmpty() || !cameras[1].getAllUnreadResults().isEmpty() || !cameras[2].getAllUnreadResults().isEmpty()) {
+    if (!cameras[0].getAllUnreadResults().isEmpty()) {
       results.put(0, cameras[0].getAllUnreadResults());
+    }
+
+    if (!cameras[1].getAllUnreadResults().isEmpty()) {
       results.put(1, cameras[1].getAllUnreadResults());
+    }
+
+    if (!cameras[2].getAllUnreadResults().isEmpty()) {
       results.put(2, cameras[2].getAllUnreadResults());
     }
 

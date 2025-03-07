@@ -38,9 +38,10 @@ public class photonAlignCmd extends Command {
   @Override
   public void initialize() {
     s_Swerve.resetTurnController();
-    s_Swerve.alignXYYaw(s_Swerve.getTargetX(), s_Swerve.getTargetY(), s_Swerve.getTargetYaw());
+    s_Swerve.alignXYYaw(s_Swerve.getTargetX(), s_Swerve.getTargetY());
     offsetX = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId())[0] - PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
     offsetY = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId())[1] - PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
+    VisionConstants.setTagXYHeightAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

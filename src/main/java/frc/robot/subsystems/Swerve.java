@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants;
+import frc.robot.PhotonVisionCalculations;
 // import frc.robot.LimelightCalculations;
 // import frc.robot.Localization_V2;
 //import frc.robot.LimelightHelpers;
@@ -14,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import static edu.wpi.first.units.Units.Pounds;
 import static frc.robot.Constants.isRed;
 
 import java.util.Arrays;
@@ -131,6 +133,8 @@ public class Swerve extends SubsystemBase {
     private double targetYaw;
     private double targetPitch;
 
+    PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance();
+
     PhotonPipelineResult result;
     
     public final TunableNumber visionMeasurementStdDevConstant = new TunableNumber("visionStdDev Constant", VisionConstants.visionStdDev);
@@ -190,6 +194,7 @@ public class Swerve extends SubsystemBase {
         config = RobotConfig.fromGUISettings();
         } catch (Exception e) {
         // Handle exception as needed
+        config = new RobotConfig(Constants.robotMass, Constants.robotMOI, SwerveConstants.swerveModuleConfig, SwerveConstants.swerveKinematics.getModules());
         e.printStackTrace();
         }
         createShuffleOutputs();
@@ -453,7 +458,6 @@ public class Swerve extends SubsystemBase {
 
     
         double speed = turnPidController.calculate(getHeadingDegrees());
-        getPose().getX() - offset; //TODO: get this
         
         //SmartDashboard.putNumber(" raw speed", speed);
 
@@ -563,9 +567,9 @@ public class Swerve extends SubsystemBase {
         //     gyro_headings.remove(timestamp);
         // }
         
-        result = camera.getAllUnreadResults().isEmpty() ? new PhotonPipelineResult(): camera.getAllUnreadResults().get(0);
-        targetX = result.getBestTarget().bestCameraToTarget.getX();
-        targetY = result.getBestTarget().bestCameraToTarget.getY();
+        
+        targetX = PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(0).getFiducialId(), 0);
+        targetY = PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(0).getFiducialId(), 0);
         targetYaw = result.getBestTarget().yaw;
         targetPitch = result.getBestTarget().pitch;
         SmartDashboard.putNumber("distance x", targetX);
@@ -634,10 +638,9 @@ public class Swerve extends SubsystemBase {
 
     
     
-    public void alignXYYaw(double X, double Y, double Yaw) {
+    public void alignXYYaw(double X, double Y) {
         xPidController.setGoal(X);
         yPidController.setGoal(Y);
-        turnPidController.setGoal(Yaw);
     }
 
     //possibly dont need

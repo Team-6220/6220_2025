@@ -6,7 +6,9 @@ package frc.robot;
 
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.photonAlignCmd;
 import frc.robot.subsystems.Swerve;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -30,6 +32,10 @@ public class RobotContainer {
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
+
+  private final GenericHID m_buttonBoard = new GenericHID(2);
+
+  private final Trigger vision = new Trigger(() -> m_buttonBoard.getRawButton(1));
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -59,7 +65,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-
+    vision.whileTrue(new photonAlignCmd(0));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     

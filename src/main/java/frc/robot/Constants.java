@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.Pound;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -14,6 +17,7 @@ import org.photonvision.PhotonCamera;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.path.PathConstraints;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
@@ -26,8 +30,11 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Mass;
+import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,6 +54,9 @@ public final class Constants {
     public static boolean TUNING_MODE = true;
 
     public static Optional<DriverStation.Alliance> ALLIANCE_COLOR = DriverStation.getAlliance();
+
+    public static final Mass robotMass = Pound.of(140);
+    public static final MomentOfInertia robotMOI = KilogramSquareMeters.of(4.563);
 
     public static String isRed = "N/A";//FIXME: MAKE AUTO UPDATE ISRED
 
@@ -467,10 +477,10 @@ public final class Constants {
         public static void setTagXYHeightAngle() {
             for (int i = 1; i <= aprilTagAngle.length; i++) {
                 aprilTagXYHeightAngle.put(i, new Double[4]);
-                aprilTagXYHeightAngle.get(i)[0] = aprilTagCoordsX[i];
-                aprilTagXYHeightAngle.get(i)[1] = aprilTagCoordsY[i];
-                aprilTagXYHeightAngle.get(i)[2] = aprilTagHeightInches[i];
-                aprilTagXYHeightAngle.get(i)[3] = aprilTagAngle[i];
+                aprilTagXYHeightAngle.get(i)[0] = aprilTagCoordsX[i - 1];
+                aprilTagXYHeightAngle.get(i)[1] = aprilTagCoordsY[i - 1];
+                aprilTagXYHeightAngle.get(i)[2] = aprilTagHeightInches[i - 1];
+                aprilTagXYHeightAngle.get(i)[3] = aprilTagAngle[i - 1];
             }
 
             for (int x = 0; x < 3; x++) {
@@ -605,6 +615,14 @@ public final class Constants {
         public static final IdleMode angleNeutralMode = IdleMode.kBrake;
         public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
 
+        public static final double wheelRadius = chosenModule.wheelDiameter/2;
+
+        /* Swerve module configs -- for pathplanner autobuilder (auto)
+         * API: https://pathplanner.dev/api/java/com/pathplanner/lib/config/ModuleConfig.html
+         */
+        public static final DCMotor krackonX60 = new DCMotor(12, 7.09, 366, 2, 628.32, 4);//https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
+        public static final ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, driveCurrentLimit,4);
+        
        /* Module Specific Constants */
         // Back Right Module 0
         public static final class Mod0 { //FIXME: This must be tuned to specific robot
