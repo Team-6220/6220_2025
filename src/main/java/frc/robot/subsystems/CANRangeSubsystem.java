@@ -20,12 +20,10 @@ import edu.wpi.first.wpilibj2.command.*;
 import com.ctre.phoenix6.hardware.CANrange;
 
 public class CANRangeSubsystem extends SubsystemBase{
-    private final double distanceThreshold1 = 10.0; // Change distance
-    private final double distanceThreshold2 = 15.0; // Change distance
+    private final double distanceThreshold1 = 10.0; // Change distance(for wrist)
+    private final double distanceThreshold2 = 15.0; // Change distance(for front intake)
     private static CANRangeSubsystem INSTANCE = null;
     private CANrange cRange1, cRange2, cRange3;
-    // private double distance1, distance2, distance3;
-    // private StatusSignal<Distance> distance1, distance2, distance3;
     private final CANrangeConfiguration configs = new CANrangeConfiguration();
     
     
@@ -36,27 +34,25 @@ public class CANRangeSubsystem extends SubsystemBase{
 
       cRange1.getConfigurator().apply(configs); // wrist can range
       cRange2.getConfigurator().apply(configs); // front intake can range 1
-      cRange3.getConfigurator().apply(configs); // other front intake can range (2)
+      cRange3.getConfigurator().apply(configs); // other front intake can range (2 & 3)
     }
-    
-    // public void updDistance() {
-    //   distance1 = cRange1.getDistance();
-    //   distance2 = cRange2.getDistance();
-    //   distance3 = cRange3.getDistance();
-    // }
 
     /**
-     * Checks if an object is within the 10mm range.
+     * Checks if an object is within the 10mm range(might be changed if needed)
      * @return true if object is detected within range, false otherwise.
      */
     public boolean isObjectInWrist() {
       return cRange1.getDistance().getValueAsDouble() <= distanceThreshold1;
     }
-
+    /**
+     * Checks if an object is within the 15mm range(might be changed if needed)
+     * @return turn if object is detected within range, false otherwise
+     */
     public boolean isObjectInFrontIntake() {
       return (cRange2.getDistance().getValueAsDouble() <= distanceThreshold2 || (cRange3.getDistance().getValueAsDouble() <= distanceThreshold2));
     }
     
+    // Get values of the canRanges
     public CANrange getCANRange1() { 
       return cRange1;
     }
@@ -71,9 +67,8 @@ public class CANRangeSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-      // updDistance();
-      SmartDashboard.putBoolean("Can Range Wrist", isObjectInWrist());
-      SmartDashboard.putBoolean("Can Range Front Intake", isObjectInFrontIntake());
+      SmartDashboard.putBoolean("CanRange Wrist", isObjectInWrist());
+      SmartDashboard.putBoolean("CanRange Front Intake", isObjectInFrontIntake());
     }
     
     public static synchronized CANRangeSubsystem getInstance() {
@@ -81,13 +76,6 @@ public class CANRangeSubsystem extends SubsystemBase{
       INSTANCE = new CANRangeSubsystem();
       }
     return INSTANCE;
-    }
-
-    /**
-    * Interface to simulate sensor interaction. Replace with actual implementation.
-    */
-    interface SensorInterface {
-      double getDistance(); // Returns the measured distance in mm
     }
 }
 

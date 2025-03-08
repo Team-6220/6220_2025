@@ -34,6 +34,6 @@ public class timerSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     double matchTime = matchTimeEntry.getDouble(0); // Default 0 if no data
     SmartDashboard.putNumber("Remaining Match Time", matchTime); // Display on SmartDashboard
-    System.out.println("Match Time: " + matchTime + "s"); // Debugging (optional)
+    // System.out.println("Match Time: " + matchTime + "s"); // Print for debugging
   }
 }
