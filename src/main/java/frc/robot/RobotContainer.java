@@ -5,8 +5,8 @@
 package frc.robot;
 
 import frc.robot.commands.CoralStationCmd;
-import frc.robot.commands.EjectCoralTest;
-import frc.robot.commands.IntakeCoralTest;
+import frc.robot.commands.EjectCoral;
+import frc.robot.commands.IntakeCoral;
 import frc.robot.commands.IntakeGround;
 import frc.robot.commands.LowerIntakeManual;
 import frc.robot.commands.OuttakeGround;
@@ -69,16 +69,19 @@ public class RobotContainer {
 
   private final GenericHID m_buttonBoard = new GenericHID(2);
 
-  private final Trigger wristStage2 = new Trigger(() -> m_buttonBoard.getRawButton(5));
-  private final Trigger wristStage3 = new Trigger(() -> m_buttonBoard.getRawButton(3));
-  private final Trigger wristStage4 = new Trigger(() -> m_buttonBoard.getRawButton(1));
+  private final Trigger stage2 = new Trigger(() -> m_buttonBoard.getRawButton(5));
+  private final Trigger stage3 = new Trigger(() -> m_buttonBoard.getRawButton(3));
+  private final Trigger stage4 = new Trigger(() -> m_buttonBoard.getRawButton(1));
   private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
-  private final Trigger intake = new Trigger(() -> m_joystick.getRawButton(2));
-  private final Trigger outtake = new Trigger(() -> m_joystick.getRawButton(1));
+  private final Trigger elevatorIntake = new Trigger(() -> m_joystick.getRawButton(1));
+  private final Trigger elevatorOuttake = new Trigger(() -> m_joystick.getRawButton(2));
   private final Trigger resetEncoder = new Trigger(() -> m_buttonBoard.getRawButton(11));
-  private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
   private final Trigger elevatorUp = new Trigger(() -> m_buttonBoard.getRawButton(13));
   private final Trigger elevatorDown = new Trigger(() -> m_buttonBoard.getRawButton(14));
+
+  private final Trigger setLowerIn = new Trigger(() -> m_buttonBoard.getRawButton(4));
+
+  private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
   private final Trigger twisterTest = new Trigger(() -> m_buttonBoard.getRawButton(22));//turn right
   // private final Trigger lowerIntake = new Trigger(() -> m_buttonBoard.getRawButton(4));
   // private final Trigger lowerOuttake = new Trigger(() -> m_buttonBoard.getRawButton(6));
@@ -131,31 +134,18 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
-    // m_driverController.a().whileTrue(new IntakeCoralTest());
-    // m_driverController.b().whileTrue(new EjectCoralTest());
+
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    // m_driverController.a().onTrue(new Stage2CMD());
-    // m_driverController.x().onTrue(new wristTest(m_driverController.getHID()));
-    // m_driverController.x().onTrue(new ElevatorManuel(m_driverController.getHID()));
-    // m_driverControlleÖr.y().onTrue(new WristPIDTest());
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    wristStage2.whileTrue(new Stage2CMD());
-    wristStage3.onTrue(new Stage3CMD());
-    wristStage4.onTrue(new Stage4CMD());
-
+    stage2.whileTrue(new Stage2CMD());
+    stage3.onTrue(new Stage3CMD());
+    stage4.onTrue(new Stage4CMD());
     coralStation.onTrue(new CoralStationCmd());
-    intake.whileTrue(new IntakeCoralTest());
-    outtake.whileTrue(new EjectCoralTest());
-    // test.whileTrue(new lowerintaketestcommand(m_driverController));
-    intake.whileTrue(new IntakeCoralTest());
+    elevatorIntake.whileTrue(new IntakeCoral());
+    elevatorOuttake.whileTrue(new EjectCoral());
 
-    // elevatorUp.onTrue()
+    test.whileTrue(new lowerintaketestcommand(m_driverController));
+
     twisterTest.onTrue(new InstantCommand(()-> System.out.println("^^^^^^^^^^^pressed")));
-    test.whileTrue(new ElevatorStage2());
-
-    // lowerIntake.whileTrue(new IntakeGround());
-    // lowerOuttake.whileTrue(new OuttakeGround());
   }
 
   /**

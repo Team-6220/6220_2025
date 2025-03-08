@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.WristIntakesubsytem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class EjectCoralTest extends Command {
+public class EjectCoral extends Command {
   /** Creates a new EjectCoralTest. */
   WristIntakesubsytem wristIntake = WristIntakesubsytem.getInstance();
-  public EjectCoralTest() {
+  public EjectCoral() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
