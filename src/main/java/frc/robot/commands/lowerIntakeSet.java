@@ -19,7 +19,7 @@ public class lowerIntakeSet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    m_fiss.maintainFront();
     m_fiss.setGoal(90);
     m_fiss.swingToGoal();
   }

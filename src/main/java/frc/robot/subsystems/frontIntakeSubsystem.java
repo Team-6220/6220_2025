@@ -223,7 +223,9 @@ public class frontIntakeSubsystem extends SubsystemBase {
     }
     if(!spin){
       frontMotor.set(0);
-    } 
+    } }
+    public void maintainFront(){
+      frontMotor.setVoltage(-FrontIntakeConstants.wheelSpeed/4);
   }
   /**
      * Accesses the static instance of the ArmSubsystem singleton
