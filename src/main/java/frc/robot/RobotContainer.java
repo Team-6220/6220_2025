@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.EjectCoral;
 import frc.robot.commands.IntakeCoral;
+import frc.robot.commands.IntakeGround;
 import frc.robot.commands.Stage2CMD;
 import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
@@ -58,7 +59,7 @@ public class RobotContainer {
   private final Trigger resetEncoder = new Trigger(() -> m_buttonBoard.getRawButton(11));
   private final Trigger elevatorUp = new Trigger(() -> m_buttonBoard.getRawButton(13));
   private final Trigger elevatorDown = new Trigger(() -> m_buttonBoard.getRawButton(14));
-
+  private final Trigger groundIntake = new Trigger(() -> m_buttonBoard.getRawButton(15));
   private final Trigger setLowerIn = new Trigger(() -> m_buttonBoard.getRawButton(4));
 
   private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
@@ -122,7 +123,7 @@ public class RobotContainer {
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
-
+    groundIntake.whileTrue(new IntakeGround());
     setLowerIn.whileTrue(new lowerIntakePickUp());
     setLowerIn.whileFalse(new lowerIntakeSet());
 

@@ -5,27 +5,33 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.util.TunableNumber;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeGround extends Command {
-  /** Creates a new IntakeGround. */
-  private frontIntakeSubsystem frontIntake;
-
+  private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
+  private TunableNumber lowergroundsetpoint=new TunableNumber("lower intake ground setpoint", 0);
   public IntakeGround() {
-    frontIntake = frontIntakeSubsystem.getInstance();
-    addRequirements(frontIntake);
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_fiss);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_fiss.setGoal(lowergroundsetpoint.get());
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    frontIntake.spinFront(true, true);
+
+    if(lowergroundsetpoint.hasChanged())
+    {
+      m_fiss.setGoal(lowergroundsetpoint.get());
+    }
+    m_fiss.swingToGoal();
+    m_fiss.spinFront(true, true);
   }
 
   // Called once the command ends or is interrupted.
