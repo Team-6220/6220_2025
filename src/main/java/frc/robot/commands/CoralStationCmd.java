@@ -30,14 +30,14 @@ public class CoralStationCmd extends Command
   @Override
   public void initialize()
   {
-    
+    wrist.setGoal(40);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute()  {
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
-    wrist.driveToGoal(40);
+    wrist.driveToGoal();
   }
 
   // Called once the command ends or is interrupted.

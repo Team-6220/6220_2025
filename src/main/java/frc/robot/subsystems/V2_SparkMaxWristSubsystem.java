@@ -66,7 +66,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
     wristMotorConfig.absoluteEncoder
       .inverted(WristConstants.encoderInverted)
       .positionConversionFactor(360)//basically this turns the encoder reading from radians to degrees
-      .zeroOffset(0.5989569)
+      .zeroOffset(0.7785330)
       .zeroCentered(true); 
 
       // wristMotorConfig.absoluteEncoder.zeroOffset(.2);//Don't know if we need this
@@ -127,13 +127,9 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
         }
   }
 
-  public void driveToGoal(double goal)
+  public void setGoal(double goal)
   {
-    
-      resetPID();
-    
-
-    lastUpdate = Timer.getFPGATimestamp();
+    resetPID();
 
     if(goal > WristConstants.wristMaxDegrees)
     {
@@ -146,14 +142,18 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
     }
 
     m_Controller.setGoal(goal);
+    System.out.println("Set new wrist goal: " + goal);
+  }
 
+  public void driveToGoal()
+  {
     PIDOutput = m_Controller.calculate(getwristPosition());
 
     feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position * Math.PI/180, m_Controller.getSetpoint().velocity * Math.PI/180);
     double calculatedSpeed = PIDOutput + feedForwardOutput;
 
         
-    SmartDashboard.putNumber("Wrist Goal", goal);
+    SmartDashboard.putNumber("Wrist Goal", m_Controller.getSetpoint().position);
     SmartDashboard.putNumber("Wrst FF output", feedForwardOutput);
     SmartDashboard.putNumber("Wrist PID out", PIDOutput);
     SmartDashboard.putNumber("wrist overall output", calculatedSpeed);
@@ -169,7 +169,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
   public double getwristPosition()
   {
     double wristPosition = wristEncoder.getPosition();
-    return wristPosition * 360;
+    return wristPosition;
   }
 
   /**Driving in Decimal Perent */

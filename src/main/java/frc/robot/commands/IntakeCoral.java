@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.WristIntakesubsytem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class EjectCoralTest extends Command {
-  /** Creates a new EjectCoralTest. */
-  WristIntakesubsytem wristIntake = WristIntakesubsytem.getInstance();
-  public EjectCoralTest() {
+public class IntakeCoral extends Command {
+  /** Creates a new IntakeCoralTest. */
+  WristIntakesubsytem wristIntake;
+  public IntakeCoral() {
     // Use addRequirements() here to declare subsystem dependencies.
+    wristIntake = WristIntakesubsytem.getInstance();
+    addRequirements(wristIntake);
   }
 
   // Called when the command is initially scheduled.
@@ -21,13 +23,15 @@ public class EjectCoralTest extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    wristIntake.ejectCoral();
-   }
+  public void execute()
+  {
+    wristIntake.intakeCoral();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(boolean interrupted)
+  {
     // wristIntake.simpleDrive(interrupted, 0);
     wristIntake.endOccupied();
   }

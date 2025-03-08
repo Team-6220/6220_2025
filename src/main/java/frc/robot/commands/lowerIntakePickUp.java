@@ -7,13 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.util.TunableNumber;
+import frc.robot.Constants.FrontIntakeConstants;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class lowerIntakePickUp extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
-  private double a;
-  private TunableNumber goal = new TunableNumber("lowerIntakePick", 55);
+  private TunableNumber goal = new TunableNumber("lowerIntakePick setpoint degrees", FrontIntakeConstants.intakeSetpoint);
+  private double lowerIntakeSetpoint = goal.getDefault();
+
 
   public lowerIntakePickUp() {
     addRequirements(m_fiss);
@@ -23,7 +25,7 @@ public class lowerIntakePickUp extends Command {
   @Override
   public void initialize() {
     m_fiss.spinFront(true, false);
-    m_fiss.setGoal(a);
+    m_fiss.setGoal(lowerIntakeSetpoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,8 +37,8 @@ public class lowerIntakePickUp extends Command {
       // m_fiss.spinFront(true, false);}
       if(goal.hasChanged())
       {
-        a = goal.get();
-        m_fiss.setGoal(a);
+        lowerIntakeSetpoint = goal.get();
+        m_fiss.setGoal(lowerIntakeSetpoint);
       }
       m_fiss.swingToGoal();
     // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
