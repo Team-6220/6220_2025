@@ -5,46 +5,43 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.Constants.FrontIntakeConstants;
+import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorStage2 extends Command {
-  /** Creates a new ElevatorStage2. */
-  private ElevatorSubsystem elevator;
-  private TunableNumber goal = new TunableNumber("elevator goal", ElevatorConstants.E_L3);
-  public ElevatorStage2() {
-    elevator = ElevatorSubsystem.getInstance();
-    addRequirements(elevator);
-    // Use addRequirements() here to declare subsystem dependencies.
+public class lowerIntakeSet extends Command {
+  private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
+
+  private TunableNumber intakeSetpoint = new TunableNumber("lower intake idle degrees", FrontIntakeConstants.idleSetpoint);
+  public lowerIntakeSet() {
+    addRequirements(m_fiss);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize()
-  {
-    elevator.setGoal(goal.get());
+  public void initialize() {
+    m_fiss.maintainFront();
+    m_fiss.setGoal(intakeSetpoint.getDefault());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
-    if(goal.hasChanged())
+  public void execute() {
+    if(intakeSetpoint.hasChanged())
     {
-      elevator.setGoal(goal.get());
+      m_fiss.setGoal(intakeSetpoint.get());
     }
-    elevator.driveToGoal();
-
+    m_fiss.swingToGoal();
+    // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    elevator.stop();
-    elevator.resetPID();
+    m_fiss.simpleintakeDrive(0);
+    m_fiss.resetPID();
   }
 
   // Returns true when the command should end.

@@ -40,6 +40,10 @@ public class frontIntakeSubsystem extends SubsystemBase {
 
   private final TunableNumber FrontIntakeMaxVel = new TunableNumber("FrontIntake max vel", FrontIntakeConstants.frontIntakeMaxVel);
   private final TunableNumber FrontIntakeMaxAccel = new TunableNumber("FrontIntake max accel", FrontIntakeConstants.frontIntakeMaxAccel);
+
+  private final TunableNumber frontIntakeIdleVoltage = new TunableNumber("lower intake idle voltage", FrontIntakeConstants.idleSpinVoltage);
+  private final TunableNumber frontIntakeVoltage = new TunableNumber("lower intake voltage", FrontIntakeConstants.wheelSpeed);
+  private double idleOutVolt = FrontIntakeConstants.idleSpinVoltage, intakeOutVolt = FrontIntakeConstants.wheelSpeed; //place holder when update the voltages
   
   private final SparkMax pivotMotorLeft, pivotMotorRight;
   private final TalonFX frontMotor;
@@ -61,7 +65,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
     frontMotor = new TalonFX(FrontIntakeConstants.frontMotorID);
 
-    lowerIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    lowerIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;// positive is intake
     lowerIntakeConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
 
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.FrontIntakeConstants.enableCurrentLimit;
@@ -215,16 +219,27 @@ public class frontIntakeSubsystem extends SubsystemBase {
   }
 
   public void spinFront(boolean spin, boolean intake){
+    if(frontIntakeVoltage.hasChanged())
+    {
+      intakeOutVolt = frontIntakeVoltage.get();
+    }
     if(spin&&intake){
-      frontMotor.setVoltage(FrontIntakeConstants.wheelSpeed);
+      frontMotor.setVoltage(intakeOutVolt);
     }
     if(spin&&!intake){
-      frontMotor.setVoltage(-FrontIntakeConstants.wheelSpeed);
+      frontMotor.setVoltage(-intakeOutVolt);
     }
-    else{
+    if(!spin){
       frontMotor.set(0);
-    } 
-  }
+    } }
+    public void maintainFront()
+    {
+      if(frontIntakeIdleVoltage.hasChanged())
+      {
+        idleOutVolt = frontIntakeIdleVoltage.get();
+      }
+      frontMotor.setVoltage(idleOutVolt);
+    }
   /**
      * Accesses the static instance of the ArmSubsystem singleton
      * @return ArmSubsystem Singleton Instance

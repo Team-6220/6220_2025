@@ -7,39 +7,25 @@ package frc.robot;
 import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.EjectCoral;
 import frc.robot.commands.IntakeCoral;
-import frc.robot.commands.IntakeGround;
-import frc.robot.commands.LowerIntakeManual;
-import frc.robot.commands.OuttakeGround;
 import frc.robot.commands.Stage2CMD;
 import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.commands.WristPIDTest;
-import frc.robot.commands.lowerintaketestcommand;
-import frc.robot.commands.wristTest;
+import frc.robot.commands.lowerIntakePickUp;
+import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.ElevatorManuel;
-import frc.robot.commands.ElevatorStage2;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.lib.util.RumbleManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -54,13 +40,7 @@ public class RobotContainer {
 
   private final Swerve s_Swerve = new Swerve();
 
-  private final V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();  
-
-  private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
-
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
-
-  private final frontIntakeSubsystem lowerintake = frontIntakeSubsystem.getInstance();
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
@@ -143,7 +123,8 @@ public class RobotContainer {
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
 
-    test.whileTrue(new lowerintaketestcommand(m_driverController));
+    setLowerIn.whileTrue(new lowerIntakePickUp());
+    setLowerIn.whileFalse(new lowerIntakeSet());
 
     twisterTest.onTrue(new InstantCommand(()-> System.out.println("^^^^^^^^^^^pressed")));
   }
