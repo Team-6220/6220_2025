@@ -452,8 +452,8 @@ public final class Constants {
         public static final boolean leftMotorInvert = false;
 
         public static final boolean enableCurrentLimit = true;
-        public static final double maxCurrent = 25;
-        public static final double currentLimit = 20;
+        public static final double maxCurrent = 20;
+        public static final double currentLimit = 15;
         public static final double maxCurrentTime = 1;
 
         public static final int stallLimit = 25; //amps

@@ -11,6 +11,7 @@ import frc.robot.commands.IntakeGround;
 import frc.robot.commands.Stage2CMD;
 import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
+import frc.robot.commands.OutakeLowerIntake;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakePickUp;
@@ -42,6 +43,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
 
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
+  private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(0);
@@ -61,6 +63,7 @@ public class RobotContainer {
   private final Trigger elevatorDown = new Trigger(() -> m_buttonBoard.getRawButton(14));
   private final Trigger groundIntake = new Trigger(() -> m_buttonBoard.getRawButton(15));
   private final Trigger setLowerIn = new Trigger(() -> m_buttonBoard.getRawButton(4));
+  private final Trigger lowerOuttake = new Trigger(() -> m_buttonBoard.getRawButton(6));
 
   private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
   private final Trigger twisterTest = new Trigger(() -> m_buttonBoard.getRawButton(22));//turn right
@@ -78,6 +81,8 @@ public class RobotContainer {
     elevator.setDefaultCommand(
       new ElevatorManuel(m_joystick)
     );
+
+    // frontIntake.setDefaultCommand(new lowerIntakeSet());
 
     // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
@@ -120,12 +125,14 @@ public class RobotContainer {
     stage2.whileTrue(new Stage2CMD());
     stage3.onTrue(new Stage3CMD());
     stage4.onTrue(new Stage4CMD());
+    
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
     groundIntake.whileTrue(new IntakeGround());
     setLowerIn.whileTrue(new lowerIntakePickUp());
     setLowerIn.whileFalse(new lowerIntakeSet());
+    lowerOuttake.whileTrue(new OutakeLowerIntake());
 
     twisterTest.onTrue(new InstantCommand(()-> System.out.println("^^^^^^^^^^^pressed")));
   }

@@ -72,6 +72,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.FrontIntakeConstants.maxCurrent;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = Constants.FrontIntakeConstants.currentLimit;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = Constants.FrontIntakeConstants.maxCurrentTime;
+    lowerIntakeConfig.CurrentLimits.StatorCurrentLimitEnable = Constants.FrontIntakeConstants.enableCurrentLimit;
+    lowerIntakeConfig.CurrentLimits.StatorCurrentLimit = Constants.FrontIntakeConstants.maxCurrent;
     
 
     frontMotor.getConfigurator().apply(lowerIntakeConfig);
@@ -115,6 +117,11 @@ public class frontIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(tableKey +"motorOutputLeft", pivotMotorLeft.getAppliedOutput());
     SmartDashboard.putNumber(tableKey +"motorOutputRight", pivotMotorRight.getAppliedOutput());
     SmartDashboard.putNumber(tableKey + "motorOutputManuel", 0);
+    SmartDashboard.putNumber(tableKey + "intakeMotorTemp", frontMotor.getDeviceTemp().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey + "intakeMotorTorqueCurrentDraw", frontMotor.getTorqueCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey + "intakeMotorSupplyCurrentDraw", frontMotor.getSupplyCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey +"intake current limit", lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit);
+    SmartDashboard.putNumber(tableKey +"intakeMotorStatorCurrentLimit", frontMotor.getStatorCurrent().getValueAsDouble());
     // SmartDashboard.putNumber(tableKey + "encoder vel");
 
     if(FrontIntakeKp.hasChanged()
