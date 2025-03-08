@@ -421,7 +421,7 @@ public final class Constants {
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 10.5;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKv = 9.75;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
         public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
@@ -429,7 +429,7 @@ public final class Constants {
         //if rasiing ks might have to lower kg
         public static final double elevatorIZone = 0.1;
         public static final double elevatorTolerance = .005;
-        public static final double elevatorMaxVel = 25;
+        public static final double elevatorMaxVel = 1.25;
         public static final double elevatorMaxAccel = 5;
 
         

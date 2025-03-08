@@ -42,6 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   
   private final TunableNumber elevatorSetpoint = new TunableNumber("Elevator goal setpoint", ElevatorConstants.elevatorEncoderOffset );
   
+  private final TunableNumber elevatorMaxHeight = new TunableNumber("Elevator max height", ElevatorConstants.upperEncoderExtreme);
   private final SparkMax elevatorMotorLeft, elevatorMotorRight;
   private SparkMaxConfig motorLeftConfig = new SparkMaxConfig(), motorRightConfig = new SparkMaxConfig();
 
@@ -145,9 +146,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void setGoal(double goal)
   {
     resetPID();
-    if(goal > ElevatorConstants.upperEncoderExtreme)
+    double newUpperExtreme = elevatorMaxHeight.get();
+    if(goal > newUpperExtreme)
     {
-      goal = ElevatorConstants.upperEncoderExtreme;
+      goal = newUpperExtreme;
     }
 
     if(goal < ElevatorConstants.lowerEncoderExtreme)
