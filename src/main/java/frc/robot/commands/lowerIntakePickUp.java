@@ -31,6 +31,8 @@ public class lowerIntakePickUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_fiss.setMaxVel(FrontIntakeConstants.frontIntakeMaxVel);
+    m_fiss.setMaxAccel(FrontIntakeConstants.frontIntakeMaxAccel);
     // if(m_driverController.a().getAsBoolean()){}
     //m_fiss.simpleintakeDrive(0.25);
     // if(m_driverController.y().getAsBoolean()){
@@ -47,7 +49,7 @@ public class lowerIntakePickUp extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_fiss.simpleintakeDrive(0);
+    // m_fiss.simpleintakeDrive(0);
     m_fiss.resetPID();
   }
 

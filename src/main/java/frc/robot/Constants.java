@@ -476,13 +476,13 @@ public final class Constants {
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
         /**volts, used for intake and only intake */
         public static final double wheelSpeed = 6;
-        public static final double idleSpinVoltage = 3;
+        public static final double idleSpinVoltage = 4;
 
         public static final double maxDegrees = 120;
         public static final double minDegrees = 0;
 
-        public static final double intakeSetpoint = 55;
-        public static final double idleSetpoint = 65;
+        public static final double intakeSetpoint = 65;
+        public static final double idleSetpoint = 106;
 
     }
     public static final class WristIntakeConstants {

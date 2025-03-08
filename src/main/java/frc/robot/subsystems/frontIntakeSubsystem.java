@@ -137,7 +137,6 @@ public class frontIntakeSubsystem extends SubsystemBase {
             m_Constraints = new TrapezoidProfile.Constraints(FrontIntakeMaxVel.get(),FrontIntakeMaxAccel.get());
             m_Controller.setConstraints(m_Constraints);
             System.out.println("new contraints;max vel:" + FrontIntakeMaxVel.get() + "max accel:" + FrontIntakeMaxAccel.get());
-
         }
         
         if(FrontIntakeIZone.hasChanged())
@@ -238,7 +237,17 @@ public class frontIntakeSubsystem extends SubsystemBase {
       {
         idleOutVolt = frontIntakeIdleVoltage.get();
       }
-      frontMotor.setVoltage(idleOutVolt);
+      frontMotor.setVoltage(-idleOutVolt);
+    }
+
+    public void setMaxVel(double maxVel) {
+      FrontIntakeMaxVel.setDefault(maxVel);
+      SmartDashboard.putNumber("FrontIntake max vel", maxVel);
+    }
+
+    public void setMaxAccel(double maxAccel) {
+      FrontIntakeMaxAccel.setDefault(maxAccel);
+      SmartDashboard.putNumber("FrontIntake max accel", maxAccel);
     }
   /**
      * Accesses the static instance of the ArmSubsystem singleton

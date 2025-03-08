@@ -16,6 +16,7 @@ public class lowerIntakeSet extends Command {
 
   private TunableNumber intakeSetpoint = new TunableNumber("lower intake idle degrees", FrontIntakeConstants.idleSetpoint);
   public lowerIntakeSet() {
+    
     addRequirements(m_fiss);
   }
 
@@ -29,6 +30,8 @@ public class lowerIntakeSet extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_fiss.setMaxVel(50);
+    m_fiss.setMaxAccel(200);
     if(intakeSetpoint.hasChanged())
     {
       m_fiss.setGoal(intakeSetpoint.get());
