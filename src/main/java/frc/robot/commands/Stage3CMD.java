@@ -19,6 +19,9 @@ public class Stage3CMD extends Command
    private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
 
+  private TunableNumber elevHeight = new TunableNumber("l3 elev height", ElevatorConstants.E_L3);
+  private TunableNumber wristDegrees = new TunableNumber("l3 wrist", WristConstants.L3);
+
   public Stage3CMD()
   {
     elevator = ElevatorSubsystem.getInstance();
@@ -37,6 +40,14 @@ public class Stage3CMD extends Command
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute()  {
+    if(elevHeight.hasChanged())
+    {
+      elevator.setGoal(elevHeight.get());
+    }
+    if(wristDegrees.hasChanged())
+    {
+      wrist.setGoal(wristDegrees.get());
+    }
     wrist.driveToGoal();
     elevator.driveToGoal();
   }

@@ -18,14 +18,15 @@ public class Stage2CMD extends Command
 {
   private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
-  
-  private TunableNumber wristSetpoint = new TunableNumber("wrist setpoint", WristConstants.L2);
+
+  private TunableNumber elevHeight = new TunableNumber("l2 elev height", ElevatorConstants.E_L2);
+  private TunableNumber wristDegrees = new TunableNumber("l2 wrist", WristConstants.L2);
 
   public Stage2CMD()
   {
     elevator = ElevatorSubsystem.getInstance();
-    addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
+    addRequirements(elevator);
     addRequirements(wrist);
   }
 
@@ -41,9 +42,13 @@ public class Stage2CMD extends Command
   @Override
   public void execute()  {
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
-    if(wristSetpoint.hasChanged())
+    if(elevHeight.hasChanged())
     {
-      wrist.setGoal(wristSetpoint.get());
+      elevator.setGoal(elevHeight.get());
+    }
+    if(wristDegrees.hasChanged())
+    {
+      wrist.setGoal(wristDegrees.get());
     }
     wrist.driveToGoal();
     elevator.driveToGoal();

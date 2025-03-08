@@ -25,8 +25,8 @@ public class Stage4CMD extends Command
   public Stage4CMD()
   {
     elevator = ElevatorSubsystem.getInstance();
-    addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
+    addRequirements(elevator);
     addRequirements(wrist);
   }
 

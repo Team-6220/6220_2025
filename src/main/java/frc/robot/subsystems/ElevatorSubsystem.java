@@ -158,6 +158,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Controller.setGoal(goal);
     System.out.println("Updated elevator goal******************** w/ new goal " + goal);
   }
+
+  public double getGoal()
+  {
+    return m_Controller.getGoal().position;
+  }
   
   public void driveToGoal()
   {

@@ -142,6 +142,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
     }
 
     m_Controller.setGoal(goal);
+    System.out.println("Set new wrist goal: " + goal);
   }
 
   public void driveToGoal()
