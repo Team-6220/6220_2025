@@ -7,22 +7,26 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
 
 public class PhotonVisionSubsystem extends SubsystemBase {
-  private PhotonCamera[] cameras = new PhotonCamera[3];
+  private PhotonCamera[] cameras =
+  {
+    new PhotonCamera("Bottom_Right_Cam"), //Top Right USB
+    new PhotonCamera("Right_Ardu_Cam") //Bottom Right USB
+    // new PhotonCamera("Left_Ardu_Cam")
+  };
   private static PhotonVisionSubsystem INSTANCE = null;
   private ArrayList<PhotonTrackedTarget> bestTarget;
   private PhotonTrackedTarget noErrorHopefully;
+  private String tableKey = "Vision_";
 
   private HashMap<Integer, List<PhotonPipelineResult>> results;
 
   /** Creates a new PhotonVisionSubsystem. */
   public PhotonVisionSubsystem() {
-    cameras[0] = new PhotonCamera("Bottom_Right_Cam"); //Top Right USB
-    cameras[1] = new PhotonCamera("Right_Ardu_Cam"); //Bottom Right USB
-    cameras[2] = new PhotonCamera("Left_Ardu_Cam");
     for (int i = 0; i < cameras.length; i++) {
       cameras[i].setPipelineIndex(0);
     }
@@ -30,16 +34,14 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     VisionConstants.setTagXYHeightAngle();
 
     results = new HashMap<Integer, List<PhotonPipelineResult>>();
-    if (!cameras[0].getAllUnreadResults().isEmpty()) {
-      results.put(0, cameras[0].getAllUnreadResults());
-    }
-
-    if (!cameras[1].getAllUnreadResults().isEmpty()) {
-      results.put(1, cameras[1].getAllUnreadResults());
-    }
-
-    if (!cameras[2].getAllUnreadResults().isEmpty()) {
-      results.put(2, cameras[2].getAllUnreadResults());
+    for (int i = 0; i < cameras.length; i++) {
+      if (!cameras[i].getAllUnreadResults().isEmpty()) {
+        results.put(i, cameras[i].getAllUnreadResults());
+      }
+      else
+      {
+        results.put(i, null);
+      }
     }
 
     bestTarget = new ArrayList<PhotonTrackedTarget>();
@@ -52,33 +54,24 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (!cameras[0].getAllUnreadResults().isEmpty()) {
-      results.put(0, cameras[0].getAllUnreadResults());
+    for (int i = 0; i < cameras.length; i++) {
+      if (!cameras[i].getAllUnreadResults().isEmpty()) {
+        results.put(i, cameras[i].getAllUnreadResults());
+      }
+      if (!results.isEmpty() && !results.get(i).isEmpty()) {
+        bestTarget.remove(i);
+        bestTarget.add(i, results.get(i).get(0).getBestTarget());
+        if(bestTarget.get(i)!= null)
+        {
+          SmartDashboard.putNumber(tableKey + i + "id", bestTarget.get(i).fiducialId);
+          SmartDashboard.putNumber(tableKey + i + "pitch", bestTarget.get(i).pitch);
+          SmartDashboard.putNumber(tableKey + i + "yaw", bestTarget.get(i).yaw);
+          SmartDashboard.putNumber(tableKey + i + "ambiguity", bestTarget.get(i).poseAmbiguity);
+          SmartDashboard.putNumber(tableKey + i + "skew", bestTarget.get(i).skew);
+        }
+      }
     }
 
-    if (!cameras[1].getAllUnreadResults().isEmpty()) {
-      results.put(1, cameras[1].getAllUnreadResults());
-    }
-
-    if (!cameras[2].getAllUnreadResults().isEmpty()) {
-      results.put(2, cameras[2].getAllUnreadResults());
-    }
-
-    if (!results.get(0).isEmpty()) {
-      bestTarget.remove(0);
-      bestTarget.add(0, results.get(0).get(0).getBestTarget());
-    }
-    
-
-    if (!results.get(1).isEmpty()) {
-      bestTarget.remove(1);
-      bestTarget.add(1, results.get(1).get(0).getBestTarget());
-    }
-
-    if (!results.get(1).isEmpty()) {
-      bestTarget.remove(1);
-      bestTarget.add(1, results.get(1).get(0).getBestTarget());
-    }
   }
 
   public PhotonCamera[] getCameras() {

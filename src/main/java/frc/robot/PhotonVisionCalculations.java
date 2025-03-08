@@ -1,5 +1,6 @@
 package frc.robot;
 import frc.robot.subsystems.PhotonVisionSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.VisionConstants;
 
 
@@ -13,10 +14,14 @@ public class PhotonVisionCalculations {
     public static void initPhoton() {}
 
     public static double estimateDistance (int tagID, int cameraNum) {
-        double aprilTagHeightInches = VisionConstants.aprilTagXYHeightAngle.get(tagID).get(0);
+        if(tagID <= 0)
+        {
+            return 0.0;
+        }
+        double aprilTagHeightInches = VisionConstants.aprilTagHeightInches[tagID - 1];
         
-        double cameraHeight = VisionConstants.cameraSpecs.get(cameraNum)[0];
-        double cameraMountAngle = VisionConstants.cameraSpecs.get(cameraNum)[1];
+        double cameraHeight = VisionConstants.cameraHeight[cameraNum];
+        double cameraMountAngle = VisionConstants.cameraAngles[cameraNum];
 
         double cameraOffset = s_Photon.getBestTarget().get(cameraNum).getPitch();
         
@@ -29,6 +34,10 @@ public class PhotonVisionCalculations {
     }
 
     public static double estimateOpposite(int tagID, int cameraNum) {
+        if(tagID <= 0)
+        {
+            return 0.0;
+        }
         double hypo = estimateDistance(tagID, cameraNum);
         double yaw = s_Photon.getBestTarget().get(cameraNum).getYaw();
 
@@ -38,9 +47,12 @@ public class PhotonVisionCalculations {
     }
 
     public static double estimateAdjacent(int tagID, int cameraNum) {
+        if(tagID <= 0)
+        {
+            return 0.0;
+        }
         double hypo = estimateDistance(tagID, cameraNum);
         double yaw = s_Photon.getBestTarget().get(cameraNum).getYaw();
-        
         double instance = hypo * Math.cos(yaw);
 
         return instance;

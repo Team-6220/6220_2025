@@ -566,16 +566,19 @@ public class Swerve extends SubsystemBase {
         //     timestamp = gyro_timestamps.removeLast();
         //     gyro_headings.remove(timestamp);
         // }
-        
-        
-        targetX = PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(0).getFiducialId(), 0);
-        targetY = PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(0).getFiducialId(), 0);
-        targetYaw = result.getBestTarget().yaw;
-        targetPitch = result.getBestTarget().pitch;
+        for(int i = 0; i < s_Photon.getResults().size(); i++)
+        {
+            if (s_Photon.getBestTarget().get(i) != null) {
+                targetX = PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(i).getFiducialId(), i);
+                targetY = PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(i).getFiducialId(), i);
+            }
+        }
+        // targetYaw = result.getBestTarget().yaw;
+        // targetPitch = result.getBestTarget().pitch;
         SmartDashboard.putNumber("distance x", targetX);
         SmartDashboard.putNumber("distance y", targetY);
-        SmartDashboard.putNumber("distance yaw", targetYaw);
-        SmartDashboard.putNumber("distance pitch", targetPitch);
+        // SmartDashboard.putNumber("distance yaw", targetYaw);
+        // SmartDashboard.putNumber("distance pitch", targetPitch);
 
         if(timestamp - SwerveConstants.swerveAlignUpdateSecond >= lastTurnUpdate)
         {

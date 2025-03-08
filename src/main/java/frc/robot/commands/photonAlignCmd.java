@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.PhotonVisionCalculations;
 import frc.robot.Constants.VisionConstants;
@@ -27,9 +28,10 @@ public class photonAlignCmd extends Command {
   private int cameraNum;
   
   /** Creates a new photonAlign. */
-  public photonAlignCmd(int cameraNum) {
+  public photonAlignCmd(int cameraNum, Swerve s_Swerve) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Photon = PhotonVisionSubsystem.getInstance();
+    this.s_Swerve = s_Swerve;
     addRequirements(s_Photon);
     this.cameraNum = cameraNum;
   }
@@ -39,8 +41,11 @@ public class photonAlignCmd extends Command {
   public void initialize() {
     s_Swerve.resetTurnController();
     s_Swerve.alignXYYaw(s_Swerve.getTargetX(), s_Swerve.getTargetY());
-    offsetX = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId()).get(0) - PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
-    offsetY = VisionConstants.aprilTagXYHeightAngle.get(s_Photon.getBestTarget().get(cameraNum).getFiducialId()).get(1) - PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
+    SmartDashboard.putNumber("Vision_XPid", s_Swerve.getTargetX());
+    SmartDashboard.putNumber("Vision_YPid", s_Swerve.getTargetY());
+
+    // offsetX = VisionConstants.aprilTagCoordsX[s_Photon.getBestTarget().get(cameraNum - 1).getFiducialId()] - PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
+    // offsetY = VisionConstants.aprilTagCoordsY[s_Photon.getBestTarget().get(cameraNum - 1).getFiducialId()] - PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
     VisionConstants.setTagXYHeightAngle();
   }
 
@@ -55,7 +60,7 @@ public class photonAlignCmd extends Command {
       //s_Swerve.get;
       //s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
       s_Swerve.drive(targetPosition, 0.0, false, false);
-      s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagXYHeightAngle.get(bestTarget.fiducialId).get(3));
+      s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
     }
     else {
       end(true);
