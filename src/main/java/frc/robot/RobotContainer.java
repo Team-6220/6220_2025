@@ -101,12 +101,12 @@ public class RobotContainer {
       // new wristTest(m_driverController.getHID())
     // );
 
-    // s_Swerve.setDefaultCommand(
-    //     new TeleopSwerve(
-    //         s_Swerve,
-    //         m_driverController,
-    //         m_driverController.leftBumper())
-    //     );
+    s_Swerve.setDefaultCommand(
+        new TeleopSwerve(
+            s_Swerve,
+            m_driverController,
+            m_driverController.leftBumper())
+        );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
