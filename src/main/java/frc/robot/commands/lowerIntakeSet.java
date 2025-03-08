@@ -21,12 +21,12 @@ public class lowerIntakeSet extends Command {
   public void initialize() {
     m_fiss.maintainFront();
     m_fiss.setGoal(90);
-    m_fiss.swingToGoal();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_fiss.swingToGoal();
     // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
   }
 

@@ -13,7 +13,7 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 public class lowerIntakePickUp extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
   private double a;
-  private TunableNumber goal = new TunableNumber("lowerIntakePick", 45);
+  private TunableNumber goal = new TunableNumber("lowerIntakePick", 55);
 
   public lowerIntakePickUp() {
     addRequirements(m_fiss);
