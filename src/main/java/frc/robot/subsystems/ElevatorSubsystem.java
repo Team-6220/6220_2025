@@ -91,6 +91,22 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorEncoder = elevatorMotorLeft.getEncoder(); //used right side because it provide positive values
     elevatorEncoder.setPosition(0);
   }
+
+  /**moves the elevator down all the way & when the current is high it knows it's at zero & reset accordingly */
+  public void initResetEncoder()
+  {
+    while(elevatorMotorLeft.getOutputCurrent() <= 20)
+    {
+      double goingDownVolt = -2;
+      elevatorMotorLeft.setVoltage(goingDownVolt);
+      elevatorMotorRight.setVoltage(goingDownVolt);
+      System.out.println("reseting elevator");
+    }
+    elevatorMotorLeft.setVoltage(0);
+    elevatorMotorRight.setVoltage(0);
+    resetEncoder();
+    System.out.println("Reset elevator encoder");
+  }
   
   @Override
   public void periodic() {

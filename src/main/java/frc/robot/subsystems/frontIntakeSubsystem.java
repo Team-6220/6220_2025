@@ -72,8 +72,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.FrontIntakeConstants.maxCurrent;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = Constants.FrontIntakeConstants.currentLimit;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = Constants.FrontIntakeConstants.maxCurrentTime;
-    lowerIntakeConfig.CurrentLimits.StatorCurrentLimitEnable = Constants.FrontIntakeConstants.enableCurrentLimit;
-    lowerIntakeConfig.CurrentLimits.StatorCurrentLimit = Constants.FrontIntakeConstants.maxCurrent;
+    lowerIntakeConfig.CurrentLimits.StatorCurrentLimitEnable = Constants.FrontIntakeConstants.enableStatorCurrentLimit;
+    lowerIntakeConfig.CurrentLimits.StatorCurrentLimit = Constants.FrontIntakeConstants.maxStatorCurrent;
     
 
     frontMotor.getConfigurator().apply(lowerIntakeConfig);
@@ -205,8 +205,10 @@ public class frontIntakeSubsystem extends SubsystemBase {
   /**Raw encoder value subtracted by the offset at zero*/
   public double getPosition()
   {
-    return ((lowerintakeEncoder.get()) *(24.0/32.0) * 360.0)-304+185.5+31.5;//(encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
+    return ((lowerintakeEncoder.get()) *(24.0/32.0) * 360.0)-304+185.5+31.5
+    ;//(encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
   }
+  
   public void simpleDrive(double motorOutput)
   {
     // motorOutput *= 12;

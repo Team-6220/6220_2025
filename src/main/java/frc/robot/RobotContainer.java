@@ -14,7 +14,7 @@ import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeLowerIntake;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.commands.lowerIntakePickUp;
+import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.ElevatorManuel;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -122,7 +122,7 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    stage2.whileTrue(new Stage2CMD());
+    stage2.onTrue(new Stage2CMD());
     stage3.onTrue(new Stage3CMD());
     stage4.onTrue(new Stage4CMD());
     
@@ -130,7 +130,7 @@ public class RobotContainer {
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
     groundIntake.whileTrue(new IntakeGround());
-    setLowerIn.whileTrue(new lowerIntakePickUp());
+    setLowerIn.whileTrue(new lowerIntakeAlgeaPickUp());
     setLowerIn.whileFalse(new lowerIntakeSet());
     lowerOuttake.whileTrue(new OutakeLowerIntake());
 

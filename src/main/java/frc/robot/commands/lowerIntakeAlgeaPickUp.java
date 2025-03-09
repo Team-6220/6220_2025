@@ -11,13 +11,13 @@ import frc.robot.Constants.FrontIntakeConstants;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class lowerIntakePickUp extends Command {
+public class lowerIntakeAlgeaPickUp extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
-  private TunableNumber goal = new TunableNumber("lowerIntakePick setpoint degrees", FrontIntakeConstants.intakeSetpoint);
+  private TunableNumber goal = new TunableNumber("lowerIntakePick setpoint degrees", FrontIntakeConstants.intakeAlgeaSetpoint);
   private double lowerIntakeSetpoint = goal.getDefault();
 
 
-  public lowerIntakePickUp() {
+  public lowerIntakeAlgeaPickUp() {
     addRequirements(m_fiss);
   }
 

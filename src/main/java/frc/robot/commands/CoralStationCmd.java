@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralStationCmd extends Command
 {
    // private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
+  private ElevatorSubsystem elevatorSubsystem;
   
 
   public CoralStationCmd()
@@ -23,14 +25,16 @@ public class CoralStationCmd extends Command
     // elevator = ElevatorSubsystem.getInstance();
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
-    addRequirements(wrist);
+    elevatorSubsystem = ElevatorSubsystem.getInstance();
+    addRequirements(wrist, elevatorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize()
   {
-    wrist.setGoal(40);
+    wrist.setGoal(WristConstants.coralStation);
+    elevatorSubsystem.setGoal(ElevatorConstants.E_CoralStation);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +42,7 @@ public class CoralStationCmd extends Command
   public void execute()  {
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     wrist.driveToGoal();
+    elevatorSubsystem.driveToGoal();
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +51,7 @@ public class CoralStationCmd extends Command
     // System.out.println("we ended");
     // elevator.stop();
     wrist.stop();
+    elevatorSubsystem.stop();
   }
 
   // Returns true when the command should end.

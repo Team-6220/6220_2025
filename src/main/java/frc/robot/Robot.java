@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -23,6 +24,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   public static final CTREConfigs ctreConfigs = new CTREConfigs();
+
+  private ElevatorSubsystem elevatorSubsystem = ElevatorSubsystem.getInstance();
 
   private final RobotContainer m_robotContainer;
 
@@ -38,7 +41,7 @@ public class Robot extends TimedRobot {
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
   }
-
+  
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -54,18 +57,19 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }
-
+  
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}
-
+  
   @Override
   public void disabledPeriodic() {}
-
+  
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-
+    
+    elevatorSubsystem.initResetEncoder();
     Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
@@ -115,6 +119,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    elevatorSubsystem.initResetEncoder();
     Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
@@ -159,6 +164,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
+    elevatorSubsystem.initResetEncoder();
     CommandScheduler.getInstance().cancelAll();
   }
 

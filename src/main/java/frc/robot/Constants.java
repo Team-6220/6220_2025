@@ -386,15 +386,16 @@ public final class Constants {
         public static final int stallLimit = 5;
         public static final int freeLimit = 20;
         
-        public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = .5;
-        public static final double kS = 0, kG = .25, kV = 0, kA = 0;
+        public static final double kP = 0.00, kI = 0, kD = 0, izone = 2, tolerance = .5;
+        public static final double kS = 0, kG = .15, kV = 1.75, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
-        public static final double maxAcceleration = 5000, maxVelocity = 10000;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
+        public static final double maxAcceleration = 720, maxVelocity = 360;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
         public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
 
         public static final double L2 = -48.8018;
         public static final double L3 = -46.2412;
-        public static final double L4 = -20.6963;
+        public static final double L4 = -5;
+        public static final double coralStation = 35.81813;
     }
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
@@ -430,13 +431,16 @@ public final class Constants {
         public static final double elevatorIZone = 0.1;
         public static final double elevatorTolerance = .005;
         public static final double elevatorMaxVel = 1.25;//Ok tune this a little higher/lower//meters per second
-        public static final double elevatorMaxAccel = 5;//I think you don't need to tune this one but you can//meters per second square
+        public static final double elevatorMaxAccel = 4.2
+        
+        ;//I think you don't need to tune this one but you can//meters per second square
 
         
         //These values should be percents
         public static final double E_L2 = 0.485757;//This one should be good
         public static final double E_L3 = .929;//This one should be good
         public static final double E_L4 = 1.2126259;//Maybe final tune this?
+        public static final double E_CoralStation = .210796;//Maybe final tune this?
 
         public static final double lowerEncoderExtreme = 0.0; 
         public static final double upperEncoderExtreme = 1.2;
@@ -455,6 +459,9 @@ public final class Constants {
         public static final double maxCurrent = 20;
         public static final double currentLimit = 15;
         public static final double maxCurrentTime = 1;
+
+        public static final boolean enableStatorCurrentLimit = true;
+        public static final double maxStatorCurrent = 40;
 
         public static final int stallLimit = 25; //amps
         public static final int freeLimit = 25; //amps
@@ -475,13 +482,14 @@ public final class Constants {
         public static final double frontIntakeMaxVel = 200;
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
         /**volts, used for intake and only intake */
-        public static final double wheelSpeed = 6;
-        public static final double idleSpinVoltage = 4;
+        public static final double wheelSpeed = 3;
+        public static final double idleSpinVoltage = 1;
 
         public static final double maxDegrees = 120;
-        public static final double minDegrees = 0;
+        public static final double minDegrees = -10;
 
-        public static final double intakeSetpoint = 65;
+        public static final double intakeAlgeaSetpoint = 65;
+        public static final double intakeCoralSetpoint = -5;
         public static final double idleSetpoint = 106;
 
     }
