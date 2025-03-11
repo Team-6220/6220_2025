@@ -53,7 +53,7 @@ public class photonAlignCmd extends Command {
       Translation2d targetPosition = new Translation2d(s_Swerve.calculateX(), s_Swerve.calculateY());
       //s_Swerve.get;
       SmartDashboard.putNumber("Target Position X ", targetPosition.getX());
-      SmartDashboard.putNumber("Target Position X", targetPosition.getY());
+      SmartDashboard.putNumber("Target Position y", targetPosition.getY());
       //s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
       // s_Swerve.drive(targetPosition, 0.0, false, false);
       //s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);

@@ -49,10 +49,12 @@ public class PhotonVisionCalculations {
     public static double estimateAdjacent(int tagID, int cameraNum) {
         if(tagID <= 0)
         {
+            System.out.println("sys id < 0");
             return 0.0;
         }
         double hypo = estimateDistance(tagID, cameraNum);
         double yaw = s_Photon.getBestTargets().get(cameraNum).getYaw();
+        SmartDashboard.putNumber("vision calc yaw", yaw);
         double instance = hypo * Math.cos(yaw);
 
         return instance;
