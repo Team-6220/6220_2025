@@ -21,20 +21,20 @@ import com.ctre.phoenix6.hardware.CANrange;
 
 public class CANRangeSubsystem extends SubsystemBase{
     private final double distanceThreshold1 = 10.0; // Change distance(for wrist)
-    private final double distanceThreshold2 = 15.0; // Change distance(for front intake)
+    private final double distanceThreshold2 = 5.5; // Change distance(for front intake)
     private static CANRangeSubsystem INSTANCE = null;
     private CANrange cRange1, cRange2, cRange3;
     private final CANrangeConfiguration configs = new CANrangeConfiguration();
     
     
     public CANRangeSubsystem() {
-      cRange1 = new CANrange(10); // Change deviceID
-      cRange2 = new CANrange(11); // Change deviceID
-      cRange3 = new CANrange(12); // Change deviceID
+      cRange1 = new CANrange(21); 
+      cRange2 = new CANrange(22); 
+      cRange3 = new CANrange(23); 
 
       cRange1.getConfigurator().apply(configs); // wrist can range
-      cRange2.getConfigurator().apply(configs); // front intake can range 1
-      cRange3.getConfigurator().apply(configs); // other front intake can range (2 & 3)
+      cRange2.getConfigurator().apply(configs); // front intake can range 2
+      cRange3.getConfigurator().apply(configs); // other front intake can range 3
     }
 
     /**
@@ -78,4 +78,3 @@ public class CANRangeSubsystem extends SubsystemBase{
     return INSTANCE;
     }
 }
-

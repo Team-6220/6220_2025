@@ -11,6 +11,9 @@ import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.robot.subsystems.WristIntakesubsytem;
 import frc.robot.subsystems.frontIntakeSubsystem;
+import java.util.function.BooleanSupplier;
+// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.LEDCANdle;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CANRangeTestCommand extends Command {
@@ -18,6 +21,7 @@ public class CANRangeTestCommand extends Command {
   private V2_SparkMaxWristSubsystem wrist;
   private CANRangeSubsystem cRange;
   private frontIntakeSubsystem frontIntake;
+  LEDCANdle m_LEDCANdle;
 
   public CANRangeTestCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,6 +31,8 @@ public class CANRangeTestCommand extends Command {
     addRequirements(cRange);
     frontIntake = frontIntakeSubsystem.getInstance();
     addRequirements(frontIntake);
+    m_LEDCANdle = LEDCANdle.getInstance();
+    addRequirements(m_LEDCANdle);
   }
 
   // Called when the command is initially scheduled.
@@ -39,12 +45,16 @@ public class CANRangeTestCommand extends Command {
     if(cRange.isObjectInWrist())
     {
       wrist.stop();
-      // turn on LEDS
+      m_LEDCANdle.setGold();
     }
     
     if (cRange.isObjectInFrontIntake()) {
       frontIntake.spinFront(false, false);
-      // turn on LEDS
+      m_LEDCANdle.setGreen();
+    }
+
+    if (!(cRange.isObjectInWrist() && cRange.isObjectInFrontIntake())) {
+      m_LEDCANdle.turnOff();
     }
   }
 
