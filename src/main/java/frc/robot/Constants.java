@@ -404,7 +404,7 @@ public final class Constants {
 
         public static final int leftMotorID = 13;
         public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
-        public static final boolean leftMotorInvert = false ;
+        public static final boolean leftMotorInvert = false;
 
         public static final int stallLimit = 20;
         public static final int freeLimit = 20;
@@ -421,7 +421,7 @@ public final class Constants {
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 9.75;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKv = 9.75;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
         public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
@@ -429,14 +429,14 @@ public final class Constants {
         //if rasiing ks might have to lower kg
         public static final double elevatorIZone = 0.1;
         public static final double elevatorTolerance = .005;
-        public static final double elevatorMaxVel = 1.25;
-        public static final double elevatorMaxAccel = 5;
+        public static final double elevatorMaxVel = 1.25;//Ok tune this a little higher/lower//meters per second
+        public static final double elevatorMaxAccel = 5;//I think you don't need to tune this one but you can//meters per second square
 
         
         //These values should be percents
-        public static final double E_L2 = 0.485757;//TODO: CHANGE THESE
-        public static final double E_L3 = .929;//TODO: CHANGE THESE
-        public static final double E_L4 = 1.21;//TODO: CHANGE THESE
+        public static final double E_L2 = 0.485757;//This one should be good
+        public static final double E_L3 = .929;//This one should be good
+        public static final double E_L4 = 1.2126259;//Maybe final tune this?
 
         public static final double lowerEncoderExtreme = 0.0; 
         public static final double upperEncoderExtreme = 1.2;
@@ -460,6 +460,7 @@ public final class Constants {
         public static final int freeLimit = 25; //amps
 
         public static final int frontMotorID = 19; 
+
         public static final IdleMode frontMotorIdleMode = IdleMode.kCoast;
         public static final boolean frontMotorInvert = false;
         public static final double frontIntakeKp = .05;//.4;
@@ -473,10 +474,16 @@ public final class Constants {
         public static final double frontIntakeTolerance = 1.5;
         public static final double frontIntakeMaxVel = 200;
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
-        public static final double wheelSpeed = 10; //volts
+        /**volts, used for intake and only intake */
+        public static final double wheelSpeed = 6;
+        public static final double idleSpinVoltage = 3;
 
-        public static final double maxDegrees = 90; //volts
-        public static final double minDegrees = 0; //volts
+        public static final double maxDegrees = 120;
+        public static final double minDegrees = 0;
+
+        public static final double intakeSetpoint = 55;
+        public static final double idleSetpoint = 65;
+
     }
     public static final class WristIntakeConstants {
         public static final NeutralModeValue INTAKENEU_NEUTRAL_MODE = NeutralModeValue.Brake;
