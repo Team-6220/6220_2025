@@ -93,20 +93,20 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   /**moves the elevator down all the way & when the current is high it knows it's at zero & reset accordingly */
-  public void initResetEncoder()
-  {
-    while(elevatorMotorLeft.getOutputCurrent() <= 20)
-    {
-      double goingDownVolt = -2;
-      elevatorMotorLeft.setVoltage(goingDownVolt);
-      elevatorMotorRight.setVoltage(goingDownVolt);
-      System.out.println("reseting elevator");
-    }
-    elevatorMotorLeft.setVoltage(0);
-    elevatorMotorRight.setVoltage(0);
-    resetEncoder();
-    System.out.println("Reset elevator encoder");
-  }
+  // public void initResetEncoder()
+  // {
+  //   while(elevatorMotorLeft.getOutputCurrent() <= 0.05)
+  //   {
+  //     double goingDownVolt = -5;
+  //     elevatorMotorLeft.setVoltage(goingDownVolt);
+  //     elevatorMotorRight.setVoltage(goingDownVolt);
+  //     System.out.println("reseting elevator");
+  //   }
+  //   elevatorMotorLeft.setVoltage(0);
+  //   elevatorMotorRight.setVoltage(0);
+  //   resetEncoder();
+  //   System.out.println("Reset elevator encoder");
+  // }
   
   @Override
   public void periodic() {
@@ -177,11 +177,30 @@ public class ElevatorSubsystem extends SubsystemBase {
   
   public void driveToGoal()
   {
+    if(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
+    {
+      while(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
+      {
+        elevatorMotorLeft.setVoltage(2.5);
+        elevatorMotorRight.setVoltage(2.5);
+      }
+      elevatorMotorLeft.setVoltage(0);
+      elevatorMotorRight.setVoltage(0);
+    }
     
+    if(elevatorEncoder.getPosition() > m_Controller.getGoal().position)
+    {
+      while(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
+      {
+        elevatorMotorLeft.setVoltage(-2.5);
+        elevatorMotorRight.setVoltage(-2.5);
+      }
+      elevatorMotorLeft.setVoltage(0);
+      elevatorMotorRight.setVoltage(0);
+    }
     feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().velocity);
     profiledMotionOutput = m_Controller.calculate(getElevatorPositionMeters());
     double calculatedSpeed = profiledMotionOutput + feedForwardOutput;
-    
     elevatorMotorLeft.setVoltage(calculatedSpeed);
     elevatorMotorRight.setVoltage(calculatedSpeed);
     SmartDashboard.putNumber(tableKey + "Elevator Goal", m_Controller.getGoal().position);

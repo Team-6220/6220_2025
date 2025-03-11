@@ -383,18 +383,18 @@ public final class Constants {
         public static final IdleMode wristIdleMode = IdleMode.kBrake;
         
         public static final boolean encoderInverted = false;
-        public static final int stallLimit = 5;
-        public static final int freeLimit = 20;
+        public static final int stallLimit = 10;
+        public static final int freeLimit = 10;
         
         public static final double kP = 0.00, kI = 0, kD = 0, izone = 2, tolerance = .5;
-        public static final double kS = 0, kG = .15, kV = 1.75, kA = 0;
+        public static final double kS = 0, kG = .19, kV = .53, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
         public static final double maxAcceleration = 720, maxVelocity = 360;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
         public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
 
         public static final double L2 = -48.8018;
         public static final double L3 = -46.2412;
-        public static final double L4 = -5;
+        public static final double L4 = -8;
         public static final double coralStation = 35.81813;
     }
     public static final class ElevatorConstants{
@@ -407,8 +407,8 @@ public final class Constants {
         public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
         public static final boolean leftMotorInvert = false;
 
-        public static final int stallLimit = 20;
-        public static final int freeLimit = 20;
+        public static final int stallLimit = 21;
+        public static final int freeLimit = 21;
 
         public static final double elevatorOffset = 0; //FOR COMP
 
@@ -422,7 +422,7 @@ public final class Constants {
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 9.75;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKv = 9.1;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
         public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
@@ -430,20 +430,18 @@ public final class Constants {
         //if rasiing ks might have to lower kg
         public static final double elevatorIZone = 0.1;
         public static final double elevatorTolerance = .005;
-        public static final double elevatorMaxVel = 1.25;//Ok tune this a little higher/lower//meters per second
-        public static final double elevatorMaxAccel = 4.2
-        
-        ;//I think you don't need to tune this one but you can//meters per second square
+        public static final double elevatorMaxVel = 1.26;//Ok tune this a little higher/lower//meters per second
+        public static final double elevatorMaxAccel = 4;//I think you don't need to tune this one but you can//meters per second square
 
         
         //These values should be percents
         public static final double E_L2 = 0.485757;//This one should be good
         public static final double E_L3 = .929;//This one should be good
-        public static final double E_L4 = 1.2126259;//Maybe final tune this?
+        public static final double E_L4 = 1.32;//Maybe final tune this?
         public static final double E_CoralStation = .210796;//Maybe final tune this?
 
         public static final double lowerEncoderExtreme = 0.0; 
-        public static final double upperEncoderExtreme = 1.2;
+        public static final double upperEncoderExtreme = 1.32;
         }
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
@@ -478,7 +476,7 @@ public final class Constants {
         public static final double frontIntakeKv = 0.35;
         public static final double frontIntakeKs = 0;
         public static final double frontIntakeIZone = 5;
-        public static final double frontIntakeTolerance = 1.5;
+        public static final double frontIntakeTolerance = 0.5;
         public static final double frontIntakeMaxVel = 200;
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
         /**volts, used for intake and only intake */

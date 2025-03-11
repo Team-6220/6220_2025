@@ -68,9 +68,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    
-    elevatorSubsystem.initResetEncoder();
-    Optional<Alliance> ally = DriverStation.getAlliance();
+        Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
             Constants.isRed = "red";
@@ -119,7 +117,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    elevatorSubsystem.initResetEncoder();
     Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
@@ -164,7 +161,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
-    elevatorSubsystem.initResetEncoder();
     CommandScheduler.getInstance().cancelAll();
   }
 
