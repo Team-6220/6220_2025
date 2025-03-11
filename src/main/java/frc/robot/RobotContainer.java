@@ -8,6 +8,11 @@ package frc.robot;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.photonAlignCmd;
 import frc.robot.subsystems.Swerve;
+
+import static edu.wpi.first.units.Units.Degrees;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -56,7 +61,7 @@ public class RobotContainer {
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * {@link Trigger#Trigger(java.util.function.BooleanSup5plier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
    * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
    * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
@@ -66,7 +71,9 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+    m_driverController.x().onTrue(new InstantCommand(() -> s_Swerve.setPose(new Pose2d(0, 0, new Rotation2d(Degrees.of(0))))));
     vision.whileTrue(new photonAlignCmd(0, s_Swerve));
+    // vision.whileTrue(new InstantCommand(() -> System.out.println("should be running")));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     

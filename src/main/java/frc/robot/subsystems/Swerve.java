@@ -176,12 +176,12 @@ public class Swerve extends SubsystemBase {
         turnPidController.setTolerance(Constants.SwerveConstants.turnTolerance);
         turnPidController.enableContinuousInput(-180, 180);
 
-        xPidController = new ProfiledPIDController(xKP.get(), xKI.get(), xKP.get(), new TrapezoidProfile.Constraints(xMaxVel.get(), xMaxAccel.get()));
+        xPidController = new ProfiledPIDController(xKP.get(), xKI.get(), xKD.get(), new TrapezoidProfile.Constraints(xMaxVel.get(), xMaxAccel.get()));
         xPidController.setIZone(Constants.SwerveConstants.xIZone);
         xPidController.setTolerance(Constants.SwerveConstants.xTolerance);
         xPidController.enableContinuousInput(-180, 180);
 
-        yPidController = new ProfiledPIDController(yKP.get(), yKI.get(), yKP.get(), new TrapezoidProfile.Constraints(yMaxVel.get(), yMaxAccel.get()));
+        yPidController = new ProfiledPIDController(yKP.get(), yKI.get(), yKD.get(), new TrapezoidProfile.Constraints(yMaxVel.get(), yMaxAccel.get()));
         yPidController.setIZone(Constants.SwerveConstants.yIZone);
         yPidController.setTolerance(Constants.SwerveConstants.yTolerance);
         yPidController.enableContinuousInput(-180, 180);
@@ -523,7 +523,7 @@ public class Swerve extends SubsystemBase {
     public ProfiledPIDController getPidX() {
         return xPidController;
     }
- 
+
     public boolean getPidAtGoalX() {
         return xPidController.atGoal();
     }
@@ -568,9 +568,9 @@ public class Swerve extends SubsystemBase {
         // }
         for(int i = 0; i < s_Photon.getResults().size(); i++)
         {
-            if (s_Photon.getBestTarget().get(i) != null) {
-                targetX = PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(i).getFiducialId(), i);
-                targetY = PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(i).getFiducialId(), i);
+            if (s_Photon.getBestTargets().get(i) != null) {
+                targetX = PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTargets().get(i).getFiducialId(), i);
+                targetY = PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTargets().get(i).getFiducialId(), i);
             }
         }
         // targetYaw = result.getBestTarget().yaw;
@@ -612,6 +612,20 @@ public class Swerve extends SubsystemBase {
             turnPidController.setPID(turnKP.get(), turnKI.get(), turnKD.get());
             turnPidController.reset(getHeading().getDegrees());
         }
+
+        if (xKP.hasChanged()
+        || xKI.hasChanged()
+        || xKD.hasChanged()) {
+            xPidController.setPID(xKP.get(), xKI.get(), xKD.get());
+            xPidController.reset(getPose().getX());
+        }
+
+        if (yKP.hasChanged()
+        || yKI.hasChanged()
+        || yKD.hasChanged()) {
+            yPidController.setPID(yKP.get(), yKI.get(), yKD.get());
+            yPidController.reset(getPose().getY());
+        }
         if(turnMaxAccel.hasChanged() || turnMaxVel.hasChanged()) {
             turnPidController.setConstraints(new TrapezoidProfile.Constraints(turnMaxVel.get(), turnMaxAccel.get()));
             turnPidController.reset(getHeading().getDegrees());
@@ -641,9 +655,17 @@ public class Swerve extends SubsystemBase {
 
     
     
-    public void alignXYYaw(double X, double Y) {
+    public void setXYGoal(double X, double Y) {
         xPidController.setGoal(X);
         yPidController.setGoal(Y);
+    }
+
+    public double calculateX() {
+        return xPidController.calculate(getPose().getX());
+    }
+
+    public double calculateY() {
+        return yPidController.calculate(getPose().getY());
     }
 
     //possibly dont need

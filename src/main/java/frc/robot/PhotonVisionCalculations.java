@@ -13,6 +13,7 @@ public class PhotonVisionCalculations {
 
     public static void initPhoton() {}
 
+    //returns distance in meters
     public static double estimateDistance (int tagID, int cameraNum) {
         if(tagID <= 0)
         {
@@ -23,14 +24,14 @@ public class PhotonVisionCalculations {
         double cameraHeight = VisionConstants.cameraHeight[cameraNum];
         double cameraMountAngle = VisionConstants.cameraAngles[cameraNum];
 
-        double cameraOffset = s_Photon.getBestTarget().get(cameraNum).getPitch();
+        double cameraOffset = s_Photon.getBestTargets().get(cameraNum).getPitch();
         
         double totalAngleToTarget_deg = cameraOffset + cameraMountAngle;
         double totalAngleToTarget_rad = (totalAngleToTarget_deg * Math.PI) / 180.0;
         
         double instance = (aprilTagHeightInches + cameraHeight) / Math.tan(totalAngleToTarget_rad);
         
-        return instance;
+        return instance * .0254;
     }
 
     public static double estimateOpposite(int tagID, int cameraNum) {
@@ -39,8 +40,7 @@ public class PhotonVisionCalculations {
             return 0.0;
         }
         double hypo = estimateDistance(tagID, cameraNum);
-        double yaw = s_Photon.getBestTarget().get(cameraNum).getYaw();
-
+        double yaw = s_Photon.getBestTargets().get(cameraNum).getYaw();
         double instance = hypo * Math.sin(yaw);
 
         return instance;
@@ -52,7 +52,7 @@ public class PhotonVisionCalculations {
             return 0.0;
         }
         double hypo = estimateDistance(tagID, cameraNum);
-        double yaw = s_Photon.getBestTarget().get(cameraNum).getYaw();
+        double yaw = s_Photon.getBestTargets().get(cameraNum).getYaw();
         double instance = hypo * Math.cos(yaw);
 
         return instance;

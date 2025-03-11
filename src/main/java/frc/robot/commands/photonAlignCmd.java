@@ -4,27 +4,21 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.PhotonVisionCalculations;
+
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 
-import java.util.List;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class photonAlignCmd extends Command {
   private Swerve s_Swerve;
   private PhotonVisionSubsystem s_Photon;
-  private PhotonCamera camera;
-  private double offsetX, offsetY;
   private int cameraNum;
   
   /** Creates a new photonAlign. */
@@ -32,7 +26,7 @@ public class photonAlignCmd extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Photon = PhotonVisionSubsystem.getInstance();
     this.s_Swerve = s_Swerve;
-    addRequirements(s_Photon);
+    addRequirements(s_Photon, s_Swerve);
     this.cameraNum = cameraNum;
   }
 
@@ -40,10 +34,8 @@ public class photonAlignCmd extends Command {
   @Override
   public void initialize() {
     s_Swerve.resetTurnController();
-    s_Swerve.alignXYYaw(s_Swerve.getTargetX(), s_Swerve.getTargetY());
-    SmartDashboard.putNumber("Vision_XPid", s_Swerve.getTargetX());
-    SmartDashboard.putNumber("Vision_YPid", s_Swerve.getTargetY());
-
+    s_Swerve.setXYGoal(s_Swerve.getTargetX() + s_Swerve.getPose().getX(), s_Swerve.getTargetY() + s_Swerve.getPose().getY());
+    System.out.print("Photon vision cmd initilized");
     // offsetX = VisionConstants.aprilTagCoordsX[s_Photon.getBestTarget().get(cameraNum - 1).getFiducialId()] - PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
     // offsetY = VisionConstants.aprilTagCoordsY[s_Photon.getBestTarget().get(cameraNum - 1).getFiducialId()] - PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
     VisionConstants.setTagXYHeightAngle();
@@ -53,29 +45,34 @@ public class photonAlignCmd extends Command {
   @Override
   public void execute() {
     
+    System.out.print("Photon vision cmd running");
     if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
     {
-      PhotonTrackedTarget bestTarget = s_Photon.getBestTarget().get(cameraNum);
-      Translation2d targetPosition = new Translation2d(PhotonVisionCalculations.estimateAdjacent(bestTarget.fiducialId, cameraNum), PhotonVisionCalculations.estimateOpposite(bestTarget.fiducialId, cameraNum));
+
+      PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
+      Translation2d targetPosition = new Translation2d(s_Swerve.calculateX(), s_Swerve.calculateY());
       //s_Swerve.get;
+      SmartDashboard.putNumber("Target Position X ", targetPosition.getX());
+      SmartDashboard.putNumber("Target Position X", targetPosition.getY());
       //s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
-      s_Swerve.drive(targetPosition, 0.0, false, false);
-      s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
+      // s_Swerve.drive(targetPosition, 0.0, false, false);
+      //s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
     }
-    else {
-      end(true);
-    }
+    // else {
+    //   end(true);
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("you");
     s_Swerve.stopDriving();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Swerve.getPidAtGoalX() && s_Swerve.getPidAtGoalY() && s_Swerve.getPidAtGoalYaw();
+    return false;
   }
 }

@@ -82,7 +82,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     return results;
   }
 
-  public ArrayList<PhotonTrackedTarget> getBestTarget() {
+  public ArrayList<PhotonTrackedTarget> getBestTargets() {
     return bestTarget;
   }
 
