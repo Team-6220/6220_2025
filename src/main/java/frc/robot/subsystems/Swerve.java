@@ -587,7 +587,7 @@ public class Swerve extends SubsystemBase {
             // System.out.println("update!");
         }
 
-        
+        PhotonVisionSubsystem.updateCamerasPoseEstimation(this, poseEstimator, .00001);
         // LimelightCalculations.updatePoseEstimation(poseEstimator, this);
         // Localization_V2.updateCamerasPoseEstimation(this, poseEstimator, visionMeasurementStdDevConstant.get());
         poseEstimator.update(getGyroYaw(), getModulePositions());

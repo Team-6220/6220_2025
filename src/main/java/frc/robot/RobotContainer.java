@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import frc.robot.commands.AmpCommand;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.photonAlignCmd;
 import frc.robot.subsystems.Swerve;
 
 import static edu.wpi.first.units.Units.Degrees;
+
+import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,6 +44,7 @@ public class RobotContainer {
 
   private final Joystick m_Joystick = new Joystick(1);
 
+  
   private final Trigger vision = new Trigger(() -> m_Joystick.getRawButton(1));
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -72,7 +76,7 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
     m_driverController.x().onTrue(new InstantCommand(() -> s_Swerve.setPose(new Pose2d(0, 0, new Rotation2d(Degrees.of(0))))));
-    vision.whileTrue(new photonAlignCmd(0, s_Swerve));
+    vision.whileTrue(new AmpCommand(s_Swerve, m_driverController.getHID(), () -> m_driverController.x().getAsBoolean()));
     // vision.whileTrue(new InstantCommand(() -> System.out.println("should be running")));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

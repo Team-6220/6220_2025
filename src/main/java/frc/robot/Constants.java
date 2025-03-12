@@ -472,11 +472,6 @@ public final class Constants {
             300.0
         };
 
-        // AprilTag[] apriltags2025 =
-        // {
-        //     new AprilTag(1, new Pose3d(new Translation3d(Coefficient, ambiguityThreshold, zMargin)))
-        // };
-
 
         //creates a hash map of the X Y and Height in that order for april tags
         public static HashMap<Integer, ArrayList<Double>> aprilTagXYHeightAngle = new HashMap<Integer, ArrayList<Double>>();

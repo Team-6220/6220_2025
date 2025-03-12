@@ -18,6 +18,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -30,8 +31,8 @@ import frc.robot.Constants.VisionConstants;
 public class PhotonVisionSubsystem extends SubsystemBase {
   //"src\\main\\java\\frc\\lib\\vision\\2025-reefscape-andymark.json"
   //"src\main\deploy\vision\2025-reefscape-andymark.json"
-  public static Path path = Filesystem.getLaunchDirectory().toPath().resolve("/src/main/deploy/vision/2025-reefscape-andymark.json");
-  public static AprilTagFieldLayout aprilFieldLayout = new AprilTagFieldLayout(path);
+  // public static Path path = Filesystem.getDeployDirectory().toPath().resolve("2025-reefscape-andymark.json");
+  public static AprilTagFieldLayout aprilFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
   private static PhotonCamera[] cameras =
   {
     new PhotonCamera("Bottom_Right_Cam"), //Top Right USB
@@ -109,12 +110,21 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   public static void updateCamerasPoseEstimation(Swerve s_Swerve, SwerveDrivePoseEstimator poseEstimator, double 
     camTrustValue)
     {
-        for(int i = 0; i < cameras.length; i ++)
+      for(int i = 0; i < cameras.length; i ++)
+      {
+        List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
+        Optional<EstimatedRobotPose> estimatedRobotPose;
+        if(!unreadResults.isEmpty())  
         {
-          List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
-            Optional<EstimatedRobotPose> estimatedRobotPose = photonPoseEstimators[i].update(unreadResults.get(0));
-            if(estimatedRobotPose.isPresent())
-            {
+          estimatedRobotPose = photonPoseEstimators[i].update(unreadResults.get(0));
+        } 
+        else
+        {
+          estimatedRobotPose = Optional.empty();
+        }
+        if(estimatedRobotPose.isPresent())
+        {
+              System.out.println("updating");
               EstimatedRobotPose temp = estimatedRobotPose.get();
                 poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(camTrustValue, camTrustValue, Double.MAX_VALUE));
                 poseEstimator.addVisionMeasurement(temp.estimatedPose.toPose2d(), temp.timestampSeconds);
