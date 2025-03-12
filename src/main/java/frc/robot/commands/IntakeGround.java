@@ -32,13 +32,14 @@ public class IntakeGround extends Command {
       m_fiss.setGoal(lowergroundsetpoint.get());
     }
     m_fiss.swingToGoal();
-    m_fiss.spinFront(true, true);
+    m_fiss.setFront(3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_fiss.spinFront(false, false);
+    m_fiss.setFront(0.5);
+    m_fiss.setGoal(106);
   }
 
   // Returns true when the command should end.

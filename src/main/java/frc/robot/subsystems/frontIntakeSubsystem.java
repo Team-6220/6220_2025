@@ -226,6 +226,15 @@ public class frontIntakeSubsystem extends SubsystemBase {
     frontMotor.setVoltage(speed);
   }
 
+  public void setFront(double volt){
+    frontMotor.setVoltage(volt);
+  }
+
+  /**
+   * @param spin
+   * @param intake
+   * decaprated
+   */
   public void spinFront(boolean spin, boolean intake){
     if(frontIntakeVoltage.hasChanged())
     {

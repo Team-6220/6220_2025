@@ -24,7 +24,7 @@ public class lowerIntakeAlgeaPickUp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_fiss.spinFront(true, false);
+    m_fiss.setFront(-3);
     m_fiss.setGoal(lowerIntakeSetpoint);
   }
 
@@ -51,8 +51,8 @@ public class lowerIntakeAlgeaPickUp extends Command {
   public void end(boolean interrupted) {
     // m_fiss.simpleintakeDrive(0);
     m_fiss.resetPID();
-    m_fiss.spinFront(false, false);
-    m_fiss.maintainFront();
+    m_fiss.setFront(-1);
+    m_fiss.setGoal(106);
   }
 
   // Returns true when the command should end.

@@ -13,8 +13,6 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class lowerIntakeSet extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
-
-  private TunableNumber intakeSetpoint = new TunableNumber("lower intake idle degrees", FrontIntakeConstants.idleSetpoint);
   public lowerIntakeSet() {
     
     addRequirements(m_fiss);
@@ -24,7 +22,6 @@ public class lowerIntakeSet extends Command {
   @Override
   public void initialize() {
     // m_fiss.maintainFront();
-    m_fiss.setGoal(intakeSetpoint.getDefault());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,10 +29,6 @@ public class lowerIntakeSet extends Command {
   public void execute() {
     m_fiss.setMaxVel(50);
     m_fiss.setMaxAccel(200);
-    if(intakeSetpoint.hasChanged())
-    {
-      m_fiss.setGoal(intakeSetpoint.get());
-    }
     m_fiss.swingToGoal();
     // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
   }
