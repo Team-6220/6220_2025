@@ -31,7 +31,8 @@ public class PhotonVisionCalculations {
         
         double instance = (aprilTagHeightInches + cameraHeight) / Math.tan(totalAngleToTarget_rad);
         
-        return instance * .0254;
+        return instance *= 0.0254;
+
     }
 
     public static double estimateOpposite(int tagID, int cameraNum) {

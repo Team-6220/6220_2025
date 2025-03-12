@@ -34,7 +34,7 @@ public class photonAlignCmd extends Command {
   @Override
   public void initialize() {
     s_Swerve.resetTurnController();
-    s_Swerve.setXYGoal(s_Swerve.getTargetX() + s_Swerve.getPose().getX(), s_Swerve.getTargetY() + s_Swerve.getPose().getY());
+    s_Swerve.setXYGoal(s_Swerve.getTargetX(), s_Swerve.getTargetY());
     System.out.print("Photon vision cmd initilized");
     // offsetX = VisionConstants.aprilTagCoordsX[s_Photon.getBestTarget().get(cameraNum - 1).getFiducialId()] - PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
     // offsetY = VisionConstants.aprilTagCoordsY[s_Photon.getBestTarget().get(cameraNum - 1).getFiducialId()] - PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
@@ -48,25 +48,21 @@ public class photonAlignCmd extends Command {
     System.out.print("Photon vision cmd running");
     if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
     {
-
       PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
       Translation2d targetPosition = new Translation2d(s_Swerve.calculateX(), s_Swerve.calculateY());
-      //s_Swerve.get;
+      
       SmartDashboard.putNumber("Target Position X ", targetPosition.getX());
       SmartDashboard.putNumber("Target Position y", targetPosition.getY());
-      //s_Swerve.drive(s_Swerve.getPidX().calculate(getcurrentPose() - xPidstart), swervesub.getypidspeed, swervesub.getyawpidspeed);
+      
       // s_Swerve.drive(targetPosition, 0.0, false, false);
-      //s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
+      // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
     }
-    // else {
-    //   end(true);
-    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("you");
+    System.out.println("PHOTON ENDED");
     s_Swerve.stopDriving();
   }
 

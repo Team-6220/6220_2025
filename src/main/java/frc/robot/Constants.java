@@ -21,9 +21,12 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.path.PathConstraints;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -468,6 +471,12 @@ public final class Constants {
             0.0,
             300.0
         };
+
+        // AprilTag[] apriltags2025 =
+        // {
+        //     new AprilTag(1, new Pose3d(new Translation3d(Coefficient, ambiguityThreshold, zMargin)))
+        // };
+
 
         //creates a hash map of the X Y and Height in that order for april tags
         public static HashMap<Integer, ArrayList<Double>> aprilTagXYHeightAngle = new HashMap<Integer, ArrayList<Double>>();
