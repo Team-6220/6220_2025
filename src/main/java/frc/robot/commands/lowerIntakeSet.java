@@ -23,7 +23,7 @@ public class lowerIntakeSet extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_fiss.maintainFront();
+    // m_fiss.maintainFront();
     m_fiss.setGoal(intakeSetpoint.getDefault());
   }
 

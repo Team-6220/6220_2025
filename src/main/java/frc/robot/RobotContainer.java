@@ -8,10 +8,12 @@ import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.EjectCoral;
 import frc.robot.commands.IntakeCoral;
 import frc.robot.commands.IntakeGround;
+import frc.robot.commands.IntakeGroundIdle;
 import frc.robot.commands.Stage2CMD;
 import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
-import frc.robot.commands.OutakeLowerIntake;
+import frc.robot.commands.OutakeCoralLowerIntake;
+import frc.robot.commands.OuttakeAlgaeLowerIntake;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
@@ -63,7 +65,8 @@ public class RobotContainer {
   private final Trigger elevatorDown = new Trigger(() -> m_buttonBoard.getRawButton(14));
   private final Trigger groundIntake = new Trigger(() -> m_buttonBoard.getRawButton(15));
   private final Trigger setLowerIn = new Trigger(() -> m_buttonBoard.getRawButton(4));
-  private final Trigger lowerOuttake = new Trigger(() -> m_buttonBoard.getRawButton(6));
+  private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
+  private final Trigger lowerOuttakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(8));
 
   private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
   private final Trigger twisterTest = new Trigger(() -> m_buttonBoard.getRawButton(22));//turn right
@@ -130,10 +133,11 @@ public class RobotContainer {
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
     groundIntake.whileTrue(new IntakeGround());
+    groundIntake.whileFalse(new IntakeGroundIdle());
     setLowerIn.whileTrue(new lowerIntakeAlgeaPickUp());
     setLowerIn.whileFalse(new lowerIntakeSet());
-    lowerOuttake.whileTrue(new OutakeLowerIntake());
-
+    lowerOuttakeCoral.whileTrue(new OutakeCoralLowerIntake());
+    lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
     twisterTest.onTrue(new InstantCommand(()-> System.out.println("^^^^^^^^^^^pressed")));
   }
 
