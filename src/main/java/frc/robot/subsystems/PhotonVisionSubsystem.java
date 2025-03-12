@@ -92,7 +92,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
         if(bestTarget.get(i) != null)
         {
           Transform3d camToTar = bestTarget.get(i).getBestCameraToTarget();
-          System.out.println(camToTar.getX());
+          System.out.println(i + "have target");
           SmartDashboard.putNumber(tableKey + i + "camera to pose x", camToTar.getX());
           SmartDashboard.putNumber(tableKey + i + "camera to pose y", camToTar.getY());
           SmartDashboard.putNumber(tableKey + i + "camera to pose z", camToTar.getZ());
