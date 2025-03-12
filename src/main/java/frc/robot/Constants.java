@@ -523,6 +523,7 @@ public final class Constants {
         //                                     bottom right     top right       top left
         public static double[] cameraHeight = {29.5 + 1.724, 35.707 + 1.724, 35.707 + 1.724};
 
+        /**Degrees */
         public static double[] cameraAngles = {210.0, 135.0, 45.0};
 
         //aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
