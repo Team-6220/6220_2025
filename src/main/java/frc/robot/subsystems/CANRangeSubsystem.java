@@ -46,7 +46,7 @@ public class CANRangeSubsystem extends SubsystemBase{
     }
     /**
      * Checks if an object is within the 15mm range(might be changed if needed)
-     * @return turn if object is detected within range, false otherwise
+     * @return true if object is detected within range, false otherwise
      */
     public boolean isObjectInFrontIntake() {
       return (cRange2.getDistance().getValueAsDouble() <= distanceThreshold2 || (cRange3.getDistance().getValueAsDouble() <= distanceThreshold2));
