@@ -30,8 +30,10 @@ public class PhotonVisionCalculations {
         double totalAngleToTarget_rad = (totalAngleToTarget_deg * Math.PI) / 180.0;
         
         double instance = (aprilTagHeightInches + cameraHeight) / Math.tan(totalAngleToTarget_rad);
+
+        // double instance = 0.1524 / Math.tan(Math.toRadians(s_Photon.getBestTargets().get(cameraNum).getPitch()));
         
-        return instance *= 0.0254;
+        return instance * 0.0254;
 
     }
 

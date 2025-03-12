@@ -76,7 +76,8 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
     m_driverController.x().onTrue(new InstantCommand(() -> s_Swerve.setPose(new Pose2d(0, 0, new Rotation2d(Degrees.of(0))))));
-    vision.whileTrue(new AmpCommand(s_Swerve, m_driverController.getHID(), () -> m_driverController.x().getAsBoolean()));
+    // vision.whileTrue(new AmpCommand(s_Swerve, m_driverController.getHID(), () -> m_driverController.x().getAsBoolean()));
+    vision.whileTrue(new photonAlignCmd(1, s_Swerve));
     // vision.whileTrue(new InstantCommand(() -> System.out.println("should be running")));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

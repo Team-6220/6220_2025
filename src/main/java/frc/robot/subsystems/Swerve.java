@@ -577,6 +577,7 @@ public class Swerve extends SubsystemBase {
         // targetPitch = result.getBestTarget().pitch;
         SmartDashboard.putNumber("distance x", targetX);
         SmartDashboard.putNumber("distance y", targetY);
+        // SmartDashboard.putNumber("hypo", PhotonVisionCalculations.estimateDistance(s_Photon.getBestTargets().get(0).getFiducialId(), 0));
         // SmartDashboard.putNumber("distance yaw", targetYaw);
         // SmartDashboard.putNumber("distance pitch", targetPitch);
 
@@ -587,7 +588,7 @@ public class Swerve extends SubsystemBase {
             // System.out.println("update!");
         }
 
-        PhotonVisionSubsystem.updateCamerasPoseEstimation(this, poseEstimator, .00001);
+        // PhotonVisionSubsystem.updateCamerasPoseEstimation(this, poseEstimator, .00001);
         // LimelightCalculations.updatePoseEstimation(poseEstimator, this);
         // Localization_V2.updateCamerasPoseEstimation(this, poseEstimator, visionMeasurementStdDevConstant.get());
         poseEstimator.update(getGyroYaw(), getModulePositions());
