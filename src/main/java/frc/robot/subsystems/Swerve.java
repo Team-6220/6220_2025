@@ -416,9 +416,20 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setAutoTurnHeading(double heading) {
-        autoTurnHeading = heading;
+        // autoTurnHeading = heading;
+        autoTurnHeading = wrapAngleForTurningPID(heading);
         resetTurnController();
         turnPidController.setGoal(autoTurnHeading);
+    }
+
+    public static double wrapAngleForTurningPID(double angle) {
+        angle = angle % 360; // Ensure angle is within 0-360 range
+        if (angle > 180) {
+            angle -= 360; // Convert angles greater than 180 to negative
+        } else if (angle < -180) {
+            angle += 360; // Convert angles less than -180 to positive
+        }
+        return angle;
     }
 
     public void resetModulesToAbsolute(){
