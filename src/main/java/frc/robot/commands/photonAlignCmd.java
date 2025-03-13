@@ -20,6 +20,7 @@ public class photonAlignCmd extends Command {
   private Swerve s_Swerve;
   private PhotonVisionSubsystem s_Photon;
   private int cameraNum;
+  private double offset;
   
   /** Creates a new photonAlign. */
   public photonAlignCmd(int cameraNum, Swerve s_Swerve) {
@@ -28,7 +29,17 @@ public class photonAlignCmd extends Command {
     this.s_Swerve = s_Swerve;
     addRequirements(s_Photon, s_Swerve);
     this.cameraNum = cameraNum;
+    this.offset = 0.0;
   }
+
+  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double offset) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    s_Photon = PhotonVisionSubsystem.getInstance();
+    this.s_Swerve = s_Swerve;
+    addRequirements(s_Photon, s_Swerve);
+    this.cameraNum = cameraNum;
+    this.offset = offset;
+  } 
 
   // Called when the command is initially scheduled.
   @Override
@@ -48,11 +59,15 @@ public class photonAlignCmd extends Command {
     System.out.print("Photon vision cmd running");
     if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
     {
+      double currentY = s_Swerve.calculateY();
       PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
-      Translation2d targetPosition = new Translation2d(s_Swerve.calculateX(), s_Swerve.calculateY());
-      
+      currentY -= offset;
+
+      Translation2d targetPosition = new Translation2d(s_Swerve.calculateX(), currentY);
+      SmartDashboard.putNumber("Calculated Position y", currentY);
       SmartDashboard.putNumber("Target Position X ", targetPosition.getX());
       SmartDashboard.putNumber("Target Position y", targetPosition.getY());
+      
       
       // s_Swerve.drive(targetPosition, 0.0, false, false);
       // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
