@@ -351,6 +351,19 @@ public final class Constants {
 
         public static final double bufferVelocityForShooting = 2;
 
+        public static final Pose2d[] waypointPosesBlue = {
+            new Pose2d(2.4, 4.1, new Rotation2d(0)), //first (closest to the drivers) reef pose
+            new Pose2d(3.37, 2.3, new Rotation2d(Math.PI / 3)), //second reef pose rotating ccw
+            new Pose2d(5.55, 2.28, new Rotation2d(2 * Math.PI / 3)), //third
+            new Pose2d(6.59, 3.95, new Rotation2d(Math.PI)), //fourth
+            new Pose2d(5.6, 5.8, new Rotation2d(-2 * Math.PI / 3)), //fifth
+            new Pose2d(3.55, 5.86, new Rotation2d(-1 * Math.PI / 3)), //sixth
+            new Pose2d(1.62, 1.37, new Rotation2d(-.7 * Math.PI)), //coral station to the right of drivers
+            new Pose2d(1.46, 6.72, new Rotation2d(.7 * Math.PI)), //coral station to the left of drivers
+            new Pose2d(11.53, 7.1, new Rotation2d(Math.PI / 2)) //processor
+        };
+
+
         // public static double firstShootDelayInSeconds = 0.2;
 
         // public static int howManyNotesAreWeAttempting = 2;
