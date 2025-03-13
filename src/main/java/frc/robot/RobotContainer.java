@@ -47,8 +47,9 @@ public class RobotContainer {
   private final Joystick m_Joystick = new Joystick(1);
 
   
-  private final Trigger bottomRightCam = new Trigger(() -> m_Joystick.getRawButton(1));
-  private final Trigger topRightCam = new Trigger(() -> m_Joystick.getRawButton(2));
+  private final Trigger coralStation = new Trigger(() -> m_Joystick.getRawButton(1));
+  private final Trigger leftReef = new Trigger(() -> m_Joystick.getRawButton(3));
+  private final Trigger rightReef = new Trigger(() -> m_Joystick.getRawButton(4));
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -80,7 +81,9 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
     m_driverController.x().onTrue(new InstantCommand(() -> s_Swerve.setPose(new Pose2d(0, 0, new Rotation2d(Degrees.of(0))))));
     // vision.whileTrue(new AmpCommand(s_Swerve, m_driverController.getHID(), () -> m_driverController.x().getAsBoolean()));
-    vision.whileTrue(new photonAlignCmd(1, s_Swerve, AutoConstants.centerCoralStationVisionX, AutoConstants.centerCoralStationVisionY));
+    coralStation.whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
+    leftReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
+    rightReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
     // vision.whileTrue(new InstantCommand(() -> System.out.println("should be running")));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

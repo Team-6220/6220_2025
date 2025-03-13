@@ -417,6 +417,8 @@ public class Swerve extends SubsystemBase {
 
     public void setAutoTurnHeading(double heading) {
         autoTurnHeading = heading;
+        resetTurnController();
+        turnPidController.setGoal(autoTurnHeading);
     }
 
     public void resetModulesToAbsolute(){
@@ -438,14 +440,6 @@ public class Swerve extends SubsystemBase {
      * @return gets the angular velocity of turning
      */
     public double getTurnPidSpeed() {
-
-        turnPidController.setGoal(autoTurnHeading);
-
-        if (Timer.getFPGATimestamp() - 0.2 > lastTurnUpdate) {
-            resetTurnController();
-        }
-        lastTurnUpdate = Timer.getFPGATimestamp();
-
     
         double speed = turnPidController.calculate(getHeadingDegrees());
         
@@ -588,14 +582,14 @@ public class Swerve extends SubsystemBase {
         // SmartDashboard.putData("fieldSwerve",field2d);
         
 
-        if (isAuto && ((Constants.isRed.equals("red") && field2d.getRobotPose().getX() < AutoConstants.maxXDistance) || (!Constants.isRed.equals("red") && field2d.getRobotPose().getX() > AutoConstants.maxXDistance)))
-        {
-            autoIsOverShoot = true;
-        }
-        else
-        {
-            autoIsOverShoot = false;
-        }
+        // if (isAuto && ((Constants.isRed.equals("red") && field2d.getRobotPose().getX() < AutoConstants.maxXDistance) || (!Constants.isRed.equals("red") && field2d.getRobotPose().getX() > AutoConstants.maxXDistance)))
+        // {
+        //     autoIsOverShoot = true;
+        // }
+        // else
+        // {
+        //     autoIsOverShoot = false;
+        // }
 
         if(turnKP.hasChanged()
         || turnKD.hasChanged()
@@ -628,6 +622,8 @@ public class Swerve extends SubsystemBase {
         String title = "Swerve";
         // Shuffleboard.getTab(title).addString("Robot Pose", () -> getPose().toString());
         Shuffleboard.getTab(title).add(field2d);
+        Shuffleboard.getTab(title).addNumber("where the bot think it is swerve X", () -> getPose().getX());
+        Shuffleboard.getTab(title).addNumber("where the bot think it is swerve Y", () -> getPose().getY());
         //SmartDashboard.putString("getRobotPoseField 2d", field2d.getRobotPose().toString());
 
         for(SwerveModule mod : mSwerveMods){

@@ -58,7 +58,6 @@ public class photonAlignCmd extends Command {
     this.s_Swerve = s_Swerve;
     addRequirements(s_Photon, s_Swerve);
     this.cameraNum = cameraNum;
-    this.offset = offset;
   } 
 
   // Called when the command is initially scheduled.
@@ -79,7 +78,6 @@ public class photonAlignCmd extends Command {
     System.out.print("Photon vision cmd running");
     if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
     {
-      double currentY = s_Swerve.calculateY();
       PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
       if(bestTarget != null)
       {
@@ -89,9 +87,12 @@ public class photonAlignCmd extends Command {
         ycontroller.setSetpoint(ySetpoint);
         double xout = xcontroller.calculate(currentPose.getX());
         double yout = ycontroller.calculate(currentPose.getY());
+        double thetaout = s_Swerve.getTurnPidSpeed();
         SmartDashboard.putNumber("x pid out", xout);
         SmartDashboard.putNumber("y pid out", yout);
-        s_Swerve.drive(new Translation2d(-xout, -yout), 0.0, false, false);
+        SmartDashboard.putNumber("theta pid out", thetaout);
+        s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
+        s_Swerve.drive(new Translation2d(-xout, -yout), thetaout, false, false);
         // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
       }
     }
@@ -107,6 +108,6 @@ public class photonAlignCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return s_Photon.getResults().get(cameraNum).isEmpty();//if there's no tag automatically stop it from driving
   }
 }

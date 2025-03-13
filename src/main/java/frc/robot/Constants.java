@@ -524,7 +524,14 @@ public final class Constants {
         /**Degrees */
         public static double[] cameraAngles = {210.0, 135.0, 45.0};
 
-        public static double belowCoralStationOffset = 0.27686135274981893;
+        public static final double centerCoralStationVisionX = .7276439;
+        public static final double centerCoralStationVisionY = .27686135;
+
+        public static final double leftReefX = .306694653062;
+        public static final double leftReefY = -.019408314649635;
+
+        public static final double rightReefX = .475573;
+        public static final double rightReefY = .2589203;
 
         //aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
 
@@ -784,9 +791,6 @@ public final class Constants {
         public static final Pose2d middleShootingPose = new Pose2d(AlienceColorCoordinateFlip.flip(3.85), 5.50, new Rotation2d(Rotation2d.fromDegrees(AlienceColorCoordinateFlip.flipDegrees(180)).getRadians()));
         /**This value is increasement of currentcenternotepos, positive for it to go from top of the field in pathplanner, negative for it to go from the bottom to the top*/
         // public static final int centernoteIncrementVal = 1; //DO NOT CHANGE THIS VALUE (go from big to little in notePoseIDForAttempting instead)
-
-        public static final double centerCoralStationVisionX = .7276439;
-        public static final double centerCoralStationVisionY = .27686135;
 
         public static final double bufferVelocityForInBetweenPaths = 4;
 
