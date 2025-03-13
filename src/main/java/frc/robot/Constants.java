@@ -354,8 +354,6 @@ public final class Constants {
         public static final double limelightHeightInches = 0;
         public static final double limelightAngleDegrees = 0;
 
-    
-
         // public static final Transform3d camToCenterRobotZero = new Transform3d(new Translation3d(-.254, -.254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
         // public static final Transform3d camToCenterRobotOne = new Transform3d(new Translation3d(.254, .254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
 
@@ -525,6 +523,8 @@ public final class Constants {
 
         /**Degrees */
         public static double[] cameraAngles = {210.0, 135.0, 45.0};
+
+        public static double belowCoralStationOffset = 0.27686135274981893;
 
         //aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
 

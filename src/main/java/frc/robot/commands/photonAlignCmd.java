@@ -52,6 +52,15 @@ public class photonAlignCmd extends Command {
     this.ySetpoint = ySetpoint;
   }
 
+  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double offset) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    s_Photon = PhotonVisionSubsystem.getInstance();
+    this.s_Swerve = s_Swerve;
+    addRequirements(s_Photon, s_Swerve);
+    this.cameraNum = cameraNum;
+    this.offset = offset;
+  } 
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -70,6 +79,7 @@ public class photonAlignCmd extends Command {
     System.out.print("Photon vision cmd running");
     if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
     {
+      double currentY = s_Swerve.calculateY();
       PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
       if(bestTarget != null)
       {

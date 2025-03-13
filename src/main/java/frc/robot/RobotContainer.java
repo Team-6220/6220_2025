@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.AmpCommand;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
@@ -46,7 +47,8 @@ public class RobotContainer {
   private final Joystick m_Joystick = new Joystick(1);
 
   
-  private final Trigger vision = new Trigger(() -> m_Joystick.getRawButton(1));
+  private final Trigger bottomRightCam = new Trigger(() -> m_Joystick.getRawButton(1));
+  private final Trigger topRightCam = new Trigger(() -> m_Joystick.getRawButton(2));
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
