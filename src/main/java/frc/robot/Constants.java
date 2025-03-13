@@ -785,6 +785,9 @@ public final class Constants {
         /**This value is increasement of currentcenternotepos, positive for it to go from top of the field in pathplanner, negative for it to go from the bottom to the top*/
         // public static final int centernoteIncrementVal = 1; //DO NOT CHANGE THIS VALUE (go from big to little in notePoseIDForAttempting instead)
 
+        public static final double centerCoralStationVisionX = .7276439;
+        public static final double centerCoralStationVisionY = .27686135;
+
         public static final double bufferVelocityForInBetweenPaths = 4;
 
         public static final double bufferVelocityForIntake = 2;

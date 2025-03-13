@@ -42,6 +42,8 @@ public class PhotonVisionSubsystem extends SubsystemBase {
 
   public static Field2d theFieldCam0 = new Field2d(), theFieldCam1 = new Field2d();
 
+  private PhotonTrackedTarget noErrorHopefully;
+
   public static PhotonPoseEstimator[] photonPoseEstimators  = 
     {
         new PhotonPoseEstimator(aprilFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.camerasToCenter[0]),
@@ -74,6 +76,11 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     }
     
     bestTarget = new HashMap<Integer, PhotonTrackedTarget>();
+    for(int i = 0; i < cameras.length; i ++)
+    {
+      bestTarget.put(i, null);
+    }
+
   }
   
   @Override
@@ -83,7 +90,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
       if (!unreadResults.isEmpty()) {
         results.put(i, unreadResults);
-        System.out.println("RESULTS IS GETTING UPDATED");
       }
       if (!results.get(i).isEmpty()) {
         bestTarget.put(i, results.get(i).get(0).getBestTarget());
@@ -92,7 +98,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
         if(bestTarget.get(i) != null)
         {
           Transform3d camToTar = bestTarget.get(i).getBestCameraToTarget();
-          System.out.println(i + "have target");
           SmartDashboard.putNumber(tableKey + i + "camera to pose x", camToTar.getX());
           SmartDashboard.putNumber(tableKey + i + "camera to pose y", camToTar.getY());
           SmartDashboard.putNumber(tableKey + i + "camera to pose z", camToTar.getZ());

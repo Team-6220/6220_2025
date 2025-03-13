@@ -86,8 +86,8 @@ public class Swerve extends SubsystemBase {
     private boolean isAutoTurning;
     
     private ProfiledPIDController turnPidController;// ProfiledPIDController creates a "trapazoid" when it speeds up to avoid pulling too much voltage from the battery at once.
-    private ProfiledPIDController xPidController;
-    private ProfiledPIDController yPidController;
+    // private ProfiledPIDController xPidController;
+    // private ProfiledPIDController yPidController;
 
     private HashMap<Double, Rotation2d> gyro_headings = new HashMap<Double, Rotation2d>();
     private LinkedList<Double> gyro_timestamps = new LinkedList<Double>();
@@ -105,17 +105,7 @@ public class Swerve extends SubsystemBase {
     private final TunableNumber turnMaxVel = new TunableNumber("turn MaxVel", Constants.SwerveConstants.turnMaxVel);
     private final TunableNumber turnMaxAccel = new TunableNumber("turn Accel", Constants.SwerveConstants.turnMaxAccel);
 
-    private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-    private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-    private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-    private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-    private final TunableNumber xMaxAccel = new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
-
-    private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-    private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-    private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-    private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-    private final TunableNumber yMaxAccel = new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
+    
 
     private final TunableNumber autoRkP = new TunableNumber("auto R kP", Constants.SwerveConstants.rotation_kP);
     private final TunableNumber autoRkI = new TunableNumber("auto R kI", Constants.SwerveConstants.rotation_kI);
@@ -128,10 +118,10 @@ public class Swerve extends SubsystemBase {
 
     private boolean autoIsOverShoot = false, isAuto = false;
 
-    private double targetX;
-    private double targetY;
-    private double targetYaw;
-    private double targetPitch;
+    // private double targetX;
+    // private double targetY;
+    // private double targetYaw;
+    // private double targetPitch;
 
     PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance();
 
@@ -176,15 +166,15 @@ public class Swerve extends SubsystemBase {
         turnPidController.setTolerance(Constants.SwerveConstants.turnTolerance);
         turnPidController.enableContinuousInput(-180, 180);
 
-        xPidController = new ProfiledPIDController(xKP.get(), xKI.get(), xKD.get(), new TrapezoidProfile.Constraints(xMaxVel.get(), xMaxAccel.get()));
-        xPidController.setIZone(Constants.SwerveConstants.xIZone);
-        xPidController.setTolerance(Constants.SwerveConstants.xTolerance);
-        xPidController.enableContinuousInput(-180, 180);
+        // xPidController = new ProfiledPIDController(xKP.get(), xKI.get(), xKD.get(), new TrapezoidProfile.Constraints(xMaxVel.get(), xMaxAccel.get()));
+        // xPidController.setIZone(Constants.SwerveConstants.xIZone);
+        // xPidController.setTolerance(Constants.SwerveConstants.xTolerance);
+        // xPidController.enableContinuousInput(-180, 180);
 
-        yPidController = new ProfiledPIDController(yKP.get(), yKI.get(), yKD.get(), new TrapezoidProfile.Constraints(yMaxVel.get(), yMaxAccel.get()));
-        yPidController.setIZone(Constants.SwerveConstants.yIZone);
-        yPidController.setTolerance(Constants.SwerveConstants.yTolerance);
-        yPidController.enableContinuousInput(-180, 180);
+        // yPidController = new ProfiledPIDController(yKP.get(), yKI.get(), yKD.get(), new TrapezoidProfile.Constraints(yMaxVel.get(), yMaxAccel.get()));
+        // yPidController.setIZone(Constants.SwerveConstants.yIZone);
+        // yPidController.setTolerance(Constants.SwerveConstants.yTolerance);
+        // yPidController.enableContinuousInput(-180, 180);
 
         // Set up custom logging to add the current path to a field 2d widget
         PathPlannerLogging.setLogActivePathCallback((poses) -> field2d.getObject("path").setPoses(poses));
@@ -520,17 +510,17 @@ public class Swerve extends SubsystemBase {
         return autoIsOverShoot;
     }
     
-    public ProfiledPIDController getPidX() {
-        return xPidController;
-    }
+    // public ProfiledPIDController getPidX() {
+    //     return xPidController;
+    // }
 
-    public boolean getPidAtGoalX() {
-        return xPidController.atGoal();
-    }
+    // public boolean getPidAtGoalX() {
+    //     return xPidController.atGoal();
+    // }
 
-    public boolean getPidAtGoalY() {
-        return yPidController.atGoal();
-    }
+    // public boolean getPidAtGoalY() {
+    //     return yPidController.atGoal();
+    // }
 
     public boolean getPidAtGoalYaw() {
         return turnPidController.atGoal();
@@ -540,21 +530,21 @@ public class Swerve extends SubsystemBase {
         return result;
     }
 
-    public double getTargetX() {
-        return targetX;
-    }
+    // public double getTargetX() {
+    //     return targetX;
+    // }
 
-    public double getTargetY() {
-        return targetY;
-    }
+    // public double getTargetY() {
+    //     return targetY;
+    // }
 
-    public double getTargetYaw() {
-        return targetYaw;
-    }
+    // public double getTargetYaw() {
+    //     return targetYaw;
+    // }
 
-    public double getTargetPitch() {
-        return targetPitch;
-    }
+    // public double getTargetPitch() {
+    //     return targetPitch;
+    // }
 
     @Override
     public void periodic(){
@@ -566,17 +556,17 @@ public class Swerve extends SubsystemBase {
         //     timestamp = gyro_timestamps.removeLast();
         //     gyro_headings.remove(timestamp);
         // }
-        for(int i = 0; i < s_Photon.getResults().size(); i++)
-        {
-            if (s_Photon.getBestTargets().get(i) != null) {
-                targetX = PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTargets().get(i).getFiducialId(), i);
-                targetY = PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTargets().get(i).getFiducialId(), i);
-            }
-        }
+        // for(int i = 0; i < s_Photon.getResults().size(); i++)
+        // {
+        //     if (s_Photon.getBestTargets().get(i) != null) {
+        //         targetX = PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTargets().get(i).getFiducialId(), i);
+        //         targetY = PhotonVisionCalculations.estimateOpposite(s_Photon.getBestTargets().get(i).getFiducialId(), i);
+        //     }
+        // }
         // targetYaw = result.getBestTarget().yaw;
         // targetPitch = result.getBestTarget().pitch;
-        SmartDashboard.putNumber("distance x", targetX);
-        SmartDashboard.putNumber("distance y", targetY);
+        // SmartDashboard.putNumber("distance x", targetX);
+        // SmartDashboard.putNumber("distance y", targetY);
         // SmartDashboard.putNumber("hypo", PhotonVisionCalculations.estimateDistance(s_Photon.getBestTargets().get(0).getFiducialId(), 0));
         // SmartDashboard.putNumber("distance yaw", targetYaw);
         // SmartDashboard.putNumber("distance pitch", targetPitch);
@@ -614,19 +604,19 @@ public class Swerve extends SubsystemBase {
             turnPidController.reset(getHeading().getDegrees());
         }
 
-        if (xKP.hasChanged()
-        || xKI.hasChanged()
-        || xKD.hasChanged()) {
-            xPidController.setPID(xKP.get(), xKI.get(), xKD.get());
-            xPidController.reset(getPose().getX());
-        }
+        // if (xKP.hasChanged()
+        // || xKI.hasChanged()
+        // || xKD.hasChanged()) {
+        //     xPidController.setPID(xKP.get(), xKI.get(), xKD.get());
+        //     xPidController.reset(getPose().getX());
+        // }
 
-        if (yKP.hasChanged()
-        || yKI.hasChanged()
-        || yKD.hasChanged()) {
-            yPidController.setPID(yKP.get(), yKI.get(), yKD.get());
-            yPidController.reset(getPose().getY());
-        }
+        // if (yKP.hasChanged()
+        // || yKI.hasChanged()
+        // || yKD.hasChanged()) {
+        //     yPidController.setPID(yKP.get(), yKI.get(), yKD.get());
+        //     yPidController.reset(getPose().getY());
+        // }
         if(turnMaxAccel.hasChanged() || turnMaxVel.hasChanged()) {
             turnPidController.setConstraints(new TrapezoidProfile.Constraints(turnMaxVel.get(), turnMaxAccel.get()));
             turnPidController.reset(getHeading().getDegrees());
@@ -656,18 +646,18 @@ public class Swerve extends SubsystemBase {
 
     
     
-    public void setXYGoal(double X, double Y) {
-        xPidController.setGoal(X);
-        yPidController.setGoal(Y);
-    }
+    // public void setXYGoal(double X, double Y) {
+    //     xPidController.setGoal(X);
+    //     yPidController.setGoal(Y);
+    // }
 
-    public double calculateX() {
-        return xPidController.calculate(getPose().getX());
-    }
+    // public double calculateX() {
+    //     return xPidController.calculate(getPose().getX());
+    // }
 
-    public double calculateY() {
-        return yPidController.calculate(getPose().getY());
-    }
+    // public double calculateY() {
+    //     return yPidController.calculate(getPose().getY());
+    // }
 
     //possibly dont need
     // public void updateAlignXYYaw() {
