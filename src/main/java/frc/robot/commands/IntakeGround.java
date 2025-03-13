@@ -38,8 +38,8 @@ public class IntakeGround extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_fiss.setFront(0.5);
-    m_fiss.setGoal(106);
+    m_fiss.setFront(FrontIntakeConstants.idleSpinVoltage);
+    m_fiss.setGoal(FrontIntakeConstants.idleSetpoint);
   }
 
   // Returns true when the command should end.

@@ -31,7 +31,7 @@ public class TestingAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     Swerve s_Swerve = swerve;
-    double x = 0, y = 0, theta = 0;
+    double x = 1, y = 1, theta = 0;
     addCommands(
       AutoBuilder.pathfindToPose(new Pose2d(x, y, new Rotation2d(Degrees.of(theta))), AutoConstants.pathConstraints)
     );

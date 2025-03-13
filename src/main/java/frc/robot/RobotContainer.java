@@ -24,8 +24,11 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -40,7 +43,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  
+
+  private final SendableChooser<Command> autoChooser;
+
 
   private final Swerve s_Swerve = new Swerve();
 
@@ -79,6 +84,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     s_Swerve.zeroHeading(m_driverController.getHID());
+
+    autoChooser = AutoBuilder.buildAutoChooser();
 
     //s_Swerve.configureAutoBuilder();
 
@@ -149,9 +156,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new Command() {
-      
-    };
+      return autoChooser.getSelected();
       
   }
 }
