@@ -231,9 +231,10 @@ public class frontIntakeSubsystem extends SubsystemBase {
   }
 
   /**
+   * @deprecated
+   * USE setFront() INSTEAD (the intake for algae is the outtake for coarl and the intake for coral is the outtake for algae, too confusing)
    * @param spin
    * @param intake
-   * decaprated
    */
   public void spinFront(boolean spin, boolean intake){
     if(frontIntakeVoltage.hasChanged())
