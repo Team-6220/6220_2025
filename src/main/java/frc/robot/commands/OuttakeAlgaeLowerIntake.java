@@ -5,39 +5,33 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.lib.util.TunableNumber;
 import frc.robot.Constants.FrontIntakeConstants;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class lowerIntakeSet extends Command {
-  private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
-  public lowerIntakeSet() {
-    
-    addRequirements(m_fiss);
+public class OuttakeAlgaeLowerIntake extends Command {
+  /** Creates a new OutakeLowerIntake. */
+  frontIntakeSubsystem lowerIntake = frontIntakeSubsystem.getInstance();
+  public OuttakeAlgaeLowerIntake() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(lowerIntake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    // m_fiss.maintainFront();
+  public void initialize() 
+  {
+    lowerIntake.setFront(FrontIntakeConstants.wheelSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_fiss.setMaxVel(50);
-    m_fiss.setMaxAccel(200);
-    m_fiss.swingToGoal();
-    // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_fiss.simpleintakeDrive(0);
-    m_fiss.resetPID();
+    lowerIntake.setFront(0);
   }
 
   // Returns true when the command should end.

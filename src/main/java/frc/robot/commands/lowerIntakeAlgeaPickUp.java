@@ -11,26 +11,28 @@ import frc.robot.Constants.FrontIntakeConstants;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class lowerIntakePickUp extends Command {
+public class lowerIntakeAlgeaPickUp extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
-  private TunableNumber goal = new TunableNumber("lowerIntakePick setpoint degrees", FrontIntakeConstants.intakeSetpoint);
+  private TunableNumber goal = new TunableNumber("lowerIntakePick setpoint degrees", FrontIntakeConstants.intakeAlgeaSetpoint);
   private double lowerIntakeSetpoint = goal.getDefault();
 
 
-  public lowerIntakePickUp() {
+  public lowerIntakeAlgeaPickUp() {
     addRequirements(m_fiss);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_fiss.spinFront(true, false);
+    m_fiss.setFront(-FrontIntakeConstants.wheelSpeed);
     m_fiss.setGoal(lowerIntakeSetpoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_fiss.setMaxVel(FrontIntakeConstants.frontIntakeMaxVel);
+    m_fiss.setMaxAccel(FrontIntakeConstants.frontIntakeMaxAccel);
     // if(m_driverController.a().getAsBoolean()){}
     //m_fiss.simpleintakeDrive(0.25);
     // if(m_driverController.y().getAsBoolean()){
@@ -47,8 +49,10 @@ public class lowerIntakePickUp extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_fiss.simpleintakeDrive(0);
+    // m_fiss.simpleintakeDrive(0);
     m_fiss.resetPID();
+    m_fiss.setFront(-FrontIntakeConstants.idleSpinVoltage);
+    m_fiss.setGoal(106);
   }
 
   // Returns true when the command should end.

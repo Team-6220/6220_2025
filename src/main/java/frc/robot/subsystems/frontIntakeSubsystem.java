@@ -65,13 +65,15 @@ public class frontIntakeSubsystem extends SubsystemBase {
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
     frontMotor = new TalonFX(FrontIntakeConstants.frontMotorID);
 
-    lowerIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;// positive is intake
+    lowerIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;// positive is intake coral/outtake algae, negative is intake algae/outtake coral
     lowerIntakeConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
 
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.FrontIntakeConstants.enableCurrentLimit;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.FrontIntakeConstants.maxCurrent;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = Constants.FrontIntakeConstants.currentLimit;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = Constants.FrontIntakeConstants.maxCurrentTime;
+    lowerIntakeConfig.CurrentLimits.StatorCurrentLimitEnable = Constants.FrontIntakeConstants.enableStatorCurrentLimit;
+    lowerIntakeConfig.CurrentLimits.StatorCurrentLimit = Constants.FrontIntakeConstants.maxStatorCurrent;
     
 
     frontMotor.getConfigurator().apply(lowerIntakeConfig);
@@ -115,6 +117,11 @@ public class frontIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(tableKey +"motorOutputLeft", pivotMotorLeft.getAppliedOutput());
     SmartDashboard.putNumber(tableKey +"motorOutputRight", pivotMotorRight.getAppliedOutput());
     SmartDashboard.putNumber(tableKey + "motorOutputManuel", 0);
+    SmartDashboard.putNumber(tableKey + "intakeMotorTemp", frontMotor.getDeviceTemp().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey + "intakeMotorTorqueCurrentDraw", frontMotor.getTorqueCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey + "intakeMotorSupplyCurrentDraw", frontMotor.getSupplyCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey +"intake current limit", lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit);
+    SmartDashboard.putNumber(tableKey +"intakeMotorStatorCurrentLimit", frontMotor.getStatorCurrent().getValueAsDouble());
     // SmartDashboard.putNumber(tableKey + "encoder vel");
 
     if(FrontIntakeKp.hasChanged()
@@ -137,7 +144,6 @@ public class frontIntakeSubsystem extends SubsystemBase {
             m_Constraints = new TrapezoidProfile.Constraints(FrontIntakeMaxVel.get(),FrontIntakeMaxAccel.get());
             m_Controller.setConstraints(m_Constraints);
             System.out.println("new contraints;max vel:" + FrontIntakeMaxVel.get() + "max accel:" + FrontIntakeMaxAccel.get());
-
         }
         
         if(FrontIntakeIZone.hasChanged())
@@ -199,8 +205,10 @@ public class frontIntakeSubsystem extends SubsystemBase {
   /**Raw encoder value subtracted by the offset at zero*/
   public double getPosition()
   {
-    return ((lowerintakeEncoder.get()) *(24.0/32.0) * 360.0)-304+185.5+31.5;//(encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
+    return ((lowerintakeEncoder.get()) *(24.0/32.0) * 360.0)-304+185.5+31.5
+    ;//(encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
   }
+  
   public void simpleDrive(double motorOutput)
   {
     // motorOutput *= 12;
@@ -218,6 +226,16 @@ public class frontIntakeSubsystem extends SubsystemBase {
     frontMotor.setVoltage(speed);
   }
 
+  public void setFront(double volt){
+    frontMotor.setVoltage(volt);
+  }
+
+  /**
+   * @deprecated
+   * USE setFront() INSTEAD (the intake for algae is the outtake for coarl and the intake for coral is the outtake for algae, too confusing)
+   * @param spin
+   * @param intake
+   */
   public void spinFront(boolean spin, boolean intake){
     if(frontIntakeVoltage.hasChanged())
     {
@@ -238,7 +256,17 @@ public class frontIntakeSubsystem extends SubsystemBase {
       {
         idleOutVolt = frontIntakeIdleVoltage.get();
       }
-      frontMotor.setVoltage(idleOutVolt);
+      frontMotor.setVoltage(-idleOutVolt);
+    }
+
+    public void setMaxVel(double maxVel) {
+      FrontIntakeMaxVel.setDefault(maxVel);
+      SmartDashboard.putNumber("FrontIntake max vel", maxVel);
+    }
+
+    public void setMaxAccel(double maxAccel) {
+      FrontIntakeMaxAccel.setDefault(maxAccel);
+      SmartDashboard.putNumber("FrontIntake max accel", maxAccel);
     }
   /**
      * Accesses the static instance of the ArmSubsystem singleton
