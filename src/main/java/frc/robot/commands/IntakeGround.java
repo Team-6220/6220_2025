@@ -32,7 +32,7 @@ public class IntakeGround extends Command {
       m_fiss.setGoal(lowergroundsetpoint.get());
     }
     m_fiss.swingToGoal();
-    m_fiss.setFront(3);
+    m_fiss.setFront(FrontIntakeConstants.wheelSpeed);
   }
 
   // Called once the command ends or is interrupted.

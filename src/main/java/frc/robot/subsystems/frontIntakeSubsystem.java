@@ -65,7 +65,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
     frontMotor = new TalonFX(FrontIntakeConstants.frontMotorID);
 
-    lowerIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;// positive is intake
+    lowerIntakeConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;// positive is intake coral/outtake algae, negative is intake algae/outtake coral
     lowerIntakeConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
 
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.FrontIntakeConstants.enableCurrentLimit;
