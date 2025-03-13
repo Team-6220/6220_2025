@@ -351,6 +351,18 @@ public final class Constants {
 
         public static final double bufferVelocityForShooting = 2;
 
+        public static final Pose2d[] waypointPosesBlue = {
+            new Pose2d(2.4, 4.1, new Rotation2d(0)), //first (closest to the drivers) reef pose
+            new Pose2d(3.37, 2.3, new Rotation2d(Math.PI / 3)), //second reef pose rotating ccw
+            new Pose2d(5.55, 2.28, new Rotation2d(2 * Math.PI / 3)), //third
+            new Pose2d(6.59, 3.95, new Rotation2d(Math.PI)), //fourth
+            new Pose2d(5.6, 5.8, new Rotation2d(-2 * Math.PI / 3)), //fifth
+            new Pose2d(3.55, 5.86, new Rotation2d(-1 * Math.PI / 3)), //sixth
+            new Pose2d(1.62, 1.37, new Rotation2d(-.7 * Math.PI)), //coral station to the right of drivers
+            new Pose2d(1.46, 6.72, new Rotation2d(.7 * Math.PI)), //coral station to the left of drivers
+            new Pose2d(11.53, 7.1, new Rotation2d(Math.PI / 2)) //processor
+        };
+
         // public static double firstShootDelayInSeconds = 0.2;
 
         // public static int howManyNotesAreWeAttempting = 2;
@@ -383,32 +395,14 @@ public final class Constants {
         public static final IdleMode wristIdleMode = IdleMode.kBrake;
         
         public static final boolean encoderInverted = false;
-        /*on branch tune_lower_intake PID&FF start (not really tuned) */
-        // public static final int stallLimit = 10;
-        // public static final int freeLimit = 10;
-        
-        // public static final double kP = 0.00, kI = 0, kD = 0, izone = 2, tolerance = .5;
-        // public static final double kS = 0, kG = .19, kV = .53, kA = 0;
-        // public static final double allowedClosedLoopError = 0.5;
-        // public static final double maxAcceleration = 720, maxVelocity = 360;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
-        // public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
-        /*on branch tune_lower_intake PID&FF end (not really tuned) */
-        public static final double L2 = -48.8018;
-        public static final double L3 = -46.2412;
-        public static final double L4 = -8;
-        public static final double coralStation = 35.81813;
-
-
-        /*on branch scrimage v2 PID&FF start (not really tuned) */
         public static final int stallLimit = 5;
         public static final int freeLimit = 20;
         
-        public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = 1.0;
+        public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = 1.5;
         public static final double kS = 0, kG = .25, kV = 0, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
         public static final double maxAcceleration = 5000, maxVelocity = 10000;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
         public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
-        /*on branch scrimage v2 PID&FF end (not really tuned) */
     }
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
@@ -418,91 +412,80 @@ public final class Constants {
 
         public static final int leftMotorID = 13;
         public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
-        public static final boolean leftMotorInvert = false;
+        public static final boolean leftMotorInvert = false ;
 
-        public static final int stallLimit = 21;
-        public static final int freeLimit = 21;
-
-        public static final double elevatorOffset = 0; //FOR COMP
+        public static final int stallLimit = 5;
+        public static final int freeLimit = 20;
 
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
-        public static final double elevatorKp = 0.0;
+        public static final double elevatorKp = 0.01;
         public static final double elevatorKi = 0.0;
         public static final double elevatorKd = 0.0;
-        public static final double elevatorKg = 0.23;//Tune this first
+        public static final double elevatorKg = 0.32;//Tune this first
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 9.1;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
-        public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
+        public static final double elevatorKv = 17.44;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKa = 0.05; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
         //if it's getting stuck to go down or up then increase ks by a little bit to fight friction
         //if rasiing ks might have to lower kg
-        public static final double elevatorIZone = 0.1;
-        public static final double elevatorTolerance = .005;
-        public static final double elevatorMaxVel = 1.26;//Ok tune this a little higher/lower//meters per second
-        public static final double elevatorMaxAccel = 4;//I think you don't need to tune this one but you can//meters per second square
+        public static final double elevatorIZone = 3.0;
+        public static final double elevatorTolerance = 1.5;
+        public static final double elevatorMaxVel = 0.5;
+        public static final double elevatorMaxAccel = 0.5;
 
         
         //These values should be percents
-        public static final double E_L2 = 0.485757;//This one should be good
-        public static final double E_L3 = .929;//This one should be good
-        public static final double E_L4 = 1.32;//Maybe final tune this?
-        public static final double E_CoralStation = .210796;//Maybe final tune this?
+        public static final double L2HeightRaw = 0.7;//TODO: CHANGE THESE
+        public static final double L3HeightRaw = 15.0;//TODO: CHANGE THESE
+        public static final double L4HeightRaw = 20.0;//TODO: CHANGE THESE
 
         public static final double lowerEncoderExtreme = 0.0; 
-        public static final double upperEncoderExtreme = 1.32;
-        }
+        public static final double upperEncoderExtreme = 55.0;
+
+        // lower limit + ((upper limmit - lower limit) * level Percent) - formula for heights
+        public static final double encoderFormula = lowerEncoderExtreme + ((upperEncoderExtreme - lowerEncoderExtreme));
+    }
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
         public static final int rightMotorID = 15; //nonclimber
-        public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode rightMotorIdleMode = IdleMode.kCoast;
         public static final boolean rightMotorInvert = true;
 
         public static final int leftMotorID = 16; //climber
-        public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
         public static final boolean leftMotorInvert = false;
 
         public static final boolean enableCurrentLimit = true;
-        public static final double maxCurrent = 20;
-        public static final double currentLimit = 15;
+        public static final double maxCurrent = 25;
+        public static final double currentLimit = 10;
         public static final double maxCurrentTime = 1;
 
-        public static final boolean enableStatorCurrentLimit = true;
-        public static final double maxStatorCurrent = 40;
-
-        public static final int stallLimit = 25; //amps
+        public static final int stallLimit = 8; //amps
         public static final int freeLimit = 25; //amps
 
         public static final int frontMotorID = 19; 
-
         public static final IdleMode frontMotorIdleMode = IdleMode.kCoast;
         public static final boolean frontMotorInvert = false;
-        public static final double frontIntakeKp = .05;//.4;
-        public static final double frontIntakeKi = 0.05;
-        public static final double frontIntakeKd = 0.0;
-        public static final double frontIntakeKa = 0.0;
-        public static final double frontIntakeKg = 0.87;//.01;
-        public static final double frontIntakeKv = 0.35;
+        public static final double frontIntakeKp = 0.25;//.4;
+        public static final double frontIntakeKi = 0;
+        public static final double frontIntakeKd = 0;
+        public static final double frontIntakeKa = 0.04;
+        public static final double frontIntakeKg = 0.84;//.01;
+        public static final double frontIntakeKv = 0.58;
         public static final double frontIntakeKs = 0;
-        public static final double frontIntakeIZone = 5;
-        public static final double frontIntakeTolerance = 0.5;
-        public static final double frontIntakeMaxVel = 200;
-        public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
-        /**volts, used for intake and only intake */
-        public static final double wheelSpeed = 3;
-        public static final double idleSpinVoltage = 0.5;
+        public static final double frontIntakeIZone = 0;
+        public static final double frontIntakeTolerance = 1.5;
+        public static final double frontIntakeMaxVel = 5;
+        public static final double frontIntakeMaxAccel = 10;
+        public static final double wheelSpeed = 10; //volts
 
-        public static final double maxDegrees = 120;
-        public static final double minDegrees = -10;
-
-        public static final double intakeAlgeaSetpoint = 65;
-        public static final double intakeCoralSetpoint = -5;
-        public static final double idleSetpoint = 106;
-
+        public static final double maxDegrees = 90; //volts
+        public static final double minDegrees = 0; //volts
     }
     public static final class WristIntakeConstants {
         public static final NeutralModeValue INTAKENEU_NEUTRAL_MODE = NeutralModeValue.Brake;
