@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import frc.lib.util.RumbleManager;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants;
 import frc.robot.PhotonVisionCalculations;
@@ -9,14 +10,13 @@ import frc.robot.PhotonVisionCalculations;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.Constants.VisionConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import static edu.wpi.first.units.Units.Pounds;
-import static frc.robot.Constants.isRed;
+import static frc.robot.Constants.ALLIANCE_COLOR;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,6 +28,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import com.studica.frc.AHRS.NavXUpdateRate;
+import com.fasterxml.jackson.databind.deser.std.MapDeserializer;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -52,6 +53,7 @@ import edu.wpi.first.units.measure.MutMass;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -127,7 +129,6 @@ public class Swerve extends SubsystemBase {
 
     PhotonPipelineResult result;
     
-    public final TunableNumber visionMeasurementStdDevConstant = new TunableNumber("visionStdDev Constant", VisionConstants.visionStdDev);
 
     private SwerveModulePosition[] positions = {
         new SwerveModulePosition(),
@@ -180,13 +181,15 @@ public class Swerve extends SubsystemBase {
         PathPlannerLogging.setLogActivePathCallback((poses) -> field2d.getObject("path").setPoses(poses));
         // Shuffleboard.getTab("Field Pose 2d tab (map)").add("Field 2d", field2d);
         // SmartDashboard.putData("Field", field2d);
-        try{
-        config = RobotConfig.fromGUISettings();
-        } catch (Exception e) {
-        // Handle exception as needed
-        config = new RobotConfig(Constants.robotMass, Constants.robotMOI, SwerveConstants.swerveModuleConfig, SwerveConstants.swerveKinematics.getModules());
-        e.printStackTrace();
-        }
+        // ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, /);
+        
+        //try{
+        // config = RobotConfig.fromGUISettings();
+        //} catch (Exception e) {
+            config = new RobotConfig(Constants.robotMass, Constants.robotMOI, SwerveConstants.swerveModuleConfig, SwerveConstants.swerveKinematics.getModules()); //see https://pathplanner.dev/robot-config.html#bumper-config-options for more details on what you need to set robotconfig up manuelly
+        //Also https://pathplanner.dev/api/java/com/pathplanner/lib/config/RobotConfig.html for API
+        // e.printStackTrace();
+        // }
         createShuffleOutputs();
     }
 
@@ -257,6 +260,8 @@ public class Swerve extends SubsystemBase {
             this
         );
     }
+
+    
     
 
     /**
@@ -289,41 +294,6 @@ public class Swerve extends SubsystemBase {
     {
         ChassisSpeeds chassisSpeeds = SwerveConstants.swerveKinematics.toChassisSpeeds(getModuleStates());
         return chassisSpeeds;
-    }
-
-    /**
-     * AKA get x value to amp as of map in pathplanner, forward/positvie is away from DRIVER'S POINT OF VIEW at BLUE SIDE
-     * @return the forward/backward/x distance from robot to amp
-     */
-    public double getAmpX()
-    {
-        //Pose2d currPose = getPose();
-        Pose2d ampPose = Constants.isRed.equals("red") ? VisionConstants.AMP_POSE2D_RED : VisionConstants.AMP_POSE2D_BLUE;
-        double xDistance = ampPose.getX(); // - currPose.getX() // I don't think we need this
-        SmartDashboard.putNumber("forward backward", xDistance);
-        return xDistance;
-    }
-
-    /**
-     * AKA get y value to amp as of map in pathplanner
-     * @return the left/right/y distance from robot to amp, right/negative is to the right side of the driver FROM THE BLUE SIDE
-     */
-    public double getAmpY()
-    {
-        Pose2d currPose = getPose();
-        Pose2d ampPose = Constants.isRed.equals("red") ? VisionConstants.AMP_POSE2D_RED : VisionConstants.AMP_POSE2D_BLUE;
-        double yDistance = ampPose.getY() ; //- currPose.getY() // I don't think we need it
-        SmartDashboard.putNumber("left and right", yDistance);
-        return yDistance;
-    }
-
-    /**
-     * use for auto
-     * @return The amp position based on team color
-     */
-    public Pose2d getAmpPose()
-    {
-        return Constants.isRed.equals("red") ? VisionConstants.AMP_POSE2D_RED : VisionConstants.AMP_POSE2D_BLUE;
     }
 
     /* Used by SwerveControllerCommand in Auto */
@@ -370,18 +340,6 @@ public class Swerve extends SubsystemBase {
         return getPose().getRotation();
     }
 
-    /**
-     * @return the direction to the speaker
-     */
-    public double getHeadingToSpeaker(){
-        
-        Pose2d currPose = getPose();
-        Pose2d speakerPose = Constants.isRed.equals("red") ? VisionConstants.SPEAKER_POSE2D_RED : VisionConstants.SPEAKER_POSE2D_BLUE;
-        double angle = Math.toDegrees(Math.atan2(speakerPose.getY() - currPose.getY(), speakerPose.getX() - currPose.getX()));
-        angle += (Constants.isRed.equals("red") ? 0 : -180);
-        return angle;
-    }
-
     public double getHeadingDegrees()
     {
         return getPose().getRotation().getDegrees();
@@ -391,9 +349,10 @@ public class Swerve extends SubsystemBase {
         poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
     }
 
-    public void zeroHeading(){
-        double offset = Constants.isRed.equals("red") ? 0 : Math.PI;
+    public void zeroHeading(XboxController driverController){
+        double offset = Constants.ALLIANCE_COLOR.equals("red") ? 0 : Math.PI;
         poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d(offset)));
+        RumbleManager.rumble(driverController, .2);
     }
 
     public Rotation2d getGyroYaw() {
@@ -553,7 +512,7 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
-        SmartDashboard.putBoolean("is Red", isRed.equals("red"));
+        SmartDashboard.putBoolean("is Red", Constants.ALLIANCE_COLOR.equals("red"));
         Double timestamp = Timer.getFPGATimestamp();
         // gyro_headings.put(timestamp, getHeading());
         // gyro_timestamps.addFirst(timestamp);
@@ -591,16 +550,6 @@ public class Swerve extends SubsystemBase {
         field2d.setRobotPose(getPose());
 
         // SmartDashboard.putData("fieldSwerve",field2d);
-        
-
-        // if (isAuto && ((Constants.isRed.equals("red") && field2d.getRobotPose().getX() < AutoConstants.maxXDistance) || (!Constants.isRed.equals("red") && field2d.getRobotPose().getX() > AutoConstants.maxXDistance)))
-        // {
-        //     autoIsOverShoot = true;
-        // }
-        // else
-        // {
-        //     autoIsOverShoot = false;
-        // }
 
         if(turnKP.hasChanged()
         || turnKD.hasChanged()
@@ -647,27 +596,6 @@ public class Swerve extends SubsystemBase {
         Shuffleboard.getTab(title).addNumber("Real Heading", ()-> getHeading().getDegrees());
         Shuffleboard.getTab(title).addNumber("Auto Turn Heading", ()->autoTurnHeading);
         Shuffleboard.getTab(title).addNumber("Turn Controller Setpoint", ()->turnPidController.getSetpoint().position);
-
         
     }
-
-    
-    
-    // public void setXYGoal(double X, double Y) {
-    //     xPidController.setGoal(X);
-    //     yPidController.setGoal(Y);
-    // }
-
-    // public double calculateX() {
-    //     return xPidController.calculate(getPose().getX());
-    // }
-
-    // public double calculateY() {
-    //     return yPidController.calculate(getPose().getY());
-    // }
-
-    //possibly dont need
-    // public void updateAlignXYYaw() {
-    //     drive(xPidController.calculate(getcurrentPose() - xPidstart), autoTurnHeading, false, autoIsOverShoot);
-    // }
 }

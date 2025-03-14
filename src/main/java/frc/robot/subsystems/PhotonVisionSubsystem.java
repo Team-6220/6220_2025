@@ -32,7 +32,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   //"src\\main\\java\\frc\\lib\\vision\\2025-reefscape-andymark.json"
   //"src\main\deploy\vision\2025-reefscape-andymark.json"
   // public static Path path = Filesystem.getDeployDirectory().toPath().resolve("2025-reefscape-andymark.json");
-  public static AprilTagFieldLayout aprilFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
   private static PhotonCamera[] cameras =
   {
     new PhotonCamera("Bottom_Right_Cam"), //Top Right USB
@@ -44,11 +43,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
 
   private PhotonTrackedTarget noErrorHopefully;
 
-  public static PhotonPoseEstimator[] photonPoseEstimators  = 
-    {
-        new PhotonPoseEstimator(aprilFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.camerasToCenter[0]),
-        new PhotonPoseEstimator(aprilFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.camerasToCenter[1])
-    };
   private static PhotonVisionSubsystem INSTANCE = null;
   
   private static String tableKey = "Vision_";
