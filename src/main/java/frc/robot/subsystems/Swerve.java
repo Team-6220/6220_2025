@@ -154,13 +154,13 @@ public class Swerve extends SubsystemBase {
         // SmartDashboard.putData("Field", field2d);
         // ModuleConfig swerveModuleConfig = new ModuleConfig(wheelRadius,SwerveConstants.maxSpeed,1.0,krackonX60, /);
         
-        try{
-        config = RobotConfig.fromGUISettings();
-        } catch (Exception e) {
+        //try{
+        // config = RobotConfig.fromGUISettings();
+        //} catch (Exception e) {
             config = new RobotConfig(Constants.robotMass, Constants.robotMOI, SwerveConstants.swerveModuleConfig, SwerveConstants.swerveKinematics.getModules()); //see https://pathplanner.dev/robot-config.html#bumper-config-options for more details on what you need to set robotconfig up manuelly
         //Also https://pathplanner.dev/api/java/com/pathplanner/lib/config/RobotConfig.html for API
-        e.printStackTrace();
-        }
+        // e.printStackTrace();
+        // }
         createShuffleOutputs();
     }
 
