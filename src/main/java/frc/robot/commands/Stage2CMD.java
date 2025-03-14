@@ -26,6 +26,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.WristConstants;
 
+import java.util.function.Supplier;
+
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage2CMD extends Command
 {
@@ -35,7 +37,7 @@ public class Stage2CMD extends Command
 
   private Swerve s_Swerve;
 
-  private final Trigger leftControl, rightControl;
+  private final Supplier<Boolean> leftControl, rightControl;
 
   private boolean fieldRelative = true;
 
@@ -60,7 +62,7 @@ public class Stage2CMD extends Command
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
-  public Stage2CMD(Swerve s_Swerve, XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum)
+  public Stage2CMD(Swerve s_Swerve, XboxController m_Controller, Supplier<Boolean> leftControl, Supplier<Boolean> rightControl, int cameraNum)
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -75,7 +77,7 @@ public class Stage2CMD extends Command
     addRequirements(s_Swerve);
     addRequirements(s_Photon);
   }
-  public Stage2CMD(Swerve s_Swerve, int cameraNum, Trigger leftControl, Trigger rightControl)
+  public Stage2CMD(Swerve s_Swerve, int cameraNum, Supplier<Boolean> leftControl, Supplier<Boolean> rightControl)
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -112,7 +114,7 @@ public class Stage2CMD extends Command
     
     fieldRelative = true;
 
-    if(leftControl.getAsBoolean() || rightControl.getAsBoolean())
+    if(leftControl.get() || rightControl.get())
     {
       if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
       {
@@ -120,12 +122,12 @@ public class Stage2CMD extends Command
         if(bestTarget != null)
         {
           Transform3d currentPose = bestTarget.getBestCameraToTarget();
-          if(leftControl.getAsBoolean())
+          if(leftControl.get())
           {
             xSetpoint = VisionConstants.leftReefX;
             ySetpoint = VisionConstants.leftReefY;
           }
-          if(rightControl.getAsBoolean())
+          if(rightControl.get())
           {
             xSetpoint = VisionConstants.rightReefX;
             ySetpoint = VisionConstants.rightReefY;

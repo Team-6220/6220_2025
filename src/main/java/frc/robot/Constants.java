@@ -602,6 +602,12 @@ public final class Constants {
             new Pose2d(11.53, 7.1, new Rotation2d(Math.PI / 2)) //processor
         };
 
+        public static final Pose2d[] startPosesBlue = {
+            new Pose2d(7.58, 7.25, new Rotation2d(0)), //outermost start pos for blue
+            new Pose2d(7.58, 6.15, new Rotation2d(0)),
+            new Pose2d(7.58, 5/06, new Rotation2d(0))
+        };
+
 
         // public static double firstShootDelayInSeconds = 0.2;
 
