@@ -4,12 +4,24 @@
 
 package frc.robot.commands;
 
+import org.photonvision.targeting.PhotonTrackedTarget;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.PhotonVisionSubsystem;
+import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
+import frc.lib.util.TunableNumber;
+import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.Constants.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -18,15 +30,40 @@ public class CoralStationCmd extends Command
    // private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
   private ElevatorSubsystem elevatorSubsystem;
-  
+  private XboxController m_Controller;  
 
-  public CoralStationCmd()
+  private boolean fieldRelative = true;
+  private PhotonVisionSubsystem s_Photon;
+  private Swerve s_Swerve;
+
+   private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
+  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
+  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
+  private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
+  private final TunableNumber xMaxAccel = new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
+
+  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
+  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
+  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
+  private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
+  private final TunableNumber yMaxAccel = new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
+  private int cameraNum;
+  private double xSetpoint, ySetpoint;
+  private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
+  private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
+
+
+  public CoralStationCmd(XboxController m_Controller, int cameraNum, Swerve s_Swerve)
   {
     // elevator = ElevatorSubsystem.getInstance();
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
+    this.m_Controller = m_Controller;
+    this.cameraNum = cameraNum;
+    this.s_Swerve = s_Swerve;
     addRequirements(wrist, elevatorSubsystem);
+    addRequirements(s_Photon);
   }
 
   // Called when the command is initially scheduled.
@@ -41,6 +78,44 @@ public class CoralStationCmd extends Command
   @Override
   public void execute()  {
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
+    double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
+    double xOutput = 0, yOutput = 0, rotationVal = 0;
+    xOutput = driverInputs[0];
+    yOutput = driverInputs[1];
+    rotationVal = driverInputs[2];
+    
+    fieldRelative = true;
+
+   
+      if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
+      {
+        PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
+        if(bestTarget != null)
+        {
+          Transform3d currentPose = bestTarget.getBestCameraToTarget();
+          
+          xSetpoint = VisionConstants.centerCoralStationVisionX;
+          ySetpoint = VisionConstants.centerCoralStationVisionY;
+
+          xcontroller.setSetpoint(xSetpoint);      
+          ycontroller.setSetpoint(ySetpoint);
+          s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
+          double xout = xcontroller.calculate(currentPose.getX());
+          double yout = ycontroller.calculate(currentPose.getY());
+          double thetaout = s_Swerve.getTurnPidSpeed();
+          SmartDashboard.putNumber("x pid out", xout);
+          SmartDashboard.putNumber("y pid out", yout);
+          SmartDashboard.putNumber("theta pid out", thetaout);
+          xOutput = xout;
+          yOutput = yout;
+          rotationVal = thetaout;
+        }
+        else
+        {
+          System.err.println("APRIL TAG NOT DETECTED");
+        }
+      }
+    s_Swerve.drive(new Translation2d(-xOutput, -yOutput), -rotationVal, fieldRelative,  false);
     wrist.driveToGoal();
     elevatorSubsystem.driveToGoal();
   }

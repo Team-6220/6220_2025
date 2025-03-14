@@ -8,7 +8,6 @@ import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.EjectCoral;
 import frc.robot.commands.IntakeCoral;
 import frc.robot.commands.IntakeGround;
-import frc.robot.commands.Stage2CMD;
 import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
@@ -142,9 +141,8 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    stage2.onTrue(new Stage2CMD());
-    stage3.onTrue(new Stage3CMD());
-    stage4.onTrue(new Stage4CMD());
+    stage3.onTrue(new Stage3CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
+    stage4.onTrue(new Stage4CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
