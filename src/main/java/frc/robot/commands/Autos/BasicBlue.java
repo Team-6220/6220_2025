@@ -32,12 +32,12 @@ public class BasicBlue extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),//0 - outter most, 1 - less outter most, 2 - center
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[3], AutoConstants.pathConstraints),//pathfind
-      new Stage3CMD(s_swerve, 0, new Trigger(() -> true), new Trigger(() -> false)), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
+      new Stage3CMD( 0, new Trigger(() -> true), new Trigger(() -> false)), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
       new EjectCoral(),
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[6], AutoConstants.pathConstraints), //6 for right, 7 for left
-      new CoralStationCmd(0, s_swerve, () -> true),
+      new CoralStationCmd(0, () -> true),
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[0], AutoConstants.pathConstraints),
-      new Stage3CMD(s_swerve, 0, new Trigger(() -> true), new Trigger(() -> false)), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
+      new Stage3CMD(0, new Trigger(() -> true), new Trigger(() -> false)), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
       new EjectCoral()
     );
   }

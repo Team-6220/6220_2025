@@ -467,7 +467,7 @@ public final class Constants {
         public static final double turnIZone = .4;
 
         //X + Y position Pid Constants for Vision autos
-        public static final double xKP = 5;
+        public static final double xKP = 1;
         public static final double xKD = 0;
         public static final double xKI = 0;
         public static final double xMaxVel = 400;
@@ -475,7 +475,7 @@ public final class Constants {
         public static final double xTolerance = 1.75;
         public static final double xIZone = .4;
 
-        public static final double yKP = 5;
+        public static final double yKP = 1;
         public static final double yKD = 0;
         public static final double yKI = 0;
         public static final double yMaxVel = 400;

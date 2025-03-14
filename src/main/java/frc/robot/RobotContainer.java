@@ -165,9 +165,9 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    stage2.onTrue(new Stage2CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
-    stage3.onTrue(new Stage3CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
-    stage4.onTrue(new Stage4CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
+    stage2.onTrue(new Stage2CMD(m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
+    stage3.onTrue(new Stage3CMD(m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
+    stage4.onTrue(new Stage4CMD(m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     
     coralStation.onTrue(new CoralStationCmd(m_driverController.getHID(), 1, s_Swerve));
     elevatorIntake.whileTrue(new IntakeCoral());
@@ -179,6 +179,9 @@ public class RobotContainer {
     lowerOuttakeCoral.whileTrue(new OutakeCoralLowerIntake());
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
     lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
+
+    m_driverController.leftTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
+    m_driverController.rightTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
 
     elevatorManuel.onTrue(new ElevatorManuel(m_joystick));
 

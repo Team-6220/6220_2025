@@ -48,7 +48,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   private static String tableKey = "Vision_";
 
   private HashMap<Integer, List<PhotonPipelineResult>> results;
-  private HashMap<Integer, PhotonTrackedTarget> bestTarget;
+  private HashMap<Integer, List<PhotonTrackedTarget>> bestTarget;
 
   /** Creates a new PhotonVisionSubsystem. */
   public PhotonVisionSubsystem() {
@@ -69,7 +69,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       }
     }
     
-    bestTarget = new HashMap<Integer, PhotonTrackedTarget>();
+    bestTarget = new HashMap<Integer, List<PhotonTrackedTarget>>();
     for(int i = 0; i < cameras.length; i ++)
     {
       bestTarget.put(i, null);
@@ -86,25 +86,9 @@ public class PhotonVisionSubsystem extends SubsystemBase {
         results.put(i, unreadResults);
       }
       if (!results.get(i).isEmpty()) {
-        bestTarget.put(i, results.get(i).get(0).getBestTarget());
+        bestTarget.put(i, results.get(i).get(0).getTargets());
         // System.out.println("Best Target IS GETTING UPDATED --------------");
         
-        if(bestTarget.get(i) != null)
-        {
-          Transform3d camToTar = bestTarget.get(i).getBestCameraToTarget();
-          SmartDashboard.putNumber(tableKey + i + "camera to pose x", camToTar.getX());
-          SmartDashboard.putNumber(tableKey + i + "camera to pose y", camToTar.getY());
-          SmartDashboard.putNumber(tableKey + i + "camera to pose z", camToTar.getZ());
-          SmartDashboard.putNumber(tableKey + i + "camera to pose measure x", camToTar.getMeasureX().abs(Meters));
-          SmartDashboard.putNumber(tableKey + i + "camera to pose measure y", camToTar.getMeasureY().abs(Meters));
-          SmartDashboard.putNumber(tableKey + i + "camera to pose measure z", camToTar.getMeasureZ().abs(Meters));
-
-          SmartDashboard.putNumber(tableKey + i + "id", bestTarget.get(i).fiducialId);
-          SmartDashboard.putNumber(tableKey + i + "pitch", bestTarget.get(i).pitch);
-          SmartDashboard.putNumber(tableKey + i + "yaw", bestTarget.get(i).yaw);
-          SmartDashboard.putNumber(tableKey + i + "ambiguity", bestTarget.get(i).poseAmbiguity);
-          SmartDashboard.putNumber(tableKey + i + "skew", bestTarget.get(i).skew);
-        }
       }
     }
   }
@@ -195,7 +179,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     return results;
   }
 
-  public HashMap<Integer, PhotonTrackedTarget> getBestTargets() {
+  public HashMap<Integer, List<PhotonTrackedTarget>> getBestTargets() {
     return bestTarget;
   }
 

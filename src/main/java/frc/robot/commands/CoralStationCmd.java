@@ -39,7 +39,6 @@ public class CoralStationCmd extends Command
 
   private boolean fieldRelative = true;
   private PhotonVisionSubsystem s_Photon;
-  private Swerve s_Swerve;
 
    private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
   private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
@@ -58,7 +57,7 @@ public class CoralStationCmd extends Command
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
 
-  public CoralStationCmd(int cameraNum, Swerve s_Swerve, BooleanSupplier autoDrive)
+  public CoralStationCmd(int cameraNum, BooleanSupplier autoDrive)
   {
     // elevator = ElevatorSubsystem.getInstance();
     // addRequirements(elevator);
@@ -67,7 +66,6 @@ public class CoralStationCmd extends Command
     s_Photon = PhotonVisionSubsystem.getInstance();
     this.m_Controller = null;
     this.cameraNum = cameraNum;
-    this.s_Swerve = s_Swerve;
     this.autoDrive = autoDrive;
     addRequirements(wrist, elevatorSubsystem);
     addRequirements(s_Photon);
@@ -81,7 +79,6 @@ public class CoralStationCmd extends Command
     s_Photon = PhotonVisionSubsystem.getInstance();
     this.m_Controller = m_Controller;
     this.cameraNum = cameraNum;
-    this.s_Swerve = s_Swerve;
     addRequirements(wrist, elevatorSubsystem);
     addRequirements(s_Photon);
   }
@@ -98,46 +95,46 @@ public class CoralStationCmd extends Command
   @Override
   public void execute()  {
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
-    double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
-    double xOutput = 0, yOutput = 0, rotationVal = 0;
-    xOutput = driverInputs[0]/5.0;
-    yOutput = driverInputs[1]/5.0;
-    rotationVal = driverInputs[2]/5.0;
+  //   double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
+  //   double xOutput = 0, yOutput = 0, rotationVal = 0;
+  //   xOutput = driverInputs[0]/5.0;
+  //   yOutput = driverInputs[1]/5.0;
+  //   rotationVal = driverInputs[2]/5.0;
     
-    fieldRelative = true;
+  //   fieldRelative = true;
 
-   if(autoDrive.getAsBoolean() || (m_Controller.getLeftBumperButton() || m_Controller.getRightBumperButton()))
-   {
-      if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
-      {
-        PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
-        if(bestTarget != null)
-        {
-          Transform3d currentPose = bestTarget.getBestCameraToTarget();
+  //  if(autoDrive.getAsBoolean() || (m_Controller.getLeftBumperButton() || m_Controller.getRightBumperButton()))
+  //  {
+  //     if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
+  //     {
+  //       PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
+  //       if(bestTarget != null)
+  //       {
+  //         Transform3d currentPose = bestTarget.getBestCameraToTarget();
           
-          xSetpoint = VisionConstants.centerCoralStationVisionX;
-          ySetpoint = VisionConstants.centerCoralStationVisionY;
+  //         xSetpoint = VisionConstants.centerCoralStationVisionX;
+  //         ySetpoint = VisionConstants.centerCoralStationVisionY;
 
-          xcontroller.setSetpoint(xSetpoint);      
-          ycontroller.setSetpoint(ySetpoint);
-          s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
-          double xout = xcontroller.calculate(currentPose.getX());
-          double yout = ycontroller.calculate(currentPose.getY());
-          double thetaout = s_Swerve.getTurnPidSpeed();
-          SmartDashboard.putNumber("x pid out", xout);
-          SmartDashboard.putNumber("y pid out", yout);
-          SmartDashboard.putNumber("theta pid out", thetaout);
-          xOutput = xout;
-          yOutput = yout;
-          rotationVal = thetaout;
-        }
-        else
-        {
-          System.err.println("APRIL TAG NOT DETECTED");
-        }
-      }
-    }
-    s_Swerve.drive(new Translation2d(xOutput, yOutput), rotationVal, fieldRelative,  false);
+  //         xcontroller.setSetpoint(xSetpoint);      
+  //         ycontroller.setSetpoint(ySetpoint);
+  //         s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
+  //         double xout = xcontroller.calculate(currentPose.getX());
+  //         double yout = ycontroller.calculate(currentPose.getY());
+  //         double thetaout = s_Swerve.getTurnPidSpeed();
+  //         SmartDashboard.putNumber("x pid out", xout);
+  //         SmartDashboard.putNumber("y pid out", yout);
+  //         SmartDashboard.putNumber("theta pid out", thetaout);
+  //         xOutput = xout;
+  //         yOutput = yout;
+  //         rotationVal = thetaout;
+  //       }
+  //       else
+  //       {
+  //         System.err.println("APRIL TAG NOT DETECTED");
+  //       }
+  //     }
+  //   }
+  //   s_Swerve.drive(new Translation2d(xOutput, yOutput), rotationVal, fieldRelative,  false);
     wrist.driveToGoal();
     elevatorSubsystem.driveToGoal();
   }
