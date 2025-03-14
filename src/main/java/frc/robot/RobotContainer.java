@@ -89,6 +89,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    s_Swerve.configureAutoBuilder();
     s_Swerve.zeroHeading(m_driverController.getHID());
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -144,7 +145,7 @@ public class RobotContainer {
     stage3.onTrue(new Stage3CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     stage4.onTrue(new Stage4CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     
-    coralStation.onTrue(new CoralStationCmd());
+    coralStation.onTrue(new CoralStationCmd(m_driverController.getHID(), 1, s_Swerve));
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
     groundIntake.whileTrue(new IntakeGround());

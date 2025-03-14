@@ -62,24 +62,4 @@ public class PhotonVisionCalculations {
 
         return instance;
     }
-    /*
-    // Arducam lens locations
-    // Bottom right:
-    // Z: 29.5” + 1.724” up
-    // Y: 3.3” towards back
-    // Angled 210° (down 30° from level)
-    
-    // Top right:
-    // Z: 35.707” + 1.724” up
-    // Y: 1.257” towards back
-    // Angled 135° (45° up)
-    
-    // Top left:
-    // Z: 35.707” + 1.724” up
-    // Y: 0.157” towards front
-    // Angled 45° (45° up)
-    
-    // top - Processor and Coral Station
-    // bot - Reef
-    */
 }

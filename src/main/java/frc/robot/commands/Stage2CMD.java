@@ -65,6 +65,8 @@ public class Stage2CMD extends Command
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
+    s_Photon = PhotonVisionSubsystem.getInstance();
+
     this.leftControl = leftControl;
     this.rightControl = rightControl;
     this.m_Controller = m_Controller;
@@ -78,6 +80,8 @@ public class Stage2CMD extends Command
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
+    s_Photon = PhotonVisionSubsystem.getInstance();
+
     this.leftControl = () -> true;
     this.rightControl = rightControl;
     this.m_Controller = null;

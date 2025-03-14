@@ -59,6 +59,8 @@ public class CoralStationCmd extends Command
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
+    s_Photon = PhotonVisionSubsystem.getInstance();
+
     this.m_Controller = m_Controller;
     this.cameraNum = cameraNum;
     this.s_Swerve = s_Swerve;
