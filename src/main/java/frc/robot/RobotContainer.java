@@ -22,6 +22,7 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeForClimbing;
 import frc.robot.commands.lowerIntakeSet;
+import frc.robot.commands.Autos.BasicBlue;
 import frc.robot.commands.Autos.TestingAutoRed;
 import frc.robot.commands.ElevatorManuel;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -112,6 +113,7 @@ public class RobotContainer {
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
+    autoChooser.addOption("basic blue", new BasicBlue(s_Swerve));
     // s_Swerve.configureAutoBuilder();
 
     elevator.setDefaultCommand(
