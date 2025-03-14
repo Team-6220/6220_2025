@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.controller.PIDController;
