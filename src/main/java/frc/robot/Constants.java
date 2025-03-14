@@ -656,7 +656,8 @@ public final class Constants {
         public static final double L4 = -8;
         public static final double coralStation = 35.81813;
 
-        public static final double deAlge = -40;
+        public static final double deAlgeL2 = -40;
+        public static final double deAlgeL3 = -40;
 
 
         /*on branch scrimage v2 PID&FF start (not really tuned) */
@@ -713,7 +714,8 @@ public final class Constants {
         public static final double E_L4 = 1.32;//Maybe final tune this?
         public static final double E_CoralStation = .210796;//Maybe final tune this?
 
-        public static final double eleDeAlge = 0.4;
+        public static final double eleDeAlgeL2 = 0.4;
+        public static final double eleDeAlgeL3 = 0.7;
 
         public static final double lowerEncoderExtreme = 0.0; 
         public static final double upperEncoderExtreme = 1.32;

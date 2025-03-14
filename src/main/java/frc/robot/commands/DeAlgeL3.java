@@ -11,12 +11,12 @@ import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.robot.Constants.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class DeAlge extends Command {
+public class DeAlgeL3 extends Command {
   /** Creates a new DeAlge. */
   private V2_SparkMaxWristSubsystem wrist;
   private ElevatorSubsystem elevator;
 
-  public DeAlge() {
+  public DeAlgeL3() {
     // Use addRequirements() here to declare subsystem dependencies.
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevator = ElevatorSubsystem.getInstance();
@@ -26,8 +26,8 @@ public class DeAlge extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevator.setGoal(ElevatorConstants.eleDeAlge);
-    wrist.setGoal(WristConstants.deAlge);
+    elevator.setGoal(ElevatorConstants.eleDeAlgeL3);
+    wrist.setGoal(WristConstants.deAlgeL3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
