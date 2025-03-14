@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.EjectCoral;
 import frc.robot.commands.Stage2CMD;
@@ -31,12 +32,12 @@ public class BasicBlue extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),//0 - outter most, 1 - less outter most, 2 - center
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[3], AutoConstants.pathConstraints),//pathfind
-      new Stage3CMD(s_swerve, 0, () -> true, () -> false), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
+      new Stage3CMD(s_swerve, 0, new Trigger(() -> true), new Trigger(() -> false)), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
       new EjectCoral(),
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[6], AutoConstants.pathConstraints), //6 for right, 7 for left
       new CoralStationCmd(0, s_swerve, () -> true),
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[0], AutoConstants.pathConstraints),
-      new Stage3CMD(s_swerve, 0, () -> true, () -> false), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
+      new Stage3CMD(s_swerve, 0, new Trigger(() -> true), new Trigger(() -> false)), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
       new EjectCoral()
     );
   }

@@ -37,7 +37,7 @@ public class Stage2CMD extends Command
 
   private Swerve s_Swerve;
 
-  private final Supplier<Boolean> leftControl, rightControl;
+  private final Trigger leftControl, rightControl;
 
   private boolean fieldRelative = true;
 
@@ -62,7 +62,7 @@ public class Stage2CMD extends Command
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
-  public Stage2CMD(Swerve s_Swerve, XboxController m_Controller, Supplier<Boolean> leftControl, Supplier<Boolean> rightControl, int cameraNum)
+  public Stage2CMD(Swerve s_Swerve, XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum)
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -77,7 +77,7 @@ public class Stage2CMD extends Command
     addRequirements(s_Swerve);
     addRequirements(s_Photon);
   }
-  public Stage2CMD(Swerve s_Swerve, int cameraNum, Supplier<Boolean> leftControl, Supplier<Boolean> rightControl)
+  public Stage2CMD(Swerve s_Swerve, int cameraNum, Trigger leftControl, Trigger rightControl)
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -114,7 +114,7 @@ public class Stage2CMD extends Command
     
     fieldRelative = true;
 
-    if(leftControl.get() || rightControl.get())
+    if(leftControl.getAsBoolean() || rightControl.getAsBoolean())
     {
       if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
       {
@@ -122,12 +122,12 @@ public class Stage2CMD extends Command
         if(bestTarget != null)
         {
           Transform3d currentPose = bestTarget.getBestCameraToTarget();
-          if(leftControl.get())
+          if(leftControl.getAsBoolean())
           {
             xSetpoint = VisionConstants.leftReefX;
             ySetpoint = VisionConstants.leftReefY;
           }
-          if(rightControl.get())
+          if(rightControl.getAsBoolean())
           {
             xSetpoint = VisionConstants.rightReefX;
             ySetpoint = VisionConstants.rightReefY;

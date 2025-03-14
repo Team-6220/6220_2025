@@ -75,6 +75,7 @@ public class RobotContainer {
   private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
   private final Trigger elevatorIntake = new Trigger(() -> m_joystick.getRawButton(1));
   private final Trigger elevatorOuttake = new Trigger(() -> m_joystick.getRawButton(2));
+  private final Trigger elevatorManuel = new Trigger(() -> m_joystick.getRawButton(5));
   private final Trigger resetEncoder = new Trigger(() -> m_buttonBoard.getRawButton(11));
   private final Trigger elevatorUp = new Trigger(() -> m_buttonBoard.getRawButton(13));
   private final Trigger elevatorDown = new Trigger(() -> m_buttonBoard.getRawButton(14));
@@ -169,6 +170,8 @@ public class RobotContainer {
     lowerOuttakeCoral.whileTrue(new OutakeCoralLowerIntake());
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
     lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
+
+    elevatorManuel.onTrue(new ElevatorManuel(m_joystick));
 
     deAlgaeL2.onTrue(new DeAlgeL2());
     deAlgaeL3.onTrue(new DeAlgeL3());
