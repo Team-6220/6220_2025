@@ -18,6 +18,7 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeForClimbing;
 import frc.robot.commands.lowerIntakeSet;
+import frc.robot.commands.Autos.TestingAutoRed;
 import frc.robot.commands.ElevatorManuel;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve;
@@ -29,6 +30,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -93,6 +95,9 @@ public class RobotContainer {
       new ElevatorManuel(m_joystick)
     );
 
+    // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+ 
     // frontIntake.setDefaultCommand(new lowerIntakeSet());
 
     // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
@@ -109,9 +114,8 @@ public class RobotContainer {
         );
 
     // autoChooser = AutoBuilder.buildAutoChooser();
-    // SmartDashboard.putData("Auto Chooser", autoChooser);
     //TODO: Register named commands as needed
-    //NamedCommands.registerCommand(null, null);
+    // NamedCommands.registerCommand(null, null);
 
     configureBindings();
     

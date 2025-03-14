@@ -17,6 +17,8 @@ import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.Swerve;
@@ -24,15 +26,16 @@ import frc.robot.subsystems.Swerve;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TestingAuto extends SequentialCommandGroup {
+public class TestingAutoRed extends SequentialCommandGroup {
   
   /** Creates a new TestingAuto. */
-  public TestingAuto(Swerve swerve) {
+  public TestingAutoRed(Swerve swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     Swerve s_Swerve = swerve;
-    double x = 1, y = 1, theta = 0;
+    double x = 14.124, y = 2.395, theta = 0;
     addCommands(
+      new InstantCommand(() -> s_Swerve.setPose(new Pose2d(new Translation2d(14.65, 4.075), new Rotation2d(Degrees.of(0))))),
       AutoBuilder.pathfindToPose(new Pose2d(x, y, new Rotation2d(Degrees.of(theta))), AutoConstants.pathConstraints)
     );
   }

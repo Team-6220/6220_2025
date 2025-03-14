@@ -210,27 +210,27 @@ public class Swerve extends SubsystemBase {
     /**
      * swerve auto init
      */
-    // public void configureAutoBuilder() {
-    //     AutoBuilder.configure(
-    //         this::getPose,
-    //         this::resetOdometry,
-    //         this::getRobotRelativeSpeeds,
-    //         (speeds, feedforwards) -> driveRobotRelative(speeds),
-    //         new PPHolonomicDriveController(
-    //             new PIDConstants(autoTkP.get(), autoTkI.get(), autoTkD.get()),
-    //             new PIDConstants(autoRkP.get(), autoRkI.get(), autoRkD.get())
-    //         ),
-    //         config,
-    //         () -> {
-    //             var alliance = DriverStation.getAlliance();
-    //             if (alliance.isPresent()) {
-    //                 return alliance.get() == DriverStation.Alliance.Red;
-    //             }
-    //             return false;
-    //         },
-    //         this
-    //     );
-    // }
+    public void configureAutoBuilder() {
+        AutoBuilder.configure(
+            this::getPose,
+            this::resetOdometry,
+            this::getRobotRelativeSpeeds,
+            (speeds, feedforwards) -> driveRobotRelative(speeds),
+            new PPHolonomicDriveController(
+                new PIDConstants(autoTkP.get(), autoTkI.get(), autoTkD.get()),
+                new PIDConstants(autoRkP.get(), autoRkI.get(), autoRkD.get())
+            ),
+            config,
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
+            this
+        );
+    }
 
     
     
