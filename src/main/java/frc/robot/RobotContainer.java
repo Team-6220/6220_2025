@@ -36,6 +36,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import java.util.ArrayList;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -160,20 +162,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-  public ArrayList<Command> getAutonomousCommandList() {
-    ArrayList<Command> commandSequence = new ArrayList<Command>();
-
-    String auto = SmartDashboard.getString("Auto Selector", "");
-
-    if (auto.equals("")) {
-      
-      commandSequence.add(AutoBuilder.pathFindToPose(Constants.AutoConstants.waypointPosesBlue[3], Constants.AutoConstants.pathConstraints));
-      commandSequence.add(new Stage3CMD());
-      commandSequence.add(AutoBuilder.pathFindToPose(Constants.AutoConstants.waypointPosesBlue[6], Constants.AutoConstants.pathConstraints));
-
-    }
-
-    return commandSequence;
+    return autoChooser.getSelected();
   }
+    // An example command will be run in autonomous
+  
 
 }

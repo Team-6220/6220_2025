@@ -82,17 +82,11 @@ public class Robot extends TimedRobot {
         Constants.isRed = "N/A";
     }
 
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // // schedule the autonomous command (example)
-    // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.schedule();
-    // }
-
-    m_autonomousCommandList = m_robotContainer.getAutonomousCommandList();
-
-    if (!m_autonomousCommandList.isEmpty()) {
-      m_autonomousCommandList.forEach(Command::schedule);
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
     }
 
   }
