@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -32,6 +34,8 @@ public class CoralStationCmd extends Command
   private ElevatorSubsystem elevatorSubsystem;
   private XboxController m_Controller;  
 
+  private BooleanSupplier autoDrive;
+
   private boolean fieldRelative = true;
   private PhotonVisionSubsystem s_Photon;
   private Swerve s_Swerve;
@@ -53,6 +57,20 @@ public class CoralStationCmd extends Command
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
 
+  public CoralStationCmd(XboxController m_Controller, int cameraNum, Swerve s_Swerve, BooleanSupplier autoDrive)
+  {
+    // elevator = ElevatorSubsystem.getInstance();
+    // addRequirements(elevator);
+    wrist = V2_SparkMaxWristSubsystem.getInstance();
+    elevatorSubsystem = ElevatorSubsystem.getInstance();
+    s_Photon = PhotonVisionSubsystem.getInstance();
+    this.m_Controller = m_Controller;
+    this.cameraNum = cameraNum;
+    this.s_Swerve = s_Swerve;
+    this.autoDrive = autoDrive;
+    addRequirements(wrist, elevatorSubsystem);
+    addRequirements(s_Photon);
+  }
   public CoralStationCmd(XboxController m_Controller, int cameraNum, Swerve s_Swerve)
   {
     // elevator = ElevatorSubsystem.getInstance();
@@ -60,7 +78,6 @@ public class CoralStationCmd extends Command
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance();
-
     this.m_Controller = m_Controller;
     this.cameraNum = cameraNum;
     this.s_Swerve = s_Swerve;
@@ -88,7 +105,8 @@ public class CoralStationCmd extends Command
     
     fieldRelative = true;
 
-   
+   if((m_Controller.getLeftBumperButton() || m_Controller.getRightBumperButton()) || autoDrive.getAsBoolean())
+   {
       if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
       {
         PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
@@ -117,6 +135,7 @@ public class CoralStationCmd extends Command
           System.err.println("APRIL TAG NOT DETECTED");
         }
       }
+    }
     s_Swerve.drive(new Translation2d(-xOutput, -yOutput), -rotationVal, fieldRelative,  false);
     wrist.driveToGoal();
     elevatorSubsystem.driveToGoal();

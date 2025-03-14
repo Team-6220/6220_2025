@@ -82,7 +82,7 @@ public class Stage2CMD extends Command
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance();
 
-    this.leftControl = () -> true;
+    this.leftControl = leftControl;
     this.rightControl = rightControl;
     this.m_Controller = null;
     this.cameraNum = cameraNum;
