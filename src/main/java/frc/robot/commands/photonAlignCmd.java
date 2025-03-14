@@ -92,7 +92,7 @@ public class photonAlignCmd extends Command {
         SmartDashboard.putNumber("y pid out", yout);
         SmartDashboard.putNumber("theta pid out", thetaout);
         s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
-        s_Swerve.drive(new Translation2d(-xout, -yout), thetaout, false, false);
+        s_Swerve.drive(new Translation2d(-xout, -yout), -thetaout, false, false);
         // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
       }
     }
