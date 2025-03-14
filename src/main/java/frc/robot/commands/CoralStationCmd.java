@@ -100,9 +100,9 @@ public class CoralStationCmd extends Command
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
     double xOutput = 0, yOutput = 0, rotationVal = 0;
-    xOutput = driverInputs[0];
-    yOutput = driverInputs[1];
-    rotationVal = driverInputs[2];
+    xOutput = driverInputs[0]/5.0;
+    yOutput = driverInputs[1]/5.0;
+    rotationVal = driverInputs[2]/5.0;
     
     fieldRelative = true;
 
@@ -137,7 +137,7 @@ public class CoralStationCmd extends Command
         }
       }
     }
-    s_Swerve.drive(new Translation2d(-xOutput, -yOutput), -rotationVal, fieldRelative,  false);
+    s_Swerve.drive(new Translation2d(xOutput, yOutput), rotationVal, fieldRelative,  false);
     wrist.driveToGoal();
     elevatorSubsystem.driveToGoal();
   }

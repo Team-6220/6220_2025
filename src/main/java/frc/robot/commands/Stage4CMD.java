@@ -72,6 +72,7 @@ public class Stage4CMD extends Command
     this.rightControl = rightControl;
     this.m_Controller = m_Controller;
     this.cameraNum = cameraNum;
+    this.s_Swerve = s_Swerve;
     addRequirements(elevator);
     addRequirements(wrist);
     addRequirements(s_Swerve);
@@ -86,6 +87,7 @@ public class Stage4CMD extends Command
     this.leftControl = leftControl;
     this.rightControl = rightControl;
     this.m_Controller = null;
+    this.s_Swerve = s_Swerve;
     this.cameraNum = cameraNum;
     addRequirements(s_Photon);
     addRequirements(elevator);
@@ -108,9 +110,9 @@ public class Stage4CMD extends Command
 
     double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
     double xOutput = 0, yOutput = 0, rotationVal = 0;
-    xOutput = driverInputs[0];
-    yOutput = driverInputs[1];
-    rotationVal = driverInputs[2];
+    xOutput = driverInputs[0]/5.0;
+    yOutput = driverInputs[1]/5.0;
+    rotationVal = driverInputs[2]/5.0;
     
     fieldRelative = true;
 
@@ -151,7 +153,7 @@ public class Stage4CMD extends Command
         }
       }
     }
-    s_Swerve.drive(new Translation2d(-xOutput, -yOutput), -rotationVal, fieldRelative,  false);
+    s_Swerve.drive(new Translation2d(xOutput, yOutput), rotationVal, fieldRelative,  false);
      
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if(elevHeight.hasChanged())

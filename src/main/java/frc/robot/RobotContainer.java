@@ -103,6 +103,12 @@ public class RobotContainer {
   private final Trigger leftReef = new Trigger(() -> m_joystick.getRawButton(3));
   private final Trigger rightReef = new Trigger(() -> m_joystick.getRawButton(4));
 
+
+
+
+
+
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -120,6 +126,7 @@ public class RobotContainer {
         new ElevatorManuel(m_joystick));
 
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
+
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // frontIntake.setDefaultCommand(new lowerIntakeSet());
