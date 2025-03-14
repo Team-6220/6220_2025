@@ -43,7 +43,7 @@ public class TeleopSwerve extends Command {
         double[] driverInputs = OIConstants.getDriverInputs(driver.getHID());
         /* Drive */
         s_Swerve.drive(
-            new Translation2d(driverInputs[0],driverInputs[1]),
+            new Translation2d(-driverInputs[0],-driverInputs[1]),
             -driverInputs[2], 
             !robotCentricSup.getAsBoolean(), 
             true

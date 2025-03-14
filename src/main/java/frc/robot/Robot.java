@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,8 @@ public class Robot extends TimedRobot {
 
   public static final CTREConfigs ctreConfigs = new CTREConfigs();
 
+  private final PhotonVisionSubsystem vision = PhotonVisionSubsystem.getInstance();
+
   private final RobotContainer m_robotContainer;
 
   /**
@@ -41,6 +45,7 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
+    VisionConstants.setTagXYHeightAngle();
   }
   
   /**
@@ -69,7 +74,8 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-        Optional<Alliance> ally = DriverStation.getAlliance();
+    VisionConstants.setTagXYHeightAngle();
+    Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
             Constants.isRed = "red";
