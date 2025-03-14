@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.Swerve;
@@ -36,7 +37,7 @@ public class Stage2CMD extends Command
 
   private Swerve s_Swerve;
 
-  private final BooleanSupplier leftControl, rightControl;
+  private final Trigger leftControl, rightControl;
 
   private boolean fieldRelative = true;
 
@@ -61,7 +62,7 @@ public class Stage2CMD extends Command
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
-  public Stage2CMD(Swerve s_Swerve, XboxController m_Controller, BooleanSupplier leftControl, BooleanSupplier rightControl, int cameraNum)
+  public Stage2CMD(Swerve s_Swerve, XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum)
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -76,7 +77,7 @@ public class Stage2CMD extends Command
     addRequirements(s_Swerve);
     addRequirements(s_Photon);
   }
-  public Stage2CMD(Swerve s_Swerve, int cameraNum, BooleanSupplier leftControl, BooleanSupplier rightControl)
+  public Stage2CMD(Swerve s_Swerve, int cameraNum, Trigger leftControl, Trigger rightControl)
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();

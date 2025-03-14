@@ -12,6 +12,7 @@ import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
 import frc.robot.commands.OuttakeAlgaeLowerIntake;
+import frc.robot.commands.Stage2CMD;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.VisionConstants;
 //import frc.robot.commands.Autos;
@@ -142,6 +143,7 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
+    stage2.onTrue(new Stage2CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     stage3.onTrue(new Stage3CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     stage4.onTrue(new Stage4CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     

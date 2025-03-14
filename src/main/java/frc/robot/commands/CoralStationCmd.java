@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -15,6 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.Swerve;
@@ -34,7 +33,7 @@ public class CoralStationCmd extends Command
   private ElevatorSubsystem elevatorSubsystem;
   private XboxController m_Controller;  
 
-  private BooleanSupplier autoDrive;
+  private Trigger autoDrive;
 
   private boolean fieldRelative = true;
   private PhotonVisionSubsystem s_Photon;
@@ -57,7 +56,7 @@ public class CoralStationCmd extends Command
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
 
-  public CoralStationCmd(XboxController m_Controller, int cameraNum, Swerve s_Swerve, BooleanSupplier autoDrive)
+  public CoralStationCmd(XboxController m_Controller, int cameraNum, Swerve s_Swerve, Trigger autoDrive)
   {
     // elevator = ElevatorSubsystem.getInstance();
     // addRequirements(elevator);
