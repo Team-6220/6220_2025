@@ -45,7 +45,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
+  
   private final SendableChooser<Command> autoChooser;
 
 
@@ -140,7 +140,7 @@ public class RobotContainer {
     stage2.onTrue(new Stage2CMD());
     stage3.onTrue(new Stage3CMD());
     stage4.onTrue(new Stage4CMD());
-    
+
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
@@ -160,7 +160,20 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-      return autoChooser.getSelected();
+  public ArrayList<Command> getAutonomousCommandList() {
+    ArrayList<Command> commandSequence = new ArrayList<Command>();
+
+    String auto = SmartDashboard.getString("Auto Selector", "");
+
+    if (auto.equals("")) {
       
+      commandSequence.add(AutoBuilder.pathFindToPose(Constants.AutoConstants.waypointPosesBlue[3], Constants.AutoConstants.pathConstraints));
+      commandSequence.add(new Stage3CMD());
+      commandSequence.add(AutoBuilder.pathFindToPose(Constants.AutoConstants.waypointPosesBlue[6], Constants.AutoConstants.pathConstraints));
+
+    }
+
+    return commandSequence;
   }
+
 }
