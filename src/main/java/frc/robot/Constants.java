@@ -356,7 +356,7 @@ public final class Constants {
         public static double[] cameraAngles = {210.0, 135.0, 45.0};
 
         public static final double centerCoralStationVisionX = .7276439;
-        public static final double centerCoralStationVisionY = .27686135;
+        public static final double centerCoralStationVisionY = .36686135;
 
         public static final double leftReefX = .306694653062;
         public static final double leftReefY = -.019408314649635;
@@ -712,7 +712,7 @@ public final class Constants {
         public static final double E_L2 = 0.485757;//This one should be good
         public static final double E_L3 = .929;//This one should be good
         public static final double E_L4 = 1.32;//Maybe final tune this?
-        public static final double E_CoralStation = .225796;//Maybe final tune this?
+        public static final double E_CoralStation = .195796;//Maybe final tune this?
 
         public static final double eleDeAlgeL2 = 0.4;
         public static final double eleDeAlgeL3 = 0.7;
@@ -757,8 +757,8 @@ public final class Constants {
         public static final double frontIntakeMaxVel = 200;
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
         /**volts, used for intake and only intake */
-        public static final double wheelSpeed = 3;
-        public static final double idleSpinVoltage = 1.5;
+        public static final double wheelSpeed = 5;
+        public static final double idleSpinVoltage = 2.5;
 
         public static final double maxDegrees = 120;
         public static final double minDegrees = -10;
