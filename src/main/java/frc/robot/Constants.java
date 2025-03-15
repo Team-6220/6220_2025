@@ -355,8 +355,8 @@ public final class Constants {
         /**Degrees */
         public static double[] cameraAngles = {210.0, 135.0, 45.0};
 
-        public static final double centerCoralStationVisionX = .752617;
-        public static final double centerCoralStationVisionY = -.01562;
+        public static final double centerCoralStationVisionX = .72387872;
+        public static final double centerCoralStationVisionY = .053628;
 
         public static final double leftReefX = .306694653062;
         public static final double leftReefY = -0.19408314649635;
