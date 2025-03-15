@@ -757,8 +757,8 @@ public final class Constants {
         public static final double frontIntakeMaxVel = 200;
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
         /**volts, used for intake and only intake */
-        public static final double wheelSpeed = 5;
-        public static final double idleSpinVoltage = 2.5;
+        public static final double wheelSpeed = 12;
+        public static final double idleSpinVoltage = 5;
 
         public static final double maxDegrees = 120;
         public static final double minDegrees = -10;
