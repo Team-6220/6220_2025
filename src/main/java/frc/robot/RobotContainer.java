@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.CANRangeTestCommand;
 import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.DeAlgeL2;
 import frc.robot.commands.DeAlgeL3;
@@ -25,6 +26,7 @@ import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
 import frc.robot.commands.Autos.TestingAutoRed;
 import frc.robot.commands.ElevatorManuel;
+import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.photonAlignCmd;
 import frc.robot.commands.wristDownOneDegree;
@@ -67,6 +69,8 @@ public class RobotContainer {
 
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
+
+  private final CANRangeSubsystem canRange = CANRangeSubsystem.getInstance();
 
   private final CommandXboxController m_driverController = new CommandXboxController(0);
 
@@ -124,10 +128,13 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     autoChooser.addOption("basic blue", new BasicBlue(s_Swerve));
+    // autoChooser.addOption("just drive out (dumb)", new StraightAuto(s_Swerve));
     // s_Swerve.configureAutoBuilder();
 
     elevator.setDefaultCommand(
         new ElevatorManuel(m_joystick));
+
+    canRange.setDefaultCommand(new CANRangeTestCommand());
 
         autoChooser.addOption("Straight Auto", new StraightAuto(s_Swerve));
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
@@ -219,4 +226,3 @@ public class RobotContainer {
 
 }
   
-

@@ -25,6 +25,7 @@ public class IntakeCoral extends Command {
   @Override
   public void execute()
   {
+    
     wristIntake.intakeCoral();
   }
 
