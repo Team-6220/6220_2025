@@ -45,7 +45,7 @@ public class CANRangeTestCommand extends Command {
     if(cRange.isObjectInWrist())
     {
       wrist.stop();
-      m_LEDCANdle.setGold();
+      m_LEDCANdle.setGreen();
     }
     
     if (cRange.isObjectInFrontIntake()) {
@@ -54,7 +54,7 @@ public class CANRangeTestCommand extends Command {
     }
 
     if (!(cRange.isObjectInWrist() && cRange.isObjectInFrontIntake())) {
-      m_LEDCANdle.turnOff();
+      m_LEDCANdle.setRed();
     }
   }
 
