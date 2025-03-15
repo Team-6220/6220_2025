@@ -4,6 +4,10 @@
 
 package frc.robot.commands.Autos;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -25,10 +29,11 @@ public class StraightAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),
-      new InstantCommand(() -> s_swerve.drive(new Translation2d(1, 0), 0, false, false)),
-      new WaitCommand(1.5),
-      new InstantCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, false, false))
+      AutoBuilder.pathfindToPose(new Pose2d(-1, 0, new Rotation2d()), AutoConstants.pathConstraints)
+      // new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),
+      // new InstantCommand(() -> s_swerve.drive(new Translation2d(1, 0), 0, false, false)),
+      // new WaitCommand(2),
+      // new InstantCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, false, false))
       );
   }
 }
