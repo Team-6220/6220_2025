@@ -124,7 +124,7 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
 
     autoChooser.addOption("basic blue", new BasicBlue(s_Swerve));
-    autoChooser.addOption("just drive out (dumb)", new StraightAuto(s_Swerve));
+    // autoChooser.addOption("just drive out (dumb)", new StraightAuto(s_Swerve));
     // s_Swerve.configureAutoBuilder();
 
     elevator.setDefaultCommand(
