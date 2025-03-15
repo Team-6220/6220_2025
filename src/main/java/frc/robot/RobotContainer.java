@@ -27,6 +27,8 @@ import frc.robot.commands.Autos.TestingAutoRed;
 import frc.robot.commands.ElevatorManuel;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.photonAlignCmd;
+import frc.robot.commands.wristDownOneDegree;
+import frc.robot.commands.wristUpOneDegree;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
@@ -78,8 +80,8 @@ public class RobotContainer {
   private final Trigger elevatorOuttake = new Trigger(() -> m_joystick.getRawButton(2));
   private final Trigger elevatorManuel = new Trigger(() -> m_joystick.getRawButton(5));
   private final Trigger resetEncoder = new Trigger(() -> m_buttonBoard.getRawButton(11));
-  private final Trigger elevatorUp = new Trigger(() -> m_buttonBoard.getRawButton(13));
-  private final Trigger elevatorDown = new Trigger(() -> m_buttonBoard.getRawButton(14));
+  private final Trigger wristUpOneDeg = new Trigger(() -> m_buttonBoard.getRawButton(13));
+  private final Trigger wristDownOneDeg = new Trigger(() -> m_buttonBoard.getRawButton(14));
   private final Trigger groundIntake = new Trigger(() -> m_buttonBoard.getRawButton(15));
   private final Trigger setLowerIntakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
@@ -179,6 +181,9 @@ public class RobotContainer {
     lowerOuttakeCoral.whileTrue(new OutakeCoralLowerIntake());
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
     lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
+
+    wristUpOneDeg.onTrue(new wristUpOneDegree());
+    wristDownOneDeg.onTrue(new wristDownOneDegree());
 
     elevatorManuel.onTrue(new ElevatorManuel(m_joystick));
 
