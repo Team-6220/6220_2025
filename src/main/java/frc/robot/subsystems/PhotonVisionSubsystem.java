@@ -85,7 +85,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       if (!unreadResults.isEmpty()) {
         results.put(i, unreadResults);
       }
-      if (!results.get(i).isEmpty()) {
+      if (!results.isEmpty()) {
         bestTarget.put(i, results.get(i).get(0).getTargets());
         // System.out.println("Best Target IS GETTING UPDATED --------------");
         
