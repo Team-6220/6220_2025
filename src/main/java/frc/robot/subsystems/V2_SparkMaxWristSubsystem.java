@@ -87,6 +87,8 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
     m_Controller.setTolerance(wristTolerance.get());//default 1.5
 
     wristEncoder = wristMotor.getAbsoluteEncoder();
+
+    m_Controller.setGoal(90);//cuz in manuel elevator we're calling wrist drive to goal to maintain it's position
   }
 
   @Override
@@ -183,6 +185,11 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
   {
     return m_Controller.atGoal();
   }
+
+  public double getGoalPosition()
+  {
+    return m_Controller.getGoal().position;
+  } 
 
   public void stop()
   {

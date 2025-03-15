@@ -22,10 +22,13 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeForClimbing;
 import frc.robot.commands.lowerIntakeSet;
+import frc.robot.commands.Autos.BasicBlue;
 import frc.robot.commands.Autos.TestingAutoRed;
 import frc.robot.commands.ElevatorManuel;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.photonAlignCmd;
+import frc.robot.commands.wristDownOneDegree;
+import frc.robot.commands.wristUpOneDegree;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
@@ -77,9 +80,10 @@ public class RobotContainer {
   private final Trigger coralStation = new Trigger(() -> m_buttonBoard.getRawButton(2));
   private final Trigger elevatorIntake = new Trigger(() -> m_joystick.getRawButton(1));
   private final Trigger elevatorOuttake = new Trigger(() -> m_joystick.getRawButton(2));
+  private final Trigger elevatorManuel = new Trigger(() -> m_joystick.getRawButton(5));
   private final Trigger resetEncoder = new Trigger(() -> m_buttonBoard.getRawButton(11));
-  private final Trigger elevatorUp = new Trigger(() -> m_buttonBoard.getRawButton(13));
-  private final Trigger elevatorDown = new Trigger(() -> m_buttonBoard.getRawButton(14));
+  private final Trigger wristUpOneDeg = new Trigger(() -> m_buttonBoard.getRawButton(13));
+  private final Trigger wristDownOneDeg = new Trigger(() -> m_buttonBoard.getRawButton(14));
   private final Trigger groundIntake = new Trigger(() -> m_buttonBoard.getRawButton(15));
   private final Trigger setLowerIntakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
@@ -103,6 +107,12 @@ public class RobotContainer {
   private final Trigger leftReef = new Trigger(() -> m_joystick.getRawButton(3));
   private final Trigger rightReef = new Trigger(() -> m_joystick.getRawButton(4));
 
+
+
+
+
+
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -113,6 +123,7 @@ public class RobotContainer {
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
+    autoChooser.addOption("basic blue", new BasicBlue(s_Swerve));
     // s_Swerve.configureAutoBuilder();
 
     elevator.setDefaultCommand(
@@ -120,6 +131,7 @@ public class RobotContainer {
 
         autoChooser.addOption("Straight Auto", new StraightAuto(s_Swerve));
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
+
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // frontIntake.setDefaultCommand(new lowerIntakeSet());
@@ -158,11 +170,11 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    stage2.onTrue(new Stage2CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
-    stage3.onTrue(new Stage3CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
-    stage4.onTrue(new Stage4CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
+    stage2.onTrue(new Stage2CMD(m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
+    stage3.onTrue(new Stage3CMD(m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
+    stage4.onTrue(new Stage4CMD(m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     
-    coralStation.onTrue(new CoralStationCmd(m_driverController.getHID(), 1, s_Swerve));
+    coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
     groundIntake.whileTrue(new IntakeGround());
@@ -172,6 +184,15 @@ public class RobotContainer {
     lowerOuttakeCoral.whileTrue(new OutakeCoralLowerIntake());
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
     lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
+
+    m_driverController.leftTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
+    m_driverController.rightTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
+    m_driverController.b().whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
+    
+    wristUpOneDeg.onTrue(new wristUpOneDegree());
+    wristDownOneDeg.onTrue(new wristDownOneDegree());
+
+    elevatorManuel.onTrue(new ElevatorManuel(m_joystick));
 
     deAlgaeL2.onTrue(new DeAlgeL2());
     deAlgaeL3.onTrue(new DeAlgeL3());

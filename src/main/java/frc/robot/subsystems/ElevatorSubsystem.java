@@ -177,27 +177,27 @@ public class ElevatorSubsystem extends SubsystemBase {
   
   public void driveToGoal()
   {
-    if(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
-    {
-      while(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
-      {
-        elevatorMotorLeft.setVoltage(2.5);
-        elevatorMotorRight.setVoltage(2.5);
-      }
-      elevatorMotorLeft.setVoltage(0);
-      elevatorMotorRight.setVoltage(0);
-    }
+    // if(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
+    // {
+    //   while(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
+    //   {
+    //     elevatorMotorLeft.setVoltage(2.5);
+    //     elevatorMotorRight.setVoltage(2.5);
+    //   }
+    //   elevatorMotorLeft.setVoltage(0);
+    //   elevatorMotorRight.setVoltage(0);
+    // }
     
-    if(elevatorEncoder.getPosition() > m_Controller.getGoal().position)
-    {
-      while(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
-      {
-        elevatorMotorLeft.setVoltage(-2.5);
-        elevatorMotorRight.setVoltage(-2.5);
-      }
-      elevatorMotorLeft.setVoltage(0);
-      elevatorMotorRight.setVoltage(0);
-    }
+    // if(elevatorEncoder.getPosition() > m_Controller.getGoal().position)
+    // {
+    //   while(elevatorEncoder.getPosition() > m_Controller.getGoal().position)
+    //   {
+    //     elevatorMotorLeft.setVoltage(-2.5);
+    //     elevatorMotorRight.setVoltage(-2.5);
+    //   }
+    //   elevatorMotorLeft.setVoltage(0);
+    //   elevatorMotorRight.setVoltage(0);
+    // }
     feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().velocity);
     profiledMotionOutput = m_Controller.calculate(getElevatorPositionMeters());
     double calculatedSpeed = profiledMotionOutput + feedForwardOutput;

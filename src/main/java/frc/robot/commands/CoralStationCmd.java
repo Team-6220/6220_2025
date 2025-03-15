@@ -33,44 +33,42 @@ public class CoralStationCmd extends Command
    // private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
   private ElevatorSubsystem elevatorSubsystem;
-  private XboxController m_Controller;  
+  // private XboxController m_Controller;  
 
-  private BooleanSupplier autoDrive;
+  // private BooleanSupplier autoDrive;
 
-  private boolean fieldRelative = true;
-  private PhotonVisionSubsystem s_Photon;
-  private Swerve s_Swerve;
+  // private boolean fieldRelative = true;
+  // private PhotonVisionSubsystem s_Photon;
 
-   private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-  private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel = new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
+  //  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
+  // private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
+  // private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
+  // private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
+  // private final TunableNumber xMaxAccel = new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
 
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-  private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel = new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-  private int cameraNum;
-  private double xSetpoint, ySetpoint;
-  private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
-  private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
+  // private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
+  // private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
+  // private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
+  // private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
+  // private final TunableNumber yMaxAccel = new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
+  // private int cameraNum;
+  // private double xSetpoint, ySetpoint;
+  // private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
+  // private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
 
-  public CoralStationCmd(int cameraNum, Swerve s_Swerve, BooleanSupplier autoDrive)
+  public CoralStationCmd()
   {
     // elevator = ElevatorSubsystem.getInstance();
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance();
-    this.m_Controller = null;
-    this.cameraNum = cameraNum;
-    this.s_Swerve = s_Swerve;
-    this.autoDrive = autoDrive;
+    // s_Photon = PhotonVisionSubsystem.getInstance();
+    // this.m_Controller = null;
+    // this.cameraNum = cameraNum;
+    // this.autoDrive = autoDrive;
     addRequirements(wrist, elevatorSubsystem);
-    addRequirements(s_Photon);
+    // addRequirements(s_Photon);
   }
   public CoralStationCmd(XboxController m_Controller, int cameraNum, Swerve s_Swerve)
   {
@@ -78,12 +76,11 @@ public class CoralStationCmd extends Command
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance();
-    this.m_Controller = m_Controller;
-    this.cameraNum = cameraNum;
-    this.s_Swerve = s_Swerve;
+    // s_Photon = PhotonVisionSubsystem.getInstance();
+    // this.m_Controller = m_Controller;
+    // this.cameraNum = cameraNum;
     addRequirements(wrist, elevatorSubsystem);
-    addRequirements(s_Photon);
+    // addRequirements(s_Photon);
   }
 
   // Called when the command is initially scheduled.
@@ -98,46 +95,46 @@ public class CoralStationCmd extends Command
   @Override
   public void execute()  {
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
-    double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
-    double xOutput = 0, yOutput = 0, rotationVal = 0;
-    xOutput = driverInputs[0];
-    yOutput = driverInputs[1];
-    rotationVal = driverInputs[2];
+  //   double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
+  //   double xOutput = 0, yOutput = 0, rotationVal = 0;
+  //   xOutput = driverInputs[0]/5.0;
+  //   yOutput = driverInputs[1]/5.0;
+  //   rotationVal = driverInputs[2]/5.0;
     
-    fieldRelative = true;
+  //   fieldRelative = true;
 
-   if(autoDrive.getAsBoolean() || (m_Controller.getLeftBumperButton() || m_Controller.getRightBumperButton()))
-   {
-      if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
-      {
-        PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
-        if(bestTarget != null)
-        {
-          Transform3d currentPose = bestTarget.getBestCameraToTarget();
+  //  if(autoDrive.getAsBoolean() || (m_Controller.getLeftBumperButton() || m_Controller.getRightBumperButton()))
+  //  {
+  //     if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
+  //     {
+  //       PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
+  //       if(bestTarget != null)
+  //       {
+  //         Transform3d currentPose = bestTarget.getBestCameraToTarget();
           
-          xSetpoint = VisionConstants.centerCoralStationVisionX;
-          ySetpoint = VisionConstants.centerCoralStationVisionY;
+  //         xSetpoint = VisionConstants.centerCoralStationVisionX;
+  //         ySetpoint = VisionConstants.centerCoralStationVisionY;
 
-          xcontroller.setSetpoint(xSetpoint);      
-          ycontroller.setSetpoint(ySetpoint);
-          s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
-          double xout = xcontroller.calculate(currentPose.getX());
-          double yout = ycontroller.calculate(currentPose.getY());
-          double thetaout = s_Swerve.getTurnPidSpeed();
-          SmartDashboard.putNumber("x pid out", xout);
-          SmartDashboard.putNumber("y pid out", yout);
-          SmartDashboard.putNumber("theta pid out", thetaout);
-          xOutput = xout;
-          yOutput = yout;
-          rotationVal = thetaout;
-        }
-        else
-        {
-          System.err.println("APRIL TAG NOT DETECTED");
-        }
-      }
-    }
-    s_Swerve.drive(new Translation2d(-xOutput, -yOutput), -rotationVal, fieldRelative,  false);
+  //         xcontroller.setSetpoint(xSetpoint);      
+  //         ycontroller.setSetpoint(ySetpoint);
+  //         s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
+  //         double xout = xcontroller.calculate(currentPose.getX());
+  //         double yout = ycontroller.calculate(currentPose.getY());
+  //         double thetaout = s_Swerve.getTurnPidSpeed();
+  //         SmartDashboard.putNumber("x pid out", xout);
+  //         SmartDashboard.putNumber("y pid out", yout);
+  //         SmartDashboard.putNumber("theta pid out", thetaout);
+  //         xOutput = xout;
+  //         yOutput = yout;
+  //         rotationVal = thetaout;
+  //       }
+  //       else
+  //       {
+  //         System.err.println("APRIL TAG NOT DETECTED");
+  //       }
+  //     }
+  //   }
+  //   s_Swerve.drive(new Translation2d(xOutput, yOutput), rotationVal, fieldRelative,  false);
     wrist.driveToGoal();
     elevatorSubsystem.driveToGoal();
   }

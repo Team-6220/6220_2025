@@ -36,9 +36,9 @@ public class Stage4CMD extends Command
   private V2_SparkMaxWristSubsystem wrist;
   private XboxController m_Controller;
 
-  private Swerve s_Swerve;
+  // private Swerve s_Swerve;
 
-  private final Supplier<Boolean> leftControl, rightControl;
+  private final Trigger leftControl, rightControl;
 
   private boolean fieldRelative = true;
 
@@ -63,7 +63,7 @@ public class Stage4CMD extends Command
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
-  public Stage4CMD(Swerve s_Swerve, XboxController m_Controller, Supplier<Boolean> leftControl, Supplier<Boolean> rightControl, int cameraNum)
+  public Stage4CMD(XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum)
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -72,12 +72,13 @@ public class Stage4CMD extends Command
     this.rightControl = rightControl;
     this.m_Controller = m_Controller;
     this.cameraNum = cameraNum;
+    // this.s_Swerve = s_Swerve;
     addRequirements(elevator);
     addRequirements(wrist);
-    addRequirements(s_Swerve);
-    addRequirements(s_Photon);
+    // addRequirements(s_Swerve);
+    // addRequirements(s_Photon);
   }
-  public Stage4CMD(Swerve s_Swerve, int cameraNum, Supplier<Boolean> leftControl, Supplier<Boolean> rightControl)
+  public Stage4CMD(int cameraNum, Trigger leftControl, Trigger rightControl)
   {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -86,11 +87,12 @@ public class Stage4CMD extends Command
     this.leftControl = leftControl;
     this.rightControl = rightControl;
     this.m_Controller = null;
+    // this.s_Swerve = s_Swerve;
     this.cameraNum = cameraNum;
-    addRequirements(s_Photon);
+    // addRequirements(s_Photon);
     addRequirements(elevator);
     addRequirements(wrist);
-    addRequirements(s_Swerve);
+    // addRequirements(s_Swerve);
   }
 
   // Called when the command is initially scheduled.
@@ -98,7 +100,7 @@ public class Stage4CMD extends Command
   public void initialize()
   {
     elevator.setGoal(elevHeight.getDefault());
-    wrist.setGoal(elevHeight.getDefault());
+    wrist.setGoal(wristDegrees.getDefault());
     VisionConstants.setTagXYHeightAngle();
   }
 
@@ -106,52 +108,52 @@ public class Stage4CMD extends Command
   @Override
   public void execute()  {
 
-    double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
-    double xOutput = 0, yOutput = 0, rotationVal = 0;
-    xOutput = driverInputs[0];
-    yOutput = driverInputs[1];
-    rotationVal = driverInputs[2];
+    // double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
+    // double xOutput = 0, yOutput = 0, rotationVal = 0;
+    // xOutput = driverInputs[0]/5.0;
+    // yOutput = driverInputs[1]/5.0;
+    // rotationVal = driverInputs[2]/5.0;
     
-    fieldRelative = true;
+    // fieldRelative = true;
 
-    if(leftControl.get() || rightControl.get())
-    {
-      if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
-      {
-        PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
-        if(bestTarget != null)
-        {
-          Transform3d currentPose = bestTarget.getBestCameraToTarget();
-          if(leftControl.get())
-          {
-            xSetpoint = VisionConstants.leftReefX;
-            ySetpoint = VisionConstants.leftReefY;
-          }
-          if(rightControl.get())
-          {
-            xSetpoint = VisionConstants.rightReefX;
-            ySetpoint = VisionConstants.rightReefY;
-          }
-          xcontroller.setSetpoint(xSetpoint);      
-          ycontroller.setSetpoint(ySetpoint);
-          s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
-          double xout = xcontroller.calculate(currentPose.getX());
-          double yout = ycontroller.calculate(currentPose.getY());
-          double thetaout = s_Swerve.getTurnPidSpeed();
-          SmartDashboard.putNumber("x pid out", xout);
-          SmartDashboard.putNumber("y pid out", yout);
-          SmartDashboard.putNumber("theta pid out", thetaout);
-          xOutput = xout;
-          yOutput = yout;
-          rotationVal = thetaout;
-        }
-        else
-        {
-          System.err.println("APRIL TAG NOT DETECTED");
-        }
-      }
-    }
-    s_Swerve.drive(new Translation2d(-xOutput, -yOutput), -rotationVal, fieldRelative,  false);
+    // if(leftControl.getAsBoolean() || rightControl.getAsBoolean())
+    // {
+    //   if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
+    //   {
+    //     PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
+    //     if(bestTarget != null)
+    //     {
+    //       Transform3d currentPose = bestTarget.getBestCameraToTarget();
+    //       if(leftControl.getAsBoolean())
+    //       {
+    //         xSetpoint = VisionConstants.leftReefX;
+    //         ySetpoint = VisionConstants.leftReefY;
+    //       }
+    //       if(rightControl.getAsBoolean())
+    //       {
+    //         xSetpoint = VisionConstants.rightReefX;
+    //         ySetpoint = VisionConstants.rightReefY;
+    //       }
+    //       xcontroller.setSetpoint(xSetpoint);      
+    //       ycontroller.setSetpoint(ySetpoint);
+    //       s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
+    //       double xout = xcontroller.calculate(currentPose.getX());
+    //       double yout = ycontroller.calculate(currentPose.getY());
+    //       double thetaout = s_Swerve.getTurnPidSpeed();
+    //       SmartDashboard.putNumber("x pid out", xout);
+    //       SmartDashboard.putNumber("y pid out", yout);
+    //       SmartDashboard.putNumber("theta pid out", thetaout);
+    //       xOutput = xout;
+    //       yOutput = yout;
+    //       rotationVal = thetaout;
+    //     }
+    //     else
+    //     {
+    //       System.err.println("APRIL TAG NOT DETECTED");
+    //     }
+    //   }
+    // }
+    // s_Swerve.drive(new Translation2d(xOutput, yOutput), rotationVal, fieldRelative,  false);
      
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if(elevHeight.hasChanged())
@@ -173,7 +175,7 @@ public class Stage4CMD extends Command
     // System.out.println("we ended");
     elevator.stop();
     wrist.stop();
-    s_Swerve.stopDriving();
+    // s_Swerve.stopDriving();
   }
 
   // Returns true when the command should end.
