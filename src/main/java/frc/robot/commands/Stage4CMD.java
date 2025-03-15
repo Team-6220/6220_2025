@@ -63,6 +63,9 @@ public class Stage4CMD extends Command
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
+  private int autoCounter = 0;
+
+  boolean isAuto;
   public Stage4CMD(XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum)
   {
     elevator = ElevatorSubsystem.getInstance();
@@ -73,6 +76,7 @@ public class Stage4CMD extends Command
     this.m_Controller = m_Controller;
     this.cameraNum = cameraNum;
     // this.s_Swerve = s_Swerve;
+    isAuto = false;
     addRequirements(elevator);
     addRequirements(wrist);
     // addRequirements(s_Swerve);
@@ -90,6 +94,8 @@ public class Stage4CMD extends Command
     // this.s_Swerve = s_Swerve;
     this.cameraNum = cameraNum;
     // addRequirements(s_Photon);
+    autoCounter = 0;
+    isAuto = true;
     addRequirements(elevator);
     addRequirements(wrist);
     // addRequirements(s_Swerve);
@@ -182,6 +188,14 @@ public class Stage4CMD extends Command
   @Override
   public boolean isFinished()
   {
+    if(isAuto && (Math.abs(elevator.getElevatorPositionMeters() - elevator.getGoal()) < 0.05))
+    {
+      autoCounter ++;
+    }
+    if(autoCounter >= 15)
+    {
+      return true;
+    }
     return false;
   }
 }

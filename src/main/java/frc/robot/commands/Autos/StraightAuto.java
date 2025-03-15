@@ -6,6 +6,7 @@ package frc.robot.commands.Autos;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Swerve;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -25,7 +26,9 @@ public class StraightAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),
-      new InstantCommand(() -> s_swerve.drive(new Translation2d(1, 0), 0, false, false))
-    );
+      new InstantCommand(() -> s_swerve.drive(new Translation2d(1, 0), 0, false, false)),
+      new WaitCommand(1.5),
+      new InstantCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, false, false))
+      );
   }
 }

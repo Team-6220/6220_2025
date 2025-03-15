@@ -22,6 +22,7 @@ public class lowerIntakeSet extends Command {
   @Override
   public void initialize() {
     // m_fiss.maintainFront();
+    m_fiss.setGoal(106);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

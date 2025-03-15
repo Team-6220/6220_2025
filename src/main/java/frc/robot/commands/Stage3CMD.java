@@ -61,6 +61,8 @@ public class Stage3CMD extends Command
   private double xSetpoint, ySetpoint;
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
+  private int autoCounter = 0;
+  private boolean isAuto;
 
   public Stage3CMD(XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum)
   {
@@ -76,6 +78,7 @@ public class Stage3CMD extends Command
     addRequirements(wrist);
     // addRequirements(s_Swerve);
     // addRequirements(s_Photon);
+    isAuto = false;
   }
   public Stage3CMD(int cameraNum, Trigger leftControl, Trigger rightControl)
   {
@@ -86,6 +89,8 @@ public class Stage3CMD extends Command
     this.leftControl = leftControl;
     this.rightControl = rightControl;
     this.m_Controller = null;
+    autoCounter = 0;
+    isAuto = true;
     // this.s_Swerve = s_Swerve;
     this.cameraNum = cameraNum;
     // addRequirements(s_Photon);
@@ -181,6 +186,14 @@ public class Stage3CMD extends Command
   @Override
   public boolean isFinished()
   {
+    if(isAuto && (Math.abs(elevator.getElevatorPositionMeters() - elevator.getGoal()) < 0.05))
+    {
+      autoCounter ++;
+    }
+    if(autoCounter >= 15)
+    {
+      return true;
+    }
     return false;
   }
 }
