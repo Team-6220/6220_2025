@@ -467,7 +467,7 @@ public final class Constants {
         public static final double turnIZone = .4;
 
         //X + Y position Pid Constants for Vision autos
-        public static final double xKP = 1;
+        public static final double xKP = 2.25;
         public static final double xKD = 0;
         public static final double xKI = 0;
         public static final double xMaxVel = 400;
@@ -475,7 +475,7 @@ public final class Constants {
         public static final double xTolerance = 1.75;
         public static final double xIZone = .4;
 
-        public static final double yKP = 1;
+        public static final double yKP = 2.25;
         public static final double yKD = 0;
         public static final double yKI = 0;
         public static final double yMaxVel = 400;
@@ -540,7 +540,7 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
-        public static final double translation_kP = 5;
+        public static final double translation_kP = 2.25;
         public static final double translation_kI = 0.05;
         public static final double translation_kD = 0;
         public static final double rotation_kP = 0.45;
@@ -696,7 +696,7 @@ public final class Constants {
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 9.1;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKv = 8.8;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
         public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
@@ -704,7 +704,7 @@ public final class Constants {
         //if rasiing ks might have to lower kg
         public static final double elevatorIZone = 0.1;
         public static final double elevatorTolerance = .005;
-        public static final double elevatorMaxVel = 1.26;//Ok tune this a little higher/lower//meters per second
+        public static final double elevatorMaxVel = 1;//Ok tune this a little higher/lower//meters per second
         public static final double elevatorMaxAccel = 4;//I think you don't need to tune this one but you can//meters per second square
 
         
@@ -712,7 +712,7 @@ public final class Constants {
         public static final double E_L2 = 0.485757;//This one should be good
         public static final double E_L3 = .929;//This one should be good
         public static final double E_L4 = 1.32;//Maybe final tune this?
-        public static final double E_CoralStation = .210796;//Maybe final tune this?
+        public static final double E_CoralStation = .225796;//Maybe final tune this?
 
         public static final double eleDeAlgeL2 = 0.4;
         public static final double eleDeAlgeL3 = 0.7;
@@ -758,7 +758,7 @@ public final class Constants {
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
         /**volts, used for intake and only intake */
         public static final double wheelSpeed = 3;
-        public static final double idleSpinVoltage = 0.5;
+        public static final double idleSpinVoltage = 1.5;
 
         public static final double maxDegrees = 120;
         public static final double minDegrees = -10;

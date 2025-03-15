@@ -33,42 +33,42 @@ public class CoralStationCmd extends Command
    // private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
   private ElevatorSubsystem elevatorSubsystem;
-  private XboxController m_Controller;  
+  // private XboxController m_Controller;  
 
-  private BooleanSupplier autoDrive;
+  // private BooleanSupplier autoDrive;
 
-  private boolean fieldRelative = true;
-  private PhotonVisionSubsystem s_Photon;
+  // private boolean fieldRelative = true;
+  // private PhotonVisionSubsystem s_Photon;
 
-   private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-  private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel = new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
+  //  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
+  // private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
+  // private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
+  // private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
+  // private final TunableNumber xMaxAccel = new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
 
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-  private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel = new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-  private int cameraNum;
-  private double xSetpoint, ySetpoint;
-  private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
-  private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
+  // private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
+  // private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
+  // private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
+  // private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
+  // private final TunableNumber yMaxAccel = new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
+  // private int cameraNum;
+  // private double xSetpoint, ySetpoint;
+  // private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
+  // private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
 
-  public CoralStationCmd(int cameraNum, BooleanSupplier autoDrive)
+  public CoralStationCmd()
   {
     // elevator = ElevatorSubsystem.getInstance();
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance();
-    this.m_Controller = null;
-    this.cameraNum = cameraNum;
-    this.autoDrive = autoDrive;
+    // s_Photon = PhotonVisionSubsystem.getInstance();
+    // this.m_Controller = null;
+    // this.cameraNum = cameraNum;
+    // this.autoDrive = autoDrive;
     addRequirements(wrist, elevatorSubsystem);
-    addRequirements(s_Photon);
+    // addRequirements(s_Photon);
   }
   public CoralStationCmd(XboxController m_Controller, int cameraNum, Swerve s_Swerve)
   {
@@ -76,11 +76,11 @@ public class CoralStationCmd extends Command
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance();
-    this.m_Controller = m_Controller;
-    this.cameraNum = cameraNum;
+    // s_Photon = PhotonVisionSubsystem.getInstance();
+    // this.m_Controller = m_Controller;
+    // this.cameraNum = cameraNum;
     addRequirements(wrist, elevatorSubsystem);
-    addRequirements(s_Photon);
+    // addRequirements(s_Photon);
   }
 
   // Called when the command is initially scheduled.

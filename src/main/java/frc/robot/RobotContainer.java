@@ -169,7 +169,7 @@ public class RobotContainer {
     stage3.onTrue(new Stage3CMD(m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     stage4.onTrue(new Stage4CMD(m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
     
-    coralStation.onTrue(new CoralStationCmd(m_driverController.getHID(), 1, s_Swerve));
+    coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
     groundIntake.whileTrue(new IntakeGround());
@@ -182,7 +182,8 @@ public class RobotContainer {
 
     m_driverController.leftTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
     m_driverController.rightTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
-
+    m_driverController.b().whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
+    
     elevatorManuel.onTrue(new ElevatorManuel(m_joystick));
 
     deAlgaeL2.onTrue(new DeAlgeL2());

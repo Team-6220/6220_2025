@@ -136,6 +136,7 @@ public class photonAlignCmd extends Command {
   public void end(boolean interrupted) {
     System.out.println("PHOTON ENDED");
     s_Swerve.stopDriving();
+    lockedFiducialID = -1;
   }
 
   // Returns true when the command should end.

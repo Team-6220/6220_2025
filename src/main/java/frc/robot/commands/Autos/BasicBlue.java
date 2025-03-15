@@ -35,7 +35,7 @@ public class BasicBlue extends SequentialCommandGroup {
       new Stage3CMD( 0, new Trigger(() -> true), new Trigger(() -> false)), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
       new EjectCoral(),
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[6], AutoConstants.pathConstraints), //6 for right, 7 for left
-      new CoralStationCmd(0, () -> true),
+      new CoralStationCmd(),
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[0], AutoConstants.pathConstraints),
       new Stage3CMD(0, new Trigger(() -> true), new Trigger(() -> false)), //either Stage2CMD or Stage3CMD; Stage4CMD not finished
       new EjectCoral()
