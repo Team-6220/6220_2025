@@ -355,14 +355,14 @@ public final class Constants {
         /**Degrees */
         public static double[] cameraAngles = {210.0, 135.0, 45.0};
 
-        public static final double centerCoralStationVisionX = .7276439;
-        public static final double centerCoralStationVisionY = .36686135;
+        public static final double centerCoralStationVisionX = .752617;
+        public static final double centerCoralStationVisionY = -.01562;
 
         public static final double leftReefX = .306694653062;
-        public static final double leftReefY = -.019408314649635;
+        public static final double leftReefY = -0.19408314649635;
 
         public static final double rightReefX = .475573;
-        public static final double rightReefY = .2589203;
+        public static final double rightReefY = .2389203;
 
         //aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
 
@@ -710,7 +710,7 @@ public final class Constants {
         
         //These values should be percents
         public static final double E_L2 = 0.485757;//This one should be good
-        public static final double E_L3 = .929;//This one should be good
+        public static final double E_L3 = .879;//This one should be good
         public static final double E_L4 = 1.32;//Maybe final tune this?
         public static final double E_CoralStation = .195796;//Maybe final tune this?
 
@@ -731,9 +731,9 @@ public final class Constants {
         public static final boolean leftMotorInvert = false;
 
         public static final boolean enableCurrentLimit = true;
-        public static final double maxCurrent = 20;
-        public static final double currentLimit = 15;
-        public static final double maxCurrentTime = 1;
+        public static final double maxCurrent = 25;
+        public static final double currentLimit = 20;
+        public static final double maxCurrentTime = 2;
 
         public static final boolean enableStatorCurrentLimit = true;
         public static final double maxStatorCurrent = 40;

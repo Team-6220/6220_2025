@@ -10,6 +10,7 @@ import frc.robot.commands.DeAlgeL3;
 import frc.robot.commands.EjectCoral;
 import frc.robot.commands.IntakeCoral;
 import frc.robot.commands.IntakeGround;
+import frc.robot.commands.LowerIntakeManual;
 import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
@@ -91,6 +92,7 @@ public class RobotContainer {
   private final Trigger lowerIntakeForClimbing = new Trigger(() -> m_buttonBoard.getRawButton(7));// NO SPIN, just put
   private final Trigger deAlgaeL2 = new Trigger(() -> m_buttonBoard.getRawButton(17));
   private final Trigger deAlgaeL3 = new Trigger(() -> m_buttonBoard.getRawButton(18));
+  private final Trigger manuelLowerIntake = new Trigger(() -> m_joystick.getRawButton(6));
                                                                                                   // it down at 0 to
                                                                                                   // make CG banlanced
                                                                                                   // on both sides
@@ -195,12 +197,14 @@ public class RobotContainer {
 
     elevatorManuel.onTrue(new ElevatorManuel(m_joystick));
 
+    manuelLowerIntake.onTrue(new LowerIntakeManual(m_joystick));
+
     deAlgaeL2.onTrue(new DeAlgeL2());
     deAlgaeL3.onTrue(new DeAlgeL3());
 
-    coralStation.whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
-    leftReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
-    rightReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
+    // coralStation.whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
+    // leftReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
+    // rightReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     
