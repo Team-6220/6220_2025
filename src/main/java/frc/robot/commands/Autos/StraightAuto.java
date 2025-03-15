@@ -23,6 +23,8 @@ public class StraightAuto extends SequentialCommandGroup {
   /** Creates a new StrightAuto. */
 
   public StraightAuto(Swerve s_swerve) {
+
+    addRequirements(s_swerve);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

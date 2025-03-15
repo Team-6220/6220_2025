@@ -712,7 +712,7 @@ public final class Constants {
         public static final double E_L2 = 0.485757;//This one should be good
         public static final double E_L3 = .929;//This one should be good
         public static final double E_L4 = 1.32;//Maybe final tune this?
-        public static final double E_CoralStation = .225796;//Maybe final tune this?
+        public static final double E_CoralStation = .185796;//Maybe final tune this?
 
         public static final double eleDeAlgeL2 = 0.4;
         public static final double eleDeAlgeL3 = 0.7;

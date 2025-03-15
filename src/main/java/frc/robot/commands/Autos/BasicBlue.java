@@ -27,6 +27,8 @@ public class BasicBlue extends SequentialCommandGroup {
   public BasicBlue(Swerve s_swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    addRequirements(s_swerve);
+
     addCommands(
       new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),//0 - outter most, 1 - less outter most, 2 - center
       AutoBuilder.pathfindToPose(AutoConstants.waypointPosesBlue[3], AutoConstants.pathConstraints),//pathfind
