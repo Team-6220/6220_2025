@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import org.opencv.core.Mat.Tuple2;
+import org.photonvision.PhotonCamera;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -21,9 +22,12 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.path.PathConstraints;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -53,11 +57,12 @@ public final class Constants {
     
     public static boolean TUNING_MODE = true;
 
-    public static String isRed = "N/A";
+    public static Optional<DriverStation.Alliance> ALLIANCE_COLOR = DriverStation.getAlliance();
 
-    public static final Mass robotMass = Pound.of(112);
+    public static final Mass robotMass = Pound.of(140);
     public static final MomentOfInertia robotMOI = KilogramSquareMeters.of(4.563);
 
+    public static String isRed = "N/A";//FIXME: MAKE AUTO UPDATE ISRED
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
 
@@ -155,6 +160,224 @@ public final class Constants {
         }
     }
 
+    public static final class VisionConstants{
+
+        public static final double fieldBorderMargin = 0.25;
+        public static final double zMargin = 0.5;
+        public static final double xyStdDevCoefficient = 0.02;
+        public static final double thetaStdDevCoefficient = 0.04;
+        public static final double ambiguityThreshold = 0.15;
+
+        public static final Translation2d fieldSize = new Translation2d(16.54, 8.21);
+
+        public static final String LIMELIGHT3_NAME_STRING = "limelight";
+        public static final String LIMELIGHT2_NAME_STRING = "Limelight_2";
+
+
+        public static final Pose2d SPEAKER_POSE2D_BLUE = new Pose2d(new Translation2d(-.0381, 5.547868), new Rotation2d(0));
+        public static final Pose2d SPEAKER_POSE2D_RED = new Pose2d(new Translation2d(16.5793, 5.547868), new Rotation2d(180));
+        public static final Pose2d AMP_POSE2D_RED = new Pose2d(new Translation2d(Units.inchesToMeters(580.77), Units.inchesToMeters(323-7.25)), new Rotation2d(270));
+        public static final Pose2d AMP_POSE2D_BLUE = new Pose2d(new Translation2d(Units.inchesToMeters(72.5), Units.inchesToMeters(323-7.25)), new Rotation2d(270));
+
+        
+        public static final Translation2d CENTER_OF_FIELD = new Translation2d(8.2706,4.105148);
+        //FIXME: set limelight values
+        public static final double limelightHeightInches = 0;
+        public static final double limelightAngleDegrees = 0;
+
+        // public static final Transform3d camToCenterRobotZero = new Transform3d(new Translation3d(-.254, -.254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
+        // public static final Transform3d camToCenterRobotOne = new Transform3d(new Translation3d(.254, .254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-50).getRadians(),0));//Cam mounted facing forward, half a meter forward of center, half a meter up from center. //TODO: need change
+
+        public static final Transform3d[] camerasToCenter = {
+            new Transform3d(new Translation3d(.256032, -0.26035, 0.21209), new Rotation3d(0,Rotation2d.fromDegrees(-35).getRadians(),Rotation2d.fromDegrees(24.12).getRadians())),// Cam zero, left//TODO: need change
+            new Transform3d(new Translation3d(.252222, 0.258318, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-35).getRadians(),Rotation2d.fromDegrees(-16.90).getRadians()))//Cam one, right //TODO: need chagne
+        };
+
+        public static final double leftArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
+        public static final double rightArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
+
+        /**Trust value of the vision */
+        public static final double visionStdDev = 0.5;
+
+        //Height in inches for all April Tags in order from 1 to 22
+        public static final double[] aprilTagHeightInches = 
+        {
+            55.25,
+            55.25,
+            47.88,
+            70.73,
+            70.73,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            55.25,
+            55.25,
+            47.88,
+            70.73,
+            70.73,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            8.75,
+            8.75
+        };
+
+        public static final double[] aprilTagCoordsX = {
+            657.37,
+            657.37,
+            455.15,
+            365.20,
+            365.20,
+            530.49,
+            546.87,
+            530.49,
+            497.77,
+            481.39,
+            497.77,
+            33.51,
+            33.51,
+            325.68,
+            325.68,
+            235.73,
+            160.39,
+            144.00,
+            160.39,
+            193.10,
+            209.49,
+            193.10
+        };
+
+        public static final double[] aprilTagCoordsY = {
+            25.80,
+            291.20,
+            317.15,
+            241.64,
+            75.39,
+            130.17,
+            158.50,
+            186.83,
+            186.83,
+            158.50,
+            130.17,
+            25.80,
+            291.20,
+            241.64,
+            75.39,
+            -0.15,
+            130.17,
+            158.50,
+            186.83,
+            186.83,
+            158.50,
+            130.17
+        };
+
+        public static final double[] aprilTagAngle = {
+            126.0,
+            234.0,
+            270.0,
+            0.0,
+            0.0,
+            300.0,
+            0.0,
+            60.0,
+            120.0,
+            180.0,
+            240.0,
+            54.0,
+            306.0,
+            180.0,
+            180.0,
+            90.0,
+            240.0,
+            180.0,
+            120.0,
+            60.0,
+            0.0,
+            300.0
+        };
+
+        AprilTag[] apriltags2025 =
+        {
+            new AprilTag(1, new Pose3d(16.687292, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883678))),
+            new AprilTag(2, new Pose3d(16.687292, 7.414259999999999, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883679))),
+            new AprilTag(3, new Pose3d(11.49096, 8.031733999999998, 1.30175, new Rotation3d(0.0, 0.0, 0.7071067811865476))),
+            new AprilTag(4, new Pose3d(9.276079999999999, 6.132575999999999, 1.8679160000000001, new Rotation3d(0.0, 0.25881904510252074, 0.0))),
+            new AprilTag(5, new Pose3d(9.276079999999999, 1.9098259999999998, 1.8679160000000001, new Rotation3d(0.0, 0.25881904510252074, 0.0))),
+            new AprilTag(6, new Pose3d(13.474446, 3.3012379999999997, 0.308102, new Rotation3d(0.0, 0.0, 0.49999999999999994))),
+            new AprilTag(7, new Pose3d(13.890498, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 0.0))),
+            new AprilTag(8, new Pose3d(13.474446, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.49999999999999994))),
+            new AprilTag(9, new Pose3d(12.643358, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844386))),
+            new AprilTag(10, new Pose3d(12.227305999999999, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 1.0))),
+            new AprilTag(11, new Pose3d(12.643358, 3.3012379999999997, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844387))),
+            new AprilTag(12, new Pose3d(0.8613139999999999, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.45399049973954675))),
+            new AprilTag(13, new Pose3d(0.8613139999999999, 7.414259999999999, 1.4859, new Rotation3d(0.0, 0.0, 0.45399049973954686))),
+            new AprilTag(14, new Pose3d(8.272272, 6.132575999999999, 1.8679160000000001, new Rotation3d(-0.25881904510252074, 1.5848095757158825e-17, 0.9659258262890683))),
+            new AprilTag(15, new Pose3d(8.272272, 1.9098259999999998, 1.8679160000000001, new Rotation3d(-0.25881904510252074, 1.5848095757158825e-17, 0.9659258262890683))),
+            new AprilTag(16, new Pose3d(6.057646, 0.010667999999999999, 1.30175, new Rotation3d(0.0, 0.0, 0.7071067811865476))),
+            new AprilTag(17, new Pose3d(4.073905999999999, 3.3012379999999997, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844387))),
+            new AprilTag(18, new Pose3d(3.6576, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 1.0))),
+            new AprilTag(19, new Pose3d(4.073905999999999, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844386))),
+            new AprilTag(20, new Pose3d(4.904739999999999, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.49999999999999994))),
+            new AprilTag(21, new Pose3d(5.321046, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 0.0))),
+            new AprilTag(22, new Pose3d(4.904739999999999, 3.3012379999999997, 0.308102, new Rotation3d(0.0, 0.0, 0.49999999999999994)))
+        };
+
+
+        //creates a hash map of the X Y and Height in that order for april tags
+        public static HashMap<Integer, ArrayList<Double>> aprilTagXYHeightAngle = new HashMap<Integer, ArrayList<Double>>();
+
+        public static HashMap<Integer, Double[]> cameraSpecs = new HashMap<Integer, Double[]>();
+
+        public static void setTagXYHeightAngle() {
+            for (int i = 1; i <= aprilTagAngle.length; i++) {
+                aprilTagXYHeightAngle.put(i, new ArrayList<Double>());
+                aprilTagXYHeightAngle.get(i).add(aprilTagCoordsX[i - 1]);
+                aprilTagXYHeightAngle.get(i).add(aprilTagCoordsY[i - 1]);
+                aprilTagXYHeightAngle.get(i).add(aprilTagHeightInches[i - 1]);
+                aprilTagXYHeightAngle.get(i).add(aprilTagAngle[i - 1]);
+            }
+            System.out.print(aprilTagXYHeightAngle);
+            for (int x = 0; x < 3; x++) {
+                cameraSpecs.put(x, new Double[2]);
+                cameraSpecs.get(x)[0] = cameraHeight[x];
+                cameraSpecs.get(x)[1] = cameraAngles[x];
+            }
+        }
+
+        //                                     bottom right     top right       top left
+        public static double[] cameraHeight = {29.5 + 1.724, 35.707 + 1.724, 35.707 + 1.724};
+
+        /**Degrees */
+        public static double[] cameraAngles = {210.0, 135.0, 45.0};
+
+        public static final double centerCoralStationVisionX = .7276439;
+        public static final double centerCoralStationVisionY = .27686135;
+
+        public static final double leftReefX = .306694653062;
+        public static final double leftReefY = -.019408314649635;
+
+        public static final double rightReefX = .475573;
+        public static final double rightReefY = .2589203;
+
+        //aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
+
+        public static final double heightOfCamAboveFloor = 2; //TODO: CAD SPECS
+        public static final double speakerTagID = ALLIANCE_COLOR.isPresent()
+                                            ?
+                                                ALLIANCE_COLOR.get() == DriverStation.Alliance.Red
+                                                ?
+                                                    4d
+                                                :
+                                                    7d
+                                            :
+                                                -1d;
+    }
+
     public static final class SwerveConstants {
 
         public static int swerveAlignUpdateSecond = 20;
@@ -178,7 +401,7 @@ public final class Constants {
 
         /* Swerve Kinematics 
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
-         public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
+        public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
@@ -235,13 +458,30 @@ public final class Constants {
 
 
         //Turning Pid Constants
-        public static final double turnKP = 5;
+        public static final double turnKP = 1;
         public static final double turnKD = 0;
         public static final double turnKI = 1.7;
         public static final double turnMaxVel = 400;
         public static final double turnMaxAccel = 800;
         public static final double turnTolerance = 1.75;
         public static final double turnIZone = .4;
+
+        //X + Y position Pid Constants for Vision autos
+        public static final double xKP = 5;
+        public static final double xKD = 0;
+        public static final double xKI = 0;
+        public static final double xMaxVel = 400;
+        public static final double xMaxAccel = 800;
+        public static final double xTolerance = 1.75;
+        public static final double xIZone = .4;
+
+        public static final double yKP = 5;
+        public static final double yKD = 0;
+        public static final double yKI = 0;
+        public static final double yMaxVel = 400;
+        public static final double yMaxAccel = 800;
+        public static final double yTolerance = 1.75;
+        public static final double yIZone = .4;
 
         /* Swerve Profiling Values */
         /** Meters per Second */
@@ -251,8 +491,7 @@ public final class Constants {
 
         /* Neutral Modes */
         public static final IdleMode angleNeutralMode = IdleMode.kBrake;
-        public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
-
+        public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;        
        /* Module Specific Constants */
         // Back Right Module 0
         public static final class Mod0 { //FIXME: This must be tuned to specific robot
@@ -351,6 +590,25 @@ public final class Constants {
 
         public static final double bufferVelocityForShooting = 2;
 
+        public static final Pose2d[] waypointPosesBlue = {
+            new Pose2d(2.4, 4.1, new Rotation2d(0)), //first (closest to the drivers) reef pose
+            new Pose2d(3.37, 2.3, new Rotation2d(Math.PI / 3)), //second reef pose rotating ccw
+            new Pose2d(5.55, 2.28, new Rotation2d(2 * Math.PI / 3)), //third
+            new Pose2d(6.59, 3.95, new Rotation2d(Math.PI)), //fourth
+            new Pose2d(5.6, 5.8, new Rotation2d(-2 * Math.PI / 3)), //fifth
+            new Pose2d(3.55, 5.86, new Rotation2d(-1 * Math.PI / 3)), //sixth
+            new Pose2d(1.62, 1.37, new Rotation2d(-.7 * Math.PI)), //coral station to the right of drivers
+            new Pose2d(1.46, 6.72, new Rotation2d(.7 * Math.PI)), //coral station to the left of drivers
+            new Pose2d(11.53, 7.1, new Rotation2d(Math.PI / 2)) //processor
+        };
+
+        public static final Pose2d[] startPosesBlue = {
+            new Pose2d(7.58, 7.25, new Rotation2d(0)), //outermost start pos for blue
+            new Pose2d(7.58, 6.15, new Rotation2d(0)),
+            new Pose2d(7.58, 5/06, new Rotation2d(0))
+        };
+
+
         // public static double firstShootDelayInSeconds = 0.2;
 
         // public static int howManyNotesAreWeAttempting = 2;
@@ -383,14 +641,35 @@ public final class Constants {
         public static final IdleMode wristIdleMode = IdleMode.kBrake;
         
         public static final boolean encoderInverted = false;
+        /*on branch tune_lower_intake PID&FF start (not really tuned) */
+        // public static final int stallLimit = 10;
+        // public static final int freeLimit = 10;
+        
+        // public static final double kP = 0.00, kI = 0, kD = 0, izone = 2, tolerance = .5;
+        // public static final double kS = 0, kG = .19, kV = .53, kA = 0;
+        // public static final double allowedClosedLoopError = 0.5;
+        // public static final double maxAcceleration = 720, maxVelocity = 360;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
+        // public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
+        /*on branch tune_lower_intake PID&FF end (not really tuned) */
+        public static final double L2 = -48.8018;
+        public static final double L3 = -46.2412;
+        public static final double L4 = -8;
+        public static final double coralStation = 35.81813;
+
+        public static final double deAlgeL2 = -40;
+        public static final double deAlgeL3 = -40;
+
+
+        /*on branch scrimage v2 PID&FF start (not really tuned) */
         public static final int stallLimit = 5;
         public static final int freeLimit = 20;
         
-        public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = 1.5;
+        public static final double kP = 0.08, kI = 0, kD = 0, izone = 2, tolerance = 1.0;
         public static final double kS = 0, kG = .25, kV = 0, kA = 0;
         public static final double allowedClosedLoopError = 0.5;
         public static final double maxAcceleration = 5000, maxVelocity = 10000;//Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in units of Revolutions per Minute (RPM)
         public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
+        /*on branch scrimage v2 PID&FF end (not really tuned) */
     }
     public static final class ElevatorConstants{
         //TODO: TUNE ALL THESE VALUES
@@ -400,76 +679,94 @@ public final class Constants {
 
         public static final int leftMotorID = 13;
         public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
-        public static final boolean leftMotorInvert = false ;
+        public static final boolean leftMotorInvert = false;
 
-        public static final int stallLimit = 5;
-        public static final int freeLimit = 20;
+        public static final int stallLimit = 21;
+        public static final int freeLimit = 21;
+
+        public static final double elevatorOffset = 0; //FOR COMP
 
         public static final double elevatorEncoderOffset = 0;//TODO: SET THIS
         public static final int elevatorEncoderID = 1;
 
-        public static final double elevatorKp = 0.01;
+        public static final double elevatorKp = 0.0;
         public static final double elevatorKi = 0.0;
         public static final double elevatorKd = 0.0;
-        public static final double elevatorKg = 0.32;//Tune this first
+        public static final double elevatorKg = 0.23;//Tune this first
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 17.44;//frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
-        public static final double elevatorKa = 0.05; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
+        public static final double elevatorKv = 9.1;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
         //if it's getting stuck to go down or up then increase ks by a little bit to fight friction
         //if rasiing ks might have to lower kg
-        public static final double elevatorIZone = 3.0;
-        public static final double elevatorTolerance = 1.5;
-        public static final double elevatorMaxVel = 0.5;
-        public static final double elevatorMaxAccel = 0.5;
+        public static final double elevatorIZone = 0.1;
+        public static final double elevatorTolerance = .005;
+        public static final double elevatorMaxVel = 1.26;//Ok tune this a little higher/lower//meters per second
+        public static final double elevatorMaxAccel = 4;//I think you don't need to tune this one but you can//meters per second square
 
         
         //These values should be percents
-        public static final double L2HeightRaw = 0.7;//TODO: CHANGE THESE
-        public static final double L3HeightRaw = 15.0;//TODO: CHANGE THESE
-        public static final double L4HeightRaw = 20.0;//TODO: CHANGE THESE
+        public static final double E_L2 = 0.485757;//This one should be good
+        public static final double E_L3 = .929;//This one should be good
+        public static final double E_L4 = 1.32;//Maybe final tune this?
+        public static final double E_CoralStation = .210796;//Maybe final tune this?
+
+        public static final double eleDeAlgeL2 = 0.4;
+        public static final double eleDeAlgeL3 = 0.7;
 
         public static final double lowerEncoderExtreme = 0.0; 
-        public static final double upperEncoderExtreme = 55.0;
-
-        // lower limit + ((upper limmit - lower limit) * level Percent) - formula for heights
-        public static final double encoderFormula = lowerEncoderExtreme + ((upperEncoderExtreme - lowerEncoderExtreme));
-    }
+        public static final double upperEncoderExtreme = 1.32;
+        }
     public static final class FrontIntakeConstants{
         //TODO: TUNE ALL THESE VALUES
         public static final int rightMotorID = 15; //nonclimber
-        public static final IdleMode rightMotorIdleMode = IdleMode.kCoast;
+        public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
         public static final boolean rightMotorInvert = true;
 
         public static final int leftMotorID = 16; //climber
-        public static final IdleMode leftMotorIdleMode = IdleMode.kCoast;
+        public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
         public static final boolean leftMotorInvert = false;
 
         public static final boolean enableCurrentLimit = true;
-        public static final double maxCurrent = 25;
-        public static final double currentLimit = 10;
+        public static final double maxCurrent = 20;
+        public static final double currentLimit = 15;
         public static final double maxCurrentTime = 1;
 
-        public static final int stallLimit = 8; //amps
+        public static final boolean enableStatorCurrentLimit = true;
+        public static final double maxStatorCurrent = 40;
+
+        public static final int stallLimit = 25; //amps
         public static final int freeLimit = 25; //amps
 
         public static final int frontMotorID = 19; 
+
         public static final IdleMode frontMotorIdleMode = IdleMode.kCoast;
         public static final boolean frontMotorInvert = false;
-        public static final double frontIntakeKp = 0.4;//.4;
-        public static final double frontIntakeKi = 0;
-        public static final double frontIntakeKd = 0;
-        public static final double frontIntakeKg = 0.01;//.01;
-        public static final double frontIntakeKv = 0;
+        public static final double frontIntakeKp = .05;//.4;
+        public static final double frontIntakeKi = 0.05;
+        public static final double frontIntakeKd = 0.0;
+        public static final double frontIntakeKa = 0.0;
+        public static final double frontIntakeKg = 0.87;//.01;
+        public static final double frontIntakeKv = 0.35;
         public static final double frontIntakeKs = 0;
-        public static final double frontIntakeIZone = 0;
-        public static final double frontIntakeTolerance = 1.5;
-        public static final double frontIntakeMaxVel = 5;
-        public static final double frontIntakeMaxAccel = 10;
-        public static final double wheelSpeed = 10; //volts
+        public static final double frontIntakeIZone = 5;
+        public static final double frontIntakeTolerance = 0.5;
+        public static final double frontIntakeMaxVel = 200;
+        public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
+        /**volts, used for intake and only intake */
+        public static final double wheelSpeed = 3;
+        public static final double idleSpinVoltage = 0.5;
+
+        public static final double maxDegrees = 120;
+        public static final double minDegrees = -10;
+
+        public static final double intakeAlgeaSetpoint = 65;
+        public static final double intakeCoralSetpoint = -5;
+        public static final double idleSetpoint = 106;
+
     }
     public static final class WristIntakeConstants {
         public static final NeutralModeValue INTAKENEU_NEUTRAL_MODE = NeutralModeValue.Brake;
@@ -482,5 +779,4 @@ public final class Constants {
         public static final double currentLimit = 5;
         public static final double maxCurrentTime = 1;
     }
-
 }

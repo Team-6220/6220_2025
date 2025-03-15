@@ -24,7 +24,7 @@ public class WristPIDTest extends Command {
   @Override
   public void execute()
   {
-    wrist.driveToGoal(-107);
+    // wrist.driveToGoal(-107);
   }
 
   // Called once the command ends or is interrupted.

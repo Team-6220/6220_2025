@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.PhotonVisionSubsystem;
+
+import java.util.ArrayList;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -22,7 +26,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+  private ArrayList<Command> m_autonomousCommandList;
+
   public static final CTREConfigs ctreConfigs = new CTREConfigs();
+
+  private final PhotonVisionSubsystem vision = PhotonVisionSubsystem.getInstance();
 
   private final RobotContainer m_robotContainer;
 
@@ -37,8 +45,9 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
+    VisionConstants.setTagXYHeightAngle();
   }
-
+  
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -54,18 +63,18 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }
-
+  
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}
-
+  
   @Override
   public void disabledPeriodic() {}
-
+  
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-
+    VisionConstants.setTagXYHeightAngle();
     Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
@@ -85,6 +94,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
   }
 
   /** This function is called periodically during autonomous. */

@@ -9,19 +9,14 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SoftLimitConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -55,7 +50,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final ProfiledPIDController m_Controller;
   private ElevatorFeedforward m_Feedforward;
   private TrapezoidProfile.Constraints m_Constraints;
-  private double feedForwardOutput, PIDOutput;
+  private double feedForwardOutput, profiledMotionOutput;
   private double lastUpdate = 0;
 
   private String tableKey = "Elevator_";
@@ -96,6 +91,22 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorEncoder = elevatorMotorLeft.getEncoder(); //used right side because it provide positive values
     elevatorEncoder.setPosition(0);
   }
+
+  /**moves the elevator down all the way & when the current is high it knows it's at zero & reset accordingly */
+  // public void initResetEncoder()
+  // {
+  //   while(elevatorMotorLeft.getOutputCurrent() <= 0.05)
+  //   {
+  //     double goingDownVolt = -5;
+  //     elevatorMotorLeft.setVoltage(goingDownVolt);
+  //     elevatorMotorRight.setVoltage(goingDownVolt);
+  //     System.out.println("reseting elevator");
+  //   }
+  //   elevatorMotorLeft.setVoltage(0);
+  //   elevatorMotorRight.setVoltage(0);
+  //   resetEncoder();
+  //   System.out.println("Reset elevator encoder");
+  // }
   
   @Override
   public void periodic() {
@@ -141,16 +152,10 @@ public class ElevatorSubsystem extends SubsystemBase {
           m_Controller.setTolerance(elevatorTolerance.get());
         }
   }
-  
-  public void driveToGoal(double goal)
+
+  public void setGoal(double goal)
   {
-    if(Timer.getFPGATimestamp() - 0.2 > lastUpdate)
-    {
-      resetPID();
-    }
-
-    lastUpdate = Timer.getFPGATimestamp();
-
+    resetPID();
     if(goal > ElevatorConstants.upperEncoderExtreme)
     {
       goal = ElevatorConstants.upperEncoderExtreme;
@@ -162,22 +167,51 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     m_Controller.setGoal(goal);
+    System.out.println("Updated elevator goal******************** w/ new goal " + goal);
+  }
 
-    PIDOutput = m_Controller.calculate(getElevatorPositionMeters());
-
-    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().position, m_Controller.getSetpoint().velocity);
-    double calculatedSpeed = PIDOutput + feedForwardOutput;
-
-        
-    SmartDashboard.putNumber(tableKey + "Elevator Goal", goal);
-
+  public double getGoal()
+  {
+    return m_Controller.getGoal().position;
+  }
+  
+  public void driveToGoal()
+  {
+    // if(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
+    // {
+    //   while(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
+    //   {
+    //     elevatorMotorLeft.setVoltage(2.5);
+    //     elevatorMotorRight.setVoltage(2.5);
+    //   }
+    //   elevatorMotorLeft.setVoltage(0);
+    //   elevatorMotorRight.setVoltage(0);
+    // }
+    
+    // if(elevatorEncoder.getPosition() > m_Controller.getGoal().position)
+    // {
+    //   while(elevatorEncoder.getPosition() > m_Controller.getGoal().position)
+    //   {
+    //     elevatorMotorLeft.setVoltage(-2.5);
+    //     elevatorMotorRight.setVoltage(-2.5);
+    //   }
+    //   elevatorMotorLeft.setVoltage(0);
+    //   elevatorMotorRight.setVoltage(0);
+    // }
+    feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().velocity);
+    profiledMotionOutput = m_Controller.calculate(getElevatorPositionMeters());
+    double calculatedSpeed = profiledMotionOutput + feedForwardOutput;
     elevatorMotorLeft.setVoltage(calculatedSpeed);
     elevatorMotorRight.setVoltage(calculatedSpeed);
+    SmartDashboard.putNumber(tableKey + "Elevator Goal", m_Controller.getGoal().position);
     SmartDashboard.putNumber(tableKey + "positionError", m_Controller.getPositionError());
     // SmartDashboard.putNumber(tableKey ;
     SmartDashboard.putNumber(tableKey + "calculated Speed", calculatedSpeed);
     SmartDashboard.putNumber(tableKey + "ffOutput", feedForwardOutput);
-    SmartDashboard.putNumber(tableKey + "PIDOutput", PIDOutput);
+    SmartDashboard.putNumber(tableKey + "PIDOutput", profiledMotionOutput);
+    SmartDashboard.putNumber(tableKey + "setpoint velocity", m_Controller.getSetpoint().velocity);
+    SmartDashboard.putNumber(tableKey + "setpoint position", m_Controller.getSetpoint().position);
+    SmartDashboard.putBoolean(tableKey + "at setpoint", m_Controller.atSetpoint());
     // SmartDashboard.putNumber(tableKey + "current Elevator pos", getElevatorPositionMeters());
   }
 
@@ -195,7 +229,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public double getElevatorPositionMeters()
   {
     //Pivit position
-    double elevatorPosition = elevatorEncoder.getPosition() * (1/20) * 5.4978 * .0254 * 2;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
+    double elevatorPosition = elevatorEncoder.getPosition() * (1.0/20.0) * 5.4978 * .0254 * 2.0;//* gear reatio * circum of sprocket * convert inches to meters * second stage move x2 as fast as first stage*/
     return elevatorPosition;
   }
 
@@ -221,6 +255,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void stop(){
     elevatorMotorRight.set(0);
+    elevatorMotorLeft.set(0);
     m_Controller.reset(getElevatorPositionRaw());
   }
 
