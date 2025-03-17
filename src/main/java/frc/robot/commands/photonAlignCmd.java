@@ -45,14 +45,12 @@ public class photonAlignCmd extends Command {
   private int lockedFiducialID = -1;
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
-  CommandXboxController m_driverController;
   // private PhotonTrackedTarget bestTarget;
   
   /** Creates a new photonAlign. */
-  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double xSetpoint, double ySetpoint, CommandXboxController m_driverController)
+  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double xSetpoint, double ySetpoint)
   {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_driverController = m_driverController;
     s_Photon = PhotonVisionSubsystem.getInstance();
     this.s_Swerve = s_Swerve;
     addRequirements(s_Photon, s_Swerve);
@@ -110,12 +108,10 @@ public class photonAlignCmd extends Command {
             SmartDashboard.putNumber("y pid out", yout);
             SmartDashboard.putNumber("theta pid out", thetaout);
             s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[tar.getFiducialId()-1]);
-            double[] driverInputs = OIConstants.getDriverInputs(m_driverController.getHID());
-            s_Swerve.drive(new Translation2d(-xout, -yout), driverInputs[2], false, false);
-            Transform3d camToTar = tar.getBestCameraToTarget();
-          SmartDashboard.putNumber("camera to pose x", camToTar.getX());
-          SmartDashboard.putNumber("camera to pose y", camToTar.getY());
-          SmartDashboard.putNumber("camera to pose z", camToTar.getZ());
+            s_Swerve.drive(new Translation2d(-xout, -yout), -thetaout, false, false);
+          SmartDashboard.putNumber("camera to pose x", currentPose.getX());
+          SmartDashboard.putNumber("camera to pose y", currentPose.getY());
+          SmartDashboard.putNumber("camera to pose z", currentPose.getZ());
 
           SmartDashboard.putNumber("id", tar.fiducialId);
           SmartDashboard.putNumber("pitch", tar.pitch);

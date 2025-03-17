@@ -188,9 +188,9 @@ public class RobotContainer {
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
     // lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
 
-    m_driverController.leftTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY, m_driverController));
-    m_driverController.rightTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY, m_driverController));
-    m_driverController.b().whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY, m_driverController));
+    m_driverController.leftTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
+    m_driverController.rightTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
+    m_driverController.b().whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
     
     wristUpOneDeg.onTrue(new wristUpOneDegree());
     wristDownOneDeg.onTrue(new wristDownOneDegree());
