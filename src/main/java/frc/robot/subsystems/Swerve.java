@@ -147,7 +147,7 @@ public class Swerve extends SubsystemBase {
      */
     public Swerve() {
         gyro = new AHRS(NavXComType.kMXP_SPI, NavXUpdateRate.k200Hz);
-
+        // configureAutoBuilder();
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, SwerveConstants.Mod0.constants),
@@ -350,7 +350,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void zeroHeading(XboxController driverController){
-        double offset = Constants.ALLIANCE_COLOR.equals("red") ? 0 : Math.PI;
+        double offset = Constants.isRed.equals("red") ? 0 : Math.PI;
         poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d(offset)));
         RumbleManager.rumble(driverController, .2);
     }
@@ -512,7 +512,7 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
-        SmartDashboard.putBoolean("is Red", Constants.ALLIANCE_COLOR.equals("red"));
+        SmartDashboard.putBoolean("is Red", Constants.isRed.equals("red"));
         Double timestamp = Timer.getFPGATimestamp();
         // gyro_headings.put(timestamp, getHeading());
         // gyro_timestamps.addFirst(timestamp);

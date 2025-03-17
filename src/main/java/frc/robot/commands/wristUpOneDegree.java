@@ -5,39 +5,40 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.lib.util.TunableNumber;
-import frc.robot.Constants.FrontIntakeConstants;
-import frc.robot.subsystems.frontIntakeSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class lowerIntakeSet extends Command {
-  private frontIntakeSubsystem m_fiss;
-  public lowerIntakeSet() {
-    m_fiss = frontIntakeSubsystem.getInstance();
-    addRequirements(m_fiss);
+public class wristUpOneDegree extends Command {
+  V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();
+  ElevatorSubsystem elev = ElevatorSubsystem.getInstance();
+  public wristUpOneDegree() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(wrist, elev);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    // m_fiss.maintainFront();
-    m_fiss.setGoal(115);
+  public void initialize()
+  {
+    System.out.println("wrist up init");
+    wrist.setGoal(wrist.getGoalPosition()+1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_fiss.simpleintakeDrive(0);
-    m_fiss.swingToGoal();
-    // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
+  public void execute()
+  {
+    elev.driveToGoal();
+    wrist.driveToGoal();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_fiss.simpleintakeDrive(0);
-    m_fiss.resetPID();
+  public void end(boolean interrupted)
+  {
+    elev.stop();
+    wrist.stop();
   }
 
   // Returns true when the command should end.

@@ -52,7 +52,6 @@ public class lowerIntakeAlgeaPickUp extends Command {
     // m_fiss.simpleintakeDrive(0);
     m_fiss.resetPID();
     m_fiss.setFront(-FrontIntakeConstants.idleSpinVoltage);
-    m_fiss.setGoal(106);
   }
 
   // Returns true when the command should end.

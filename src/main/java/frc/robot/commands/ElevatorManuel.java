@@ -7,27 +7,30 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorManuel extends Command {
   /** Creates a new ElevatorManuel. */
   ElevatorSubsystem elevSub = ElevatorSubsystem.getInstance();
+  V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();
   Joystick m_joystick;
   public ElevatorManuel(Joystick m_joystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_joystick = m_joystick;
-    addRequirements(elevSub);
+    addRequirements(elevSub, wrist);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize(){}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute()
   {
     elevSub.simpleDrive(-m_joystick.getY()); 
+    wrist.driveToGoal();
   }
 
   // Called once the command ends or is interrupted.

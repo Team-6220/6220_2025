@@ -355,14 +355,14 @@ public final class Constants {
         /**Degrees */
         public static double[] cameraAngles = {210.0, 135.0, 45.0};
 
-        public static final double centerCoralStationVisionX = .7276439;
-        public static final double centerCoralStationVisionY = .27686135;
+        public static final double centerCoralStationVisionX = .72387872;
+        public static final double centerCoralStationVisionY = .053628;
 
-        public static final double leftReefX = .306694653062;
-        public static final double leftReefY = -.019408314649635;
+        public static final double leftReefX = .3;
+        public static final double leftReefY = -0.027159;
 
         public static final double rightReefX = .475573;
-        public static final double rightReefY = .2589203;
+        public static final double rightReefY = .2389203;
 
         //aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
 
@@ -467,7 +467,7 @@ public final class Constants {
         public static final double turnIZone = .4;
 
         //X + Y position Pid Constants for Vision autos
-        public static final double xKP = 5;
+        public static final double xKP = 2.25;
         public static final double xKD = 0;
         public static final double xKI = 0;
         public static final double xMaxVel = 400;
@@ -475,7 +475,7 @@ public final class Constants {
         public static final double xTolerance = 1.75;
         public static final double xIZone = .4;
 
-        public static final double yKP = 5;
+        public static final double yKP = 2.25;
         public static final double yKD = 0;
         public static final double yKI = 0;
         public static final double yMaxVel = 400;
@@ -540,7 +540,7 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
-        public static final double translation_kP = 5;
+        public static final double translation_kP = 2.25;
         public static final double translation_kI = 0.05;
         public static final double translation_kD = 0;
         public static final double rotation_kP = 0.45;
@@ -605,7 +605,10 @@ public final class Constants {
         public static final Pose2d[] startPosesBlue = {
             new Pose2d(7.58, 7.25, new Rotation2d(0)), //outermost start pos for blue
             new Pose2d(7.58, 6.15, new Rotation2d(0)),
-            new Pose2d(7.58, 5/06, new Rotation2d(0))
+            new Pose2d(7.58, 5.06, new Rotation2d(0)),
+            new Pose2d(7.58, 3, new Rotation2d(0)),
+            new Pose2d(7.58, 1.9, new Rotation2d(0)),
+            new Pose2d(7.58, .8, new Rotation2d(0))
         };
 
 
@@ -656,8 +659,8 @@ public final class Constants {
         public static final double L4 = -8;
         public static final double coralStation = 35.81813;
 
-        public static final double deAlgeL2 = -40;
-        public static final double deAlgeL3 = -40;
+        public static final double deAlgeL2 = -20.746;
+        public static final double deAlgeL3 = 14.0514;
 
 
         /*on branch scrimage v2 PID&FF start (not really tuned) */
@@ -696,7 +699,7 @@ public final class Constants {
         //carret in the middle, if it stil move up, lower it until it holds it in position
         //Then give a little kp to go to position
         //then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity is m/s)
-        public static final double elevatorKv = 9.1;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+        public static final double elevatorKv = 8.8;//Or 10.5, this was the old kv, something like that :) You got this Nathan //frc mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
         public static final double elevatorKa = 15; //How fast they can go, max vel & accel puts a cap in case if it's too fast.
         //stall load -- how much weight it can handle at all
         public static final double elevatorKs = 0;//start with 0
@@ -704,18 +707,18 @@ public final class Constants {
         //if rasiing ks might have to lower kg
         public static final double elevatorIZone = 0.1;
         public static final double elevatorTolerance = .005;
-        public static final double elevatorMaxVel = 1.26;//Ok tune this a little higher/lower//meters per second
+        public static final double elevatorMaxVel = 1;//Ok tune this a little higher/lower//meters per second
         public static final double elevatorMaxAccel = 4;//I think you don't need to tune this one but you can//meters per second square
 
         
         //These values should be percents
         public static final double E_L2 = 0.485757;//This one should be good
-        public static final double E_L3 = .929;//This one should be good
+        public static final double E_L3 = .879;//This one should be good
         public static final double E_L4 = 1.32;//Maybe final tune this?
-        public static final double E_CoralStation = .210796;//Maybe final tune this?
+        public static final double E_CoralStation = .195796;//Maybe final tune this?
 
-        public static final double eleDeAlgeL2 = 0.4;
-        public static final double eleDeAlgeL3 = 0.7;
+        public static final double eleDeAlgeL2 = 0.090768744;
+        public static final double eleDeAlgeL3 = 0.328161844;
 
         public static final double lowerEncoderExtreme = 0.0; 
         public static final double upperEncoderExtreme = 1.32;
@@ -731,9 +734,9 @@ public final class Constants {
         public static final boolean leftMotorInvert = false;
 
         public static final boolean enableCurrentLimit = true;
-        public static final double maxCurrent = 20;
-        public static final double currentLimit = 15;
-        public static final double maxCurrentTime = 1;
+        public static final double maxCurrent = 25;
+        public static final double currentLimit = 20;
+        public static final double maxCurrentTime = 2;
 
         public static final boolean enableStatorCurrentLimit = true;
         public static final double maxStatorCurrent = 40;
@@ -757,8 +760,8 @@ public final class Constants {
         public static final double frontIntakeMaxVel = 200;
         public static final double frontIntakeMaxAccel = 800; //note : everytime increase max accel & velocity decrease kd
         /**volts, used for intake and only intake */
-        public static final double wheelSpeed = 3;
-        public static final double idleSpinVoltage = 0.5;
+        public static final double wheelSpeed = 5;
+        public static final double idleSpinVoltage = 2.5;
 
         public static final double maxDegrees = 120;
         public static final double minDegrees = -10;
