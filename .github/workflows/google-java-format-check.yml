@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # v2 minimum required
-      - uses: axel-op/googlejavaformat-action@4
+      - name: Google Java Format
+        uses: axel-op/googlejavaformat-action@4.0.0
         with:
           args: "--set-exit-if-changed"
