@@ -1,0 +1,26 @@
+name: Format
+
+on:
+  workflow_run:
+    workflows: ["Google Java Format Check"]
+    types: [completed]
+  push:
+    branches: [ master ]
+
+jobs:
+  formatting:
+    if: ${{ github.event.workflow_run.conclusion != 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v4
+        with:
+          args: "--skip-sorting-imports --replace"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Apply Google Java Format
+          branch: format-changes
+          title: Apply Google Java Format
+          body: This PR applies the Google Java Format to the codebase.
+          labels: formatting
