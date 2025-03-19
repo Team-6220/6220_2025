@@ -5,7 +5,7 @@ on:
     workflows: ["Google Java Format Check"]
     types: [completed]
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   formatting:
