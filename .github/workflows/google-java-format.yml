@@ -2,7 +2,7 @@ name: Format
 
 on:
   workflow_run:
-    workflows: ["Google Java Format Check"]
+    workflows: ["Format Check"]
     types: [completed]
   push:
     branches: [ main ]
