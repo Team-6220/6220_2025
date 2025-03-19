@@ -1,4 +1,4 @@
-name: Google Java Format
+name: Google Java Format Check
 
 on: [ push, pull_request ]
 
