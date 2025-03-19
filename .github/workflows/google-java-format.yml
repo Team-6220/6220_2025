@@ -9,11 +9,11 @@ on:
 
 jobs:
   formatting:
-    if: ${{ github.event.workflow_run.conclusion != 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # v2 minimum required
-      - uses: axel-op/googlejavaformat-action@v4
+      - uses: axel-op/googlejavaformat-action@v4.0.0
         with:
           args: "--skip-sorting-imports --replace"
       - name: Create Pull Request
