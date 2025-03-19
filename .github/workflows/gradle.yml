@@ -27,6 +27,9 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
 
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
