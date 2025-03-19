@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # v2 minimum required
-      - uses: axel-op/googlejavaformat-action@4
+      - uses: actions/axel-op/googlejavaformat-action@4
         with:
           release-name: "1.25.2"
           args: "--set-exit-if-changed"
