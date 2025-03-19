@@ -7,15 +7,7 @@ jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Java
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v4 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@4
         with:
-          distribution: 'temurin'
-          java-version: '17' # or another version
-      - uses: axel-op/googlejavaformat-action@v4
-        with:
-          args: "--replace"
-          skip-commit: true
-      - name: Print diffs
-        run: git --no-pager diff --exit-code
+          args: "--set-exit-if-changed"
