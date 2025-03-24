@@ -1,15 +1,11 @@
 name: Format
 
 on:
-  workflow_run:
-    workflows: ["Format Check"]
-    types: [completed]
   push:
     branches: [ main ]
 
 jobs:
   formatting:
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # v2 minimum required
