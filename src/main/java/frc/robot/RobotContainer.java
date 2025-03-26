@@ -15,15 +15,13 @@ import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
 import frc.robot.commands.OuttakeAlgaeLowerIntake;
 import frc.robot.commands.Stage2CMD;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.VisionConstants;
-//import frc.robot.commands.Autos;
+// import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeForClimbing;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
-import frc.robot.commands.Autos.TestingAutoRed;
 import frc.robot.commands.ElevatorManuel;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.photonAlignCmd;
@@ -34,7 +32,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,15 +39,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import java.util.ArrayList;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
@@ -84,15 +77,17 @@ public class RobotContainer {
   private final Trigger setLowerIntakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
   private final Trigger lowerOuttakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(8));
-  private final Trigger lowerIntakeForClimbing = new Trigger(() -> m_buttonBoard.getRawButton(7));// NO SPIN, just put
+  private final Trigger lowerIntakeForClimbing =
+      new Trigger(() -> m_buttonBoard.getRawButton(7)); // NO SPIN, just put
   private final Trigger deAlgaeL2 = new Trigger(() -> m_buttonBoard.getRawButton(17));
   private final Trigger deAlgaeL3 = new Trigger(() -> m_buttonBoard.getRawButton(18));
-                                                                                                  // it down at 0 to
-                                                                                                  // make CG banlanced
-                                                                                                  // on both sides
+  // it down at 0 to
+  // make CG banlanced
+  // on both sides
 
   private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
-  private final Trigger twisterTest = new Trigger(() -> m_buttonBoard.getRawButton(22));// turn right
+  private final Trigger twisterTest =
+      new Trigger(() -> m_buttonBoard.getRawButton(22)); // turn right
   // private final Trigger lowerIntake = new Trigger(() ->
   // m_buttonBoard.getRawButton(4));
   // private final Trigger lowerOuttake = new Trigger(() ->
@@ -103,15 +98,7 @@ public class RobotContainer {
   private final Trigger leftReef = new Trigger(() -> m_joystick.getRawButton(3));
   private final Trigger rightReef = new Trigger(() -> m_joystick.getRawButton(4));
 
-
-
-
-
-
-  
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     s_Swerve.configureAutoBuilder();
@@ -122,8 +109,7 @@ public class RobotContainer {
     autoChooser.addOption("basic blue", new BasicBlue(s_Swerve));
     // s_Swerve.configureAutoBuilder();
 
-    elevator.setDefaultCommand(
-        new ElevatorManuel(m_joystick));
+    elevator.setDefaultCommand(new ElevatorManuel(m_joystick));
 
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
 
@@ -138,17 +124,13 @@ public class RobotContainer {
     // );
 
     s_Swerve.setDefaultCommand(
-        new TeleopSwerve(
-            s_Swerve,
-            m_driverController,
-            m_driverController.leftBumper()));
+        new TeleopSwerve(s_Swerve, m_driverController, m_driverController.leftBumper()));
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     // TODO: Register named commands as needed
     // NamedCommands.registerCommand(null, null);
 
     configureBindings();
-
   }
 
   /**
@@ -162,13 +144,33 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    m_driverController.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
+    m_driverController
+        .y()
+        .onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    stage2.onTrue(new Stage2CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
-    stage3.onTrue(new Stage3CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
-    stage4.onTrue(new Stage4CMD(s_Swerve, m_driverController.getHID(), m_driverController.leftBumper(), m_driverController.rightBumper(), 0));
-    
+    stage2.onTrue(
+        new Stage2CMD(
+            s_Swerve,
+            m_driverController.getHID(),
+            m_driverController.leftBumper(),
+            m_driverController.rightBumper(),
+            0));
+    stage3.onTrue(
+        new Stage3CMD(
+            s_Swerve,
+            m_driverController.getHID(),
+            m_driverController.leftBumper(),
+            m_driverController.rightBumper(),
+            0));
+    stage4.onTrue(
+        new Stage4CMD(
+            s_Swerve,
+            m_driverController.getHID(),
+            m_driverController.leftBumper(),
+            m_driverController.rightBumper(),
+            0));
+
     coralStation.onTrue(new CoralStationCmd(m_driverController.getHID(), 1, s_Swerve));
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
@@ -185,12 +187,19 @@ public class RobotContainer {
     deAlgaeL2.onTrue(new DeAlgeL2());
     deAlgaeL3.onTrue(new DeAlgeL3());
 
-    coralStation.whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
-    leftReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
-    rightReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
+    coralStation.whileTrue(
+        new photonAlignCmd(
+            1,
+            s_Swerve,
+            VisionConstants.centerCoralStationVisionX,
+            VisionConstants.centerCoralStationVisionY));
+    leftReef.whileTrue(
+        new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
+    rightReef.whileTrue(
+        new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    
+
   }
 
   /**
@@ -202,9 +211,6 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return autoChooser.getSelected();
   }
-    // An example command will be run in autonomous
-  
+  // An example command will be run in autonomous
 
 }
-  
-

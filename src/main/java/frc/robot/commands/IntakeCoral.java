@@ -11,6 +11,7 @@ import frc.robot.subsystems.WristIntakesubsytem;
 public class IntakeCoral extends Command {
   /** Creates a new IntakeCoralTest. */
   WristIntakesubsytem wristIntake;
+
   public IntakeCoral() {
     // Use addRequirements() here to declare subsystem dependencies.
     wristIntake = WristIntakesubsytem.getInstance();
@@ -23,15 +24,13 @@ public class IntakeCoral extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
+  public void execute() {
     wristIntake.intakeCoral();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted)
-  {
+  public void end(boolean interrupted) {
     // wristIntake.simpleDrive(interrupted, 0);
     wristIntake.endOccupied();
   }

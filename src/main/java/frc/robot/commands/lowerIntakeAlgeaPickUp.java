@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants.FrontIntakeConstants;
 import frc.robot.subsystems.frontIntakeSubsystem;
@@ -13,9 +12,10 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class lowerIntakeAlgeaPickUp extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
-  private TunableNumber goal = new TunableNumber("lowerIntakePick setpoint degrees", FrontIntakeConstants.intakeAlgeaSetpoint);
+  private TunableNumber goal =
+      new TunableNumber(
+          "lowerIntakePick setpoint degrees", FrontIntakeConstants.intakeAlgeaSetpoint);
   private double lowerIntakeSetpoint = goal.getDefault();
-
 
   public lowerIntakeAlgeaPickUp() {
     addRequirements(m_fiss);
@@ -34,15 +34,14 @@ public class lowerIntakeAlgeaPickUp extends Command {
     m_fiss.setMaxVel(FrontIntakeConstants.frontIntakeMaxVel);
     m_fiss.setMaxAccel(FrontIntakeConstants.frontIntakeMaxAccel);
     // if(m_driverController.a().getAsBoolean()){}
-    //m_fiss.simpleintakeDrive(0.25);
+    // m_fiss.simpleintakeDrive(0.25);
     // if(m_driverController.y().getAsBoolean()){
-      // m_fiss.spinFront(true, false);}
-      if(goal.hasChanged())
-      {
-        lowerIntakeSetpoint = goal.get();
-        m_fiss.setGoal(lowerIntakeSetpoint);
-      }
-      m_fiss.swingToGoal();
+    // m_fiss.spinFront(true, false);}
+    if (goal.hasChanged()) {
+      lowerIntakeSetpoint = goal.get();
+      m_fiss.setGoal(lowerIntakeSetpoint);
+    }
+    m_fiss.swingToGoal();
     // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
   }
 

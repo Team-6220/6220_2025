@@ -11,6 +11,7 @@ import frc.robot.subsystems.WristIntakesubsytem;
 public class EjectCoral extends Command {
   /** Creates a new EjectCoralTest. */
   WristIntakesubsytem wristIntake = WristIntakesubsytem.getInstance();
+
   public EjectCoral() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -23,7 +24,7 @@ public class EjectCoral extends Command {
   @Override
   public void execute() {
     wristIntake.ejectCoral();
-   }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -11,6 +11,7 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 public class lowerIntakeForClimbing extends Command {
   /** Creates a new lowerIntakeForClimbing. */
   frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
+
   public lowerIntakeForClimbing() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(frontIntake);
@@ -18,22 +19,19 @@ public class lowerIntakeForClimbing extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize()
-  {
+  public void initialize() {
     frontIntake.setGoal(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
+  public void execute() {
     frontIntake.swingToGoal();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted)
-  {
+  public void end(boolean interrupted) {
     frontIntake.simpleDrive(0);
   }
 

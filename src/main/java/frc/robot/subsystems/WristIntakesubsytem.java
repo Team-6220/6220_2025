@@ -27,56 +27,61 @@ public class WristIntakesubsytem extends SubsystemBase {
   private String tableKey = "WristIntake_";
   public TalonFXConfiguration wristIntakeConfig = new TalonFXConfiguration();
 
-
   public WristIntakesubsytem() {
-        wristIntakeConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    wristIntakeConfig.MotorOutput.NeutralMode = Constants.WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
+    wristIntakeConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    wristIntakeConfig.MotorOutput.NeutralMode =
+        Constants.WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
 
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.WristIntakeConstants.enableCurrentLimit;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =
+        Constants.WristIntakeConstants.enableCurrentLimit;
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.WristIntakeConstants.maxCurrent;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = Constants.WristIntakeConstants.currentLimit;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = Constants.WristIntakeConstants.maxCurrentTime;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        Constants.WristIntakeConstants.currentLimit;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime =
+        Constants.WristIntakeConstants.maxCurrentTime;
     intakeMotor = new TalonFX(WristIntakeConstants.wristintakeMotorID);
     intakeMotor.getConfigurator().apply(wristIntakeConfig);
   }
-  public void simpleDrive(boolean reversed, double speed){
+
+  public void simpleDrive(boolean reversed, double speed) {
     speed = reversed ? speed * -1 : speed;
     intakeMotor.set(speed);
-}
-  
-  public void intakeCoral(){
+  }
+
+  public void intakeCoral() {
     occupied = true;
     simpleDrive(false, WristIntakeConstants.intakeSpeed);
   }
-  public void ejectCoral(){
+
+  public void ejectCoral() {
     occupied = true;
     simpleDrive(true, WristIntakeConstants.ejectSpeed);
   }
-  public void endOccupied()
-  {
+
+  public void endOccupied() {
     occupied = false;
   }
+
   @Override
   public void periodic() {
-    if(!occupied && intakeMotor.getTorqueCurrent().getValueAsDouble() > currentLimitToHold)
-    {
+    if (!occupied && intakeMotor.getTorqueCurrent().getValueAsDouble() > currentLimitToHold) {
       // intakeMotor.set(-0.04);
       intakeMotor.setVoltage(-0.5);
     }
-    if(intakeMotor.getTorqueCurrent().getValueAsDouble() <= currentLimitToHold)
-    {
+    if (intakeMotor.getTorqueCurrent().getValueAsDouble() <= currentLimitToHold) {
       intakeMotor.setVoltage(-0.15);
     }
-    SmartDashboard.putNumber(tableKey + "stator current", intakeMotor.getStatorCurrent().getValueAsDouble());
-    SmartDashboard.putNumber(tableKey + "supply current", intakeMotor.getSupplyCurrent().getValueAsDouble());
-    SmartDashboard.putNumber(tableKey + "torque current", intakeMotor.getTorqueCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(
+        tableKey + "stator current", intakeMotor.getStatorCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(
+        tableKey + "supply current", intakeMotor.getSupplyCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(
+        tableKey + "torque current", intakeMotor.getTorqueCurrent().getValueAsDouble());
     // This method will be called once per scheduler run
   }
 
-  public static synchronized WristIntakesubsytem getInstance()
-  {
-    if(INSTANCE == null)
-    {
+  public static synchronized WristIntakesubsytem getInstance() {
+    if (INSTANCE == null) {
       INSTANCE = new WristIntakesubsytem();
     }
     return INSTANCE;

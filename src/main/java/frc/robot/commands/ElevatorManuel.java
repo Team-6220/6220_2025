@@ -12,7 +12,9 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorManuel extends Command {
   /** Creates a new ElevatorManuel. */
   ElevatorSubsystem elevSub = ElevatorSubsystem.getInstance();
+
   Joystick m_joystick;
+
   public ElevatorManuel(Joystick m_joystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_joystick = m_joystick;
@@ -25,9 +27,8 @@ public class ElevatorManuel extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
-    elevSub.simpleDrive(-m_joystick.getY()); 
+  public void execute() {
+    elevSub.simpleDrive(-m_joystick.getY());
   }
 
   // Called once the command ends or is interrupted.

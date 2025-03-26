@@ -11,6 +11,7 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 public class OutakeCoralLowerIntake extends Command {
   /** Creates a new OutakeLowerIntake. */
   frontIntakeSubsystem lowerIntake = frontIntakeSubsystem.getInstance();
+
   public OutakeCoralLowerIntake() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(lowerIntake);
@@ -18,8 +19,7 @@ public class OutakeCoralLowerIntake extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
-  {
+  public void initialize() {
     lowerIntake.spinFront(true, false);
   }
 
