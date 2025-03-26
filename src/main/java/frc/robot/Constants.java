@@ -112,7 +112,7 @@ public final class Constants {
             }
           }
 
-          public static double modifyVoltageAxis(double value) {
+        public static double modifyVoltageAxis(double value) {
             // Deadband
             if (Math.abs(value) < kDeadband) {
                 return 0;
