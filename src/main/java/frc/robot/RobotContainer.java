@@ -69,6 +69,8 @@ public class RobotContainer {
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
 
+  // private final CANRangeSubsystem canRange = CANRangeSubsystem.getInstance();
+
   private final CommandXboxController m_driverController = new CommandXboxController(0);
 
   private final Joystick m_joystick = new Joystick(1);
@@ -131,6 +133,7 @@ public class RobotContainer {
 
     elevator.setDefaultCommand(
         new ElevatorManuel(m_joystick));
+
 
         autoChooser.addOption("Straight Auto", new StraightAuto(s_Swerve));
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
@@ -224,4 +227,3 @@ public class RobotContainer {
 
 }
   
-

@@ -23,11 +23,10 @@ import frc.robot.Constants.AutoConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class StraightAuto extends SequentialCommandGroup {
   /** Creates a new StrightAuto. */
-  private Swerve s_swerve;
 
   public StraightAuto(Swerve s_swerve) {
 
-    this.s_swerve = s_swerve;
+    // addRequirements(s_swerve);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
