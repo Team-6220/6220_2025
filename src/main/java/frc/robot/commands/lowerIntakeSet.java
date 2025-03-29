@@ -12,9 +12,9 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class lowerIntakeSet extends Command {
-  private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
+  private frontIntakeSubsystem m_fiss;
   public lowerIntakeSet() {
-    
+    m_fiss = frontIntakeSubsystem.getInstance();
     addRequirements(m_fiss);
   }
 
@@ -22,14 +22,13 @@ public class lowerIntakeSet extends Command {
   @Override
   public void initialize() {
     // m_fiss.maintainFront();
-    m_fiss.setGoal(106);
+    m_fiss.setGoal(115);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_fiss.setMaxVel(50);
-    m_fiss.setMaxAccel(200);
+    m_fiss.simpleintakeDrive(0);
     m_fiss.swingToGoal();
     // m_fiss.simpleDrive(m_driverController.getLeftY()); //range 0.67 - 0.23
   }

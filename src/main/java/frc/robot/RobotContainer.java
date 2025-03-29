@@ -16,15 +16,12 @@ import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
 import frc.robot.commands.OuttakeAlgaeLowerIntake;
 import frc.robot.commands.Stage2CMD;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.VisionConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
-import frc.robot.commands.lowerIntakeForClimbing;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
-import frc.robot.commands.Autos.TestingAutoRed;
 import frc.robot.commands.ElevatorManuel;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.photonAlignCmd;
@@ -37,7 +34,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,8 +42,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.Autos.StraightAuto;
-
-import java.util.ArrayList;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -68,8 +62,6 @@ public class RobotContainer {
 
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
-
-  // private final CANRangeSubsystem canRange = CANRangeSubsystem.getInstance();
 
   private final CommandXboxController m_driverController = new CommandXboxController(0);
 
@@ -140,7 +132,7 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    // frontIntake.setDefaultCommand(new lowerIntakeSet());
+    frontIntake.setDefaultCommand(new lowerIntakeSet());
 
     // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
@@ -164,7 +156,7 @@ public class RobotContainer {
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSup5plier)} constructor with an arbitrary
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
    * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
    * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller

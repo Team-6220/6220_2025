@@ -605,7 +605,10 @@ public final class Constants {
         public static final Pose2d[] startPosesBlue = {
             new Pose2d(7.58, 7.25, new Rotation2d(0)), //outermost start pos for blue
             new Pose2d(7.58, 6.15, new Rotation2d(0)),
-            new Pose2d(7.58, 5/06, new Rotation2d(0))
+            new Pose2d(7.58, 5.06, new Rotation2d(0)),
+            new Pose2d(7.58, 3, new Rotation2d(0)),
+            new Pose2d(7.58, 1.9, new Rotation2d(0)),
+            new Pose2d(7.58, .8, new Rotation2d(0))
         };
 
 
@@ -656,8 +659,8 @@ public final class Constants {
         public static final double L4 = -8;
         public static final double coralStation = 35.81813;
 
-        public static final double deAlgeL2 = -40;
-        public static final double deAlgeL3 = -40;
+        public static final double deAlgeL2 = -20.746;
+        public static final double deAlgeL3 = 14.0514;
 
 
         /*on branch scrimage v2 PID&FF start (not really tuned) */
@@ -714,8 +717,8 @@ public final class Constants {
         public static final double E_L4 = 1.32;//Maybe final tune this?
         public static final double E_CoralStation = .195796;//Maybe final tune this?
 
-        public static final double eleDeAlgeL2 = 0.4;
-        public static final double eleDeAlgeL3 = 0.7;
+        public static final double eleDeAlgeL2 = 0.090768744;
+        public static final double eleDeAlgeL3 = 0.328161844;
 
         public static final double lowerEncoderExtreme = 0.0; 
         public static final double upperEncoderExtreme = 1.32;

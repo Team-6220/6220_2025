@@ -26,15 +26,13 @@ public class StraightAuto extends SequentialCommandGroup {
 
   public StraightAuto(Swerve s_swerve) {
 
-    // addRequirements(s_swerve);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // AutoBuilder.pathfindToPose(new Pose2d(-1, 0, new Rotation2d()), AutoConstants.pathConstraints),
       // new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),
       new PrintCommand("starting"),
-      new RunCommand(() -> s_swerve.drive(new Translation2d(-1, 0), 0, false, false))
-      .withTimeout(1),      
+      new RunCommand(() -> s_swerve.drive(new Translation2d(-1, 0), 0, false, false)).withTimeout(5),      
       new RunCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, false, false)),
       new PrintCommand("done")
       );
