@@ -10,8 +10,10 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.PhotonVisionSubsystem;
@@ -57,13 +59,13 @@ public class photonAlignCmd extends Command {
     this.ySetpoint = ySetpoint;
   }
 
-  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double offset) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    s_Photon = PhotonVisionSubsystem.getInstance();
-    this.s_Swerve = s_Swerve;
-    addRequirements(s_Photon, s_Swerve);
-    this.cameraNum = cameraNum;
-  } 
+  // public photonAlignCmd(int cameraNum, Swerve s_Swerve, double offset) {
+  //   // Use addRequirements() here to declare subsystem dependencies.
+  //   s_Photon = PhotonVisionSubsystem.getInstance();
+  //   this.s_Swerve = s_Swerve;
+  //   addRequirements(s_Photon, s_Swerve);
+  //   this.cameraNum = cameraNum;
+  // } 
 
   // Called when the command is initially scheduled.
   @Override
@@ -79,7 +81,6 @@ public class photonAlignCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
     System.out.print("Photon vision cmd running");
     if(!s_Photon.getResults().get(cameraNum).isEmpty()) 
     {
@@ -108,10 +109,9 @@ public class photonAlignCmd extends Command {
             SmartDashboard.putNumber("theta pid out", thetaout);
             s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[tar.getFiducialId()-1]);
             s_Swerve.drive(new Translation2d(-xout, -yout), -thetaout, false, false);
-            Transform3d camToTar = tar.getBestCameraToTarget();
-          SmartDashboard.putNumber("camera to pose x", camToTar.getX());
-          SmartDashboard.putNumber("camera to pose y", camToTar.getY());
-          SmartDashboard.putNumber("camera to pose z", camToTar.getZ());
+          SmartDashboard.putNumber("camera to pose x", currentPose.getX());
+          SmartDashboard.putNumber("camera to pose y", currentPose.getY());
+          SmartDashboard.putNumber("camera to pose z", currentPose.getZ());
 
           SmartDashboard.putNumber("id", tar.fiducialId);
           SmartDashboard.putNumber("pitch", tar.pitch);

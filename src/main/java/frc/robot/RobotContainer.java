@@ -4,29 +4,25 @@
 
 package frc.robot;
 
-import frc.robot.commands.CANRangeTestCommand;
 import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.DeAlgeL2;
 import frc.robot.commands.DeAlgeL3;
 import frc.robot.commands.EjectCoral;
 import frc.robot.commands.IntakeCoral;
 import frc.robot.commands.IntakeGround;
+import frc.robot.commands.LowerIntakeManual;
 import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
 import frc.robot.commands.OuttakeAlgaeLowerIntake;
 import frc.robot.commands.Stage2CMD;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.VisionConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
-import frc.robot.commands.lowerIntakeForClimbing;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
-import frc.robot.commands.Autos.TestingAutoRed;
 import frc.robot.commands.ElevatorManuel;
-import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.photonAlignCmd;
 import frc.robot.commands.wristDownOneDegree;
@@ -38,7 +34,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,8 +42,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.Autos.StraightAuto;
-
-import java.util.ArrayList;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -70,8 +63,6 @@ public class RobotContainer {
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
 
-  private final CANRangeSubsystem canRange = CANRangeSubsystem.getInstance();
-
   private final CommandXboxController m_driverController = new CommandXboxController(0);
 
   private final Joystick m_joystick = new Joystick(1);
@@ -92,9 +83,10 @@ public class RobotContainer {
   private final Trigger setLowerIntakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
   private final Trigger lowerOuttakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(8));
-  private final Trigger lowerIntakeForClimbing = new Trigger(() -> m_buttonBoard.getRawButton(7));// NO SPIN, just put
+  // private final Trigger lowerIntakeForClimbing = new Trigger(() -> m_buttonBoard.getRawButton(7));// NO SPIN, just put
   private final Trigger deAlgaeL2 = new Trigger(() -> m_buttonBoard.getRawButton(17));
   private final Trigger deAlgaeL3 = new Trigger(() -> m_buttonBoard.getRawButton(18));
+  private final Trigger manuelLowerIntake = new Trigger(() -> m_joystick.getRawButton(6));
                                                                                                   // it down at 0 to
                                                                                                   // make CG banlanced
                                                                                                   // on both sides
@@ -134,14 +126,13 @@ public class RobotContainer {
     elevator.setDefaultCommand(
         new ElevatorManuel(m_joystick));
 
-    canRange.setDefaultCommand(new CANRangeTestCommand());
 
         autoChooser.addOption("Straight Auto", new StraightAuto(s_Swerve));
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    // frontIntake.setDefaultCommand(new lowerIntakeSet());
+    frontIntake.setDefaultCommand(new lowerIntakeSet());
 
     // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
@@ -165,7 +156,7 @@ public class RobotContainer {
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSup5plier)} constructor with an arbitrary
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
    * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
    * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
@@ -190,7 +181,7 @@ public class RobotContainer {
     setLowerIntakeAlgae.whileFalse(new lowerIntakeSet());
     lowerOuttakeCoral.whileTrue(new OutakeCoralLowerIntake());
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
-    lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
+    // lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
 
     m_driverController.leftTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
     m_driverController.rightTrigger(.75).whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
@@ -201,12 +192,14 @@ public class RobotContainer {
 
     elevatorManuel.onTrue(new ElevatorManuel(m_joystick));
 
+    manuelLowerIntake.onTrue(new LowerIntakeManual(m_joystick));
+
     deAlgaeL2.onTrue(new DeAlgeL2());
     deAlgaeL3.onTrue(new DeAlgeL3());
 
-    coralStation.whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
-    leftReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
-    rightReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
+    // coralStation.whileTrue(new photonAlignCmd(1, s_Swerve, VisionConstants.centerCoralStationVisionX, VisionConstants.centerCoralStationVisionY));
+    // leftReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
+    // rightReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     

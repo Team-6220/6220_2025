@@ -147,7 +147,7 @@ public class Swerve extends SubsystemBase {
      */
     public Swerve() {
         gyro = new AHRS(NavXComType.kMXP_SPI, NavXUpdateRate.k200Hz);
-
+        // configureAutoBuilder();
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, SwerveConstants.Mod0.constants),
