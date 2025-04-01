@@ -44,11 +44,11 @@ public class PhotonVisionSubsystem extends SubsystemBase {
 
     results = new HashMap<Integer, List<PhotonPipelineResult>>();
     for (int i = 0; i < cameras.length; i++) {
-      if (!cameras[i].getAllUnreadResults().isEmpty()) {
-        results.put(i, cameras[i].getAllUnreadResults());
-      } else {
+      // if (!cameras[i].getAllUnreadResults().isEmpty()) {
+      //   results.put(i, cameras[i].getAllUnreadResults());
+      // } else {
         results.put(i, null);
-      }
+      // }
     }
 
     bestTarget = new HashMap<Integer, List<PhotonTrackedTarget>>();
@@ -60,6 +60,10 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void updatePhoton()
+  {
     for (int i = 0; i < cameras.length; i++) {
       List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
       if (!unreadResults.isEmpty()) {
