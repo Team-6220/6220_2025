@@ -13,8 +13,10 @@ import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 public class ElevatorManuel extends Command {
   /** Creates a new ElevatorManuel. */
   ElevatorSubsystem elevSub = ElevatorSubsystem.getInstance();
+
   V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();
   Joystick m_joystick;
+
   public ElevatorManuel(Joystick m_joystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_joystick = m_joystick;
@@ -23,13 +25,12 @@ public class ElevatorManuel extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize(){}
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
-    elevSub.simpleDrive(-m_joystick.getY()); 
+  public void execute() {
+    elevSub.simpleDrive(-m_joystick.getY());
     wrist.driveToGoal();
   }
 

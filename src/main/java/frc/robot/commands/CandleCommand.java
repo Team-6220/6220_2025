@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -15,10 +14,11 @@ public class CandleCommand extends Command {
   LEDCANdle m_LEDCANdle;
   CommandXboxController m_driverController;
   String mode;
+
   public CandleCommand(CommandXboxController driver, String m) {
-    m_LEDCANdle=LEDCANdle.getInstance();
-    m_driverController=driver;
-    mode=m;
+    m_LEDCANdle = LEDCANdle.getInstance();
+    m_driverController = driver;
+    mode = m;
     addRequirements(m_LEDCANdle);
   }
 
@@ -29,31 +29,31 @@ public class CandleCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(mode.equals("rainbow")){
-      if(m_driverController.leftBumper().getAsBoolean()){
+    if (mode.equals("rainbow")) {
+      if (m_driverController.leftBumper().getAsBoolean()) {
         m_LEDCANdle.setRai(false);
       }
-      if(m_driverController.rightBumper().getAsBoolean()){
+      if (m_driverController.rightBumper().getAsBoolean()) {
         m_LEDCANdle.setRai(true);
       }
     }
-    if(mode.equals("testing")){
-      if(m_driverController.leftBumper().getAsBoolean()){
+    if (mode.equals("testing")) {
+      if (m_driverController.leftBumper().getAsBoolean()) {
         m_LEDCANdle.setTesting(false);
       }
-      if(m_driverController.rightBumper().getAsBoolean()){
+      if (m_driverController.rightBumper().getAsBoolean()) {
         m_LEDCANdle.setTesting(true);
       }
     }
-    if(mode.equals("error")){
-        m_LEDCANdle.setError();
+    if (mode.equals("error")) {
+      m_LEDCANdle.setError();
     }
     /*if(mode.equals("blinking")){
       m_LEDCANdle.setBlinking();
     } */
-    if(mode.equals("adj")){
-      m_LEDCANdle.setModifiable((int)((m_driverController.getLeftX()+1)*127));
-      System.out.println((int)((m_driverController.getLeftX()+1)*127));
+    if (mode.equals("adj")) {
+      m_LEDCANdle.setModifiable((int) ((m_driverController.getLeftX() + 1) * 127));
+      System.out.println((int) ((m_driverController.getLeftX() + 1) * 127));
     }
   }
 

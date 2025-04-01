@@ -12,7 +12,9 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeGround extends Command {
   private frontIntakeSubsystem m_fiss = frontIntakeSubsystem.getInstance();
-  private TunableNumber lowergroundsetpoint=new TunableNumber("lower intake ground setpoint", FrontIntakeConstants.intakeCoralSetpoint);
+  private TunableNumber lowergroundsetpoint =
+      new TunableNumber("lower intake ground setpoint", FrontIntakeConstants.intakeCoralSetpoint);
+
   public IntakeGround() {
     addRequirements(m_fiss);
   }
@@ -27,8 +29,7 @@ public class IntakeGround extends Command {
   @Override
   public void execute() {
 
-    if(lowergroundsetpoint.hasChanged())
-    {
+    if (lowergroundsetpoint.hasChanged()) {
       m_fiss.setGoal(lowergroundsetpoint.get());
     }
     m_fiss.swingToGoal();

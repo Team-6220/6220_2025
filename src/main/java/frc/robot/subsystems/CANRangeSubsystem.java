@@ -25,13 +25,12 @@
 //     private static CANRangeSubsystem INSTANCE = null;
 //     private CANrange cRange1, cRange2, cRange3;
 //     private final CANrangeConfiguration configs = new CANrangeConfiguration();
-    
-    
+
 //     public CANRangeSubsystem() {
 
-//       cRange1 = new CANrange(21); 
-//       cRange2 = new CANrange(22); 
-//       cRange3 = new CANrange(23); 
+//       cRange1 = new CANrange(21);
+//       cRange2 = new CANrange(22);
+//       cRange3 = new CANrange(23);
 
 //       cRange1.getConfigurator().apply(configs); // wrist can range
 //       cRange2.getConfigurator().apply(configs); // front intake can range 2
@@ -50,19 +49,20 @@
 //      * @return true if object is detected within range, false otherwise
 //      */
 //     public boolean isObjectInFrontIntake() {
-//       return (cRange2.getDistance().getValueAsDouble() <= distanceThreshold2 || (cRange3.getDistance().getValueAsDouble() <= distanceThreshold2));
+//       return (cRange2.getDistance().getValueAsDouble() <= distanceThreshold2 ||
+// (cRange3.getDistance().getValueAsDouble() <= distanceThreshold2));
 //     }
-    
+
 //     // Get values of the canRanges
-//     public CANrange getCANRange1() { 
+//     public CANrange getCANRange1() {
 //       return cRange1;
 //     }
 
-//     public CANrange getCANRange2() { 
+//     public CANrange getCANRange2() {
 //       return cRange2;
 //     }
 
-//     public CANrange getCANRange3() { 
+//     public CANrange getCANRange3() {
 //       return cRange3;
 //     }
 
@@ -71,7 +71,7 @@
 //       SmartDashboard.putBoolean("CanRange Wrist", isObjectInWrist());
 //       SmartDashboard.putBoolean("CanRange Front Intake", isObjectInFrontIntake());
 //     }
-    
+
 //     public static synchronized CANRangeSubsystem getInstance() {
 //       if (INSTANCE == null) {
 //       INSTANCE = new CANRangeSubsystem();

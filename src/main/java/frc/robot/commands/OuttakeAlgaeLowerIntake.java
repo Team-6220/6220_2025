@@ -12,6 +12,7 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 public class OuttakeAlgaeLowerIntake extends Command {
   /** Creates a new OutakeLowerIntake. */
   frontIntakeSubsystem lowerIntake = frontIntakeSubsystem.getInstance();
+
   public OuttakeAlgaeLowerIntake() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(lowerIntake);
@@ -19,8 +20,7 @@ public class OuttakeAlgaeLowerIntake extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
-  {
+  public void initialize() {
     lowerIntake.setFront(FrontIntakeConstants.wheelSpeed);
   }
 

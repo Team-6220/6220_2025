@@ -14,6 +14,7 @@ import frc.robot.Constants.*;
 public class DeAlgeL2 extends Command {
   /** Creates a new DeAlge. */
   private V2_SparkMaxWristSubsystem wrist;
+
   private ElevatorSubsystem elevator;
 
   public DeAlgeL2() {

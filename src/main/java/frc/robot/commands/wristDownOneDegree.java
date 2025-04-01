@@ -12,7 +12,9 @@ import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 public class wristDownOneDegree extends Command {
   /** Creates a new wristDownOneDegree. */
   V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();
+
   ElevatorSubsystem elev = ElevatorSubsystem.getInstance();
+
   public wristDownOneDegree() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(wrist, elev);
@@ -20,24 +22,21 @@ public class wristDownOneDegree extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize()
-  {
+  public void initialize() {
     System.out.println("wrist down init");
-    wrist.setGoal(wrist.getGoalPosition()-1);
+    wrist.setGoal(wrist.getGoalPosition() - 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
+  public void execute() {
     elev.driveToGoal();
     wrist.driveToGoal();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted)
-  {
+  public void end(boolean interrupted) {
     elev.stop();
     wrist.stop();
   }

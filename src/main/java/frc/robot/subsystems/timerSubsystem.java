@@ -11,7 +11,6 @@
 // import edu.wpi.first.networktables.NetworkTableEntry;
 // import edu.wpi.first.networktables.NetworkTableInstance;
 
-
 // public class timerSubsystem extends SubsystemBase {
 //   private static final String TEAM_IP = "10.62.20.2";
 //   private final NetworkTableInstance ntInstance;
@@ -27,7 +26,6 @@
 //     fmsTable = ntInstance.getTable("FMSInfo");
 //     matchTimeEntry = fmsTable.getEntry("MatchTime");
 //   }
-
 
 //   @Override
 //   public void periodic() {

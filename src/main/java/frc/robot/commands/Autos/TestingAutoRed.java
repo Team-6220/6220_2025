@@ -4,16 +4,9 @@
 
 package frc.robot.commands.Autos;
 
-import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
-import static edu.wpi.first.units.Units.DegreesPerSecondPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,7 +20,7 @@ import frc.robot.subsystems.Swerve;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TestingAutoRed extends SequentialCommandGroup {
-  
+
   /** Creates a new TestingAuto. */
   public TestingAutoRed(Swerve swerve) {
     // Add your commands in the addCommands() call, e.g.
@@ -35,8 +28,11 @@ public class TestingAutoRed extends SequentialCommandGroup {
     Swerve s_Swerve = swerve;
     double x = 14.124, y = 2.395, theta = 0;
     addCommands(
-      new InstantCommand(() -> s_Swerve.setPose(new Pose2d(new Translation2d(14.65, 4.075), new Rotation2d(Degrees.of(0))))),
-      AutoBuilder.pathfindToPose(new Pose2d(x, y, new Rotation2d(Degrees.of(theta))), AutoConstants.pathConstraints)
-    );
+        new InstantCommand(
+            () ->
+                s_Swerve.setPose(
+                    new Pose2d(new Translation2d(14.65, 4.075), new Rotation2d(Degrees.of(0))))),
+        AutoBuilder.pathfindToPose(
+            new Pose2d(x, y, new Rotation2d(Degrees.of(theta))), AutoConstants.pathConstraints));
   }
 }

@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     DriverStation.startDataLog(DataLogManager.getLog());
     VisionConstants.setTagXYHeightAngle();
   }
-  
+
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -63,29 +63,28 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }
-  
+
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}
-  
+
   @Override
   public void disabledPeriodic() {}
-  
+
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     VisionConstants.setTagXYHeightAngle();
     Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
-        if (ally.get() == Alliance.Red) {
-            Constants.isRed = "red";
-        }
-        if (ally.get() == Alliance.Blue) {
-            Constants.isRed = "blue";
-        }
-    }
-    else {
-        Constants.isRed = "N/A";
+      if (ally.get() == Alliance.Red) {
+        Constants.isRed = "red";
+      }
+      if (ally.get() == Alliance.Blue) {
+        Constants.isRed = "blue";
+      }
+    } else {
+      Constants.isRed = "N/A";
     }
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -94,27 +93,22 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if(Constants.isRed.equals("N/A"))
-    {
+    if (Constants.isRed.equals("N/A")) {
       Optional<Alliance> ally = DriverStation.getAlliance();
-      if (ally.isPresent())
-      {
-          if (ally.get() == Alliance.Red) {
-              Constants.isRed = "red";
-          }
-          if (ally.get() == Alliance.Blue) {
-              Constants.isRed = "blue";
-          }
-      }
-      else
-      {
-          Constants.isRed = "N/A";
+      if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+          Constants.isRed = "red";
+        }
+        if (ally.get() == Alliance.Blue) {
+          Constants.isRed = "blue";
+        }
+      } else {
+        Constants.isRed = "N/A";
       }
     }
   }
@@ -127,41 +121,35 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     Optional<Alliance> ally = DriverStation.getAlliance();
     if (ally.isPresent()) {
-        if (ally.get() == Alliance.Red) {
-            Constants.isRed = "red";
-        }
-        if (ally.get() == Alliance.Blue) {
-            Constants.isRed = "blue";
-        }
-    }
-    else {
-        Constants.isRed = "N/A";
+      if (ally.get() == Alliance.Red) {
+        Constants.isRed = "red";
+      }
+      if (ally.get() == Alliance.Blue) {
+        Constants.isRed = "blue";
+      }
+    } else {
+      Constants.isRed = "N/A";
     }
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if(Constants.isRed.equals("N/A"))
-    {
+    if (Constants.isRed.equals("N/A")) {
       Optional<Alliance> ally = DriverStation.getAlliance();
-      if (ally.isPresent())
-      {
-          if (ally.get() == Alliance.Red) {
-              Constants.isRed = "red";
-          }
-          if (ally.get() == Alliance.Blue) {
-              Constants.isRed = "blue";
-          }
-      }
-      else
-      {
-          Constants.isRed = "N/A";
+      if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+          Constants.isRed = "red";
+        }
+        if (ally.get() == Alliance.Blue) {
+          Constants.isRed = "blue";
+        }
+      } else {
+        Constants.isRed = "N/A";
       }
     }
   }

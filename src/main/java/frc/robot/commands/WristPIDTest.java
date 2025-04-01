@@ -11,6 +11,7 @@ import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 public class WristPIDTest extends Command {
   /** Creates a new WristPIDTest. */
   V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();
+
   public WristPIDTest() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(wrist);
@@ -22,8 +23,7 @@ public class WristPIDTest extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
+  public void execute() {
     // wrist.driveToGoal(-107);
   }
 

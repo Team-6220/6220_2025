@@ -12,6 +12,7 @@ import frc.robot.subsystems.frontIntakeSubsystem;
 public class LowerIntakeManual extends Command {
   /** Creates a new LowerIntakeManual. */
   private frontIntakeSubsystem frontIntake;
+
   private Joystick m_joystick;
 
   public LowerIntakeManual(Joystick m_joystick) {
@@ -29,20 +30,14 @@ public class LowerIntakeManual extends Command {
   @Override
   public void execute() {
     frontIntake.simpleDrive(m_joystick.getRawAxis(2));
-    if(m_joystick.getRawButton(3))
-    {
+    if (m_joystick.getRawButton(3)) {
       frontIntake.spinFront(true, true);
-    }
-    else
-    {
+    } else {
       frontIntake.spinFront(false, true);
     }
-    if(m_joystick.getRawButton(1))
-    {
+    if (m_joystick.getRawButton(1)) {
       frontIntake.spinFront(true, false);
-    }
-    else
-    {
+    } else {
       frontIntake.spinFront(false, true);
     }
   }
