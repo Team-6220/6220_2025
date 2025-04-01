@@ -86,6 +86,7 @@ public class photonAlignCmd extends Command {
   @Override
   public void execute() {
     System.out.print("Photon vision cmd running");
+    s_Photon.updatePhoton();
     if (!s_Photon.getResults().get(cameraNum).isEmpty()) {
       List<PhotonTrackedTarget> bestTarget = s_Photon.getBestTargets().get(cameraNum);
       SmartDashboard.putNumber("lockedInNum", lockedFiducialID);
