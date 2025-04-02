@@ -87,7 +87,7 @@ public class SwerveModule {
         .pid(SwerveConstants.angleKP, SwerveConstants.angleKI, SwerveConstants.angleKD)
         .positionWrappingEnabled(
             true) // wraps the numbers around when it's too big. ex if the limits are 0 and 100, it
-                  // will "wrap" back to 0 after it exceeds 100, vise versa
+        // will "wrap" back to 0 after it exceeds 100, vise versa
         .positionWrappingMinInput(0)
         .positionWrappingMaxInput(RevConfigs.CANCoderAngleToNeoEncoder(1));
 
@@ -105,8 +105,8 @@ public class SwerveModule {
         .apply(
             Robot.ctreConfigs
                 .swerveDriveFXConfig); // motor inverted, current limits, etc. editable in
-                                       // constants.java. CTREConfigs.java is just a holder to
-                                       // organize the values
+    // constants.java. CTREConfigs.java is just a holder to
+    // organize the values
     mDriveMotor.getConfigurator().setPosition(0.0);
 
     // mDriveMotor.setNeutralMode(SwerveConstants.driveNeutralMode);

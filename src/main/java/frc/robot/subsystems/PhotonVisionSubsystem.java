@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       // if (!cameras[i].getAllUnreadResults().isEmpty()) {
       //   results.put(i, cameras[i].getAllUnreadResults());
       // } else {
-        results.put(i, null);
+      results.put(i, null);
       // }
     }
 
@@ -62,8 +61,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void updatePhoton()
-  {
+  public void updatePhoton() {
     for (int i = 0; i < cameras.length; i++) {
       List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
       if (!unreadResults.isEmpty()) {

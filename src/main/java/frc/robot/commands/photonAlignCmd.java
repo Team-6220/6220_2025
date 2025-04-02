@@ -15,7 +15,6 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 
-
 import java.util.List;
 
 import org.photonvision.targeting.PhotonTrackedTarget;

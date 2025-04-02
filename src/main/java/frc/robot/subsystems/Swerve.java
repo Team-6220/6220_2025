@@ -13,7 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 // import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -81,7 +80,7 @@ public class Swerve extends SubsystemBase {
 
   private ProfiledPIDController
       turnPidController; // ProfiledPIDController creates a "trapazoid" when it speeds up to avoid
-                         // pulling too much voltage from the battery at once.
+  // pulling too much voltage from the battery at once.
   // private ProfiledPIDController xPidController;
   // private ProfiledPIDController yPidController;
 
@@ -205,10 +204,9 @@ public class Swerve extends SubsystemBase {
             Constants.robotMass,
             Constants.robotMOI,
             SwerveConstants.swerveModuleConfig,
-            SwerveConstants.swerveKinematics
-                .getModules()); // see
-                                // https://pathplanner.dev/robot-config.html#bumper-config-options
-                                // for more details on what you need to set robotconfig up manuelly
+            SwerveConstants.swerveKinematics.getModules()); // see
+    // https://pathplanner.dev/robot-config.html#bumper-config-options
+    // for more details on what you need to set robotconfig up manuelly
     // Also https://pathplanner.dev/api/java/com/pathplanner/lib/config/RobotConfig.html for API
     // e.printStackTrace();
     // }

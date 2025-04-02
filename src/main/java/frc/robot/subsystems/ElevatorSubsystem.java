@@ -259,7 +259,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             * 5.4978
             * .0254
             * 2.0; // * gear reatio * circum of sprocket * convert inches to meters * second stage
-                   // move x2 as fast as first stage*/
+    // move x2 as fast as first stage*/
     return elevatorPosition;
   }
 

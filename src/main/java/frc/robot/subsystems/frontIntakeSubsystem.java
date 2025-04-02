@@ -86,7 +86,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
     lowerIntakeConfig.MotorOutput.Inverted =
         InvertedValue
             .CounterClockwise_Positive; // positive is intake coral/outtake algae, negative is
-                                        // intake algae/outtake coral
+    // intake algae/outtake coral
     lowerIntakeConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
 
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =

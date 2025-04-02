@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
-
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
@@ -572,7 +571,7 @@ public final class Constants {
 
   public static final
   class AutoConstants { // FIXME: The below constants are used in the example auto, and must be
-                        // tuned to specific robot
+    // tuned to specific robot
     public static final double kMaxSpeedMetersPerSecond = 10;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
@@ -725,7 +724,7 @@ public final class Constants {
     public static final double maxAcceleration = 5000,
         maxVelocity =
             10000; // Accelaration is in units of RPM per Second (RPM/s) & Maximum Velocity is in
-                   // units of Revolutions per Minute (RPM)
+    // units of Revolutions per Minute (RPM)
     public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
     /*on branch scrimage v2 PID&FF end (not really tuned) */
   }
@@ -758,7 +757,7 @@ public final class Constants {
     // is m/s)
     public static final double elevatorKv =
         8.8; // Or 10.5, this was the old kv, something like that :) You got this Nathan //frc
-             // mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
+    // mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
     public static final double elevatorKa =
         15; // How fast they can go, max vel & accel puts a cap in case if it's too fast.
     // stall load -- how much weight it can handle at all
