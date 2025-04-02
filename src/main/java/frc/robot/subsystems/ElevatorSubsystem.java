@@ -144,6 +144,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     // System.out.println(getElevatorPosition());
     if (elevatorKp.hasChanged() || elevatorKi.hasChanged() || elevatorKd.hasChanged()) {
       m_Controller.setPID(elevatorKp.get(), elevatorKi.get(), elevatorKd.get());
+      System.out.println("*********PID With new P:" + elevatorKp.get() + 
+      "ki:" + elevatorKi.get() + "kd:" + elevatorKd.get());
     }
 
     if (elevatorKs.hasChanged()
@@ -181,6 +183,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     if (elevatorTolerance.hasChanged()) {
       m_Controller.setTolerance(elevatorTolerance.get());
+      System.out.println("New tolerance:" + elevatorTolerance.get());
     }
   }
 
