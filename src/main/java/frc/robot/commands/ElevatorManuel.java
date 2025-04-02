@@ -31,16 +31,18 @@ public class ElevatorManuel extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double output = -m_joystick.getY(); //flipped the sign because in the joystick up is negative but elevator up is positive
-    if(elevSub.getElevatorPositionMeters() > ElevatorConstants.upperEncoderExtreme && output > 0)
-    {
+    double output =
+        -m_joystick
+            .getY(); // flipped the sign because in the joystick up is negative but elevator up is
+                     // positive
+    if (elevSub.getElevatorPositionMeters() > ElevatorConstants.upperEncoderExtreme && output > 0) {
       output = 0;
     }
 
-    //YOU HAVE TO MANUELLY RESET IT -- we tried manuel reset but it's too risky because we might bend a shaft
-    //If we go too low/high and bend the shaft it will affect our PID values and WE DON'T WANT THAT
-    if(elevSub.getElevatorPositionMeters() < ElevatorConstants.lowerEncoderExtreme && output < 0)
-    {
+    // YOU HAVE TO MANUELLY RESET IT -- we tried manuel reset but it's too risky because we might
+    // bend a shaft
+    // If we go too low/high and bend the shaft it will affect our PID values and WE DON'T WANT THAT
+    if (elevSub.getElevatorPositionMeters() < ElevatorConstants.lowerEncoderExtreme && output < 0) {
       output = 0;
     }
     elevSub.simpleDrive(output);

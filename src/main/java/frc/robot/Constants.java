@@ -755,20 +755,21 @@ public final class Constants {
     // Then give a little kp to go to position
     // then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity
     // is m/s)
-    public static final double elevatorKv =
-        8.8;
+    public static final double elevatorKv = 8.8;
     // mechanism calculator, reca.lc --> linear machanism calculator -- put approximately
     public static final double elevatorKa =
         15; // How fast they can go, max vel & accel puts a cap in case if it's too fast.
     // stall load -- how much weight it can handle at all
-    public static final double elevatorKs = 0.22; // start with 0, how much to overcome static friction in the system
+    public static final double elevatorKs =
+        0.22; // start with 0, how much to overcome static friction in the system
     // if it's getting stuck to go down or up then increase ks by a little bit to fight friction
     // if rasiing ks might have to lower kg
     public static final double elevatorIZone = 0.5;
     public static final double elevatorTolerance = .005;
     public static final double elevatorMaxVel =
         1; // Ok tune this a little higher/lower//meters per second
-    public static final double elevatorMaxAccel = 5; // I think you don't need to tune this one but you can//meters per second square
+    public static final double elevatorMaxAccel =
+        5; // I think you don't need to tune this one but you can//meters per second square
 
     // These values should be percents
     public static final double E_L2 = 0.485757; // This one should be good
