@@ -168,9 +168,10 @@ public final class Constants {
 
     public static final Translation2d fieldSize = new Translation2d(16.54, 8.21);
 
-    public static final String LIMELIGHT3_NAME_STRING = "limelight";
-    public static final String LIMELIGHT2_NAME_STRING = "Limelight_2";
-
+    public static final String[] cameraNames = {
+      "Bottom_Right_Cam", //Top right USB
+      "Right_Ardu_Cam" //Bottom right usb
+    };
     public static final Pose2d SPEAKER_POSE2D_BLUE =
         new Pose2d(new Translation2d(-.0381, 5.547868), new Rotation2d(0));
     public static final Pose2d SPEAKER_POSE2D_RED =
