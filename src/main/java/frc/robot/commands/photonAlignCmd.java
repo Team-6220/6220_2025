@@ -80,8 +80,9 @@ public class photonAlignCmd extends Command {
     // PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
     VisionConstants.setTagXYHeightAngle();
 
-    //call initPhoton here so that it will declare objects when camera is plugged in while the code is running
-    //call initphoton also so that things will get cleared out if something disconnects
+    // call initPhoton here so that it will declare objects when camera is plugged in while the code
+    // is running
+    // call initphoton also so that things will get cleared out if something disconnects
     s_Photon.initPhoton();
   }
 
@@ -90,11 +91,9 @@ public class photonAlignCmd extends Command {
   public void execute() {
     System.out.print("Photon vision cmd running");
     s_Photon.updatePhoton();
-    if (
-      s_Photon.getResults().containsKey(cameraNum) &&
-      s_Photon.getResults().get(cameraNum) != null  &&
-      !s_Photon.getResults().get(cameraNum).isEmpty()
-      ) {
+    if (s_Photon.getResults().containsKey(cameraNum)
+        && s_Photon.getResults().get(cameraNum) != null
+        && !s_Photon.getResults().get(cameraNum).isEmpty()) {
       List<PhotonTrackedTarget> bestTarget = s_Photon.getBestTargets().get(cameraNum);
       SmartDashboard.putNumber("lockedInNum", lockedFiducialID);
       if (bestTarget != null) {
@@ -132,19 +131,16 @@ public class photonAlignCmd extends Command {
           // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
         }
       }
-    }
-    else
-    {
+    } else {
       System.err.println(
-        "Something's wrong with photon," + 
-        "paste this line and search it globally to find it and look at possible errors in the comment"
-        );
-        /*Potential problem
-         * 1. Coprocessor not powered
-         * 2. Camera not connected
-         * 3. Photonvision not seen on networktable
-         */
-        end(true);
+          "Something's wrong with photon,paste this line and search it globally to find it and look"
+              + " at possible errors in the comment");
+      /*Potential problem
+       * 1. Coprocessor not powered
+       * 2. Camera not connected
+       * 3. Photonvision not seen on networktable
+       */
+      end(true);
     }
   }
 
@@ -159,9 +155,9 @@ public class photonAlignCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Photon.getResults().containsKey(cameraNum) &&
-           s_Photon.getResults().get(cameraNum) != null &&
-           s_Photon
+    return s_Photon.getResults().containsKey(cameraNum)
+        && s_Photon.getResults().get(cameraNum) != null
+        && s_Photon
             .getResults()
             .get(cameraNum)
             .isEmpty(); // if there's no tag automatically stop it from driving

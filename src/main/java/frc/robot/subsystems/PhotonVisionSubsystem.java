@@ -40,16 +40,16 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     cameras = new PhotonCamera[cameraNames.length];
     lastHeartbeats = new long[cameraNames.length];
     this.cameraNames = cameraNames;
-  
-  VisionConstants.setTagXYHeightAngle();
-  
-  initPhoton();
-    
-  results = new HashMap<Integer, List<PhotonPipelineResult>>();
-  for (int i = 0; i < cameras.length; i++) {
-          results.put(i, null);
-        }
-        
+
+    VisionConstants.setTagXYHeightAngle();
+
+    initPhoton();
+
+    results = new HashMap<Integer, List<PhotonPipelineResult>>();
+    for (int i = 0; i < cameras.length; i++) {
+      results.put(i, null);
+    }
+
     bestTarget = new HashMap<Integer, List<PhotonTrackedTarget>>();
     for (int i = 0; i < cameras.length; i++) {
       bestTarget.put(i, null);
@@ -61,14 +61,14 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void initPhoton()
-  {
+  public void initPhoton() {
     for (int i = 0; i < cameraNames.length; i++) {
       if (isCameraConnected(cameraNames[i])) {
         cameras[i] = new PhotonCamera(cameraNames[i]);
         System.out.println("Photon camera initialized: " + cameraNames[i]);
         cameras[i].setPipelineIndex(0);
-        NetworkTable camTable = NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
+        NetworkTable camTable =
+            NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
         NetworkTableEntry heartbeatEntry = camTable.getEntry("heartbeat");
         lastHeartbeats[i] = (long) heartbeatEntry.getDouble(-1);
       } else {
@@ -88,23 +88,24 @@ public class PhotonVisionSubsystem extends SubsystemBase {
         continue;
       }
 
-      NetworkTable camTable = NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
+      NetworkTable camTable =
+          NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
       NetworkTableEntry heartbeatEntry = camTable.getEntry("heartbeat");
 
       if (!heartbeatEntry.exists()) {
-          results.put(i, null);
-          bestTarget.put(i, new ArrayList<>());
-          System.err.println(cameraNames[i] + "doesn't have a heartbeat entry");
-          continue;
+        results.put(i, null);
+        bestTarget.put(i, new ArrayList<>());
+        System.err.println(cameraNames[i] + "doesn't have a heartbeat entry");
+        continue;
       }
 
       long currentHeartbeat = (long) heartbeatEntry.getDouble(-1);
       if (currentHeartbeat == lastHeartbeats[i]) {
-          // Heartbeat hasn't changed → camera likely stalled or unplugged
-          results.put(i, null);
-          bestTarget.put(i, new ArrayList<>());
-          System.err.println(cameraNames[i] + "heartbeat stayed the same");
-          continue;
+        // Heartbeat hasn't changed → camera likely stalled or unplugged
+        results.put(i, null);
+        bestTarget.put(i, new ArrayList<>());
+        System.err.println(cameraNames[i] + "heartbeat stayed the same");
+        continue;
       }
 
       lastHeartbeats[i] = currentHeartbeat;
@@ -113,23 +114,22 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       // System.out.println(cameraNames[i] + "pipeline updated");
       if (!unreadResults.isEmpty()) {
         results.put(i, unreadResults);
-      }
-      else
-      {
+      } else {
         System.err.println(cameraNames[i] + "pipeline is empty");
         continue;
-      } 
+      }
       if (!results.isEmpty()) {
         bestTarget.put(i, results.get(i).get(0).getTargets());
-        // System.out.println("Best Target IS GETTING UPDATED -------------- for " + cameraNames[i]);
+        // System.out.println("Best Target IS GETTING UPDATED -------------- for " +
+        // cameraNames[i]);
       }
     }
   }
 
   private boolean isCameraConnected(String cameraName) {
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("photonvision/" + cameraName);
-        return table.getKeys().size() > 0;
-    }
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("photonvision/" + cameraName);
+    return table.getKeys().size() > 0;
+  }
 
   // public static void updateCamerasPoseEstimation(Swerve s_Swerve, SwerveDrivePoseEstimator
   // poseEstimator, double

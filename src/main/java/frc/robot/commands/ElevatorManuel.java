@@ -34,7 +34,7 @@ public class ElevatorManuel extends Command {
     double output =
         -m_joystick
             .getY(); // flipped the sign because in the joystick up is negative but elevator up is
-                     // positive
+    // positive
     if (elevSub.getElevatorPositionMeters() > ElevatorConstants.upperEncoderExtreme && output > 0) {
       output = 0;
     }

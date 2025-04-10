@@ -5,7 +5,8 @@ import frc.robot.subsystems.PhotonVisionSubsystem;
 
 /** Add your docs here. */
 public class PhotonVisionCalculations {
-  private static PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
+  private static PhotonVisionSubsystem s_Photon =
+      PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
 
   public PhotonVisionCalculations() {}
 
