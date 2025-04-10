@@ -79,6 +79,10 @@ public class photonAlignCmd extends Command {
     // 1).getFiducialId()] -
     // PhotonVisionCalculations.estimateAdjacent(s_Photon.getBestTarget().get(cameraNum).getFiducialId(), cameraNum);
     VisionConstants.setTagXYHeightAngle();
+
+    //call initPhoton here so that it will declare objects when camera is plugged in while the code is running
+    //call initphoton also so that things will get cleared out if something disconnects
+    s_Photon.initPhoton();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
