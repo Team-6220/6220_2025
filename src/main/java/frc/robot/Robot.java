@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 
   public static final CTREConfigs ctreConfigs = new CTREConfigs();
 
-  private final PhotonVisionSubsystem vision = PhotonVisionSubsystem.getInstance();
+  private final PhotonVisionSubsystem vision = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
 
   private final RobotContainer m_robotContainer;
 

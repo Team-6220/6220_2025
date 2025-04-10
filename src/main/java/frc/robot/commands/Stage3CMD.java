@@ -60,7 +60,7 @@ public class Stage3CMD extends Command {
       XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum) {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance();
+    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     this.leftControl = leftControl;
     // this.s_Swerve = s_Swerve;
     this.rightControl = rightControl;
@@ -76,7 +76,7 @@ public class Stage3CMD extends Command {
   public Stage3CMD(int cameraNum, Trigger leftControl, Trigger rightControl) {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance();
+    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
 
     this.leftControl = leftControl;
     this.rightControl = rightControl;

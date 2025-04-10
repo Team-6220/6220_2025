@@ -50,7 +50,7 @@ public class photonAlignCmd extends Command {
   /** Creates a new photonAlign. */
   public photonAlignCmd(int cameraNum, Swerve s_Swerve, double xSetpoint, double ySetpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
-    s_Photon = PhotonVisionSubsystem.getInstance();
+    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     this.s_Swerve = s_Swerve;
     addRequirements(s_Photon, s_Swerve);
     this.cameraNum = cameraNum;
@@ -60,7 +60,7 @@ public class photonAlignCmd extends Command {
 
   // public photonAlignCmd(int cameraNum, Swerve s_Swerve, double offset) {
   //   // Use addRequirements() here to declare subsystem dependencies.
-  //   s_Photon = PhotonVisionSubsystem.getInstance();
+  //   s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
   //   this.s_Swerve = s_Swerve;
   //   addRequirements(s_Photon, s_Swerve);
   //   this.cameraNum = cameraNum;
@@ -86,7 +86,11 @@ public class photonAlignCmd extends Command {
   public void execute() {
     System.out.print("Photon vision cmd running");
     s_Photon.updatePhoton();
-    if (!s_Photon.getResults().get(cameraNum).isEmpty()) {
+    if (
+      s_Photon.getResults().containsKey(cameraNum) &&
+      s_Photon.getResults().get(cameraNum) != null  &&
+      !s_Photon.getResults().get(cameraNum).isEmpty()
+      ) {
       List<PhotonTrackedTarget> bestTarget = s_Photon.getBestTargets().get(cameraNum);
       SmartDashboard.putNumber("lockedInNum", lockedFiducialID);
       if (bestTarget != null) {
@@ -125,6 +129,19 @@ public class photonAlignCmd extends Command {
         }
       }
     }
+    else
+    {
+      System.err.println(
+        "Something's wrong with photon," + 
+        "paste this line and search it globally to find it and look at possible errors in the comment"
+        );
+        /*Potential problem
+         * 1. Coprocessor not powered
+         * 2. Camera not connected
+         * 3. Photonvision not seen on networktable
+         */
+        end(true);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -138,9 +155,11 @@ public class photonAlignCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Photon
-        .getResults()
-        .get(cameraNum)
-        .isEmpty(); // if there's no tag automatically stop it from driving
+    return s_Photon.getResults().containsKey(cameraNum) &&
+           s_Photon.getResults().get(cameraNum) != null &&
+           s_Photon
+            .getResults()
+            .get(cameraNum)
+            .isEmpty(); // if there's no tag automatically stop it from driving
   }
 }

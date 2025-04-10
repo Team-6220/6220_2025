@@ -1,10 +1,11 @@
 package frc.robot;
 
+import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 
 /** Add your docs here. */
 public class PhotonVisionCalculations {
-  private static PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance();
+  private static PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
 
   public PhotonVisionCalculations() {}
 

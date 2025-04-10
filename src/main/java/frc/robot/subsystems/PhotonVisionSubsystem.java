@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,6 +8,9 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
@@ -16,11 +20,9 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   // "src\main\deploy\vision\2025-reefscape-andymark.json"
   // public static Path path =
   // Filesystem.getDeployDirectory().toPath().resolve("2025-reefscape-andymark.json");
-  private static PhotonCamera[] cameras = {
-    new PhotonCamera("Bottom_Right_Cam"), // Top Right USB
-    new PhotonCamera("Right_Ardu_Cam") // Bottom Right USB
-    // new PhotonCamera("Left_Ardu_Cam")
-  };
+  private static PhotonCamera[] cameras;
+  private static String[] cameraNames;
+  private final long[] lastHeartbeats;
 
   public static Field2d theFieldCam0 = new Field2d(), theFieldCam1 = new Field2d();
 
@@ -34,22 +36,33 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   private HashMap<Integer, List<PhotonTrackedTarget>> bestTarget;
 
   /** Creates a new PhotonVisionSubsystem. */
-  public PhotonVisionSubsystem() {
-    for (int i = 0; i < cameras.length; i++) {
+  public PhotonVisionSubsystem(String[] cameraNames) {
+    cameras = new PhotonCamera[cameraNames.length];
+    lastHeartbeats = new long[cameraNames.length];
+    this.cameraNames = cameraNames;
+  
+  VisionConstants.setTagXYHeightAngle();
+  
+  for (int i = 0; i < cameraNames.length; i++) {
+    if (isCameraConnected(cameraNames[i])) {
+      cameras[i] = new PhotonCamera(cameraNames[i]);
+      System.out.println("Photon camera initialized: " + cameraNames[i]);
       cameras[i].setPipelineIndex(0);
+      NetworkTable camTable = NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
+      NetworkTableEntry heartbeatEntry = camTable.getEntry("heartbeat");
+      lastHeartbeats[i] = (long) heartbeatEntry.getDouble(-1);
+    } else {
+      cameras[i] = null;
+      System.out.println("Photon camera not found: " + cameraNames[i]);
+      lastHeartbeats[i] = -1;
     }
-
-    VisionConstants.setTagXYHeightAngle();
-
-    results = new HashMap<Integer, List<PhotonPipelineResult>>();
-    for (int i = 0; i < cameras.length; i++) {
-      // if (!cameras[i].getAllUnreadResults().isEmpty()) {
-      //   results.put(i, cameras[i].getAllUnreadResults());
-      // } else {
-      results.put(i, null);
-      // }
-    }
-
+  }
+    
+  results = new HashMap<Integer, List<PhotonPipelineResult>>();
+  for (int i = 0; i < cameras.length; i++) {
+          results.put(i, null);
+        }
+        
     bestTarget = new HashMap<Integer, List<PhotonTrackedTarget>>();
     for (int i = 0; i < cameras.length; i++) {
       bestTarget.put(i, null);
@@ -62,14 +75,53 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   }
 
   public void updatePhoton() {
+    for (int i = 0; i < cameraNames.length; i++) {
+      if (isCameraConnected(cameraNames[i])) {
+        cameras[i] = new PhotonCamera(cameraNames[i]);
+        System.out.println("Photon camera initialized: " + cameraNames[i]);
+        cameras[i].setPipelineIndex(0);
+        NetworkTable camTable = NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
+        NetworkTableEntry heartbeatEntry = camTable.getEntry("heartbeat");
+        lastHeartbeats[i] = (long) heartbeatEntry.getDouble(-1);
+      } else {
+        cameras[i] = null;
+        System.out.println("Photon camera not found: " + cameraNames[i]);
+        lastHeartbeats[i] = -1;
+      }
+    }
     for (int i = 0; i < cameras.length; i++) {
+      if (cameras[i] == null) {
+        results.put(i, null);
+        bestTarget.put(i, new ArrayList<>());
+        continue;
+      }
+
+      NetworkTable camTable = NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
+      NetworkTableEntry heartbeatEntry = camTable.getEntry("heartbeat");
+
+      if (!heartbeatEntry.exists()) {
+          results.put(i, null);
+          bestTarget.put(i, new ArrayList<>());
+          continue;
+      }
+
+      long currentHeartbeat = (long) heartbeatEntry.getDouble(-1);
+      if (currentHeartbeat == lastHeartbeats[i]) {
+          // Heartbeat hasn't changed → camera likely stalled or unplugged
+          results.put(i, null);
+          bestTarget.put(i, new ArrayList<>());
+          continue;
+      }
+
+      lastHeartbeats[i] = currentHeartbeat;
+
       List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
       if (!unreadResults.isEmpty()) {
         results.put(i, unreadResults);
       }
       else
       {
-        return;
+        continue;
       } 
       if (!results.isEmpty()) {
         bestTarget.put(i, results.get(i).get(0).getTargets());
@@ -78,6 +130,11 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       }
     }
   }
+
+  private boolean isCameraConnected(String cameraName) {
+        NetworkTable table = NetworkTableInstance.getDefault().getTable("photonvision/" + cameraName);
+        return table.getKeys().size() > 0;
+    }
 
   // public static void updateCamerasPoseEstimation(Swerve s_Swerve, SwerveDrivePoseEstimator
   // poseEstimator, double
@@ -180,9 +237,9 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     return bestTarget;
   }
 
-  public static synchronized PhotonVisionSubsystem getInstance() {
+  public static synchronized PhotonVisionSubsystem getInstance(String[] cameraNames) {
     if (INSTANCE == null) {
-      INSTANCE = new PhotonVisionSubsystem();
+      INSTANCE = new PhotonVisionSubsystem(cameraNames);
     }
     return INSTANCE;
   }

@@ -50,7 +50,7 @@ public class CoralStationCmd extends Command {
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
-    // s_Photon = PhotonVisionSubsystem.getInstance();
+    // s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     // this.m_Controller = null;
     // this.cameraNum = cameraNum;
     // this.autoDrive = autoDrive;
@@ -63,7 +63,7 @@ public class CoralStationCmd extends Command {
     // addRequirements(elevator);
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     elevatorSubsystem = ElevatorSubsystem.getInstance();
-    // s_Photon = PhotonVisionSubsystem.getInstance();
+    // s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     // this.m_Controller = m_Controller;
     // this.cameraNum = cameraNum;
     addRequirements(wrist, elevatorSubsystem);

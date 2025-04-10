@@ -8,6 +8,7 @@ import frc.robot.Constants;
 // import frc.robot.LimelightHelpers;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.VisionConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 // import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -126,7 +127,7 @@ public class Swerve extends SubsystemBase {
   // private double targetYaw;
   // private double targetPitch;
 
-  PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance();
+  PhotonVisionSubsystem s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
 
   PhotonPipelineResult result;
 
