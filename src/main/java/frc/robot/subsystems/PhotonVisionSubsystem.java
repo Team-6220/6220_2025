@@ -43,20 +43,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   
   VisionConstants.setTagXYHeightAngle();
   
-  for (int i = 0; i < cameraNames.length; i++) {
-    if (isCameraConnected(cameraNames[i])) {
-      cameras[i] = new PhotonCamera(cameraNames[i]);
-      System.out.println("Photon camera initialized: " + cameraNames[i]);
-      cameras[i].setPipelineIndex(0);
-      NetworkTable camTable = NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
-      NetworkTableEntry heartbeatEntry = camTable.getEntry("heartbeat");
-      lastHeartbeats[i] = (long) heartbeatEntry.getDouble(-1);
-    } else {
-      cameras[i] = null;
-      System.out.println("Photon camera not found: " + cameraNames[i]);
-      lastHeartbeats[i] = -1;
-    }
-  }
+  initPhoton();
     
   results = new HashMap<Integer, List<PhotonPipelineResult>>();
   for (int i = 0; i < cameras.length; i++) {
@@ -74,7 +61,8 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void updatePhoton() {
+  public void initPhoton()
+  {
     for (int i = 0; i < cameraNames.length; i++) {
       if (isCameraConnected(cameraNames[i])) {
         cameras[i] = new PhotonCamera(cameraNames[i]);
@@ -89,10 +77,14 @@ public class PhotonVisionSubsystem extends SubsystemBase {
         lastHeartbeats[i] = -1;
       }
     }
+  }
+
+  public void updatePhoton() {
     for (int i = 0; i < cameras.length; i++) {
       if (cameras[i] == null) {
         results.put(i, null);
         bestTarget.put(i, new ArrayList<>());
+        System.err.println(cameraNames[i] + " isNull");
         continue;
       }
 
@@ -102,6 +94,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       if (!heartbeatEntry.exists()) {
           results.put(i, null);
           bestTarget.put(i, new ArrayList<>());
+          System.err.println(cameraNames[i] + "doesn't have a heartbeat entry");
           continue;
       }
 
@@ -110,23 +103,25 @@ public class PhotonVisionSubsystem extends SubsystemBase {
           // Heartbeat hasn't changed → camera likely stalled or unplugged
           results.put(i, null);
           bestTarget.put(i, new ArrayList<>());
+          System.err.println(cameraNames[i] + "heartbeat stayed the same");
           continue;
       }
 
       lastHeartbeats[i] = currentHeartbeat;
 
       List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
+      // System.out.println(cameraNames[i] + "pipeline updated");
       if (!unreadResults.isEmpty()) {
         results.put(i, unreadResults);
       }
       else
       {
+        System.err.println(cameraNames[i] + "pipeline is empty");
         continue;
       } 
       if (!results.isEmpty()) {
         bestTarget.put(i, results.get(i).get(0).getTargets());
-        // System.out.println("Best Target IS GETTING UPDATED --------------");
-
+        // System.out.println("Best Target IS GETTING UPDATED -------------- for " + cameraNames[i]);
       }
     }
   }
