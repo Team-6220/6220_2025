@@ -749,7 +749,7 @@ public final class Constants {
     public static final int elevatorEncoderID = 1;
 
     public static final double elevatorKp = 2;
-    public static final double elevatorKi = 0.5;
+    public static final double elevatorKi = 0.05;
     public static final double elevatorKd = 0.0;
     public static final double elevatorKg = 0.23; // Tune this first
     // carret in the middle, if it stil move up, lower it until it holds it in position
