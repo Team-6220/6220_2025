@@ -23,8 +23,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private static ElevatorSubsystem INSTANCE = null;
 
   private final TunableNumber elevatorKp =
-      new TunableNumber(
-          "Elevator kP", ElevatorConstants.elevatorKp);
+      new TunableNumber("Elevator kP", ElevatorConstants.elevatorKp);
   private final TunableNumber elevatorKi =
       new TunableNumber("Elevator kI", ElevatorConstants.elevatorKi);
   private final TunableNumber elevatorKd =
@@ -70,9 +69,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private String tableKey = "Elevator_";
 
   public ElevatorSubsystem() {
-    elevatorMotorLeft =
-        new SparkMax(
-            ElevatorConstants.leftMotorID, MotorType.kBrushless);
+    elevatorMotorLeft = new SparkMax(ElevatorConstants.leftMotorID, MotorType.kBrushless);
     elevatorMotorRight = new SparkMax(ElevatorConstants.rightMotorID, MotorType.kBrushless);
 
     motorLeftConfig
