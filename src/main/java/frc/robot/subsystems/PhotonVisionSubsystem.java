@@ -16,10 +16,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
 
 public class PhotonVisionSubsystem extends SubsystemBase {
-  // "src\\main\\java\\frc\\lib\\vision\\2025-reefscape-andymark.json"
-  // "src\main\deploy\vision\2025-reefscape-andymark.json"
-  // public static Path path =
-  // Filesystem.getDeployDirectory().toPath().resolve("2025-reefscape-andymark.json");
   private static PhotonCamera[] cameras;
   private static String[] cameraNames;
   private final long[] lastHeartbeats;
@@ -57,9 +53,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+  public void periodic() {}
 
   public void initPhoton() {
     for (int i = 0; i < cameraNames.length; i++) {
@@ -111,7 +105,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       lastHeartbeats[i] = currentHeartbeat;
 
       List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
-      // System.out.println(cameraNames[i] + "pipeline updated");
       if (!unreadResults.isEmpty()) {
         results.put(i, unreadResults);
       } else {
@@ -120,8 +113,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       }
       if (!results.isEmpty()) {
         bestTarget.put(i, results.get(i).get(0).getTargets());
-        // System.out.println("Best Target IS GETTING UPDATED -------------- for " +
-        // cameraNames[i]);
       }
     }
   }
@@ -130,95 +121,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("photonvision/" + cameraName);
     return table.getKeys().size() > 0;
   }
-
-  // public static void updateCamerasPoseEstimation(Swerve s_Swerve, SwerveDrivePoseEstimator
-  // poseEstimator, double
-  //   camTrustValue)
-  //   {
-  //     for(int i = 0; i < cameras.length; i ++)
-  //     {
-  //       Optional<EstimatedRobotPose> estimatedRobotPose;
-  //       if(!unreadResults.isEmpty())
-  //       {
-  //         estimatedRobotPose = photonPoseEstimators[i].update(unreadResults.get(0));
-  //       }
-  //       else
-  //       {
-  //         estimatedRobotPose = Optional.empty();
-  //       }
-  //       if(estimatedRobotPose.isPresent())
-  //       {
-  //             System.out.println("updating");
-  //             EstimatedRobotPose temp = estimatedRobotPose.get();
-  //               poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(camTrustValue,
-  // camTrustValue, Double.MAX_VALUE));
-  //               poseEstimator.addVisionMeasurement(temp.estimatedPose.toPose2d(),
-  // temp.timestampSeconds);
-
-  //               // Field2d localTempField2d = new Field2d();
-  //               if(i == 0)
-  //               {
-  //                   theFieldCam0.setRobotPose(temp.estimatedPose.toPose2d());
-  //               }
-  //               else if (i == 1)
-  //               {
-  //                   theFieldCam1.setRobotPose(temp.estimatedPose.toPose2d());
-  //               }
-  //               // SmartDashboard.putString("Vision Estimated Pose for camera " +  i,
-  // localTempField2d.toString());
-  //           }
-  //           else
-  //           {
-  //               if(i == 0)
-  //               {
-  //                   theFieldCam0.setRobotPose(new Pose2d());
-  //               }
-  //               else if (i == 1)
-  //               {
-  //                   theFieldCam1.setRobotPose(new Pose2d());
-  //               }
-  //           }
-  //           // final int index = i; //for lambda.
-  //           // estimatedRobotPose.ifPresentOrElse(
-  //           //     estimate ->
-  //           //     {
-  //           //         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(camTrustValue,
-  // camTrustValue, Double.MAX_VALUE));
-  //           //         poseEstimator.addVisionMeasurement(estimate.estimatedPose.toPose2d(),
-  // estimate.timestampSeconds);
-  //           //         Field2d localTempField2d = new Field2d();
-  //           //         localTempField2d.setRobotPose(estimate.estimatedPose.toPose2d());
-  //           //         // SmartDashboard.putData("Vision Estimated Pose for camera " +  index,
-  // localTempField2d);
-  //           //     }
-  //           //     ,
-  //           //     ()->
-  //           //     {
-  //           //         Field2d localTempField2d = new Field2d();
-  //           //         // SmartDashboard.putData("Vision Estimated Pose for camera " +  index,
-  // localTempField2d);
-  //           //     }
-  //           // );
-  //         //   SmartDashboard.putNumber(tableKey + i + "id", bestTarget.get(i).fiducialId);
-  //         // SmartDashboard.putNumber(tableKey + i + "pitch", bestTarget.get(i).pitch);
-  //         // SmartDashboard.putNumber(tableKey + i + "yaw", bestTarget.get(i).yaw);
-  //         // SmartDashboard.putNumber(tableKey + i + "ambiguity",
-  // bestTarget.get(i).poseAmbiguity);
-  //         // SmartDashboard.putNumber(tableKey + i + "skew", bestTarget.get(i).skew);
-  //         // Transform3d camToTar = bestTarget.get(i).getBestCameraToTarget();
-  //         // SmartDashboard.putNumber(tableKey + i + "camera to pose x", camToTar.getX());
-  //         // SmartDashboard.putNumber(tableKey + i + "camera to pose y", camToTar.getY());
-  //         // SmartDashboard.putNumber(tableKey + i + "camera to pose z", camToTar.getZ());
-  //         // SmartDashboard.putNumber(tableKey + i + "camera to pose measure x",
-  // camToTar.getMeasureX().abs(Meters));
-  //         // SmartDashboard.putNumber(tableKey + i + "camera to pose measure y",
-  // camToTar.getMeasureY().abs(Meters));
-  //         // SmartDashboard.putNumber(tableKey + i + "camera to pose measure z",
-  // camToTar.getMeasureZ().abs(Meters));
-  //           SmartDashboard.putData("Cam0 Vision Feedback", theFieldCam0);
-  //           SmartDashboard.putData("Cam1 Vision feedback", theFieldCam1);
-  //       }
-  //   }
 
   public PhotonCamera[] getCameras() {
     return cameras;
