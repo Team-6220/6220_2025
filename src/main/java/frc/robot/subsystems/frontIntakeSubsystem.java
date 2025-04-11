@@ -77,9 +77,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
   private String tableKey = "frontIntake_";
 
   public frontIntakeSubsystem() {
-    pivotMotorLeft =
-        new SparkMax(
-            FrontIntakeConstants.leftMotorID, MotorType.kBrushless);
+    pivotMotorLeft = new SparkMax(FrontIntakeConstants.leftMotorID, MotorType.kBrushless);
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
     frontMotor = new TalonFX(FrontIntakeConstants.frontMotorID);
 
@@ -127,7 +125,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
         new ArmFeedforward(
             FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeKa.get());
 
-    m_Controller.setIZone(FrontIntakeIZone.get()); 
+    m_Controller.setIZone(FrontIntakeIZone.get());
 
     m_Controller.setTolerance(FrontIntakeTolerance.get());
 
