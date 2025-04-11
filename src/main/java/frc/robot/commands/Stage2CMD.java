@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LEDCANdle;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
@@ -33,6 +34,7 @@ public class Stage2CMD extends Command {
   private TunableNumber wristDegrees = new TunableNumber("l2 wrist", WristConstants.L2);
 
   private PhotonVisionSubsystem s_Photon;
+  private LEDCANdle candle;
 
   private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
   private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
@@ -60,6 +62,7 @@ public class Stage2CMD extends Command {
   public Stage2CMD(
       XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum) {
     elevator = ElevatorSubsystem.getInstance();
+    candle=LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     // this.s_Swerve = s_Swerve;
@@ -70,12 +73,14 @@ public class Stage2CMD extends Command {
     isAuto = false;
     addRequirements(elevator);
     addRequirements(wrist);
+    addRequirements(candle);
     // addRequirements(s_Swerve);
     // addRequirements(s_Photon);
   }
 
   public Stage2CMD(int cameraNum, Trigger leftControl, Trigger rightControl) {
     elevator = ElevatorSubsystem.getInstance();
+    candle=LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
 
@@ -88,6 +93,7 @@ public class Stage2CMD extends Command {
     isAuto = true;
     addRequirements(elevator);
     addRequirements(wrist);
+    addRequirements(candle);
     // addRequirements(s_Swerve);
   }
 
@@ -97,6 +103,7 @@ public class Stage2CMD extends Command {
     elevator.setGoal(ElevatorConstants.E_L2);
     wrist.setGoal(WristConstants.L2);
     VisionConstants.setTagXYHeightAngle();
+    candle.setColor(255, 255, 0, 30,8, 100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
