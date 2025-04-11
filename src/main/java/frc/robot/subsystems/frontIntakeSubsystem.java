@@ -79,7 +79,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
   public frontIntakeSubsystem() {
     pivotMotorLeft =
         new SparkMax(
-            FrontIntakeConstants.leftMotorID, MotorType.kBrushless); // TODO: CHANGE TO CONSTANTS
+            FrontIntakeConstants.leftMotorID, MotorType.kBrushless);
     pivotMotorRight = new SparkMax(FrontIntakeConstants.rightMotorID, MotorType.kBrushless);
     frontMotor = new TalonFX(FrontIntakeConstants.frontMotorID);
 
@@ -127,9 +127,9 @@ public class frontIntakeSubsystem extends SubsystemBase {
         new ArmFeedforward(
             FrontIntakeKs.get(), FrontIntakeKg.get(), FrontIntakeKv.get(), FrontIntakeKa.get());
 
-    m_Controller.setIZone(FrontIntakeIZone.get()); // not sure if we need this
+    m_Controller.setIZone(FrontIntakeIZone.get()); 
 
-    m_Controller.setTolerance(FrontIntakeTolerance.get()); // default 1.5
+    m_Controller.setTolerance(FrontIntakeTolerance.get());
 
     lowerintakeEncoder = new DutyCycleEncoder(2);
   }
@@ -158,7 +158,6 @@ public class frontIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(
         tableKey + "intakeMotorStatorCurrentLimit",
         frontMotor.getStatorCurrent().getValueAsDouble());
-    // SmartDashboard.putNumber(tableKey + "encoder vel");
 
     if (FrontIntakeKp.hasChanged() || FrontIntakeKi.hasChanged() || FrontIntakeKd.hasChanged()) {
       m_Controller.setPID(FrontIntakeKp.get(), FrontIntakeKi.get(), FrontIntakeKd.get());
@@ -221,7 +220,6 @@ public class frontIntakeSubsystem extends SubsystemBase {
   }
 
   public void swingToGoal() {
-    // SmartDashboard.putNumber(tableKey + "Position", goal);
     feedForwardOutput =
         m_Feedforward.calculate(
             (m_Controller.getSetpoint().position) * Math.PI / 180,
