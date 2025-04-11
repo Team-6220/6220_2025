@@ -24,7 +24,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private final TunableNumber elevatorKp =
       new TunableNumber(
-          "Elevator kP", ElevatorConstants.elevatorKp); // TODO: match/make to constant.java
+          "Elevator kP", ElevatorConstants.elevatorKp);
   private final TunableNumber elevatorKi =
       new TunableNumber("Elevator kI", ElevatorConstants.elevatorKi);
   private final TunableNumber elevatorKd =
@@ -38,9 +38,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final TunableNumber elevatorKs =
       new TunableNumber("Elevator kS", ElevatorConstants.elevatorKs);
   private final TunableNumber elevatorIZone =
-      new TunableNumber("Elevator izone", ElevatorConstants.elevatorIZone); // default 3
+      new TunableNumber("Elevator izone", ElevatorConstants.elevatorIZone);
   private final TunableNumber elevatorTolerance =
-      new TunableNumber("Elevator tolerance", ElevatorConstants.elevatorTolerance); // default 1.5
+      new TunableNumber("Elevator tolerance", ElevatorConstants.elevatorTolerance);
 
   private final TunableNumber elevatorMaxVel =
       new TunableNumber("Elevator max vel", ElevatorConstants.elevatorMaxVel);
@@ -72,7 +72,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public ElevatorSubsystem() {
     elevatorMotorLeft =
         new SparkMax(
-            ElevatorConstants.leftMotorID, MotorType.kBrushless); // TODO: CHANGE TO CONSTANTS
+            ElevatorConstants.leftMotorID, MotorType.kBrushless);
     elevatorMotorRight = new SparkMax(ElevatorConstants.rightMotorID, MotorType.kBrushless);
 
     motorLeftConfig
@@ -80,8 +80,6 @@ public class ElevatorSubsystem extends SubsystemBase {
         .idleMode(ElevatorConstants.leftMotorIdleMode)
         .smartCurrentLimit(ElevatorConstants.stallLimit, ElevatorConstants.freeLimit)
         .secondaryCurrentLimit(ElevatorConstants.freeLimit);
-    // .follow(elevatorMotorRight); //Mainly because we're using the right encoder and we want to
-    // keep things organized
 
     motorRightConfig
         .inverted(ElevatorConstants.rightMotorInvert)
@@ -102,37 +100,17 @@ public class ElevatorSubsystem extends SubsystemBase {
         new ElevatorFeedforward(
             elevatorKs.get(), elevatorKg.get(), elevatorKv.get(), elevatorKa.get());
 
-    m_Controller.setIZone(elevatorIZone.get()); // not sure if we need this
+    m_Controller.setIZone(elevatorIZone.get());
 
-    m_Controller.setTolerance(elevatorTolerance.get()); // default 1.5
+    m_Controller.setTolerance(elevatorTolerance.get());
 
     elevatorEncoder =
         elevatorMotorLeft.getEncoder(); // used right side because it provide positive values
     elevatorEncoder.setPosition(0);
   }
 
-  /**
-   * moves the elevator down all the way & when the current is high it knows it's at zero & reset
-   * accordingly
-   */
-  // public void initResetEncoder()
-  // {
-  //   while(elevatorMotorLeft.getOutputCurrent() <= 0.05)
-  //   {
-  //     double goingDownVolt = -5;
-  //     elevatorMotorLeft.setVoltage(goingDownVolt);
-  //     elevatorMotorRight.setVoltage(goingDownVolt);
-  //     System.out.println("reseting elevator");
-  //   }
-  //   elevatorMotorLeft.setVoltage(0);
-  //   elevatorMotorRight.setVoltage(0);
-  //   resetEncoder();
-  //   System.out.println("Reset elevator encoder");
-  // }
-
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
     SmartDashboard.putNumber(tableKey + "Position", getElevatorPositionRaw());
     SmartDashboard.putNumber(tableKey + "Position Meters", getElevatorPositionMeters());
     SmartDashboard.putBoolean(tableKey + "atGoal", elevatorAtGoal());
@@ -211,27 +189,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void driveToGoal() {
-    // if(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
-    // {
-    //   while(elevatorEncoder.getPosition() < m_Controller.getGoal().position)
-    //   {
-    //     elevatorMotorLeft.setVoltage(2.5);
-    //     elevatorMotorRight.setVoltage(2.5);
-    //   }
-    //   elevatorMotorLeft.setVoltage(0);
-    //   elevatorMotorRight.setVoltage(0);
-    // }
-
-    // if(elevatorEncoder.getPosition() > m_Controller.getGoal().position)
-    // {
-    //   while(elevatorEncoder.getPosition() > m_Controller.getGoal().position)
-    //   {
-    //     elevatorMotorLeft.setVoltage(-2.5);
-    //     elevatorMotorRight.setVoltage(-2.5);
-    //   }
-    //   elevatorMotorLeft.setVoltage(0);
-    //   elevatorMotorRight.setVoltage(0);
-    // }
     feedForwardOutput = m_Feedforward.calculate(m_Controller.getSetpoint().velocity);
     profiledMotionOutput = m_Controller.calculate(getElevatorPositionMeters());
     double calculatedSpeed = profiledMotionOutput + feedForwardOutput;
@@ -239,20 +196,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorMotorRight.setVoltage(calculatedSpeed);
     SmartDashboard.putNumber(tableKey + "Elevator Goal", m_Controller.getGoal().position);
     SmartDashboard.putNumber(tableKey + "positionError", m_Controller.getPositionError());
-    // SmartDashboard.putNumber(tableKey ;
     SmartDashboard.putNumber(tableKey + "calculated Speed", calculatedSpeed);
     SmartDashboard.putNumber(tableKey + "ffOutput", feedForwardOutput);
     SmartDashboard.putNumber(tableKey + "PIDOutput", profiledMotionOutput);
     SmartDashboard.putNumber(tableKey + "setpoint velocity", m_Controller.getSetpoint().velocity);
     SmartDashboard.putNumber(tableKey + "setpoint position", m_Controller.getSetpoint().position);
     SmartDashboard.putBoolean(tableKey + "at setpoint", m_Controller.atSetpoint());
-    // SmartDashboard.putNumber(tableKey + "current Elevator pos", getElevatorPositionMeters());
   }
-
-  // public double getPositionMeters()
-  // {
-  //   return elevatorEncoder.getPosition() / (1/20) * SproketRadius * (2*Math.PI);
-  // }
 
   public void resetPID() {
     m_Controller.reset(getElevatorPositionMeters());
