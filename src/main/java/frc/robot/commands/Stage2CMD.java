@@ -62,7 +62,7 @@ public class Stage2CMD extends Command {
   public Stage2CMD(
       XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum) {
     elevator = ElevatorSubsystem.getInstance();
-    candle=LEDCANdle.getInstance();
+    candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     // this.s_Swerve = s_Swerve;
@@ -80,7 +80,7 @@ public class Stage2CMD extends Command {
 
   public Stage2CMD(int cameraNum, Trigger leftControl, Trigger rightControl) {
     elevator = ElevatorSubsystem.getInstance();
-    candle=LEDCANdle.getInstance();
+    candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
 
@@ -103,7 +103,7 @@ public class Stage2CMD extends Command {
     elevator.setGoal(ElevatorConstants.E_L2);
     wrist.setGoal(WristConstants.L2);
     VisionConstants.setTagXYHeightAngle();
-    candle.setColor(255, 255, 0, 30,8, 100);
+    candle.setColor(255, 255, 0, 30, 8, 100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
