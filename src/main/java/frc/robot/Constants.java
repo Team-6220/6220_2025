@@ -748,10 +748,10 @@ public final class Constants {
     public static final double elevatorEncoderOffset = 0; // TODO: SET THIS
     public static final int elevatorEncoderID = 1;
 
-    public static final double elevatorKp = 2;
-    public static final double elevatorKi = 0.05;
-    public static final double elevatorKd = 0.0;
-    public static final double elevatorKg = 0.23; // Tune this first
+    public static final double elevatorKp = 0.075;
+    public static final double elevatorKi = 0.5;
+    public static final double elevatorKd = 0.0015;
+    public static final double elevatorKg = 0.25; // Tune this first
     // carret in the middle, if it stil move up, lower it until it holds it in position
     // Then give a little kp to go to position
     // then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity
