@@ -31,7 +31,11 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+<<<<<<< Updated upstream
 import com.pathplanner.lib.commands.PathPlannerAuto;
+=======
+import com.pathplanner.lib.events.EventTrigger;
+>>>>>>> Stashed changes
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -138,6 +142,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand(null, null);
 
     configureBindings();
+    new EventTrigger("scoreL2").onTrue(new Stage2CMD(deAlgaeL2, coralStation));
   }
 
   /**
@@ -160,20 +165,17 @@ public class RobotContainer {
         new Stage2CMD(
             m_driverController.getHID(),
             m_driverController.leftBumper(),
-            m_driverController.rightBumper(),
-            0));
+            m_driverController.rightBumper()));
     stage3.onTrue(
         new Stage3CMD(
             m_driverController.getHID(),
             m_driverController.leftBumper(),
-            m_driverController.rightBumper(),
-            0));
+            m_driverController.rightBumper()));
     stage4.onTrue(
         new Stage4CMD(
             m_driverController.getHID(),
             m_driverController.leftBumper(),
-            m_driverController.rightBumper(),
-            0));
+            m_driverController.rightBumper()));
 
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());

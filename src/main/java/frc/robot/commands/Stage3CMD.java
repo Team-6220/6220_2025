@@ -49,7 +49,7 @@ public class Stage3CMD extends Command {
       new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
   private final TunableNumber yMaxAccel =
       new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-  private int cameraNum;
+
   private double xSetpoint, ySetpoint;
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
@@ -57,7 +57,7 @@ public class Stage3CMD extends Command {
   private boolean isAuto;
 
   public Stage3CMD(
-      XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum) {
+      XboxController m_Controller, Trigger leftControl, Trigger rightControl) {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
@@ -65,7 +65,7 @@ public class Stage3CMD extends Command {
     // this.s_Swerve = s_Swerve;
     this.rightControl = rightControl;
     this.m_Controller = m_Controller;
-    this.cameraNum = cameraNum;
+
     addRequirements(elevator);
     addRequirements(wrist);
     // addRequirements(s_Swerve);
@@ -73,7 +73,7 @@ public class Stage3CMD extends Command {
     isAuto = false;
   }
 
-  public Stage3CMD(int cameraNum, Trigger leftControl, Trigger rightControl) {
+  public Stage3CMD(Trigger leftControl, Trigger rightControl) {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
@@ -84,7 +84,7 @@ public class Stage3CMD extends Command {
     autoCounter = 0;
     isAuto = true;
     // this.s_Swerve = s_Swerve;
-    this.cameraNum = cameraNum;
+
     // addRequirements(s_Photon);
     addRequirements(elevator);
     addRequirements(wrist);

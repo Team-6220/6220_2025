@@ -51,7 +51,7 @@ public class Stage2CMD extends Command {
       new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
   private final TunableNumber yMaxAccel =
       new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-  private int cameraNum;
+
   private double xSetpoint, ySetpoint;
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
@@ -60,7 +60,7 @@ public class Stage2CMD extends Command {
   private boolean isAuto;
 
   public Stage2CMD(
-      XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum) {
+      XboxController m_Controller, Trigger leftControl, Trigger rightControl) {
     elevator = ElevatorSubsystem.getInstance();
     candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -69,7 +69,7 @@ public class Stage2CMD extends Command {
     this.leftControl = leftControl;
     this.rightControl = rightControl;
     this.m_Controller = m_Controller;
-    this.cameraNum = cameraNum;
+  
     isAuto = false;
     addRequirements(elevator);
     addRequirements(wrist);
@@ -78,7 +78,7 @@ public class Stage2CMD extends Command {
     // addRequirements(s_Photon);
   }
 
-  public Stage2CMD(int cameraNum, Trigger leftControl, Trigger rightControl) {
+  public Stage2CMD(Trigger leftControl, Trigger rightControl) {
     elevator = ElevatorSubsystem.getInstance();
     candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -87,7 +87,7 @@ public class Stage2CMD extends Command {
     this.leftControl = leftControl;
     this.rightControl = rightControl;
     this.m_Controller = null;
-    this.cameraNum = cameraNum;
+
     // addRequirements(s_Photon);
     autoCounter = 0;
     isAuto = true;
