@@ -31,11 +31,10 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-<<<<<<< Updated upstream
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
-=======
 import com.pathplanner.lib.events.EventTrigger;
->>>>>>> Stashed changes
+import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
