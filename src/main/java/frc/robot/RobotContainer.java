@@ -19,6 +19,7 @@ import frc.robot.commands.Stage2CMD;
 import frc.robot.Constants.VisionConstants;
 // import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.alignThenScoreL2;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
@@ -59,7 +60,7 @@ public class RobotContainer {
 
   private final SendableChooser<Command> autoChooser;
 
-  private final Swerve s_Swerve = new Swerve();
+  private final Swerve s_Swerve = Swerve.getInstance();
 
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
@@ -141,7 +142,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand(null, null);
 
     configureBindings();
-    new EventTrigger("scoreL2").onTrue(new Stage2CMD(deAlgaeL2, coralStation));
+    new EventTrigger("scoreL2").onTrue(new alignThenScoreL2());
   }
 
   /**
@@ -161,20 +162,11 @@ public class RobotContainer {
 
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
     stage2.onTrue(
-        new Stage2CMD(
-            m_driverController.getHID(),
-            m_driverController.leftBumper(),
-            m_driverController.rightBumper()));
+        new Stage2CMD(false));
     stage3.onTrue(
-        new Stage3CMD(
-            m_driverController.getHID(),
-            m_driverController.leftBumper(),
-            m_driverController.rightBumper()));
+        new Stage3CMD(false));
     stage4.onTrue(
-        new Stage4CMD(
-            m_driverController.getHID(),
-            m_driverController.leftBumper(),
-            m_driverController.rightBumper()));
+        new Stage4CMD(false));
 
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());

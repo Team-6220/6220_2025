@@ -22,11 +22,7 @@ import frc.robot.Constants.WristConstants;
 public class Stage2CMD extends Command {
   private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
-  private XboxController m_Controller;
 
-  // private Swerve s_Swerve;
-
-  private final Trigger leftControl, rightControl;
 
   private boolean fieldRelative = true;
 
@@ -59,42 +55,20 @@ public class Stage2CMD extends Command {
   private int autoCounter = 0;
   private boolean isAuto;
 
-  public Stage2CMD(
-      XboxController m_Controller, Trigger leftControl, Trigger rightControl) {
+  public Stage2CMD(boolean isAuto) {
     elevator = ElevatorSubsystem.getInstance();
     candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     // this.s_Swerve = s_Swerve;
-    this.leftControl = leftControl;
-    this.rightControl = rightControl;
-    this.m_Controller = m_Controller;
+    
   
-    isAuto = false;
+    this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);
     addRequirements(candle);
     // addRequirements(s_Swerve);
     // addRequirements(s_Photon);
-  }
-
-  public Stage2CMD(Trigger leftControl, Trigger rightControl) {
-    elevator = ElevatorSubsystem.getInstance();
-    candle = LEDCANdle.getInstance();
-    wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
-
-    this.leftControl = leftControl;
-    this.rightControl = rightControl;
-    this.m_Controller = null;
-
-    // addRequirements(s_Photon);
-    autoCounter = 0;
-    isAuto = true;
-    addRequirements(elevator);
-    addRequirements(wrist);
-    addRequirements(candle);
-    // addRequirements(s_Swerve);
   }
 
   // Called when the command is initially scheduled.
@@ -110,56 +84,6 @@ public class Stage2CMD extends Command {
   @Override
   public void execute() {
 
-    // double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
-    // double xOutput = 0, yOutput = 0, rotationVal = 0;
-    // xOutput = driverInputs[0];
-    // xOutput /= 5.0;
-    // yOutput = driverInputs[1]/5.0;
-    // rotationVal = driverInputs[2]/5.0;
-
-    // fieldRelative = true;
-
-    // if(leftControl.getAsBoolean() || rightControl.getAsBoolean())
-    // {
-    //   if(!s_Photon.getResults().get(cameraNum).isEmpty())
-    //   {
-    //     PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
-    //     if(bestTarget != null)
-    //     {
-    //       Transform3d currentPose = bestTarget.getBestCameraToTarget();
-    //       if(leftControl.getAsBoolean())
-    //       {
-    //         xSetpoint = VisionConstants.leftReefX;
-    //         ySetpoint = VisionConstants.leftReefY;
-    //       }
-    //       if(rightControl.getAsBoolean())
-    //       {
-    //         xSetpoint = VisionConstants.rightReefX;
-    //         ySetpoint = VisionConstants.rightReefY;
-    //       }
-    //       xcontroller.setSetpoint(xSetpoint);
-    //       ycontroller.setSetpoint(ySetpoint);
-    //
-    // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
-    //       double xout = xcontroller.calculate(currentPose.getX());
-    //       double yout = ycontroller.calculate(currentPose.getY());
-    //       double thetaout = s_Swerve.getTurnPidSpeed();
-    //       SmartDashboard.putNumber("x pid out", xout);
-    //       SmartDashboard.putNumber("y pid out", yout);
-    //       SmartDashboard.putNumber("theta pid out", thetaout);
-    //       xOutput = xout;
-    //       yOutput = yout;
-    //       rotationVal = thetaout;
-    //     }
-    //     else
-    //     {
-    //       System.err.println("APRIL TAG NOT DETECTED");
-    //     }
-    //   }
-    // }
-    // s_Swerve.drive(new Translation2d(xOutput, yOutput), rotationVal, fieldRelative,  false);
-
-    // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if (elevHeight.hasChanged()) {
       elevator.setGoal(elevHeight.get());
     }

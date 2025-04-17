@@ -32,9 +32,7 @@ public class BasicBlue extends SequentialCommandGroup {
                         4])), // 0 - outter most, 1 - less outter most, 2 - center
         AutoBuilder.pathfindToPose(
             AutoConstants.waypointPosesBlue[2], AutoConstants.pathConstraints), // pathfind
-        new Stage3CMD(
-            new Trigger(() -> true),
-            new Trigger(() -> false)), // either Stage2CMD or Stage3CMD; Stage4CMD not finished
+        new Stage3CMD(true), // either Stage2CMD or Stage3CMD; Stage4CMD not finished
         new EjectCoral(),
         AutoBuilder.pathfindToPose(
             AutoConstants.waypointPosesBlue[6],
@@ -42,9 +40,7 @@ public class BasicBlue extends SequentialCommandGroup {
         new CoralStationCmd(),
         AutoBuilder.pathfindToPose(
             AutoConstants.waypointPosesBlue[1], AutoConstants.pathConstraints),
-        new Stage3CMD(
-            new Trigger(() -> true),
-            new Trigger(() -> false)), // either Stage2CMD or Stage3CMD; Stage4CMD not finished
+        new Stage3CMD(true), // either Stage2CMD or Stage3CMD; Stage4CMD not finished
         new EjectCoral());
   }
 }

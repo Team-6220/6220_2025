@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LEDCANdle;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
@@ -24,8 +25,8 @@ public class Stage4CMD extends Command {
   private XboxController m_Controller;
 
   // private Swerve s_Swerve;
-
-  private final Trigger leftControl, rightControl;
+  private LEDCANdle candle;
+  
 
   private boolean fieldRelative = true;
 
@@ -58,39 +59,20 @@ public class Stage4CMD extends Command {
 
   boolean isAuto;
 
-  public Stage4CMD(
-      XboxController m_Controller, Trigger leftControl, Trigger rightControl) {
+  public Stage4CMD(boolean isAuto) {
     elevator = ElevatorSubsystem.getInstance();
+    candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
-    this.leftControl = leftControl;
-    this.rightControl = rightControl;
-    this.m_Controller = m_Controller;
-
     // this.s_Swerve = s_Swerve;
-    isAuto = false;
+    
+  
+    this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);
+    addRequirements(candle);
     // addRequirements(s_Swerve);
     // addRequirements(s_Photon);
-  }
-
-  public Stage4CMD(Trigger leftControl, Trigger rightControl) {
-    elevator = ElevatorSubsystem.getInstance();
-    wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
-
-    this.leftControl = leftControl;
-    this.rightControl = rightControl;
-    this.m_Controller = null;
-    // this.s_Swerve = s_Swerve;
-
-    // addRequirements(s_Photon);
-    autoCounter = 0;
-    isAuto = true;
-    addRequirements(elevator);
-    addRequirements(wrist);
-    // addRequirements(s_Swerve);
   }
 
   // Called when the command is initially scheduled.
