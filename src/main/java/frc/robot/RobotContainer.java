@@ -141,8 +141,10 @@ public class RobotContainer {
     // TODO: Register named commands as needed
     // NamedCommands.registerCommand(null, null);
 
-    configureBindings();
     new EventTrigger("scoreL2").onTrue(new alignThenScoreL2());
+    new EventTrigger("ejectCoral").whileTrue(new EjectCoral());
+
+    configureBindings();
   }
 
   /**
