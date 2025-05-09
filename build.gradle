@@ -47,7 +47,10 @@ def deployArtifact = deploy.targets.roborio.artifacts.frcJava
 wpi.java.debugJni = false
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = false
+//When set to true you don't need an actual robot and you can still run your simulation
+//But it might crash stuff
+//details see https://tinyurl.com/WPIRobotSimultaion
+def includeDesktopSupport = true
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
