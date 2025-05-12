@@ -11,6 +11,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
@@ -18,7 +19,9 @@ import frc.robot.Constants.VisionConstants;
 public class PhotonVisionSubsystem extends SubsystemBase {
   private static PhotonCamera[] cameras;
   private static String[] cameraNames;
-  private final long[] lastHeartbeats;
+  private long[] lastHeartbeats;
+  private double lastUpdateTime;
+  private final double updateIntervalSeconds = 0.06;
 
   public static Field2d theFieldCam0 = new Field2d(), theFieldCam1 = new Field2d();
 
@@ -35,6 +38,12 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   public PhotonVisionSubsystem(String[] cameraNames) {
     cameras = new PhotonCamera[cameraNames.length];
     lastHeartbeats = new long[cameraNames.length];
+
+    for(int i = 0; i < cameras.length; i ++)
+    {
+      lastHeartbeats[i] = 0;
+    }
+    lastUpdateTime = -1;
     this.cameraNames = cameraNames;
 
     VisionConstants.setTagXYHeightAngle();
@@ -64,16 +73,20 @@ public class PhotonVisionSubsystem extends SubsystemBase {
         NetworkTable camTable =
             NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
         NetworkTableEntry heartbeatEntry = camTable.getEntry("heartbeat");
-        lastHeartbeats[i] = (long) heartbeatEntry.getDouble(-1);
       } else {
         cameras[i] = null;
         System.out.println("Photon camera not found: " + cameraNames[i]);
-        lastHeartbeats[i] = -1;
       }
     }
   }
 
   public void updatePhoton() {
+    double now =  Timer.getFPGATimestamp();
+    if (now - lastUpdateTime < updateIntervalSeconds) {
+      return; // throttle the update
+  }
+  lastUpdateTime = now;
+
     for (int i = 0; i < cameras.length; i++) {
       if (cameras[i] == null) {
         results.put(i, null);
@@ -83,7 +96,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       }
 
       NetworkTable camTable =
-          NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
+      NetworkTableInstance.getDefault().getTable("photonvision/" + cameras[i].getName());
       NetworkTableEntry heartbeatEntry = camTable.getEntry("heartbeat");
 
       if (!heartbeatEntry.exists()) {
@@ -98,7 +111,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
         // Heartbeat hasn't changed → camera likely stalled or unplugged
         results.put(i, null);
         bestTarget.put(i, new ArrayList<>());
-        System.err.println(cameraNames[i] + "heartbeat stayed the same");
+        System.err.println(cameraNames[i] + "heartbeat stayed the same" + lastHeartbeats[i]);
         continue;
       }
 
@@ -113,8 +126,10 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       }
       if (!results.isEmpty()) {
         bestTarget.put(i, results.get(i).get(0).getTargets());
+        continue;
       }
     }
+    return;
   }
 
   private boolean isCameraConnected(String cameraName) {
