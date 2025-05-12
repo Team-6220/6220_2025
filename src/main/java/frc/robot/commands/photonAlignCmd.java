@@ -100,6 +100,14 @@ public class photonAlignCmd extends Command {
   public void execute() {
     System.out.print("Photon vision cmd running");
     s_Photon.updatePhoton();
+    if(xTolerance.hasChanged())
+    {
+      xcontroller.setTolerance(xTolerance.get());
+    }
+    if(yTolerance.hasChanged())
+    {
+      ycontroller.setTolerance(yTolerance.get());
+    }
     if (s_Photon.getResults().containsKey(cameraNum)
         && s_Photon.getResults().get(cameraNum) != null
         && !s_Photon.getResults().get(cameraNum).isEmpty()) {
