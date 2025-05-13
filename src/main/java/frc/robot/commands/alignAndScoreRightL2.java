@@ -13,9 +13,9 @@ import frc.robot.subsystems.Swerve;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class alignThenScoreL2 extends ParallelDeadlineGroup {
+public class alignAndScoreRightL2 extends ParallelDeadlineGroup {
   /** Creates a new alignThenScoreL2. */
-  public alignThenScoreL2() {
+  public alignAndScoreRightL2() {
     // Add the deadline command in the super() call. Add other commands using
     // addCommands().
     super(new Stage2CMD(true));

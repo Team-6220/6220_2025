@@ -19,7 +19,7 @@ import frc.robot.commands.Stage2CMD;
 import frc.robot.Constants.VisionConstants;
 // import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.commands.alignThenScoreL2;
+import frc.robot.commands.alignAndScoreRightL2;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
@@ -146,7 +146,7 @@ public class RobotContainer {
     // TODO: Register named commands as needed
     // NamedCommands.registerCommand(null, null);
 
-    new EventTrigger("scoreL2").onTrue(new alignThenScoreL2());
+    new EventTrigger("scoreL2").onTrue(new alignAndScoreRightL2());
     new EventTrigger("ejectCoral").whileTrue(new EjectCoral());
 
     configureBindings();
