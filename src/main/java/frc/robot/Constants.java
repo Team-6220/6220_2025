@@ -691,6 +691,7 @@ public final class Constants {
 
   public static final class WristConstants {
     public static final int WristMotorID = 17;
+    public static final int CANRangeID = 22;
     public static final boolean motorInverted = false;
     public static final IdleMode wristIdleMode = IdleMode.kBrake;
 
