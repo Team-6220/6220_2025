@@ -34,11 +34,15 @@ import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -89,6 +93,17 @@ public class Swerve extends SubsystemBase {
   private LinkedList<Double> gyro_timestamps = new LinkedList<Double>();
 
   public ShuffleboardTab fieldPoseTab = Shuffleboard.getTab("Field Pose 2d tab (map)");
+
+  //Advantage scope uses a new 3d-field type now
+  //Instead of field2d it's a pose3d.
+  //Details see https://docs.advantagescope.org/tab-reference/3d-field/
+  Pose3d poseA = new Pose3d();
+  Pose3d poseB = new Pose3d();
+
+StructPublisher<Pose3d> publisher = NetworkTableInstance.getDefault()
+  .getStructTopic("MyPose", Pose3d.struct).publish();
+StructArrayPublisher<Pose3d> arrayPublisher = NetworkTableInstance.getDefault()
+  .getStructArrayTopic("MyPoseArray", Pose3d.struct).publish();
 
   public Field2d field2d = new Field2d();
 
@@ -513,6 +528,10 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("is Red", Constants.isRed.equals("red"));
     Double timestamp = Timer.getFPGATimestamp();
+
+    poseA = new Pose3d(getPose());
+    publisher.set(poseA);
+    arrayPublisher.set(new Pose3d[] {poseA, poseB});
     // gyro_headings.put(timestamp, getHeading());
     // gyro_timestamps.addFirst(timestamp);
     // if(gyro_timestamps.size() > 60){
