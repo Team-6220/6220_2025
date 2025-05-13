@@ -71,6 +71,7 @@ public class WristIntakesubsytem extends SubsystemBase {
     if (intakeMotor.getTorqueCurrent().getValueAsDouble() <= currentLimitToHold) {
       intakeMotor.setVoltage(-0.15);
     }
+    SmartDashboard.putBoolean("isOccupied", occupied);
     SmartDashboard.putNumber(
         tableKey + "stator current", intakeMotor.getStatorCurrent().getValueAsDouble());
     SmartDashboard.putNumber(
