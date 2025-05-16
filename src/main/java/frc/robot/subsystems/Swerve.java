@@ -409,6 +409,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public void setTurnControllerGoal(double goal) {
+    System.out.println("Swerve auto turn pid contorller set new goal to " + goal);
     turnPidController.setGoal(goal);
   }
 
