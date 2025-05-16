@@ -17,16 +17,16 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class ScoreL2ThreeTimes extends SequentialCommandGroup {
   /** Creates a new ScoreL2ThreeTimes. */
   public ScoreL2ThreeTimes() {
-    PathPlannerPath path = PathPlannerPath.fromPathFile("StartToReef");
-    try {
-      path = PathPlannerPath.fromPathFile("StartToReef");
-    } 
-    catch (Exception e) {
-      System.out.println(e);
-    }
+    // PathPlannerPath path = PathPlannerPath.fromPathFile("StartToReef");
+    // try {
+    //   path = PathPlannerPath.fromPathFile("StartToReef");
+    // } 
+    // catch (Exception e) {
+    //   System.out.println(e);
+    // }
     
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(AutoBuilder.followPath(path));
+    // addCommands(AutoBuilder.followPath(path));
   }
 }

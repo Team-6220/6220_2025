@@ -98,7 +98,7 @@ public class photonAlignCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.print("Photon vision cmd running");
+    // System.out.print("Photon vision cmd running");
     s_Photon.updatePhoton();
     if(xTolerance.hasChanged())
     {
@@ -154,8 +154,9 @@ public class photonAlignCmd extends Command {
           // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
         }
         autoEndcount ++;
-        if(autoEndcount > 200) //greater than the number of cycle
+        if(autoEndcount > 110) //greater than the number of cycle
         {
+          System.out.println("haven't see a tag for too long... ending");
           isFinished = true;
         }
       }
@@ -170,6 +171,31 @@ public class photonAlignCmd extends Command {
        */
       isFinished = true;
 
+    }
+    if(xKP.hasChanged())
+    {
+      xcontroller.setP(xKP.get());
+    }
+    if(xKI.hasChanged())
+    {
+      xcontroller.setI(xKI.get());
+    }
+    if(xKD.hasChanged())
+    {
+      xcontroller.setD(xKD.get());
+    }
+
+    if(yKP.hasChanged())
+    {
+      ycontroller.setP(yKP.get());
+    }
+    if(yKI.hasChanged())
+    {
+      ycontroller.setI(yKI.get());
+    }
+    if(yKD.hasChanged())
+    {
+      ycontroller.setD(yKD.get());
     }
   }
 
@@ -186,17 +212,28 @@ public class photonAlignCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (s_Photon.getResults().containsKey(cameraNum)
-        && s_Photon.getResults().get(cameraNum) != null
-        && s_Photon
-            .getResults()
-            .get(cameraNum)
-            .isEmpty()) // if there's no tag automatically stop it from driving
-        ||
-        (
-          xcontroller.atSetpoint() && ycontroller.atSetpoint()
-        )
-        ||
-        isFinished;
+    if(s_Photon.getResults().containsKey(cameraNum)
+    && s_Photon.getResults().get(cameraNum) != null
+    && s_Photon
+        .getResults()
+        .get(cameraNum)
+        .isEmpty()){
+          System.out.println("No cameras or camera arraylists are null");
+          return true;
+        }
+      else if (xcontroller.atSetpoint() && ycontroller.atSetpoint())
+      {
+        System.out.println("At setpoint");
+        return true;
+      }
+    else if (isFinished)
+    {
+      System.out.println("Is finished is set to true");
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 }

@@ -515,6 +515,8 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("is Red", Constants.isRed.equals("red"));
     Double timestamp = Timer.getFPGATimestamp();
+    SmartDashboard.putNumber("turn controller setpoint", turnPidController.getGoal().position);
+    SmartDashboard.putBoolean("turn controller atGoal", turnPidController.atGoal());
     // gyro_headings.put(timestamp, getHeading());
     // gyro_timestamps.addFirst(timestamp);
     // if(gyro_timestamps.size() > 60){
