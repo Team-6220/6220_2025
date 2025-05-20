@@ -387,11 +387,10 @@ public final class Constants {
     public static final double centerCoralStationVisionY = .053628;
 
     public static final double leftReefX = .3;
-    public static final double leftReefY = -0.027159;
+    public static final double leftReefY = .01;
 
     public static final double rightReefX = .475573;
-    public static final double rightReefY = .2389203;
-
+    public static final double rightReefY = .3389203;
     // aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
 
     public static final double heightOfCamAboveFloor = 2; // TODO: CAD SPECS
@@ -491,29 +490,29 @@ public final class Constants {
     public static final double driveKA = 0.27;
 
     // Turning Pid Constants
-    public static final double turnKP = 1;
-    public static final double turnKD = 0;
-    public static final double turnKI = 1.7;
+    public static final double turnKP = 0.5;
+    public static final double turnKD = 0.01;
+    public static final double turnKI = 1.2;
     public static final double turnMaxVel = 400;
     public static final double turnMaxAccel = 800;
     public static final double turnTolerance = 1.75;
     public static final double turnIZone = .4;
 
     // X + Y position Pid Constants for Vision autos
-    public static final double xKP = 2.25;
-    public static final double xKD = 0;
-    public static final double xKI = 0;
+    public static final double xKP = 0.3;
+    public static final double xKD = 0.01;
+    public static final double xKI = 0.01;
     public static final double xMaxVel = 400;
     public static final double xMaxAccel = 800;
-    public static final double xTolerance = 1.75;
+    public static final double xTolerance = 0.005;
     public static final double xIZone = .4;
 
-    public static final double yKP = 2.25;
-    public static final double yKD = 0;
-    public static final double yKI = 0;
+    public static final double yKP = 2.4;
+    public static final double yKD = 0.02;
+    public static final double yKI = 0.03;
     public static final double yMaxVel = 400;
     public static final double yMaxAccel = 800;
-    public static final double yTolerance = 1.75;
+    public static final double yTolerance = 0.005;
     public static final double yIZone = .4;
 
     /* Swerve Profiling Values */
@@ -591,10 +590,6 @@ public final class Constants {
     public static final double autoMaxAcceleratMpsSq = 15;
     public static final double maxAngularVelocityRps = Rotation2d.fromDegrees(240).getRadians();
     public static final double maxAngularAcceleratRpsSq = Rotation2d.fromDegrees(480).getRadians();
-
-    public static final double kPXController = 1.5;
-    public static final double kPYController = 1.5;
-    public static final double kPThetaController = 3;
 
     public static final PathConstraints pathConstraints =
         new PathConstraints(
@@ -691,6 +686,7 @@ public final class Constants {
 
   public static final class WristConstants {
     public static final int WristMotorID = 17;
+    public static final int CANRangeID = 22;
     public static final boolean motorInverted = false;
     public static final IdleMode wristIdleMode = IdleMode.kBrake;
 
