@@ -22,75 +22,21 @@ import frc.robot.Constants.WristConstants;
 public class Stage2CMD extends Command {
   private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
-  private XboxController m_Controller;
-
-  // private Swerve s_Swerve;
-
-  private final Trigger leftControl, rightControl;
-
-  private boolean fieldRelative = true;
 
   private TunableNumber elevHeight = new TunableNumber("l2 elev height", ElevatorConstants.E_L2);
   private TunableNumber wristDegrees = new TunableNumber("l2 wrist", WristConstants.L2);
 
-  private PhotonVisionSubsystem s_Photon;
   private LEDCANdle candle;
-
-  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-  private final TunableNumber xMaxVel =
-      new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel =
-      new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
-
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-  private final TunableNumber yMaxVel =
-      new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel =
-      new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-  private int cameraNum;
-  private double xSetpoint, ySetpoint;
-  private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
-  private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
   private int autoCounter = 0;
   private boolean isAuto;
 
-  public Stage2CMD(
-      XboxController m_Controller, Trigger leftControl, Trigger rightControl, int cameraNum) {
+  public Stage2CMD(boolean isAuto) {
     elevator = ElevatorSubsystem.getInstance();
     candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
-    // this.s_Swerve = s_Swerve;
-    this.leftControl = leftControl;
-    this.rightControl = rightControl;
-    this.m_Controller = m_Controller;
-    this.cameraNum = cameraNum;
-    isAuto = false;
-    addRequirements(elevator);
-    addRequirements(wrist);
-    addRequirements(candle);
-    // addRequirements(s_Swerve);
-    // addRequirements(s_Photon);
-  }
-
-  public Stage2CMD(int cameraNum, Trigger leftControl, Trigger rightControl) {
-    elevator = ElevatorSubsystem.getInstance();
-    candle = LEDCANdle.getInstance();
-    wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
-
-    this.leftControl = leftControl;
-    this.rightControl = rightControl;
-    this.m_Controller = null;
-    this.cameraNum = cameraNum;
-    // addRequirements(s_Photon);
     autoCounter = 0;
-    isAuto = true;
+    this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);
     addRequirements(candle);
@@ -102,63 +48,12 @@ public class Stage2CMD extends Command {
   public void initialize() {
     elevator.setGoal(ElevatorConstants.E_L2);
     wrist.setGoal(WristConstants.L2);
-    VisionConstants.setTagXYHeightAngle();
     candle.setColor(255, 255, 0, 30, 8, 100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    // double[] driverInputs = OIConstants.getDriverInputs(m_Controller);
-    // double xOutput = 0, yOutput = 0, rotationVal = 0;
-    // xOutput = driverInputs[0];
-    // xOutput /= 5.0;
-    // yOutput = driverInputs[1]/5.0;
-    // rotationVal = driverInputs[2]/5.0;
-
-    // fieldRelative = true;
-
-    // if(leftControl.getAsBoolean() || rightControl.getAsBoolean())
-    // {
-    //   if(!s_Photon.getResults().get(cameraNum).isEmpty())
-    //   {
-    //     PhotonTrackedTarget bestTarget = s_Photon.getBestTargets().get(cameraNum);
-    //     if(bestTarget != null)
-    //     {
-    //       Transform3d currentPose = bestTarget.getBestCameraToTarget();
-    //       if(leftControl.getAsBoolean())
-    //       {
-    //         xSetpoint = VisionConstants.leftReefX;
-    //         ySetpoint = VisionConstants.leftReefY;
-    //       }
-    //       if(rightControl.getAsBoolean())
-    //       {
-    //         xSetpoint = VisionConstants.rightReefX;
-    //         ySetpoint = VisionConstants.rightReefY;
-    //       }
-    //       xcontroller.setSetpoint(xSetpoint);
-    //       ycontroller.setSetpoint(ySetpoint);
-    //
-    // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.getFiducialId()-1]);
-    //       double xout = xcontroller.calculate(currentPose.getX());
-    //       double yout = ycontroller.calculate(currentPose.getY());
-    //       double thetaout = s_Swerve.getTurnPidSpeed();
-    //       SmartDashboard.putNumber("x pid out", xout);
-    //       SmartDashboard.putNumber("y pid out", yout);
-    //       SmartDashboard.putNumber("theta pid out", thetaout);
-    //       xOutput = xout;
-    //       yOutput = yout;
-    //       rotationVal = thetaout;
-    //     }
-    //     else
-    //     {
-    //       System.err.println("APRIL TAG NOT DETECTED");
-    //     }
-    //   }
-    // }
-    // s_Swerve.drive(new Translation2d(xOutput, yOutput), rotationVal, fieldRelative,  false);
-
     // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if (elevHeight.hasChanged()) {
       elevator.setGoal(elevHeight.get());

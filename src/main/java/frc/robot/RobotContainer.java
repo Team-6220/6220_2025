@@ -155,24 +155,9 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    stage2.onTrue(
-        new Stage2CMD(
-            m_driverController.getHID(),
-            m_driverController.leftBumper(),
-            m_driverController.rightBumper(),
-            0));
-    stage3.onTrue(
-        new Stage3CMD(
-            m_driverController.getHID(),
-            m_driverController.leftBumper(),
-            m_driverController.rightBumper(),
-            0));
-    stage4.onTrue(
-        new Stage4CMD(
-            m_driverController.getHID(),
-            m_driverController.leftBumper(),
-            m_driverController.rightBumper(),
-            0));
+    stage2.onTrue(new Stage2CMD(false));
+    stage3.onTrue(new Stage3CMD(false));
+    stage4.onTrue(new Stage4CMD(false));
 
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
