@@ -23,34 +23,10 @@ public class Stage2CMD extends Command {
   private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
 
-
-  private boolean fieldRelative = true;
-
   private TunableNumber elevHeight = new TunableNumber("l2 elev height", ElevatorConstants.E_L2);
   private TunableNumber wristDegrees = new TunableNumber("l2 wrist", WristConstants.L2);
 
-  private PhotonVisionSubsystem s_Photon;
   private LEDCANdle candle;
-
-  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-  private final TunableNumber xMaxVel =
-      new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel =
-      new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
-
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-  private final TunableNumber yMaxVel =
-      new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel =
-      new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-
-  private double xSetpoint, ySetpoint;
-  private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
-  private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
   private int autoCounter = 0;
   private boolean isAuto;
@@ -59,16 +35,12 @@ public class Stage2CMD extends Command {
     elevator = ElevatorSubsystem.getInstance();
     candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
-    // this.s_Swerve = s_Swerve;
-    
-  
+    autoCounter = 0;
     this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);
     addRequirements(candle);
     // addRequirements(s_Swerve);
-    // addRequirements(s_Photon);
   }
 
   // Called when the command is initially scheduled.
@@ -76,14 +48,12 @@ public class Stage2CMD extends Command {
   public void initialize() {
     elevator.setGoal(ElevatorConstants.E_L2);
     wrist.setGoal(WristConstants.L2);
-    VisionConstants.setTagXYHeightAngle();
     candle.setColor(255, 255, 0, 30, 8, 100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     if (elevHeight.hasChanged()) {
       elevator.setGoal(elevHeight.get());
     }

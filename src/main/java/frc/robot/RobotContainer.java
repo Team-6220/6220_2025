@@ -171,12 +171,9 @@ public class RobotContainer {
         .a()
         .onTrue(new InstantCommand(() -> s_Swerve.setPose(new Pose2d(Meters.of(2.8),Meters.of(4), new Rotation2d(Degrees.of(0))))));
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
-    stage2.onTrue(
-        new Stage2CMD(false));
-    stage3.onTrue(
-        new Stage3CMD(false));
-    stage4.onTrue(
-        new Stage4CMD(false));
+    stage2.onTrue(new Stage2CMD(false));
+    stage3.onTrue(new Stage3CMD(false));
+    stage4.onTrue(new Stage4CMD(false));
 
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
