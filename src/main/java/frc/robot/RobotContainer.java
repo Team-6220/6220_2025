@@ -35,7 +35,7 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.events.EventTrigger;
 import com.pathplanner.lib.events.EventTrigger;
@@ -127,6 +127,7 @@ public class RobotContainer {
 
     autoChooser.addOption("Straight Auto", new StraightAuto(s_Swerve));
     autoChooser.addOption("testScoreBlueB", getAutonomousCommand());
+    autoChooser.addOption("Score L2 right", new PathPlannerAuto("Score L2 Twice"));
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -148,6 +149,12 @@ public class RobotContainer {
 
     new EventTrigger("scoreL2").onTrue(new alignAndScoreRightL2());
     new EventTrigger("ejectCoral").whileTrue(new EjectCoral());
+
+    //named commands for auto
+    // NamedCommands.registerCommand("Score L2 Right", new InstantCommand(() -> new alignAndScoreRightL2()));
+    // NamedCommands.registerCommand("ejectCoral ", new EjectCoral());
+    NamedCommands.registerCommand("Score L2 Right", new InstantCommand(() -> System.out.println("aligning tehe")));
+    NamedCommands.registerCommand("ejectCoral ", new InstantCommand(() -> System.out.println("ejecting")));
 
     configureBindings();
   }
@@ -234,7 +241,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("New Auto");
+    return new PathPlannerAuto("Score L2 Twice");
     // An example command will be run in autonomous
     //return autoChooser.getSelected();
   }
