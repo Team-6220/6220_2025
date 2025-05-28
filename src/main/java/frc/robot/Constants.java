@@ -7,37 +7,12 @@ package frc.robot;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Pound;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Optional;
 
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
-import com.pathplanner.lib.config.ModuleConfig;
-import com.pathplanner.lib.path.PathConstraints;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.lib.util.AlienceColorCoordinateFlip;
-import frc.lib.util.COTSTalonFXSwerveConstants;
-import frc.lib.util.SwerveModuleConstants;
 import frc.lib.util.TunableNumber;
 
 public final class Constants {
@@ -192,9 +167,11 @@ public final class Constants {
 
   //   // public static final Transform3d camToCenterRobotZero = new Transform3d(new
   //   // Translation3d(-.254, -.254, 0.2159), new
-  //   // Rotation3d(0,Rotation2d.fromDegrees(50).getRadians(),0));//Cam mounted facing forward, half a
+  //   // Rotation3d(0,Rotation2d.fromDegrees(50).getRadians(),0));//Cam mounted facing forward,
+  // half a
   //   // meter forward of center, half a meter up from center. //TODO: need change
-  //   // public static final Transform3d camToCenterRobotOne = new Transform3d(new Translation3d(.254,
+  //   // public static final Transform3d camToCenterRobotOne = new Transform3d(new
+  // Translation3d(.254,
   //   // .254, 0.2159), new Rotation3d(0,Rotation2d.fromDegrees(-50).getRadians(),0));//Cam mounted
   //   // facing forward, half a meter forward of center, half a meter up from center. //TODO: need
   //   // change
@@ -214,8 +191,10 @@ public final class Constants {
   //             Rotation2d.fromDegrees(-16.90).getRadians())) // Cam one, right //TODO: need chagne
   //   };
 
-  //   public static final double leftArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
-  //   public static final double rightArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
+  //   public static final double leftArduCamPitchOffsetRad =
+  // Rotation2d.fromDegrees(35).getRadians();
+  //   public static final double rightArduCamPitchOffsetRad =
+  // Rotation2d.fromDegrees(35).getRadians();
 
   //   /** Trust value of the vision */
   //   public static final double visionStdDev = 0.5;
@@ -227,12 +206,14 @@ public final class Constants {
   //   };
 
   //   public static final double[] aprilTagCoordsX = {
-  //     657.37, 657.37, 455.15, 365.20, 365.20, 530.49, 546.87, 530.49, 497.77, 481.39, 497.77, 33.51,
+  //     657.37, 657.37, 455.15, 365.20, 365.20, 530.49, 546.87, 530.49, 497.77, 481.39, 497.77,
+  // 33.51,
   //     33.51, 325.68, 325.68, 235.73, 160.39, 144.00, 160.39, 193.10, 209.49, 193.10
   //   };
 
   //   public static final double[] aprilTagCoordsY = {
-  //     25.80, 291.20, 317.15, 241.64, 75.39, 130.17, 158.50, 186.83, 186.83, 158.50, 130.17, 25.80,
+  //     25.80, 291.20, 317.15, 241.64, 75.39, 130.17, 158.50, 186.83, 186.83, 158.50, 130.17,
+  // 25.80,
   //     291.20, 241.64, 75.39, -0.15, 130.17, 158.50, 186.83, 186.83, 158.50, 130.17
   //   };
 
@@ -243,15 +224,18 @@ public final class Constants {
 
   //   AprilTag[] apriltags2025 = {
   //     new AprilTag(
-  //         1, new Pose3d(16.687292, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883678))),
+  //         1, new Pose3d(16.687292, 0.628142, 1.4859, new Rotation3d(0.0, 0.0,
+  // 0.8910065241883678))),
   //     new AprilTag(
   //         2,
   //         new Pose3d(
-  //             16.687292, 7.414259999999999, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883679))),
+  //             16.687292, 7.414259999999999, 1.4859, new Rotation3d(0.0, 0.0,
+  // 0.8910065241883679))),
   //     new AprilTag(
   //         3,
   //         new Pose3d(
-  //             11.49096, 8.031733999999998, 1.30175, new Rotation3d(0.0, 0.0, 0.7071067811865476))),
+  //             11.49096, 8.031733999999998, 1.30175, new Rotation3d(0.0, 0.0,
+  // 0.7071067811865476))),
   //     new AprilTag(
   //         4,
   //         new Pose3d(
@@ -277,10 +261,12 @@ public final class Constants {
   //         7, new Pose3d(13.890498, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 0.0))),
   //     new AprilTag(
   //         8,
-  //         new Pose3d(13.474446, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.49999999999999994))),
+  //         new Pose3d(13.474446, 4.740402, 0.308102, new Rotation3d(0.0, 0.0,
+  // 0.49999999999999994))),
   //     new AprilTag(
   //         9,
-  //         new Pose3d(12.643358, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844386))),
+  //         new Pose3d(12.643358, 4.740402, 0.308102, new Rotation3d(0.0, 0.0,
+  // 0.8660254037844386))),
   //     new AprilTag(
   //         10,
   //         new Pose3d(
@@ -295,7 +281,8 @@ public final class Constants {
   //     new AprilTag(
   //         12,
   //         new Pose3d(
-  //             0.8613139999999999, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.45399049973954675))),
+  //             0.8613139999999999, 0.628142, 1.4859, new Rotation3d(0.0, 0.0,
+  // 0.45399049973954675))),
   //     new AprilTag(
   //         13,
   //         new Pose3d(
@@ -336,7 +323,8 @@ public final class Constants {
   //     new AprilTag(
   //         19,
   //         new Pose3d(
-  //             4.073905999999999, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844386))),
+  //             4.073905999999999, 4.740402, 0.308102, new Rotation3d(0.0, 0.0,
+  // 0.8660254037844386))),
   //     new AprilTag(
   //         20,
   //         new Pose3d(
@@ -427,7 +415,8 @@ public final class Constants {
   //   public static final double wheelRadius = chosenModule.wheelDiameter / 2;
 
   //   /* Swerve Kinematics
-  //    * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
+  //    * No need to ever change this unless you are not doing a traditional rectangular/square 4
+  // module swerve */
   //   public static final SwerveDriveKinematics swerveKinematics =
   //       new SwerveDriveKinematics(
   //           new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
@@ -464,7 +453,8 @@ public final class Constants {
   //   public static final DCMotor krackonX60 =
   //       new DCMotor(
   //           12, 7.09, 366, 2, 628.32,
-  //           4); // https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
+  //           4); //
+  // https://docs.wcproducts.com/kraken-x60/kraken-x60-motor/overview-and-features/motor-performance
   //   public static final ModuleConfig swerveModuleConfig =
   //       new ModuleConfig(
   //           wheelRadius, SwerveConstants.maxSpeed, 1.0, krackonX60, driveCurrentLimit, 4);
@@ -569,7 +559,7 @@ public final class Constants {
   //         new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
   //   }
   // }
-  
+
   // public static final
   // class AutoConstants { // FIXME: The below constants are used in the example auto, and must be
   //   // tuned to specific robot
@@ -590,7 +580,8 @@ public final class Constants {
   //   public static final double autoMaxVelocityMps = 5;
   //   public static final double autoMaxAcceleratMpsSq = 15;
   //   public static final double maxAngularVelocityRps = Rotation2d.fromDegrees(240).getRadians();
-  //   public static final double maxAngularAcceleratRpsSq = Rotation2d.fromDegrees(480).getRadians();
+  //   public static final double maxAngularAcceleratRpsSq =
+  // Rotation2d.fromDegrees(480).getRadians();
 
   //   public static final double kPXController = 1.5;
   //   public static final double kPYController = 1.5;
@@ -632,7 +623,8 @@ public final class Constants {
   //    * This value is increasement of currentcenternotepos, positive for it to go from top of the
   //    * field in pathplanner, negative for it to go from the bottom to the top
   //    */
-  //   // public static final int centernoteIncrementVal = 1; //DO NOT CHANGE THIS VALUE (go from big
+  //   // public static final int centernoteIncrementVal = 1; //DO NOT CHANGE THIS VALUE (go from
+  // big
   //   // to little in notePoseIDForAttempting instead)
 
   //   public static final double bufferVelocityForInBetweenPaths = 4;
@@ -650,7 +642,8 @@ public final class Constants {
   //     new Pose2d(3.55, 5.86, new Rotation2d(-1 * Math.PI / 3)), // sixth
   //     new Pose2d(
   //         1.62, 1.37, new Rotation2d(-.7 * Math.PI)), // coral station to the right of drivers
-  //     new Pose2d(1.46, 6.72, new Rotation2d(.7 * Math.PI)), // coral station to the left of drivers
+  //     new Pose2d(1.46, 6.72, new Rotation2d(.7 * Math.PI)), // coral station to the left of
+  // drivers
   //     new Pose2d(11.53, 7.1, new Rotation2d(Math.PI / 2)) // processor
   //   };
 
@@ -674,10 +667,12 @@ public final class Constants {
   //   // };
 
   //   /**
-  //    * Starting index for the pose that the robot will attempt @IMPORTANT If go from BOTTOM to TOP,
+  //    * Starting index for the pose that the robot will attempt @IMPORTANT If go from BOTTOM to
+  // TOP,
   //    * set this NO LOWER THAN MIN, if from TOP to BOTTOM, NO HIGHER THAN MAX
   //    */
-  //   // public static int currentCenterNotePos = 0;//Starting index for the pose that the robot will
+  //   // public static int currentCenterNotePos = 0;//Starting index for the pose that the robot
+  // will
   //   // attempt
 
   //   // public static final int centerNoteMax = 4; //from 0 to 4, 0 is top
@@ -754,7 +749,8 @@ public final class Constants {
   //   public static final double elevatorKg = 0.25; // Tune this first
   //   // carret in the middle, if it stil move up, lower it until it holds it in position
   //   // Then give a little kp to go to position
-  //   // then increase max accel & vel to make it faster (after change unit of posiiotn to m, velocity
+  //   // then increase max accel & vel to make it faster (after change unit of posiiotn to m,
+  // velocity
   //   // is m/s)
   //   public static final double elevatorKv = 8.8;
   //   // mechanism calculator, reca.lc --> linear machanism calculator -- put approximately

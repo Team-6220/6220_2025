@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.WristIntakeConstants;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -29,16 +28,13 @@ public class WristIntakesubsytem extends SubsystemBase {
 
   public WristIntakesubsytem() {
     wristIntakeConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    wristIntakeConfig.MotorOutput.NeutralMode =
-        WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
+    wristIntakeConfig.MotorOutput.NeutralMode = WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
 
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =
         WristIntakeConstants.enableCurrentLimit;
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimit = WristIntakeConstants.maxCurrent;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit =
-        WristIntakeConstants.currentLimit;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime =
-        WristIntakeConstants.maxCurrentTime;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = WristIntakeConstants.currentLimit;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = WristIntakeConstants.maxCurrentTime;
     intakeMotor = new TalonFX(WristIntakeConstants.wristintakeMotorID);
     intakeMotor.getConfigurator().apply(wristIntakeConfig);
   }

@@ -25,7 +25,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.lib.math.Conversions;
 import frc.lib.util.SwerveModuleConstants;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import frc.robot.SwerveConstants;
 
 // import edu.wpi.first.math.kinematics.SwerveModuleState;
 
@@ -49,9 +48,7 @@ public class SwerveModule {
 
   private final SimpleMotorFeedforward driveFeedForward =
       new SimpleMotorFeedforward(
-          SwerveConstants.driveKS,
-          SwerveConstants.driveKV,
-          SwerveConstants.driveKA);
+          SwerveConstants.driveKS, SwerveConstants.driveKV, SwerveConstants.driveKA);
 
   /* drive motor control requests */
   private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
@@ -130,8 +127,7 @@ public class SwerveModule {
   private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
     SmartDashboard.putBoolean("mod" + moduleNumber + "isopenloop", isOpenLoop);
     if (isOpenLoop) {
-      driveDutyCycle.Output =
-          desiredState.speedMetersPerSecond / SwerveConstants.maxSpeed;
+      driveDutyCycle.Output = desiredState.speedMetersPerSecond / SwerveConstants.maxSpeed;
       mDriveMotor.setControl(driveDutyCycle);
       SmartDashboard.putNumber("Mod " + moduleNumber + "drivedutycycle", driveDutyCycle.Output);
     } else {
@@ -162,8 +158,7 @@ public class SwerveModule {
   public SwerveModuleState getState() {
     return new SwerveModuleState(
         Conversions.RPSToMPS(
-            mDriveMotor.getVelocity().getValueAsDouble(),
-            SwerveConstants.wheelCircumference),
+            mDriveMotor.getVelocity().getValueAsDouble(), SwerveConstants.wheelCircumference),
         Rotation2d.fromRotations(
             RevConfigs.NeoEncoderAngleToCANCoder(mNeoAngleEncoder.getPosition())));
   }
@@ -171,8 +166,7 @@ public class SwerveModule {
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
         Conversions.rotationsToMeters(
-            mDriveMotor.getPosition().getValueAsDouble(),
-            SwerveConstants.wheelCircumference),
+            mDriveMotor.getPosition().getValueAsDouble(), SwerveConstants.wheelCircumference),
         Rotation2d.fromRotations(
             RevConfigs.NeoEncoderAngleToCANCoder(mNeoAngleEncoder.getPosition())));
   }
