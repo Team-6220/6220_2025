@@ -9,7 +9,6 @@ import static edu.wpi.first.units.Units.Pound;
 
 import java.util.Optional;
 
-
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.wpilibj.DriverStation;
