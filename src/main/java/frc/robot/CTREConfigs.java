@@ -14,39 +14,39 @@ public final class CTREConfigs {
 
   public CTREConfigs() {
     /** Swerve CANCoder Configuration */
-    swerveCANcoderConfig.MagnetSensor.SensorDirection = Constants.SwerveConstants.cancoderInvert;
+    swerveCANcoderConfig.MagnetSensor.SensorDirection = SwerveConstants.cancoderInvert;
 
     /** Swerve Drive Motor Configuration */
     /* Motor Inverts and Neutral Mode */
-    swerveDriveFXConfig.MotorOutput.Inverted = Constants.SwerveConstants.driveMotorInvert;
-    swerveDriveFXConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
+    swerveDriveFXConfig.MotorOutput.Inverted = SwerveConstants.driveMotorInvert;
+    swerveDriveFXConfig.MotorOutput.NeutralMode = SwerveConstants.driveNeutralMode;
 
     /* Gear Ratio Config */
-    swerveDriveFXConfig.Feedback.SensorToMechanismRatio = Constants.SwerveConstants.driveGearRatio;
+    swerveDriveFXConfig.Feedback.SensorToMechanismRatio = SwerveConstants.driveGearRatio;
 
     swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimitEnable =
-        Constants.SwerveConstants.driveEnableCurrentLimit;
+        SwerveConstants.driveEnableCurrentLimit;
     swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit =
-        Constants.SwerveConstants.driveMaxCurrent;
+        SwerveConstants.driveMaxCurrent;
     swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerLimit =
-        Constants.SwerveConstants.driveCurrentLimit;
+        SwerveConstants.driveCurrentLimit;
     swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerTime =
-        Constants.SwerveConstants.driveMaxCurrentTime;
+        SwerveConstants.driveMaxCurrentTime;
 
     /* PID Config */
-    swerveDriveFXConfig.Slot0.kP = Constants.SwerveConstants.driveKP;
-    swerveDriveFXConfig.Slot0.kI = Constants.SwerveConstants.driveKI;
-    swerveDriveFXConfig.Slot0.kD = Constants.SwerveConstants.driveKD;
+    swerveDriveFXConfig.Slot0.kP = SwerveConstants.driveKP;
+    swerveDriveFXConfig.Slot0.kI = SwerveConstants.driveKI;
+    swerveDriveFXConfig.Slot0.kD = SwerveConstants.driveKD;
 
     /* Open and Closed Loop Ramping */
     swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod =
-        Constants.SwerveConstants.openLoopRamp;
+        SwerveConstants.openLoopRamp;
     swerveDriveFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod =
-        Constants.SwerveConstants.openLoopRamp;
+        SwerveConstants.openLoopRamp;
 
     swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod =
-        Constants.SwerveConstants.closedLoopRamp;
+        SwerveConstants.closedLoopRamp;
     swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod =
-        Constants.SwerveConstants.closedLoopRamp;
+        SwerveConstants.closedLoopRamp;
   }
 }

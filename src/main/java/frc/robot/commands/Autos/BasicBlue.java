@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Autos;
 
-import frc.robot.Constants.AutoConstants;
+import frc.robot.AutoConstants;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 

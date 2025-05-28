@@ -17,7 +17,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants.WristConstants;
+import frc.robot.WristConstants;
 
 public class V2_SparkMaxWristSubsystem extends SubsystemBase {
   /** Creates a new V2_SparkMaxWristSubsystem. */

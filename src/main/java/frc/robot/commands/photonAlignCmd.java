@@ -10,8 +10,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants;
-import frc.robot.Constants.VisionConstants;
+import frc.robot.SwerveConstants;
+import frc.robot.VisionConstants;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 
@@ -24,21 +24,21 @@ public class photonAlignCmd extends Command {
   private Swerve s_Swerve;
   private PhotonVisionSubsystem s_Photon;
 
-  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
+  private final TunableNumber xKP = new TunableNumber("x kP", SwerveConstants.xKP);
+  private final TunableNumber xKI = new TunableNumber("x kI", SwerveConstants.xKI);
+  private final TunableNumber xKD = new TunableNumber("x kD", SwerveConstants.xKD);
   private final TunableNumber xMaxVel =
-      new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
+      new TunableNumber("x MaxVel", SwerveConstants.xMaxVel);
   private final TunableNumber xMaxAccel =
-      new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
+      new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
 
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
+  private final TunableNumber yKP = new TunableNumber("y kP", SwerveConstants.yKP);
+  private final TunableNumber yKI = new TunableNumber("y kI", SwerveConstants.yKI);
+  private final TunableNumber yKD = new TunableNumber("y kD", SwerveConstants.yKD);
   private final TunableNumber yMaxVel =
-      new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
+      new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
   private final TunableNumber yMaxAccel =
-      new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
+      new TunableNumber("y Accel", SwerveConstants.yMaxAccel);
   private int cameraNum;
   private double xSetpoint, ySetpoint;
   private int lockedFiducialID = -1;

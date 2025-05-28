@@ -17,7 +17,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants.ElevatorConstants;
+import frc.robot.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private static ElevatorSubsystem INSTANCE = null;

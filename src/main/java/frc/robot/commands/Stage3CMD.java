@@ -13,9 +13,9 @@ import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.VisionConstants;
-import frc.robot.Constants.WristConstants;
+import frc.robot.ElevatorConstants;
+import frc.robot.VisionConstants;
+import frc.robot.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage3CMD extends Command {

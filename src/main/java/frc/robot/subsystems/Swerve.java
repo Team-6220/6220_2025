@@ -7,8 +7,10 @@ import frc.robot.Constants;
 // import frc.robot.Localization_V2;
 // import frc.robot.LimelightHelpers;
 import frc.robot.SwerveModule;
-import frc.robot.Constants.SwerveConstants;
-import frc.robot.Constants.VisionConstants;
+// import frc.robot.Constants.SwerveConstants;
+// import frc.robot.Constants.VisionConstants;
+import frc.robot.SwerveConstants;
+import frc.robot.VisionConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 // import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -96,29 +98,29 @@ public class Swerve extends SubsystemBase {
   private double autoTurnHeading;
 
   private final TunableNumber turnKP =
-      new TunableNumber("turn kP", Constants.SwerveConstants.turnKP);
+      new TunableNumber("turn kP", SwerveConstants.turnKP);
   private final TunableNumber turnKI =
-      new TunableNumber("turn kI", Constants.SwerveConstants.turnKI);
+      new TunableNumber("turn kI", SwerveConstants.turnKI);
   private final TunableNumber turnKD =
-      new TunableNumber("turn Kd", Constants.SwerveConstants.turnKD);
+      new TunableNumber("turn Kd", SwerveConstants.turnKD);
   private final TunableNumber turnMaxVel =
-      new TunableNumber("turn MaxVel", Constants.SwerveConstants.turnMaxVel);
+      new TunableNumber("turn MaxVel", SwerveConstants.turnMaxVel);
   private final TunableNumber turnMaxAccel =
-      new TunableNumber("turn Accel", Constants.SwerveConstants.turnMaxAccel);
+      new TunableNumber("turn Accel", SwerveConstants.turnMaxAccel);
 
   private final TunableNumber autoRkP =
-      new TunableNumber("auto R kP", Constants.SwerveConstants.rotation_kP);
+      new TunableNumber("auto R kP", SwerveConstants.rotation_kP);
   private final TunableNumber autoRkI =
-      new TunableNumber("auto R kI", Constants.SwerveConstants.rotation_kI);
+      new TunableNumber("auto R kI", SwerveConstants.rotation_kI);
   private final TunableNumber autoRkD =
-      new TunableNumber("auto R kD", Constants.SwerveConstants.rotation_kD);
+      new TunableNumber("auto R kD", SwerveConstants.rotation_kD);
 
   private final TunableNumber autoTkP =
-      new TunableNumber("auto T kP", Constants.SwerveConstants.translation_kP);
+      new TunableNumber("auto T kP", SwerveConstants.translation_kP);
   private final TunableNumber autoTkI =
-      new TunableNumber("auto T kI", Constants.SwerveConstants.translation_kI);
+      new TunableNumber("auto T kI", SwerveConstants.translation_kI);
   private final TunableNumber autoTkD =
-      new TunableNumber("auto T kD", Constants.SwerveConstants.translation_kD);
+      new TunableNumber("auto T kD", SwerveConstants.translation_kD);
 
   private boolean autoIsOverShoot = false, isAuto = false;
 
@@ -158,7 +160,7 @@ public class Swerve extends SubsystemBase {
 
     poseEstimator =
         new SwerveDrivePoseEstimator(
-            Constants.SwerveConstants.swerveKinematics,
+            SwerveConstants.swerveKinematics,
             new Rotation2d(),
             positions,
             new Pose2d(),
@@ -173,8 +175,8 @@ public class Swerve extends SubsystemBase {
             turnKI.get(),
             turnKD.get(),
             new TrapezoidProfile.Constraints(turnMaxVel.get(), turnMaxAccel.get()));
-    turnPidController.setIZone(Constants.SwerveConstants.turnIZone);
-    turnPidController.setTolerance(Constants.SwerveConstants.turnTolerance);
+    turnPidController.setIZone(SwerveConstants.turnIZone);
+    turnPidController.setTolerance(SwerveConstants.turnTolerance);
     turnPidController.enableContinuousInput(-180, 180);
 
     // xPidController = new ProfiledPIDController(xKP.get(), xKI.get(), xKD.get(), new

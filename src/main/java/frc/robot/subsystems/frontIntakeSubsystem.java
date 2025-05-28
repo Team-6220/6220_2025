@@ -22,7 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants;
-import frc.robot.Constants.FrontIntakeConstants;
+import frc.robot.FrontIntakeConstants;
+import frc.robot.SwerveConstants;
 
 public class frontIntakeSubsystem extends SubsystemBase {
   private static frontIntakeSubsystem INSTANCE = null;
@@ -85,19 +86,19 @@ public class frontIntakeSubsystem extends SubsystemBase {
         InvertedValue
             .CounterClockwise_Positive; // positive is intake coral/outtake algae, negative is
     // intake algae/outtake coral
-    lowerIntakeConfig.MotorOutput.NeutralMode = Constants.SwerveConstants.driveNeutralMode;
+    lowerIntakeConfig.MotorOutput.NeutralMode = SwerveConstants.driveNeutralMode;
 
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =
-        Constants.FrontIntakeConstants.enableCurrentLimit;
-    lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.FrontIntakeConstants.maxCurrent;
+        FrontIntakeConstants.enableCurrentLimit;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = FrontIntakeConstants.maxCurrent;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit =
-        Constants.FrontIntakeConstants.currentLimit;
+        FrontIntakeConstants.currentLimit;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime =
-        Constants.FrontIntakeConstants.maxCurrentTime;
+        FrontIntakeConstants.maxCurrentTime;
     lowerIntakeConfig.CurrentLimits.StatorCurrentLimitEnable =
-        Constants.FrontIntakeConstants.enableStatorCurrentLimit;
+        FrontIntakeConstants.enableStatorCurrentLimit;
     lowerIntakeConfig.CurrentLimits.StatorCurrentLimit =
-        Constants.FrontIntakeConstants.maxStatorCurrent;
+        FrontIntakeConstants.maxStatorCurrent;
 
     frontMotor.getConfigurator().apply(lowerIntakeConfig);
 
