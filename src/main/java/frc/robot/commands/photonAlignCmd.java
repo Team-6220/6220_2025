@@ -27,18 +27,14 @@ public class photonAlignCmd extends Command {
   private final TunableNumber xKP = new TunableNumber("x kP", SwerveConstants.xKP);
   private final TunableNumber xKI = new TunableNumber("x kI", SwerveConstants.xKI);
   private final TunableNumber xKD = new TunableNumber("x kD", SwerveConstants.xKD);
-  private final TunableNumber xMaxVel =
-      new TunableNumber("x MaxVel", SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel =
-      new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
+  private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", SwerveConstants.xMaxVel);
+  private final TunableNumber xMaxAccel = new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
 
   private final TunableNumber yKP = new TunableNumber("y kP", SwerveConstants.yKP);
   private final TunableNumber yKI = new TunableNumber("y kI", SwerveConstants.yKI);
   private final TunableNumber yKD = new TunableNumber("y kD", SwerveConstants.yKD);
-  private final TunableNumber yMaxVel =
-      new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel =
-      new TunableNumber("y Accel", SwerveConstants.yMaxAccel);
+  private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
+  private final TunableNumber yMaxAccel = new TunableNumber("y Accel", SwerveConstants.yMaxAccel);
   private int cameraNum;
   private double xSetpoint, ySetpoint;
   private int lockedFiducialID = -1;

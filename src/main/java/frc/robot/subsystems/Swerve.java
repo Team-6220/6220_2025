@@ -97,23 +97,17 @@ public class Swerve extends SubsystemBase {
   private double lastTurnUpdate;
   private double autoTurnHeading;
 
-  private final TunableNumber turnKP =
-      new TunableNumber("turn kP", SwerveConstants.turnKP);
-  private final TunableNumber turnKI =
-      new TunableNumber("turn kI", SwerveConstants.turnKI);
-  private final TunableNumber turnKD =
-      new TunableNumber("turn Kd", SwerveConstants.turnKD);
+  private final TunableNumber turnKP = new TunableNumber("turn kP", SwerveConstants.turnKP);
+  private final TunableNumber turnKI = new TunableNumber("turn kI", SwerveConstants.turnKI);
+  private final TunableNumber turnKD = new TunableNumber("turn Kd", SwerveConstants.turnKD);
   private final TunableNumber turnMaxVel =
       new TunableNumber("turn MaxVel", SwerveConstants.turnMaxVel);
   private final TunableNumber turnMaxAccel =
       new TunableNumber("turn Accel", SwerveConstants.turnMaxAccel);
 
-  private final TunableNumber autoRkP =
-      new TunableNumber("auto R kP", SwerveConstants.rotation_kP);
-  private final TunableNumber autoRkI =
-      new TunableNumber("auto R kI", SwerveConstants.rotation_kI);
-  private final TunableNumber autoRkD =
-      new TunableNumber("auto R kD", SwerveConstants.rotation_kD);
+  private final TunableNumber autoRkP = new TunableNumber("auto R kP", SwerveConstants.rotation_kP);
+  private final TunableNumber autoRkI = new TunableNumber("auto R kI", SwerveConstants.rotation_kI);
+  private final TunableNumber autoRkD = new TunableNumber("auto R kD", SwerveConstants.rotation_kD);
 
   private final TunableNumber autoTkP =
       new TunableNumber("auto T kP", SwerveConstants.translation_kP);

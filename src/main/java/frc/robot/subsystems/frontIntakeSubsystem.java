@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants;
 import frc.robot.FrontIntakeConstants;
 import frc.robot.SwerveConstants;
 
@@ -91,14 +90,11 @@ public class frontIntakeSubsystem extends SubsystemBase {
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =
         FrontIntakeConstants.enableCurrentLimit;
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = FrontIntakeConstants.maxCurrent;
-    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit =
-        FrontIntakeConstants.currentLimit;
-    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime =
-        FrontIntakeConstants.maxCurrentTime;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = FrontIntakeConstants.currentLimit;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = FrontIntakeConstants.maxCurrentTime;
     lowerIntakeConfig.CurrentLimits.StatorCurrentLimitEnable =
         FrontIntakeConstants.enableStatorCurrentLimit;
-    lowerIntakeConfig.CurrentLimits.StatorCurrentLimit =
-        FrontIntakeConstants.maxStatorCurrent;
+    lowerIntakeConfig.CurrentLimits.StatorCurrentLimit = FrontIntakeConstants.maxStatorCurrent;
 
     frontMotor.getConfigurator().apply(lowerIntakeConfig);
 
