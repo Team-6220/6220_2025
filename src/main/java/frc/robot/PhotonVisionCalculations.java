@@ -1,6 +1,5 @@
 package frc.robot;
 
-import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 
 /** Add your docs here. */

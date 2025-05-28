@@ -16,7 +16,6 @@ import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
 import frc.robot.commands.OuttakeAlgaeLowerIntake;
 import frc.robot.commands.Stage2CMD;
-import frc.robot.Constants.VisionConstants;
 // import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;

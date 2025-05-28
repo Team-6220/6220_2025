@@ -25,7 +25,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.lib.math.Conversions;
 import frc.lib.util.SwerveModuleConstants;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import frc.robot.Constants.SwerveConstants;
+import frc.robot.SwerveConstants;
 
 // import edu.wpi.first.math.kinematics.SwerveModuleState;
 
@@ -49,9 +49,9 @@ public class SwerveModule {
 
   private final SimpleMotorFeedforward driveFeedForward =
       new SimpleMotorFeedforward(
-          Constants.SwerveConstants.driveKS,
-          Constants.SwerveConstants.driveKV,
-          Constants.SwerveConstants.driveKA);
+          SwerveConstants.driveKS,
+          SwerveConstants.driveKV,
+          SwerveConstants.driveKA);
 
   /* drive motor control requests */
   private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
@@ -72,9 +72,9 @@ public class SwerveModule {
     /* Angle Motor Config */
     mAngleMotor = new SparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
     angleConfig
-        .inverted(Constants.SwerveConstants.angleMotorInvert)
-        .idleMode(Constants.SwerveConstants.angleNeutralMode)
-        .smartCurrentLimit(Constants.SwerveConstants.angleCurrentLimit);
+        .inverted(SwerveConstants.angleMotorInvert)
+        .idleMode(SwerveConstants.angleNeutralMode)
+        .smartCurrentLimit(SwerveConstants.angleCurrentLimit);
 
     // angleConfig.encoder
     //     .countsPerRevolution(42);
@@ -131,13 +131,13 @@ public class SwerveModule {
     SmartDashboard.putBoolean("mod" + moduleNumber + "isopenloop", isOpenLoop);
     if (isOpenLoop) {
       driveDutyCycle.Output =
-          desiredState.speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
+          desiredState.speedMetersPerSecond / SwerveConstants.maxSpeed;
       mDriveMotor.setControl(driveDutyCycle);
       SmartDashboard.putNumber("Mod " + moduleNumber + "drivedutycycle", driveDutyCycle.Output);
     } else {
       driveVelocity.Velocity =
           Conversions.MPSToRPS(
-              desiredState.speedMetersPerSecond, Constants.SwerveConstants.wheelCircumference);
+              desiredState.speedMetersPerSecond, SwerveConstants.wheelCircumference);
       driveVelocity.FeedForward = driveFeedForward.calculate(desiredState.speedMetersPerSecond);
       mDriveMotor.setControl(driveVelocity);
     }
@@ -163,7 +163,7 @@ public class SwerveModule {
     return new SwerveModuleState(
         Conversions.RPSToMPS(
             mDriveMotor.getVelocity().getValueAsDouble(),
-            Constants.SwerveConstants.wheelCircumference),
+            SwerveConstants.wheelCircumference),
         Rotation2d.fromRotations(
             RevConfigs.NeoEncoderAngleToCANCoder(mNeoAngleEncoder.getPosition())));
   }
@@ -172,7 +172,7 @@ public class SwerveModule {
     return new SwerveModulePosition(
         Conversions.rotationsToMeters(
             mDriveMotor.getPosition().getValueAsDouble(),
-            Constants.SwerveConstants.wheelCircumference),
+            SwerveConstants.wheelCircumference),
         Rotation2d.fromRotations(
             RevConfigs.NeoEncoderAngleToCANCoder(mNeoAngleEncoder.getPosition())));
   }
