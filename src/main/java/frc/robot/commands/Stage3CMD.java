@@ -14,9 +14,9 @@ import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
 import frc.robot.Constants;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.VisionConstants;
-import frc.robot.Constants.WristConstants;
+import frc.robot.ElevatorConstants;
+import frc.robot.VisionConstants;
+import frc.robot.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage3CMD extends Command {
@@ -42,6 +42,13 @@ public class Stage3CMD extends Command {
     // addRequirements(s_Swerve);
   }
 
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+      elevator.setGoal(elevHeight.getDefault());
+      wrist.setGoal(wristDegrees.getDefault());
+      VisionConstants.setTagXYHeightAngle();
+    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

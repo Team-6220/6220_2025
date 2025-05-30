@@ -6,12 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.WristConstants;
-import frc.robot.Constants.WristIntakeConstants;
+import frc.robot.WristConstants;
+import frc.robot.WristIntakeConstants;
 
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
-import com.ctre.phoenix6.configs.CustomParamsConfigs;
 import com.ctre.phoenix6.configs.FovParamsConfigs;
 import com.ctre.phoenix6.configs.ProximityParamsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -44,15 +42,15 @@ public class WristIntakesubsytem extends SubsystemBase {
   public WristIntakesubsytem() {
     wristIntakeConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     wristIntakeConfig.MotorOutput.NeutralMode =
-        Constants.WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
+        WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
 
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =
-        Constants.WristIntakeConstants.enableCurrentLimit;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.WristIntakeConstants.maxCurrent;
+        WristIntakeConstants.enableCurrentLimit;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLimit = WristIntakeConstants.maxCurrent;
     wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit =
-        Constants.WristIntakeConstants.currentLimit;
+        WristIntakeConstants.currentLimit;
     wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime =
-        Constants.WristIntakeConstants.maxCurrentTime;
+        WristIntakeConstants.maxCurrentTime;
     intakeMotor = new TalonFX(WristIntakeConstants.wristintakeMotorID);
     intakeMotor.getConfigurator().apply(wristIntakeConfig);
     
