@@ -46,15 +46,14 @@ public class Stage2CMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevator.setGoal(ElevatorConstants.E_L2);
-    wrist.setGoal(WristConstants.L2);
+    elevator.setGoal(elevHeight.getDefault());
+    wrist.setGoal(wristDegrees.get());
     candle.setColor(255, 255, 0, 30, 8, 100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if (elevHeight.hasChanged()) {
       elevator.setGoal(elevHeight.get());
     }

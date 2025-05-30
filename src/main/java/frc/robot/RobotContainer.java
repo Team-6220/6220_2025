@@ -18,6 +18,7 @@ import frc.robot.commands.OuttakeAlgaeLowerIntake;
 import frc.robot.commands.Stage2CMD;
 // import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.alignAndScoreRightL2;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
@@ -29,8 +30,17 @@ import frc.robot.commands.wristUpOneDegree;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.events.EventTrigger;
+import com.pathplanner.lib.events.EventTrigger;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -54,7 +64,7 @@ public class RobotContainer {
 
   private final SendableChooser<Command> autoChooser;
 
-  private final Swerve s_Swerve = new Swerve();
+  private final Swerve s_Swerve = Swerve.getInstance();
 
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
@@ -111,11 +121,11 @@ public class RobotContainer {
 
     autoChooser.addOption("basic blue", new BasicBlue(s_Swerve));
     // autoChooser.addOption("just drive out (dumb)", new StraightAuto(s_Swerve));
-    // s_Swerve.configureAutoBuilder();
 
     elevator.setDefaultCommand(new ElevatorManuel(m_joystick));
 
     autoChooser.addOption("Straight Auto", new StraightAuto(s_Swerve));
+    autoChooser.addOption("testScoreBlueB", getAutonomousCommand());
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -135,6 +145,9 @@ public class RobotContainer {
     // TODO: Register named commands as needed
     // NamedCommands.registerCommand(null, null);
 
+    new EventTrigger("scoreL2").onTrue(new alignAndScoreRightL2());
+    new EventTrigger("ejectCoral").whileTrue(new EjectCoral());
+
     configureBindings();
   }
 
@@ -153,6 +166,9 @@ public class RobotContainer {
         .y()
         .onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
+    m_driverController
+        .a()
+        .onTrue(new InstantCommand(() -> s_Swerve.setPose(new Pose2d(Meters.of(2.8),Meters.of(4), new Rotation2d(Degrees.of(0))))));
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
     stage2.onTrue(new Stage2CMD(false));
     stage3.onTrue(new Stage3CMD(false));
@@ -171,16 +187,16 @@ public class RobotContainer {
 
     m_driverController
         .leftTrigger(.75)
-        .whileTrue(
+        .onTrue(
             new photonAlignCmd(0, s_Swerve, VisionConstants.leftReefX, VisionConstants.leftReefY));
     m_driverController
         .rightTrigger(.75)
-        .whileTrue(
+        .onTrue(
             new photonAlignCmd(
-                1, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
+                0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
     m_driverController
         .b()
-        .whileTrue(
+        .onTrue(
             new photonAlignCmd(
                 1,
                 s_Swerve,
@@ -214,8 +230,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    return new PathPlannerAuto("New Auto");
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    //return autoChooser.getSelected();
   }
   // An example command will be run in autonomous
 

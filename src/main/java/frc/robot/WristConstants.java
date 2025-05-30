@@ -6,6 +6,8 @@ public final class WristConstants {
     public static final int WristMotorID = 17;
     public static final boolean motorInverted = false;
     public static final IdleMode wristIdleMode = IdleMode.kBrake;
+    
+    public static final int CANRangeID = 22;
 
     public static final boolean encoderInverted = false;
     /*on branch tune_lower_intake PID&FF start (not really tuned) */

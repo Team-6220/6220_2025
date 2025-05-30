@@ -243,10 +243,10 @@ public final class VisionConstants {
     public static final double centerCoralStationVisionY = .053628;
 
     public static final double leftReefX = .3;
-    public static final double leftReefY = -0.027159;
+    public static final double leftReefY = .01;
 
     public static final double rightReefX = .475573;
-    public static final double rightReefY = .2389203;
+    public static final double rightReefY = .3389203;
 
     // aprilTagXYHeightAngle.put(1, new Double[]{55.25, 657.37, 25.80, 126.0});
 

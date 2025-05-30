@@ -77,6 +77,8 @@ public class Swerve extends SubsystemBase {
 
   private PhotonCamera camera = new PhotonCamera("Camera_Module_v1");
 
+  private static Swerve INSTANCE = null;
+
   public SwerveModule[] mSwerveMods;
   public AHRS gyro;
   private boolean isAutoTurning;
@@ -409,6 +411,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public void setTurnControllerGoal(double goal) {
+    System.out.println("Swerve auto turn pid contorller set new goal to " + goal);
     turnPidController.setGoal(goal);
   }
 
@@ -515,6 +518,8 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("is Red", Constants.isRed.equals("red"));
     Double timestamp = Timer.getFPGATimestamp();
+    SmartDashboard.putNumber("turn controller setpoint", turnPidController.getGoal().position);
+    SmartDashboard.putBoolean("turn controller atGoal", turnPidController.atGoal());
     // gyro_headings.put(timestamp, getHeading());
     // gyro_timestamps.addFirst(timestamp);
     // if(gyro_timestamps.size() > 60){
@@ -611,5 +616,12 @@ public class Swerve extends SubsystemBase {
     Shuffleboard.getTab(title).addNumber("Auto Turn Heading", () -> autoTurnHeading);
     Shuffleboard.getTab(title)
         .addNumber("Turn Controller Setpoint", () -> turnPidController.getSetpoint().position);
+  }
+
+  public static synchronized Swerve getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = new Swerve();
+    }
+    return INSTANCE;
   }
 }

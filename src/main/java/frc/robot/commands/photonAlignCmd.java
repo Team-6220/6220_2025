@@ -30,11 +30,13 @@ public class photonAlignCmd extends Command {
   private final TunableNumber xMaxVel =
       new TunableNumber("x MaxVel", SwerveConstants.xMaxVel);
   private final TunableNumber xMaxAccel =
-      new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
+  new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
+  private final TunableNumber xTolerance = new TunableNumber("x Tolerance", SwerveConstants.xTolerance);
 
   private final TunableNumber yKP = new TunableNumber("y kP", SwerveConstants.yKP);
   private final TunableNumber yKI = new TunableNumber("y kI", SwerveConstants.yKI);
   private final TunableNumber yKD = new TunableNumber("y kD", SwerveConstants.yKD);
+  private final TunableNumber yTolerance = new TunableNumber("y Tolerance", SwerveConstants.yTolerance);
   private final TunableNumber yMaxVel =
       new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
   private final TunableNumber yMaxAccel =
@@ -44,6 +46,11 @@ public class photonAlignCmd extends Command {
   private int lockedFiducialID = -1;
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
+
+  private boolean isFinished;
+  //use this to count how long the entire thing ends itself
+  //  if it simply didn't see anything but everything's functioning
+  private int autoEndcount = 0;
 
   // private PhotonTrackedTarget bestTarget;
 
@@ -84,13 +91,23 @@ public class photonAlignCmd extends Command {
     // is running
     // call initphoton also so that things will get cleared out if something disconnects
     s_Photon.initPhoton();
+    isFinished = false;
+    autoEndcount = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.print("Photon vision cmd running");
+    // System.out.print("Photon vision cmd running");
     s_Photon.updatePhoton();
+    if(xTolerance.hasChanged())
+    {
+      xcontroller.setTolerance(xTolerance.get());
+    }
+    if(yTolerance.hasChanged())
+    {
+      ycontroller.setTolerance(yTolerance.get());
+    }
     if (s_Photon.getResults().containsKey(cameraNum)
         && s_Photon.getResults().get(cameraNum) != null
         && !s_Photon.getResults().get(cameraNum).isEmpty()) {
@@ -99,6 +116,7 @@ public class photonAlignCmd extends Command {
       if (bestTarget != null) {
         for (PhotonTrackedTarget tar : bestTarget) {
           if (lockedFiducialID == -1) {
+            System.out.println("WE LOCKED ON fiducial " + tar.getFiducialId());
             lockedFiducialID = tar.getFiducialId();
           }
 
@@ -107,13 +125,16 @@ public class photonAlignCmd extends Command {
 
             xcontroller.setSetpoint(xSetpoint);
             ycontroller.setSetpoint(ySetpoint);
+            s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[tar.getFiducialId() - 1]);
             double xout = xcontroller.calculate(currentPose.getX());
             double yout = ycontroller.calculate(currentPose.getY());
             double thetaout = s_Swerve.getTurnPidSpeed();
             SmartDashboard.putNumber("x pid out", xout);
             SmartDashboard.putNumber("y pid out", yout);
             SmartDashboard.putNumber("theta pid out", thetaout);
-            s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[tar.getFiducialId() - 1]);
+
+            SmartDashboard.putNumber("x pid setpoint", xcontroller.getSetpoint());
+            SmartDashboard.putNumber("y pid setpoint", ycontroller.getSetpoint());
             s_Swerve.drive(new Translation2d(-xout, -yout), -thetaout, false, false);
             SmartDashboard.putNumber("camera to pose x", currentPose.getX());
             SmartDashboard.putNumber("camera to pose y", currentPose.getY());
@@ -124,11 +145,22 @@ public class photonAlignCmd extends Command {
             SmartDashboard.putNumber("yaw", tar.yaw);
             SmartDashboard.putNumber("ambiguity", tar.poseAmbiguity);
             SmartDashboard.putNumber("skew", tar.skew);
+
+            SmartDashboard.putBoolean("xPID at setpt", xcontroller.atSetpoint());
+            SmartDashboard.putBoolean("yPID at setpt", ycontroller.atSetpoint());
           } else {
             s_Swerve.stopDriving();
-          }
+            System.err.println("LOST LOCKED ID, ENDING");
+            isFinished = true;
 
+          }
           // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
+        }
+        autoEndcount ++;
+        if(autoEndcount > 110) //greater than the number of cycle
+        {
+          System.out.println("haven't see a tag for too long... ending");
+          isFinished = true;
         }
       }
     } else {
@@ -140,26 +172,71 @@ public class photonAlignCmd extends Command {
        * 2. Camera not connected
        * 3. Photonvision not seen on networktable
        */
-      end(true);
+      isFinished = true;
+
+    }
+    if(xKP.hasChanged())
+    {
+      xcontroller.setP(xKP.get());
+    }
+    if(xKI.hasChanged())
+    {
+      xcontroller.setI(xKI.get());
+    }
+    if(xKD.hasChanged())
+    {
+      xcontroller.setD(xKD.get());
+    }
+
+    if(yKP.hasChanged())
+    {
+      ycontroller.setP(yKP.get());
+    }
+    if(yKI.hasChanged())
+    {
+      ycontroller.setI(yKI.get());
+    }
+    if(yKD.hasChanged())
+    {
+      ycontroller.setD(yKD.get());
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("PHOTON ENDED");
     s_Swerve.stopDriving();
     lockedFiducialID = -1;
+    SmartDashboard.putBoolean("xPID at setpt", false);
+    SmartDashboard.putBoolean("yPID at setpt", false);
+    System.out.println("PHOTON ENDED");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Photon.getResults().containsKey(cameraNum)
-        && s_Photon.getResults().get(cameraNum) != null
-        && s_Photon
-            .getResults()
-            .get(cameraNum)
-            .isEmpty(); // if there's no tag automatically stop it from driving
+    if(s_Photon.getResults().containsKey(cameraNum)
+    && s_Photon.getResults().get(cameraNum) != null
+    && s_Photon
+        .getResults()
+        .get(cameraNum)
+        .isEmpty()){
+          System.out.println("No cameras or camera arraylists are null");
+          return true;
+        }
+      else if (xcontroller.atSetpoint() && ycontroller.atSetpoint())
+      {
+        System.out.println("At setpoint");
+        return true;
+      }
+    else if (isFinished)
+    {
+      System.out.println("Is finished is set to true");
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 }
