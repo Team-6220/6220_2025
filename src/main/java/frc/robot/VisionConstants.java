@@ -55,20 +55,37 @@ public final class VisionConstants {
     // facing forward, half a meter forward of center, half a meter up from center. //TODO: need
     // change
 
-    public static final Transform3d[] camerasToCenter = {
-      new Transform3d(
-          new Translation3d(.256032, -0.26035, 0.21209),
-          new Rotation3d(
-              0,
-              Rotation2d.fromDegrees(-35).getRadians(),
-              Rotation2d.fromDegrees(24.12).getRadians())), // Cam zero, left//TODO: need change
-      new Transform3d(
-          new Translation3d(.252222, 0.258318, 0.2159),
-          new Rotation3d(
-              0,
-              Rotation2d.fromDegrees(-35).getRadians(),
-              Rotation2d.fromDegrees(-16.90).getRadians())) // Cam one, right //TODO: need chagne
-    };
+//   public static final Transform3d[] camerasToCenter = {
+//     new Transform3d(
+//         new Translation3d(.256032, -0.26035, 0.21209),
+//         new Rotation3d(
+//             0,
+//             Rotation2d.fromDegrees(-35).getRadians(),
+//             Rotation2d.fromDegrees(24.12).getRadians())), // Cam zero, left//TODO: need change
+//     new Transform3d(
+//         new Translation3d(.252222, 0.258318, 0.2159),
+//         new Rotation3d(
+//             0,
+//             Rotation2d.fromDegrees(-35).getRadians(),
+//             Rotation2d.fromDegrees(-16.90).getRadians())) // Cam one, right //TODO: need chagne
+//   };
+
+  public static final double[] cameraYawDegrees = 
+  {
+    28,
+    0
+  };
+
+  public static final Transform3d[] robotCenterToCamera = {
+    new Transform3d(
+        new Translation3d(0.3, 0.2, 0.2),
+        new Rotation3d(0, 0, Math.toRadians(40))),
+    //TODO: as of 6/11/2025, the second camera's pose has not been set (just a rough estimation) because we can not have access to the robot
+    new Transform3d(
+        new Translation3d(0.0, 0.2, 0.5),  
+        new Rotation3d(0, 0, Math.toRadians(40))
+    )
+};
 
     public static final double leftArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
     public static final double rightArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
@@ -92,12 +109,12 @@ public final class VisionConstants {
       291.20, 241.64, 75.39, -0.15, 130.17, 158.50, 186.83, 186.83, 158.50, 130.17
     };
 
-    public static final double[] aprilTagAngle = {
+    public static final double[] aprilTagYaw = {
       126.0, 234.0, 270.0, 0.0, 0.0, 300.0, 0.0, 60.0, 120.0, 180.0, 240.0, 54.0, 306.0, 180.0,
       180.0, 90.0, 240.0, 180.0, 120.0, 60.0, 0.0, 300.0
     };
 
-    AprilTag[] apriltags2025 = {
+    public static final AprilTag[] apriltags2025 = {
       new AprilTag(
           1, new Pose3d(16.687292, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883678))),
       new AprilTag(
@@ -212,20 +229,21 @@ public final class VisionConstants {
     };
 
     // creates a hash map of the X Y and Height in that order for april tags
-    public static HashMap<Integer, ArrayList<Double>> aprilTagXYHeightAngle =
+    //NOTE: HASHMAP INDEX STARTS AT 1, NOT ZERO
+    public static HashMap<Integer, ArrayList<Double>> aprilTagXYHeightYaw =
         new HashMap<Integer, ArrayList<Double>>();
 
     public static HashMap<Integer, Double[]> cameraSpecs = new HashMap<Integer, Double[]>();
 
     public static void setTagXYHeightAngle() {
-      for (int i = 1; i <= aprilTagAngle.length; i++) {
-        aprilTagXYHeightAngle.put(i, new ArrayList<Double>());
-        aprilTagXYHeightAngle.get(i).add(aprilTagCoordsX[i - 1]);
-        aprilTagXYHeightAngle.get(i).add(aprilTagCoordsY[i - 1]);
-        aprilTagXYHeightAngle.get(i).add(aprilTagHeightInches[i - 1]);
-        aprilTagXYHeightAngle.get(i).add(aprilTagAngle[i - 1]);
+      for (int i = 1; i <= aprilTagYaw.length; i++) {
+        aprilTagXYHeightYaw.put(i, new ArrayList<Double>());
+        aprilTagXYHeightYaw.get(i).add(aprilTagCoordsX[i - 1]);
+        aprilTagXYHeightYaw.get(i).add(aprilTagCoordsY[i - 1]);
+        aprilTagXYHeightYaw.get(i).add(aprilTagHeightInches[i - 1]);
+        aprilTagXYHeightYaw.get(i).add(aprilTagYaw[i - 1]);
       }
-      System.out.print(aprilTagXYHeightAngle);
+      System.out.print(aprilTagXYHeightYaw);
       for (int x = 0; x < 3; x++) {
         cameraSpecs.put(x, new Double[2]);
         cameraSpecs.get(x)[0] = cameraHeight[x];
