@@ -55,20 +55,37 @@ public final class VisionConstants {
   // facing forward, half a meter forward of center, half a meter up from center. //TODO: need
   // change
 
-  public static final Transform3d[] camerasToCenter = {
-    new Transform3d(
-        new Translation3d(.256032, -0.26035, 0.21209),
-        new Rotation3d(
-            0,
-            Rotation2d.fromDegrees(-35).getRadians(),
-            Rotation2d.fromDegrees(24.12).getRadians())), // Cam zero, left//TODO: need change
-    new Transform3d(
-        new Translation3d(.252222, 0.258318, 0.2159),
-        new Rotation3d(
-            0,
-            Rotation2d.fromDegrees(-35).getRadians(),
-            Rotation2d.fromDegrees(-16.90).getRadians())) // Cam one, right //TODO: need chagne
+//   public static final Transform3d[] camerasToCenter = {
+//     new Transform3d(
+//         new Translation3d(.256032, -0.26035, 0.21209),
+//         new Rotation3d(
+//             0,
+//             Rotation2d.fromDegrees(-35).getRadians(),
+//             Rotation2d.fromDegrees(24.12).getRadians())), // Cam zero, left//TODO: need change
+//     new Transform3d(
+//         new Translation3d(.252222, 0.258318, 0.2159),
+//         new Rotation3d(
+//             0,
+//             Rotation2d.fromDegrees(-35).getRadians(),
+//             Rotation2d.fromDegrees(-16.90).getRadians())) // Cam one, right //TODO: need chagne
+//   };
+
+  public static final double[] cameraYawDegrees = 
+  {
+    28,
+    0
   };
+
+  public static final Transform3d[] robotCenterToCamera = {
+    new Transform3d(
+        new Translation3d(0.3, 0.2, 0.2),
+        new Rotation3d(0, 0, Math.toRadians(40))),
+    //TODO: as of 6/11/2025, the second camera's pose has not been set (just a rough estimation) because we can not have access to the robot
+    new Transform3d(
+        new Translation3d(0.0, 0.2, 0.5),  
+        new Rotation3d(0, 0, Math.toRadians(40))
+    )
+};
 
   public static final double leftArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
   public static final double rightArduCamPitchOffsetRad = Rotation2d.fromDegrees(35).getRadians();
@@ -92,136 +109,147 @@ public final class VisionConstants {
     291.20, 241.64, 75.39, -0.15, 130.17, 158.50, 186.83, 186.83, 158.50, 130.17
   };
 
-  public static final double[] aprilTagAngle = {
-    126.0, 234.0, 270.0, 0.0, 0.0, 300.0, 0.0, 60.0, 120.0, 180.0, 240.0, 54.0, 306.0, 180.0, 180.0,
-    90.0, 240.0, 180.0, 120.0, 60.0, 0.0, 300.0
-  };
+    public static final double[] aprilTagYaw = {
+      126.0, 234.0, 270.0, 0.0, 0.0, 300.0, 0.0, 60.0, 120.0, 180.0, 240.0, 54.0, 306.0, 180.0,
+      180.0, 90.0, 240.0, 180.0, 120.0, 60.0, 0.0, 300.0
+    };
 
-  AprilTag[] apriltags2025 = {
-    new AprilTag(
-        1, new Pose3d(16.687292, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883678))),
-    new AprilTag(
-        2,
-        new Pose3d(
-            16.687292, 7.414259999999999, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883679))),
-    new AprilTag(
-        3,
-        new Pose3d(
-            11.49096, 8.031733999999998, 1.30175, new Rotation3d(0.0, 0.0, 0.7071067811865476))),
-    new AprilTag(
-        4,
-        new Pose3d(
-            9.276079999999999,
-            6.132575999999999,
-            1.8679160000000001,
-            new Rotation3d(0.0, 0.25881904510252074, 0.0))),
-    new AprilTag(
-        5,
-        new Pose3d(
-            9.276079999999999,
-            1.9098259999999998,
-            1.8679160000000001,
-            new Rotation3d(0.0, 0.25881904510252074, 0.0))),
-    new AprilTag(
-        6,
-        new Pose3d(
-            13.474446,
-            3.3012379999999997,
-            0.308102,
-            new Rotation3d(0.0, 0.0, 0.49999999999999994))),
-    new AprilTag(
-        7, new Pose3d(13.890498, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 0.0))),
-    new AprilTag(
-        8,
-        new Pose3d(13.474446, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.49999999999999994))),
-    new AprilTag(
-        9, new Pose3d(12.643358, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844386))),
-    new AprilTag(
-        10,
-        new Pose3d(
-            12.227305999999999, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 1.0))),
-    new AprilTag(
-        11,
-        new Pose3d(
-            12.643358, 3.3012379999999997, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844387))),
-    new AprilTag(
-        12,
-        new Pose3d(
-            0.8613139999999999, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.45399049973954675))),
-    new AprilTag(
-        13,
-        new Pose3d(
-            0.8613139999999999,
-            7.414259999999999,
-            1.4859,
-            new Rotation3d(0.0, 0.0, 0.45399049973954686))),
-    new AprilTag(
-        14,
-        new Pose3d(
-            8.272272,
-            6.132575999999999,
-            1.8679160000000001,
-            new Rotation3d(-0.25881904510252074, 1.5848095757158825e-17, 0.9659258262890683))),
-    new AprilTag(
-        15,
-        new Pose3d(
-            8.272272,
-            1.9098259999999998,
-            1.8679160000000001,
-            new Rotation3d(-0.25881904510252074, 1.5848095757158825e-17, 0.9659258262890683))),
-    new AprilTag(
-        16,
-        new Pose3d(
-            6.057646, 0.010667999999999999, 1.30175, new Rotation3d(0.0, 0.0, 0.7071067811865476))),
-    new AprilTag(
-        17,
-        new Pose3d(
-            4.073905999999999,
-            3.3012379999999997,
-            0.308102,
-            new Rotation3d(0.0, 0.0, 0.8660254037844387))),
-    new AprilTag(
-        18, new Pose3d(3.6576, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 1.0))),
-    new AprilTag(
-        19,
-        new Pose3d(
-            4.073905999999999, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844386))),
-    new AprilTag(
-        20,
-        new Pose3d(
-            4.904739999999999, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.49999999999999994))),
-    new AprilTag(
-        21, new Pose3d(5.321046, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 0.0))),
-    new AprilTag(
-        22,
-        new Pose3d(
-            4.904739999999999,
-            3.3012379999999997,
-            0.308102,
-            new Rotation3d(0.0, 0.0, 0.49999999999999994)))
-  };
+    public static final AprilTag[] apriltags2025 = {
+      new AprilTag(
+          1, new Pose3d(16.687292, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883678))),
+      new AprilTag(
+          2,
+          new Pose3d(
+              16.687292, 7.414259999999999, 1.4859, new Rotation3d(0.0, 0.0, 0.8910065241883679))),
+      new AprilTag(
+          3,
+          new Pose3d(
+              11.49096, 8.031733999999998, 1.30175, new Rotation3d(0.0, 0.0, 0.7071067811865476))),
+      new AprilTag(
+          4,
+          new Pose3d(
+              9.276079999999999,
+              6.132575999999999,
+              1.8679160000000001,
+              new Rotation3d(0.0, 0.25881904510252074, 0.0))),
+      new AprilTag(
+          5,
+          new Pose3d(
+              9.276079999999999,
+              1.9098259999999998,
+              1.8679160000000001,
+              new Rotation3d(0.0, 0.25881904510252074, 0.0))),
+      new AprilTag(
+          6,
+          new Pose3d(
+              13.474446,
+              3.3012379999999997,
+              0.308102,
+              new Rotation3d(0.0, 0.0, 0.49999999999999994))),
+      new AprilTag(
+          7, new Pose3d(13.890498, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 0.0))),
+      new AprilTag(
+          8,
+          new Pose3d(13.474446, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.49999999999999994))),
+      new AprilTag(
+          9,
+          new Pose3d(12.643358, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844386))),
+      new AprilTag(
+          10,
+          new Pose3d(
+              12.227305999999999, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 1.0))),
+      new AprilTag(
+          11,
+          new Pose3d(
+              12.643358,
+              3.3012379999999997,
+              0.308102,
+              new Rotation3d(0.0, 0.0, 0.8660254037844387))),
+      new AprilTag(
+          12,
+          new Pose3d(
+              0.8613139999999999, 0.628142, 1.4859, new Rotation3d(0.0, 0.0, 0.45399049973954675))),
+      new AprilTag(
+          13,
+          new Pose3d(
+              0.8613139999999999,
+              7.414259999999999,
+              1.4859,
+              new Rotation3d(0.0, 0.0, 0.45399049973954686))),
+      new AprilTag(
+          14,
+          new Pose3d(
+              8.272272,
+              6.132575999999999,
+              1.8679160000000001,
+              new Rotation3d(-0.25881904510252074, 1.5848095757158825e-17, 0.9659258262890683))),
+      new AprilTag(
+          15,
+          new Pose3d(
+              8.272272,
+              1.9098259999999998,
+              1.8679160000000001,
+              new Rotation3d(-0.25881904510252074, 1.5848095757158825e-17, 0.9659258262890683))),
+      new AprilTag(
+          16,
+          new Pose3d(
+              6.057646,
+              0.010667999999999999,
+              1.30175,
+              new Rotation3d(0.0, 0.0, 0.7071067811865476))),
+      new AprilTag(
+          17,
+          new Pose3d(
+              4.073905999999999,
+              3.3012379999999997,
+              0.308102,
+              new Rotation3d(0.0, 0.0, 0.8660254037844387))),
+      new AprilTag(
+          18, new Pose3d(3.6576, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 1.0))),
+      new AprilTag(
+          19,
+          new Pose3d(
+              4.073905999999999, 4.740402, 0.308102, new Rotation3d(0.0, 0.0, 0.8660254037844386))),
+      new AprilTag(
+          20,
+          new Pose3d(
+              4.904739999999999,
+              4.740402,
+              0.308102,
+              new Rotation3d(0.0, 0.0, 0.49999999999999994))),
+      new AprilTag(
+          21, new Pose3d(5.321046, 4.0208200000000005, 0.308102, new Rotation3d(0.0, 0.0, 0.0))),
+      new AprilTag(
+          22,
+          new Pose3d(
+              4.904739999999999,
+              3.3012379999999997,
+              0.308102,
+              new Rotation3d(0.0, 0.0, 0.49999999999999994)))
+    };
 
-  // creates a hash map of the X Y and Height in that order for april tags
-  public static HashMap<Integer, ArrayList<Double>> aprilTagXYHeightAngle =
-      new HashMap<Integer, ArrayList<Double>>();
+    // creates a hash map of the X Y and Height in that order for april tags
+    //NOTE: HASHMAP INDEX STARTS AT 1, NOT ZERO
+    public static HashMap<Integer, ArrayList<Double>> aprilTagXYHeightYaw =
+        new HashMap<Integer, ArrayList<Double>>();
 
   public static HashMap<Integer, Double[]> cameraSpecs = new HashMap<Integer, Double[]>();
 
-  public static void setTagXYHeightAngle() {
-    for (int i = 1; i <= aprilTagAngle.length; i++) {
-      aprilTagXYHeightAngle.put(i, new ArrayList<Double>());
-      aprilTagXYHeightAngle.get(i).add(aprilTagCoordsX[i - 1]);
-      aprilTagXYHeightAngle.get(i).add(aprilTagCoordsY[i - 1]);
-      aprilTagXYHeightAngle.get(i).add(aprilTagHeightInches[i - 1]);
-      aprilTagXYHeightAngle.get(i).add(aprilTagAngle[i - 1]);
+    public static void setTagXYHeightAngle() {
+      for (int i = 1; i <= aprilTagYaw.length; i++) {
+        aprilTagXYHeightYaw.put(i, new ArrayList<Double>());
+        aprilTagXYHeightYaw.get(i).add(aprilTagCoordsX[i - 1]);
+        aprilTagXYHeightYaw.get(i).add(aprilTagCoordsY[i - 1]);
+        aprilTagXYHeightYaw.get(i).add(aprilTagHeightInches[i - 1]);
+        aprilTagXYHeightYaw.get(i).add(aprilTagYaw[i - 1]);
+      }
+      System.out.print(aprilTagXYHeightYaw);
+      for (int x = 0; x < 3; x++) {
+        cameraSpecs.put(x, new Double[2]);
+        cameraSpecs.get(x)[0] = cameraHeight[x];
+        cameraSpecs.get(x)[1] = cameraAngles[x];
+      }
     }
-    System.out.print(aprilTagXYHeightAngle);
-    for (int x = 0; x < 3; x++) {
-      cameraSpecs.put(x, new Double[2]);
-      cameraSpecs.get(x)[0] = cameraHeight[x];
-      cameraSpecs.get(x)[1] = cameraAngles[x];
-    }
-  }
 
   //                                     bottom right     top right       top left
   public static double[] cameraHeight = {29.5 + 1.724, 35.707 + 1.724, 35.707 + 1.724};

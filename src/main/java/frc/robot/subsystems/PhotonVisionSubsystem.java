@@ -105,6 +105,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       lastHeartbeats[i] = currentHeartbeat;
 
       List<PhotonPipelineResult> unreadResults = cameras[i].getAllUnreadResults();
+      System.out.println(cameraNames[i] + "pipeline updated");
       if (!unreadResults.isEmpty()) {
         results.put(i, unreadResults);
       } else {

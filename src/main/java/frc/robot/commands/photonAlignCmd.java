@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,7 +37,7 @@ public class photonAlignCmd extends Command {
   private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
   private final TunableNumber yMaxAccel = new TunableNumber("y Accel", SwerveConstants.yMaxAccel);
   private int cameraNum;
-  private double xSetpoint, ySetpoint;
+  private double robotXSetpoint, robotYSetpoint; //robot relative
   private int lockedFiducialID = -1;
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
@@ -44,14 +45,14 @@ public class photonAlignCmd extends Command {
   // private PhotonTrackedTarget bestTarget;
 
   /** Creates a new photonAlign. */
-  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double xSetpoint, double ySetpoint) {
+  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double robotXSetpoint, double robotYSetpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     this.s_Swerve = s_Swerve;
     addRequirements(s_Photon, s_Swerve);
     this.cameraNum = cameraNum;
-    this.xSetpoint = xSetpoint;
-    this.ySetpoint = ySetpoint;
+    this.robotXSetpoint = robotXSetpoint;
+    this.robotYSetpoint = robotYSetpoint;
   }
 
   // public photonAlignCmd(int cameraNum, Swerve s_Swerve, double offset) {
@@ -99,27 +100,41 @@ public class photonAlignCmd extends Command {
           }
 
           if (tar.getFiducialId() == lockedFiducialID) {
-            Transform3d currentPose = tar.getBestCameraToTarget();
+            Transform3d cameraToTag = tar.getBestCameraToTarget();
+            
+            Transform3d robotToTag = VisionConstants.robotCenterToCamera[cameraNum].plus(cameraToTag);
 
-            xcontroller.setSetpoint(xSetpoint);
-            ycontroller.setSetpoint(ySetpoint);
-            double xout = xcontroller.calculate(currentPose.getX());
-            double yout = ycontroller.calculate(currentPose.getY());
+            xcontroller.setPID(xKP.get(), xKI.get(), xKD.get());
+            ycontroller.setPID(yKP.get(),yKI.get(), yKD.get());
+
+            double xout_robot = xcontroller.calculate(robotToTag.getX(), robotXSetpoint);
+            double yout_robot = ycontroller.calculate(robotToTag.getY(), robotYSetpoint);
+            
+            s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagYaw[tar.getFiducialId() - 1]);
+            
             double thetaout = s_Swerve.getTurnPidSpeed();
-            SmartDashboard.putNumber("x pid out", xout);
-            SmartDashboard.putNumber("y pid out", yout);
+            SmartDashboard.putNumber("x pid out", xout_robot);
+            SmartDashboard.putNumber("y pid out", yout_robot);
             SmartDashboard.putNumber("theta pid out", thetaout);
-            s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[tar.getFiducialId() - 1]);
-            s_Swerve.drive(new Translation2d(-xout, -yout), -thetaout, false, false);
-            SmartDashboard.putNumber("camera to pose x", currentPose.getX());
-            SmartDashboard.putNumber("camera to pose y", currentPose.getY());
-            SmartDashboard.putNumber("camera to pose z", currentPose.getZ());
+
+
+            s_Swerve.drive(new Translation2d(-xout_robot, -yout_robot), thetaout, false, false);
+            SmartDashboard.putNumber("camera to pose x", cameraToTag.getX());
+            SmartDashboard.putNumber("camera to pose y", cameraToTag.getY());
+            SmartDashboard.putNumber("camera to pose z", cameraToTag.getZ());
 
             SmartDashboard.putNumber("id", tar.fiducialId);
             SmartDashboard.putNumber("pitch", tar.pitch);
             SmartDashboard.putNumber("yaw", tar.yaw);
             SmartDashboard.putNumber("ambiguity", tar.poseAmbiguity);
             SmartDashboard.putNumber("skew", tar.skew);
+
+            SmartDashboard.putBoolean("xPID at setpt", xcontroller.atSetpoint());
+            SmartDashboard.putBoolean("yPID at setpt", ycontroller.atSetpoint());
+            SmartDashboard.putNumber("Robot X setpoint", robotXSetpoint);
+            SmartDashboard.putNumber("Robot Y setpiont", robotYSetpoint);
+            SmartDashboard.putNumber("X PID Output", xout_robot);
+            SmartDashboard.putNumber("Y PID Output", yout_robot);
           } else {
             s_Swerve.stopDriving();
           }
@@ -136,7 +151,8 @@ public class photonAlignCmd extends Command {
        * 2. Camera not connected
        * 3. Photonvision not seen on networktable
        */
-      end(true);
+      isFinished = true;
+
     }
   }
 
