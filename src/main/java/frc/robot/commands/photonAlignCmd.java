@@ -144,6 +144,10 @@ public class photonAlignCmd extends Command {
             SmartDashboard.putNumber("camera to pose x", cameraToTag.getX());
             SmartDashboard.putNumber("camera to pose y", cameraToTag.getY());
             SmartDashboard.putNumber("camera to pose z", cameraToTag.getZ());
+            
+            SmartDashboard.putNumber("robot to tagpose x", robotToTag.getX());
+            SmartDashboard.putNumber("robot to tagpose y", robotToTag.getY());
+            SmartDashboard.putNumber("robot to tagpose z", robotToTag.getZ());
 
             SmartDashboard.putNumber("id", tar.fiducialId);
             SmartDashboard.putNumber("pitch", tar.pitch);
