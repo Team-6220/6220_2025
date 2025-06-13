@@ -9,9 +9,11 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDCANdle;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
-import frc.robot.ElevatorConstants;
-import frc.robot.WristConstants;
 
+import frc.robot.Constants;
+import frc.robot.ElevatorConstants;
+import frc.robot.VisionConstants;
+import frc.robot.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage2CMD extends Command {
@@ -41,8 +43,8 @@ public class Stage2CMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevator.setGoal(ElevatorConstants.E_L2);
-    wrist.setGoal(WristConstants.L2);
+    elevator.setGoal(elevHeight.getDefault());
+    wrist.setGoal(wristDegrees.get());
     candle.setColor(255, 255, 0, 30, 8, 100);
   }
 

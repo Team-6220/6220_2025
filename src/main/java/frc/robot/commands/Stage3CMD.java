@@ -50,7 +50,6 @@ public class Stage3CMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if (elevHeight.hasChanged()) {
       elevator.setGoal(elevHeight.get());
     }

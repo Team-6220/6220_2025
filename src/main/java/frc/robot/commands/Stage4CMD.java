@@ -32,7 +32,6 @@ public class Stage4CMD extends Command {
 
     autoCounter = 0;
     this.isAuto = isAuto;
-    this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);
   }
