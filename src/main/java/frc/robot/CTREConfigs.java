@@ -26,9 +26,12 @@ public final class CTREConfigs {
 
     swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimitEnable =
         SwerveConstants.driveEnableCurrentLimit;
-    swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit = SwerveConstants.driveMaxCurrent;
-    swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerLimit = SwerveConstants.driveCurrentLimit;
-    swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerTime = SwerveConstants.driveMaxCurrentTime;
+    swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit =
+        SwerveConstants.driveMaxCurrent;
+    swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        SwerveConstants.driveCurrentLimit;
+    swerveDriveFXConfig.CurrentLimits.SupplyCurrentLowerTime =
+        SwerveConstants.driveMaxCurrentTime;
 
     /* PID Config */
     swerveDriveFXConfig.Slot0.kP = SwerveConstants.driveKP;
@@ -36,8 +39,10 @@ public final class CTREConfigs {
     swerveDriveFXConfig.Slot0.kD = SwerveConstants.driveKD;
 
     /* Open and Closed Loop Ramping */
-    swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = SwerveConstants.openLoopRamp;
-    swerveDriveFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = SwerveConstants.openLoopRamp;
+    swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod =
+        SwerveConstants.openLoopRamp;
+    swerveDriveFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod =
+        SwerveConstants.openLoopRamp;
 
     swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod =
         SwerveConstants.closedLoopRamp;

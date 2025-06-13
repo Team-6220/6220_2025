@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,31 +28,42 @@ public class photonAlignCmd extends Command {
   private final TunableNumber xKP = new TunableNumber("x kP", SwerveConstants.xKP);
   private final TunableNumber xKI = new TunableNumber("x kI", SwerveConstants.xKI);
   private final TunableNumber xKD = new TunableNumber("x kD", SwerveConstants.xKD);
-  private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel = new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
+  private final TunableNumber xMaxVel =
+      new TunableNumber("x MaxVel", SwerveConstants.xMaxVel);
+  private final TunableNumber xMaxAccel =
+  new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
+  private final TunableNumber xTolerance = new TunableNumber("x Tolerance", SwerveConstants.xTolerance);
 
   private final TunableNumber yKP = new TunableNumber("y kP", SwerveConstants.yKP);
   private final TunableNumber yKI = new TunableNumber("y kI", SwerveConstants.yKI);
   private final TunableNumber yKD = new TunableNumber("y kD", SwerveConstants.yKD);
-  private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel = new TunableNumber("y Accel", SwerveConstants.yMaxAccel);
+  private final TunableNumber yTolerance = new TunableNumber("y Tolerance", SwerveConstants.yTolerance);
+  private final TunableNumber yMaxVel =
+      new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
+  private final TunableNumber yMaxAccel =
+      new TunableNumber("y Accel", SwerveConstants.yMaxAccel);
   private int cameraNum;
-  private double xSetpoint, ySetpoint;
+  private double robotXSetpoint, robotYSetpoint; //robot relative
   private int lockedFiducialID = -1;
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
+  private boolean isFinished;
+  //use this to count how long the entire thing ends itself
+  //  if it simply didn't see anything but everything's functioning
+  private int autoEndcount = 0;
+
   // private PhotonTrackedTarget bestTarget;
 
   /** Creates a new photonAlign. */
-  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double xSetpoint, double ySetpoint) {
+  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double robotXSetpoint, double robotYSetpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     this.s_Swerve = s_Swerve;
     addRequirements(s_Photon, s_Swerve);
     this.cameraNum = cameraNum;
-    this.xSetpoint = xSetpoint;
-    this.ySetpoint = ySetpoint;
+    this.robotXSetpoint = robotXSetpoint;
+    this.robotYSetpoint = robotYSetpoint;
   }
 
   // public photonAlignCmd(int cameraNum, Swerve s_Swerve, double offset) {
@@ -80,13 +92,23 @@ public class photonAlignCmd extends Command {
     // is running
     // call initphoton also so that things will get cleared out if something disconnects
     s_Photon.initPhoton();
+    isFinished = false;
+    autoEndcount = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.print("Photon vision cmd running");
+    // System.out.print("Photon vision cmd running");
     s_Photon.updatePhoton();
+    if(xTolerance.hasChanged())
+    {
+      xcontroller.setTolerance(xTolerance.get());
+    }
+    if(yTolerance.hasChanged())
+    {
+      ycontroller.setTolerance(yTolerance.get());
+    }
     if (s_Photon.getResults().containsKey(cameraNum)
         && s_Photon.getResults().get(cameraNum) != null
         && !s_Photon.getResults().get(cameraNum).isEmpty()) {
@@ -95,36 +117,63 @@ public class photonAlignCmd extends Command {
       if (bestTarget != null) {
         for (PhotonTrackedTarget tar : bestTarget) {
           if (lockedFiducialID == -1) {
+            System.out.println("WE LOCKED ON fiducial " + tar.getFiducialId());
             lockedFiducialID = tar.getFiducialId();
           }
 
           if (tar.getFiducialId() == lockedFiducialID) {
-            Transform3d currentPose = tar.getBestCameraToTarget();
+            Transform3d cameraToTag = tar.getBestCameraToTarget();
+            
+            Transform3d robotToTag = VisionConstants.robotCenterToCamera[cameraNum].plus(cameraToTag);
 
-            xcontroller.setSetpoint(xSetpoint);
-            ycontroller.setSetpoint(ySetpoint);
-            double xout = xcontroller.calculate(currentPose.getX());
-            double yout = ycontroller.calculate(currentPose.getY());
+            xcontroller.setPID(xKP.get(), xKI.get(), xKD.get());
+            ycontroller.setPID(yKP.get(),yKI.get(), yKD.get());
+
+            double xout_robot = xcontroller.calculate(robotToTag.getX(), robotXSetpoint);
+            double yout_robot = ycontroller.calculate(robotToTag.getY(), robotYSetpoint);
+            
+            s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagYaw[tar.getFiducialId() - 1]);
+            
             double thetaout = s_Swerve.getTurnPidSpeed();
-            SmartDashboard.putNumber("x pid out", xout);
-            SmartDashboard.putNumber("y pid out", yout);
+            SmartDashboard.putNumber("x pid out", xout_robot);
+            SmartDashboard.putNumber("y pid out", yout_robot);
             SmartDashboard.putNumber("theta pid out", thetaout);
-            s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[tar.getFiducialId() - 1]);
-            s_Swerve.drive(new Translation2d(-xout, -yout), -thetaout, false, false);
-            SmartDashboard.putNumber("camera to pose x", currentPose.getX());
-            SmartDashboard.putNumber("camera to pose y", currentPose.getY());
-            SmartDashboard.putNumber("camera to pose z", currentPose.getZ());
+
+
+            s_Swerve.drive(new Translation2d(-xout_robot, -yout_robot), thetaout, false, false);
+            SmartDashboard.putNumber("camera to pose x", cameraToTag.getX());
+            SmartDashboard.putNumber("camera to pose y", cameraToTag.getY());
+            SmartDashboard.putNumber("camera to pose z", cameraToTag.getZ());
+            
+            SmartDashboard.putNumber("robot to tagpose x", robotToTag.getX());
+            SmartDashboard.putNumber("robot to tagpose y", robotToTag.getY());
+            SmartDashboard.putNumber("robot to tagpose z", robotToTag.getZ());
 
             SmartDashboard.putNumber("id", tar.fiducialId);
             SmartDashboard.putNumber("pitch", tar.pitch);
             SmartDashboard.putNumber("yaw", tar.yaw);
             SmartDashboard.putNumber("ambiguity", tar.poseAmbiguity);
             SmartDashboard.putNumber("skew", tar.skew);
+
+            SmartDashboard.putBoolean("xPID at setpt", xcontroller.atSetpoint());
+            SmartDashboard.putBoolean("yPID at setpt", ycontroller.atSetpoint());
+            SmartDashboard.putNumber("Robot X setpoint", robotXSetpoint);
+            SmartDashboard.putNumber("Robot Y setpiont", robotYSetpoint);
+            SmartDashboard.putNumber("X PID Output", xout_robot);
+            SmartDashboard.putNumber("Y PID Output", yout_robot);
           } else {
             s_Swerve.stopDriving();
-          }
+            System.err.println("LOST LOCKED ID, ENDING");
+            isFinished = true;
 
+          }
           // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
+        }
+        autoEndcount ++;
+        if(autoEndcount > 110) //greater than the number of cycle
+        {
+          System.out.println("haven't see a tag for too long... ending");
+          isFinished = true;
         }
       }
     } else {
@@ -136,26 +185,46 @@ public class photonAlignCmd extends Command {
        * 2. Camera not connected
        * 3. Photonvision not seen on networktable
        */
-      end(true);
+      isFinished = true;
+
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("PHOTON ENDED");
     s_Swerve.stopDriving();
     lockedFiducialID = -1;
+    SmartDashboard.putBoolean("xPID at setpt", false);
+    SmartDashboard.putBoolean("yPID at setpt", false);
+    System.out.println("PHOTON ENDED");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Photon.getResults().containsKey(cameraNum)
-        && s_Photon.getResults().get(cameraNum) != null
-        && s_Photon
-            .getResults()
-            .get(cameraNum)
-            .isEmpty(); // if there's no tag automatically stop it from driving
+    if(s_Photon.getResults().containsKey(cameraNum)
+    && s_Photon.getResults().get(cameraNum) != null
+    && s_Photon
+        .getResults()
+        .get(cameraNum)
+        .isEmpty()){
+          System.out.println("No cameras or camera arraylists are null");
+          return true;
+        }
+      else if (xcontroller.atSetpoint() && ycontroller.atSetpoint())
+      {
+        System.out.println("At setpoint");
+        return true;
+      }
+    else if (isFinished)
+    {
+      System.out.println("Is finished is set to true");
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 }

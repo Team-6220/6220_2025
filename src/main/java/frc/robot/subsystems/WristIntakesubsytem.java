@@ -6,11 +6,18 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.WristConstants;
 import frc.robot.WristIntakeConstants;
 
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.configs.FovParamsConfigs;
+import com.ctre.phoenix6.configs.ProximityParamsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.ToFParamsConfigs;
+import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.UpdateModeValue;
 
 public class WristIntakesubsytem extends SubsystemBase {
   /** Creates a new WristIntake. */
@@ -23,20 +30,48 @@ public class WristIntakesubsytem extends SubsystemBase {
   private boolean occupied;
   private double currentLimitToHold = -20;
 
+  private CANrange canRange = new CANrange(WristConstants.CANRangeID);
+  private CANrangeConfiguration canRangeConfigs = new CANrangeConfiguration();
+  private FovParamsConfigs fovParamsConfigs = new FovParamsConfigs();
+  private ProximityParamsConfigs proximityParamsConfigs = new ProximityParamsConfigs();
+  private ToFParamsConfigs tofParamConfigs = new ToFParamsConfigs();
+
   private String tableKey = "WristIntake_";
   public TalonFXConfiguration wristIntakeConfig = new TalonFXConfiguration();
 
   public WristIntakesubsytem() {
     wristIntakeConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    wristIntakeConfig.MotorOutput.NeutralMode = WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
+    wristIntakeConfig.MotorOutput.NeutralMode =
+        WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
 
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =
         WristIntakeConstants.enableCurrentLimit;
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimit = WristIntakeConstants.maxCurrent;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = WristIntakeConstants.currentLimit;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = WristIntakeConstants.maxCurrentTime;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        WristIntakeConstants.currentLimit;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime =
+        WristIntakeConstants.maxCurrentTime;
     intakeMotor = new TalonFX(WristIntakeConstants.wristintakeMotorID);
     intakeMotor.getConfigurator().apply(wristIntakeConfig);
+    
+    fovParamsConfigs.FOVCenterX = 0;
+    fovParamsConfigs.FOVRangeX = 27;
+    fovParamsConfigs.FOVCenterY = 0;
+    fovParamsConfigs.FOVRangeY = 10;
+    canRangeConfigs.FovParams = fovParamsConfigs;
+    
+    canRangeConfigs.FutureProofConfigs = true;
+    
+    proximityParamsConfigs.MinSignalStrengthForValidMeasurement = 2500;
+    proximityParamsConfigs.ProximityHysteresis = .05;
+    proximityParamsConfigs.ProximityThreshold = .4;
+    canRangeConfigs.ProximityParams = proximityParamsConfigs;
+    
+    tofParamConfigs.UpdateFrequency = 25;
+    tofParamConfigs.UpdateMode = UpdateModeValue.ShortRangeUserFreq;
+    canRangeConfigs.ToFParams = tofParamConfigs;
+
+    canRange.getConfigurator().apply(canRangeConfigs);
   }
 
   public void simpleDrive(boolean reversed, double speed) {
@@ -54,6 +89,10 @@ public class WristIntakesubsytem extends SubsystemBase {
     simpleDrive(true, WristIntakeConstants.ejectSpeed);
   }
 
+  public boolean canRangeTriggered(){
+    return canRange.getIsDetected().getValue(); //depends on the proximity configs
+  }
+
   public void endOccupied() {
     occupied = false;
   }
@@ -67,6 +106,7 @@ public class WristIntakesubsytem extends SubsystemBase {
     if (intakeMotor.getTorqueCurrent().getValueAsDouble() <= currentLimitToHold) {
       intakeMotor.setVoltage(-0.15);
     }
+    SmartDashboard.putBoolean("isOccupied", occupied);
     SmartDashboard.putNumber(
         tableKey + "stator current", intakeMotor.getStatorCurrent().getValueAsDouble());
     SmartDashboard.putNumber(

@@ -6,8 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LEDCANdle;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
+import frc.robot.Constants;
 import frc.robot.ElevatorConstants;
 import frc.robot.VisionConstants;
 import frc.robot.WristConstants;
@@ -36,13 +39,13 @@ public class Stage3CMD extends Command {
     // addRequirements(s_Swerve);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    elevator.setGoal(elevHeight.getDefault());
-    wrist.setGoal(wristDegrees.getDefault());
-    VisionConstants.setTagXYHeightAngle();
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+      elevator.setGoal(elevHeight.getDefault());
+      wrist.setGoal(wristDegrees.getDefault());
+      VisionConstants.setTagXYHeightAngle();
+    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

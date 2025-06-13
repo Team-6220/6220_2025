@@ -6,8 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LEDCANdle;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
+import frc.robot.Constants;
 import frc.robot.ElevatorConstants;
 import frc.robot.VisionConstants;
 import frc.robot.WristConstants;
@@ -21,14 +24,14 @@ public class Stage4CMD extends Command {
   private TunableNumber wristDegrees = new TunableNumber("l4 wrist", WristConstants.L4);
 
   private int autoCounter = 0;
-
-  boolean isAuto;
+  private boolean isAuto;
 
   public Stage4CMD(boolean isAuto) {
     elevator = ElevatorSubsystem.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
 
     autoCounter = 0;
+    this.isAuto = isAuto;
     this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);

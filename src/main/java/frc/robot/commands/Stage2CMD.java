@@ -12,6 +12,7 @@ import frc.lib.util.TunableNumber;
 import frc.robot.ElevatorConstants;
 import frc.robot.WristConstants;
 
+
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage2CMD extends Command {
   private ElevatorSubsystem elevator;
@@ -48,7 +49,6 @@ public class Stage2CMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if (elevHeight.hasChanged()) {
       elevator.setGoal(elevHeight.get());
     }
