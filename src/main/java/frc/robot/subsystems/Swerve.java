@@ -77,6 +77,8 @@ public class Swerve extends SubsystemBase {
 
   private PhotonCamera camera = new PhotonCamera("Camera_Module_v1");
 
+  private static Swerve INSTANCE = null;
+
   public SwerveModule[] mSwerveMods;
   public AHRS gyro;
   private boolean isAutoTurning;
@@ -605,5 +607,12 @@ public class Swerve extends SubsystemBase {
     Shuffleboard.getTab(title).addNumber("Auto Turn Heading", () -> autoTurnHeading);
     Shuffleboard.getTab(title)
         .addNumber("Turn Controller Setpoint", () -> turnPidController.getSetpoint().position);
+  }
+
+  public static synchronized Swerve getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = new Swerve();
+    }
+    return INSTANCE;
   }
 }

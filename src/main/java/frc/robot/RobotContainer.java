@@ -54,7 +54,7 @@ public class RobotContainer {
 
   private final SendableChooser<Command> autoChooser;
 
-  private final Swerve s_Swerve = new Swerve();
+  private final Swerve s_Swerve = Swerve.getInstance();
 
   private final ElevatorSubsystem elevator = ElevatorSubsystem.getInstance();
   private final frontIntakeSubsystem frontIntake = frontIntakeSubsystem.getInstance();
