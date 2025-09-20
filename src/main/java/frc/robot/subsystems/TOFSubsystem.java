@@ -29,9 +29,9 @@ public class TOFSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("topCanrange", top.getDistance().getValueAsDouble());
   }
   public double getLowerDistance(){
-    return 0.0;
+    return top.getDistance().getValueAsDouble();
   }
   public double getElevatorDistance(){
-    return 0.0;
+    return Math.min(lowerright.getDistance().getValueAsDouble(), lowerleft.getDistance().getValueAsDouble());
   }
 }
