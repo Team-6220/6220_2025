@@ -155,8 +155,6 @@ public class photonAlignCmd extends Command {
        * 2. Camera not connected
        * 3. Photonvision not seen on networktable
        */
-      isFinished = true;
-
     }
   }
 
