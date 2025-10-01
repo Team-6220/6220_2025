@@ -46,7 +46,8 @@ public final class ElevatorConstants {
 
   // These values should be percents
   public static final double E_L2 = 0.485757; // This one should be good
-  public static final double E_L3 = .879; // This one should be good
+  public static final double E_L3 = .837;
+   // This one should be good
   public static final double E_L4 = 1.3; // Maybe final tune this?
   public static final double E_CoralStation = .195796; // Maybe final tune this?
 
