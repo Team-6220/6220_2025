@@ -13,6 +13,7 @@ public class ledManager extends SubsystemBase {
   public TOFSubsystem tofsub;
   public LEDCANdle ledcan;
   public GenericHID buttonBoard;
+  public boolean hasit=false;
   public ledManager(TOFSubsystem p_tofsub, LEDCANdle p_ledcan, GenericHID p_buttonboard) {
     this.tofsub = p_tofsub;
     this.ledcan = p_ledcan;
@@ -22,11 +23,18 @@ public class ledManager extends SubsystemBase {
   @Override
   public void periodic() {
     //logic for getting canrange stuff and calling led candle
-    ledcan.setBlue();
-    ledcan.setGold();
-    ledcan.setRed();
-    ledcan.setGreen();
     //should be very simple
-    if(buttonBoard.getRawButtonPressed(-1)){}
+    //for hasit make a threshold with canrange
+    if()
+
+    if((buttonBoard.getRawButtonPressed(-1))&&!hasit){//input buttons
+      ledcan.setRed();
+    }
+    else if(hasit){
+      ledcan.setGreen();
+    }
+    else{
+      ledcan.setGold();
+    }
   }
 }
