@@ -4,13 +4,12 @@
 
 package frc.robot.commands.Autos;
 
-import frc.robot.Constants.AutoConstants;
+import frc.robot.AutoConstants;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.CoralStationCmd;
 import frc.robot.commands.EjectCoral;
 import frc.robot.commands.Stage3CMD;

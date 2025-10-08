@@ -4,19 +4,13 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDCANdle;
-import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.VisionConstants;
-import frc.robot.Constants.WristConstants;
+import frc.robot.ElevatorConstants;
+import frc.robot.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage2CMD extends Command {
@@ -29,7 +23,6 @@ public class Stage2CMD extends Command {
   private TunableNumber elevHeight = new TunableNumber("l2 elev height", ElevatorConstants.E_L2);
   private TunableNumber wristDegrees = new TunableNumber("l2 wrist", WristConstants.L2);
 
-  private PhotonVisionSubsystem s_Photon;
   private LEDCANdle candle;
 
   private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
@@ -63,12 +56,12 @@ public class Stage2CMD extends Command {
     // this.s_Swerve = s_Swerve;
     
   
+    autoCounter = 0;
     this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);
     addRequirements(candle);
     // addRequirements(s_Swerve);
-    // addRequirements(s_Photon);
   }
 
   // Called when the command is initially scheduled.
@@ -76,14 +69,13 @@ public class Stage2CMD extends Command {
   public void initialize() {
     elevator.setGoal(ElevatorConstants.E_L2);
     wrist.setGoal(WristConstants.L2);
-    VisionConstants.setTagXYHeightAngle();
     candle.setColor(255, 255, 0, 30, 8, 100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if (elevHeight.hasChanged()) {
       elevator.setGoal(elevHeight.get());
     }

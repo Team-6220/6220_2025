@@ -43,16 +43,13 @@ public class WristIntakesubsytem extends SubsystemBase {
 
   public WristIntakesubsytem() {
     wristIntakeConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    wristIntakeConfig.MotorOutput.NeutralMode =
-        Constants.WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
+    wristIntakeConfig.MotorOutput.NeutralMode = WristIntakeConstants.INTAKENEU_NEUTRAL_MODE;
 
     wristIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =
-        Constants.WristIntakeConstants.enableCurrentLimit;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLimit = Constants.WristIntakeConstants.maxCurrent;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit =
-        Constants.WristIntakeConstants.currentLimit;
-    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime =
-        Constants.WristIntakeConstants.maxCurrentTime;
+        WristIntakeConstants.enableCurrentLimit;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLimit = WristIntakeConstants.maxCurrent;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = WristIntakeConstants.currentLimit;
+    wristIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = WristIntakeConstants.maxCurrentTime;
     intakeMotor = new TalonFX(WristIntakeConstants.wristintakeMotorID);
     intakeMotor.getConfigurator().apply(wristIntakeConfig);
     

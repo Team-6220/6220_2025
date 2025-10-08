@@ -5,13 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants;
-import frc.robot.Constants.VisionConstants;
+import frc.robot.SwerveConstants;
+import frc.robot.VisionConstants;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 
@@ -24,25 +25,19 @@ public class photonAlignCmd extends Command {
   private Swerve s_Swerve;
   private PhotonVisionSubsystem s_Photon;
 
-  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-  private final TunableNumber xMaxVel =
-  new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel =
-  new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
-  private final TunableNumber xTolerance = new TunableNumber("x Tolerance", Constants.SwerveConstants.xTolerance);
+  private final TunableNumber xKP = new TunableNumber("x kP", SwerveConstants.xKP);
+  private final TunableNumber xKI = new TunableNumber("x kI", SwerveConstants.xKI);
+  private final TunableNumber xKD = new TunableNumber("x kD", SwerveConstants.xKD);
+  private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", SwerveConstants.xMaxVel);
+  private final TunableNumber xMaxAccel = new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
 
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-  private final TunableNumber yTolerance = new TunableNumber("y Tolerance", Constants.SwerveConstants.yTolerance);
-  private final TunableNumber yMaxVel =
-      new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel =
-      new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
+  private final TunableNumber yKP = new TunableNumber("y kP", SwerveConstants.yKP);
+  private final TunableNumber yKI = new TunableNumber("y kI", SwerveConstants.yKI);
+  private final TunableNumber yKD = new TunableNumber("y kD", SwerveConstants.yKD);
+  private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
+  private final TunableNumber yMaxAccel = new TunableNumber("y Accel", SwerveConstants.yMaxAccel);
   private int cameraNum;
-  private double xSetpoint, ySetpoint;
+  private double robotXSetpoint, robotYSetpoint; //robot relative
   private int lockedFiducialID = -1;
   private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
@@ -55,14 +50,14 @@ public class photonAlignCmd extends Command {
   // private PhotonTrackedTarget bestTarget;
 
   /** Creates a new photonAlign. */
-  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double xSetpoint, double ySetpoint) {
+  public photonAlignCmd(int cameraNum, Swerve s_Swerve, double robotXSetpoint, double robotYSetpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     this.s_Swerve = s_Swerve;
     addRequirements(s_Photon, s_Swerve);
     this.cameraNum = cameraNum;
-    this.xSetpoint = xSetpoint;
-    this.ySetpoint = ySetpoint;
+    this.robotXSetpoint = robotXSetpoint;
+    this.robotYSetpoint = robotYSetpoint;
   }
 
   // public photonAlignCmd(int cameraNum, Swerve s_Swerve, double offset) {
@@ -121,21 +116,32 @@ public class photonAlignCmd extends Command {
           }
 
           if (tar.getFiducialId() == lockedFiducialID) {
-            Transform3d currentPose = tar.getBestCameraToTarget();
+            Transform3d cameraToTag = tar.getBestCameraToTarget();
+            
+            Transform3d robotToTag = VisionConstants.robotCenterToCamera[cameraNum].plus(cameraToTag);
 
-            xcontroller.setSetpoint(xSetpoint);
-            ycontroller.setSetpoint(ySetpoint);
-            double xout = xcontroller.calculate(currentPose.getX());
-            double yout = ycontroller.calculate(currentPose.getY());
+            xcontroller.setPID(xKP.get(), xKI.get(), xKD.get());
+            ycontroller.setPID(yKP.get(),yKI.get(), yKD.get());
+
+            double xout_robot = xcontroller.calculate(robotToTag.getX(), robotXSetpoint);
+            double yout_robot = ycontroller.calculate(robotToTag.getY(), robotYSetpoint);
+            
+            s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagYaw[tar.getFiducialId() - 1]);
+            
             double thetaout = s_Swerve.getTurnPidSpeed();
-            SmartDashboard.putNumber("x pid out", xout);
-            SmartDashboard.putNumber("y pid out", yout);
+            SmartDashboard.putNumber("x pid out", xout_robot);
+            SmartDashboard.putNumber("y pid out", yout_robot);
             SmartDashboard.putNumber("theta pid out", thetaout);
-            s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[tar.getFiducialId() - 1]);
-            s_Swerve.drive(new Translation2d(-xout, -yout), -thetaout, false, false);
-            SmartDashboard.putNumber("camera to pose x", currentPose.getX());
-            SmartDashboard.putNumber("camera to pose y", currentPose.getY());
-            SmartDashboard.putNumber("camera to pose z", currentPose.getZ());
+
+
+            s_Swerve.drive(new Translation2d(-xout_robot, -yout_robot), thetaout, false, false);
+            SmartDashboard.putNumber("camera to pose x", cameraToTag.getX());
+            SmartDashboard.putNumber("camera to pose y", cameraToTag.getY());
+            SmartDashboard.putNumber("camera to pose z", cameraToTag.getZ());
+            
+            SmartDashboard.putNumber("robot to tagpose x", robotToTag.getX());
+            SmartDashboard.putNumber("robot to tagpose y", robotToTag.getY());
+            SmartDashboard.putNumber("robot to tagpose z", robotToTag.getZ());
 
             SmartDashboard.putNumber("id", tar.fiducialId);
             SmartDashboard.putNumber("pitch", tar.pitch);
@@ -145,6 +151,10 @@ public class photonAlignCmd extends Command {
 
             SmartDashboard.putBoolean("xPID at setpt", xcontroller.atSetpoint());
             SmartDashboard.putBoolean("yPID at setpt", ycontroller.atSetpoint());
+            SmartDashboard.putNumber("Robot X setpoint", robotXSetpoint);
+            SmartDashboard.putNumber("Robot Y setpiont", robotYSetpoint);
+            SmartDashboard.putNumber("X PID Output", xout_robot);
+            SmartDashboard.putNumber("Y PID Output", yout_robot);
           } else {
             s_Swerve.stopDriving();
             System.err.println("LOST LOCKED ID, ENDING");
@@ -158,13 +168,10 @@ public class photonAlignCmd extends Command {
         {
           isFinished = true;
         }
-      }
-    } else {
       System.err.println(
           "Something's wrong with photon,paste this line and search it globally to find it and look"
               + " at possible errors in the comment");
       /*Potential problem
-       * 1. Coprocessor not powered
        * 2. Camera not connected
        * 3. Photonvision not seen on networktable
        */

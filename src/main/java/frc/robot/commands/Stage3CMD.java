@@ -4,19 +4,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDCANdle;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
 import frc.lib.util.TunableNumber;
-import frc.robot.Constants;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.VisionConstants;
-import frc.robot.Constants.WristConstants;
+import frc.robot.ElevatorConstants;
+import frc.robot.VisionConstants;
+import frc.robot.WristConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Stage3CMD extends Command {
@@ -57,7 +53,8 @@ public class Stage3CMD extends Command {
   private int autoCounter = 0;
   private boolean isAuto;
 
-    public Stage3CMD(boolean isAuto) {
+
+  public Stage3CMD(boolean isAuto) {
     elevator = ElevatorSubsystem.getInstance();
     candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
@@ -71,13 +68,25 @@ public class Stage3CMD extends Command {
     addRequirements(candle);
     // addRequirements(s_Swerve);
     // addRequirements(s_Photon);
+  
+
+
+
+    autoCounter = 0;
   }
 
-
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    elevator.setGoal(elevHeight.getDefault());
+    wrist.setGoal(wristDegrees.getDefault());
+    VisionConstants.setTagXYHeightAngle();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // elevator.driveToGoal(ElevatorConstants.L2HeightRaw);
     if (elevHeight.hasChanged()) {
       elevator.setGoal(elevHeight.get());
     }
