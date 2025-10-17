@@ -4,16 +4,26 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix6.hardware.CANrange;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.WristIntakesubsytem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class EjectCoral extends Command {
   /** Creates a new EjectCoralTest. */
   WristIntakesubsytem wristIntake = WristIntakesubsytem.getInstance();
+  CANRangeSubsystem range = CANRangeSubsystem.getInstance();
+  boolean isAuto;
 
   public EjectCoral() {
     // Use addRequirements() here to declare subsystem dependencies.
+    isAuto = false;
+  }
+
+  public EjectCoral(boolean isAuto) {
+    this.isAuto = isAuto;
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +46,9 @@ public class EjectCoral extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (isAuto && range.isObjectInWrist()) {
+      return true;
+    }
     return false;
   }
 }
