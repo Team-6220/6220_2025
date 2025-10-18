@@ -245,16 +245,14 @@ public class frontIntakeSubsystem extends SubsystemBase {
   /** Raw encoder value subtracted by the offset at zero */
   public double getPosition() {
     return ((lowerintakeEncoder.get()) * (24.0 / 32.0) * 360.0)
-        - 304
-        + 185.5
-        + 31.5; // (encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
+        -70; // (encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
   }
 
   public void simpleDrive(double motorOutput) {
     // motorOutput *= 12;
     SmartDashboard.putNumber(tableKey + "motorOutputManuel", motorOutput);
-    pivotMotorLeft.set(motorOutput);
-    pivotMotorRight.set(motorOutput);
+    pivotMotorLeft.setVoltage(motorOutput);
+    pivotMotorRight.setVoltage(motorOutput);
   }
 
   public boolean controllerAtGoal() {
