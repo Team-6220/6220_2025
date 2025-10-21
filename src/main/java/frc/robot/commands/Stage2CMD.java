@@ -25,36 +25,13 @@ public class Stage2CMD extends Command {
 
   private LEDCANdle candle;
 
-  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-  private final TunableNumber xMaxVel =
-      new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel =
-      new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
-
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-  private final TunableNumber yMaxVel =
-      new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel =
-      new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-
-  private double xSetpoint, ySetpoint;
-  private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
-  private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
-
   private int autoCounter = 0;
   private boolean isAuto;
 
   public Stage2CMD(boolean isAuto) {
     elevator = ElevatorSubsystem.getInstance();
     candle = LEDCANdle.getInstance();
-    wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
-    // this.s_Swerve = s_Swerve;
-    
+    wrist = V2_SparkMaxWristSubsystem.getInstance();    
   
     autoCounter = 0;
     this.isAuto = isAuto;

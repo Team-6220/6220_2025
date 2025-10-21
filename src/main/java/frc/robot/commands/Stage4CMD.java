@@ -18,7 +18,6 @@ import frc.robot.WristConstants;
 public class Stage4CMD extends Command {
   private ElevatorSubsystem elevator;
   private V2_SparkMaxWristSubsystem wrist;
-  private XboxController m_Controller;
 
   // private Swerve s_Swerve;
   private LEDCANdle candle;
@@ -31,25 +30,6 @@ public class Stage4CMD extends Command {
 
   private PhotonVisionSubsystem s_Photon;
 
-  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-  private final TunableNumber xMaxVel =
-      new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel =
-      new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
-
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-  private final TunableNumber yMaxVel =
-      new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel =
-      new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-
-  private double xSetpoint, ySetpoint;
-  private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
-  private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
   private int autoCounter = 0;
 

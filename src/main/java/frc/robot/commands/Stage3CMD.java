@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDCANdle;
@@ -29,27 +30,6 @@ public class Stage3CMD extends Command {
   private TunableNumber elevHeight = new TunableNumber("l3 elev height", ElevatorConstants.E_L3);
   private TunableNumber wristDegrees = new TunableNumber("l3 wrist", WristConstants.L3);
 
-  private PhotonVisionSubsystem s_Photon;
-
-  private final TunableNumber xKP = new TunableNumber("x kP", Constants.SwerveConstants.xKP);
-  private final TunableNumber xKI = new TunableNumber("x kI", Constants.SwerveConstants.xKI);
-  private final TunableNumber xKD = new TunableNumber("x kD", Constants.SwerveConstants.xKD);
-  private final TunableNumber xMaxVel =
-      new TunableNumber("x MaxVel", Constants.SwerveConstants.xMaxVel);
-  private final TunableNumber xMaxAccel =
-      new TunableNumber("x Accel", Constants.SwerveConstants.xMaxAccel);
-
-  private final TunableNumber yKP = new TunableNumber("y kP", Constants.SwerveConstants.yKP);
-  private final TunableNumber yKI = new TunableNumber("y kI", Constants.SwerveConstants.yKI);
-  private final TunableNumber yKD = new TunableNumber("y kD", Constants.SwerveConstants.yKD);
-  private final TunableNumber yMaxVel =
-      new TunableNumber("y MaxVel", Constants.SwerveConstants.yMaxVel);
-  private final TunableNumber yMaxAccel =
-      new TunableNumber("y Accel", Constants.SwerveConstants.yMaxAccel);
-
-  private double xSetpoint, ySetpoint;
-  private PIDController xcontroller = new PIDController(xKP.get(), xKI.get(), xKD.get());
-  private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
   private int autoCounter = 0;
   private boolean isAuto;
 
@@ -58,7 +38,6 @@ public class Stage3CMD extends Command {
     elevator = ElevatorSubsystem.getInstance();
     candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
-    s_Photon = PhotonVisionSubsystem.getInstance(VisionConstants.cameraNames);
     // this.s_Swerve = s_Swerve;
     
   
@@ -66,11 +45,6 @@ public class Stage3CMD extends Command {
     addRequirements(elevator);
     addRequirements(wrist);
     addRequirements(candle);
-    // addRequirements(s_Swerve);
-    // addRequirements(s_Photon);
-  
-
-
 
     autoCounter = 0;
   }

@@ -842,5 +842,5 @@ public final class Constants {
   //   public static final double maxCurrent = 20;
   //   public static final double currentLimit = 5;
   //   public static final double maxCurrentTime = 1;
-  // }
+  }
 }

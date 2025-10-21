@@ -4,6 +4,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class WristIntakeConstants {
   public static final NeutralModeValue INTAKENEU_NEUTRAL_MODE = NeutralModeValue.Brake;
+  public static final int CANRangeID = 21;
   public static final int wristintakeMotorID = 18;
   public static final double ejectSpeed = .1;
   public static final double intakeSpeed = .1;

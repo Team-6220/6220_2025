@@ -6,9 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.WristConstants;
-import frc.robot.Constants.WristIntakeConstants;
+import frc.robot.WristIntakeConstants;
 
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.CustomParamsConfigs;
@@ -32,7 +30,7 @@ public class WristIntakesubsytem extends SubsystemBase {
   private boolean occupied;
   private double currentLimitToHold = -20;
 
-  private CANrange canRange = new CANrange(WristConstants.CANRangeID);
+  private CANrange canRange = new CANrange(WristIntakeConstants.CANRangeID);
   private CANrangeConfiguration canRangeConfigs = new CANrangeConfiguration();
   private FovParamsConfigs fovParamsConfigs = new FovParamsConfigs();
   private ProximityParamsConfigs proximityParamsConfigs = new ProximityParamsConfigs();

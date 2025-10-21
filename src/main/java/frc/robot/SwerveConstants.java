@@ -118,7 +118,7 @@ public final class SwerveConstants {
   public static final double xKI = 0;
   public static final double xMaxVel = 400;
   public static final double xMaxAccel = 800;
-  public static final double xTolerance = 1.75;
+  public static final double xTolerance = 0.25;
   public static final double xIZone = .4;
 
   public static final double yKP = 2.25;
@@ -126,7 +126,7 @@ public final class SwerveConstants {
   public static final double yKI = 0;
   public static final double yMaxVel = 400;
   public static final double yMaxAccel = 800;
-  public static final double yTolerance = 1.75;
+  public static final double yTolerance = 0.25;
   public static final double yIZone = .4;
 
   /* Swerve Profiling Values */
