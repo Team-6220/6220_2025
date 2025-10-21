@@ -27,12 +27,12 @@ public final class FrontIntakeConstants {
 
   public static final IdleMode frontMotorIdleMode = IdleMode.kCoast;
   public static final boolean frontMotorInvert = false;
-  public static final double frontIntakeKp = 0; // .4;
-  public static final double frontIntakeKi = 0;
+  public static final double frontIntakeKp = 0.08; // .4;
+  public static final double frontIntakeKi = 0.3;
   public static final double frontIntakeKd = 0.0;
   public static final double frontIntakeKa = 0.0;
-  public static final double frontIntakeKg = 0.64; // .01;
-  public static final double frontIntakeKv = 0;
+  public static final double frontIntakeKg = 1.2; // .01;
+  public static final double frontIntakeKv = 0.01;
   public static final double frontIntakeKs = 0;
   public static final double frontIntakeIZone = 5;
   public static final double frontIntakeTolerance = 0.5;

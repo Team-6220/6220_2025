@@ -254,6 +254,7 @@ public class frontIntakeSubsystem extends SubsystemBase {
     pivotMotorLeft.setVoltage(motorOutput);
     pivotMotorRight.setVoltage(motorOutput);
   }
+ 
 
   public boolean controllerAtGoal() {
     return m_Controller.atGoal();

@@ -81,8 +81,8 @@ public class RobotContainer {
   private final Trigger setLowerIntakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
   private final Trigger lowerOuttakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(8));
-  private final Trigger lowerIntakeMoveTo90 = new Trigger(() -> m_buttonBoard.getRawButton(10));
-  private final Trigger lowerIntakeMoveTo0 = new Trigger(() -> m_buttonBoard.getRawButton(12));
+  private final Trigger lowerIntakeMoveTo90 = new Trigger(() -> m_joystick.getRawButton(10));
+  private final Trigger lowerIntakeMoveTo0 = new Trigger(() -> m_joystick.getRawButton(12));
 
   // private final Trigger lowerIntakeForClimbing = new Trigger(() ->
   // m_buttonBoard.getRawButton(7));// NO SPIN, just put
