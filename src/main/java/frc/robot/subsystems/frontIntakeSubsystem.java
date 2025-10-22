@@ -245,7 +245,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
   /** Raw encoder value subtracted by the offset at zero */
   public double getPosition() {
     return ((lowerintakeEncoder.get()) * (24.0 / 32.0) * 360.0)
-        -70; // (encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
+        -50
+        -15; // (encoder value - offset) * gear ratio from shaft to encoder *360 to get degrees
   }
 
   public void simpleDrive(double motorOutput) {
