@@ -70,6 +70,7 @@ public class CANRangeSubsystem extends SubsystemBase{
     public void periodic() {
       SmartDashboard.putBoolean("CanRange Wrist", isObjectInWrist());
       SmartDashboard.putBoolean("CanRange Front Intake", isObjectInFrontIntake());
+      SmartDashboard.putNumber("CanRange distance", cRange1.getDistance().getValueAsDouble());
     }
 
     public static synchronized CANRangeSubsystem getInstance() {

@@ -30,14 +30,14 @@ public class photonAlignCmd extends Command {
   private final TunableNumber xKD = new TunableNumber("x kD", SwerveConstants.xKD);
   private final TunableNumber xMaxVel = new TunableNumber("x MaxVel", SwerveConstants.xMaxVel);
   private final TunableNumber xMaxAccel = new TunableNumber("x Accel", SwerveConstants.xMaxAccel);
-  private final TunableNumber xTolerance = new TunableNumber("y Accel", SwerveConstants.xTolerance);
+  private final TunableNumber xTolerance = new TunableNumber("x tolerance", SwerveConstants.xTolerance);
 
   private final TunableNumber yKP = new TunableNumber("y kP", SwerveConstants.yKP);
   private final TunableNumber yKI = new TunableNumber("y kI", SwerveConstants.yKI);
   private final TunableNumber yKD = new TunableNumber("y kD", SwerveConstants.yKD);
   private final TunableNumber yMaxVel = new TunableNumber("y MaxVel", SwerveConstants.yMaxVel);
   private final TunableNumber yMaxAccel = new TunableNumber("y Accel", SwerveConstants.yMaxAccel);
-  private final TunableNumber yTolerance = new TunableNumber("y Accel", SwerveConstants.yTolerance);
+  private final TunableNumber yTolerance = new TunableNumber("y tolerance", SwerveConstants.yTolerance);
 
   private int cameraNum;
   private double robotXSetpoint, robotYSetpoint; //robot relative
@@ -46,6 +46,13 @@ public class photonAlignCmd extends Command {
   private PIDController ycontroller = new PIDController(yKP.get(), yKI.get(), yKD.get());
 
   private boolean isFinished;
+  /**Exit code key:
+   * 0 = PID aligned
+   * 1 = no tag
+   * 2 = lost locked apriltag ID
+   * 3 = too long
+   */
+  private int exitCode = -1;
   //use this to count how long the entire thing ends itself
   //  if it simply didn't see anything but everything's functioning
   private int autoEndcount = 0;
@@ -88,6 +95,8 @@ public class photonAlignCmd extends Command {
     // call initPhoton here so that it will declare objects when camera is plugged in while the code
     // is running
     // call initphoton also so that things will get cleared out if something disconnects
+    xcontroller.setTolerance(xTolerance.get());
+    ycontroller.setTolerance(yTolerance.get());
     s_Photon.initPhoton();
     isFinished = false;
     autoEndcount = 0;
@@ -161,14 +170,17 @@ public class photonAlignCmd extends Command {
           } else {
             s_Swerve.stopDriving();
             System.err.println("LOST LOCKED ID, ENDING");
+            exitCode = 2;
             isFinished = true;
 
           }
           // s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[bestTarget.fiducialId - 1]);
         }
         autoEndcount ++;
-        if(autoEndcount > 200) //greater than the number of cycle
+        if(autoEndcount > 2000000000) //greater than the number of cycle
         {
+          System.out.println("too long, ending");
+          exitCode = 3;
           isFinished = true;
         }
       System.err.println(
@@ -178,7 +190,7 @@ public class photonAlignCmd extends Command {
        * 2. Camera not connected
        * 3. Photonvision not seen on networktable
        */
-      isFinished = true;
+      // isFinished = true;
 
       }
     }
@@ -191,23 +203,28 @@ public class photonAlignCmd extends Command {
     lockedFiducialID = -1;
     SmartDashboard.putBoolean("xPID at setpt", false);
     SmartDashboard.putBoolean("yPID at setpt", false);
+    System.out.println("photon exit code = " + exitCode);
     System.out.println("PHOTON ENDED");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (s_Photon.getResults().containsKey(cameraNum)
-        && s_Photon.getResults().get(cameraNum) != null
-        && s_Photon
-            .getResults()
-            .get(cameraNum)
-            .isEmpty()) // if there's no tag automatically stop it from driving
-        ||
-        (
-          xcontroller.atSetpoint() && ycontroller.atSetpoint()
-        )
-        ||
-        isFinished;
+    if(xcontroller.atSetpoint() && ycontroller.atSetpoint())
+    {
+      exitCode = 0;
+      isFinished = true;
+    }
+    if(s_Photon.getResults().containsKey(cameraNum)
+    && s_Photon.getResults().get(cameraNum) != null
+    && s_Photon
+        .getResults()
+        .get(cameraNum)
+        .isEmpty())// if there's no tag automatically stop it from driving
+        {
+          exitCode = 1;
+          isFinished = true;
+        }
+    return isFinished;
   }
 }

@@ -19,6 +19,7 @@ public class EjectCoral extends Command {
 
   public EjectCoral() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(wristIntake);
     isAuto = false;
   }
 
