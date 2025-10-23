@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4092803548485495,
-        "y": 3.5004178483590644
+        "x": 2.623796348078917,
+        "y": 2.905470505518749
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.0872532894736842,
-        "y": 1.1384868421052636
+        "x": 1.3960227272727275,
+        "y": 1.5071732954545451
       },
       "prevControl": {
-        "x": 1.2968665242606467,
-        "y": 1.4378455655530311
+        "x": 1.7330624207358152,
+        "y": 2.094620075992261
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,14 +31,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "line up with coral station",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

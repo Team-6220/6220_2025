@@ -19,6 +19,7 @@ import frc.robot.commands.Stage2CMD;
 // import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.alignAndScoreRightL2;
+import frc.robot.commands.alignL2Score;
 import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
@@ -154,6 +155,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand("ejectCoral ", new EjectCoral());
     NamedCommands.registerCommand("Score L2 Right", new InstantCommand(() -> System.out.println("aligning tehe")));
     NamedCommands.registerCommand("ejectCoral ", new InstantCommand(() -> System.out.println("ejecting")));
+    NamedCommands.registerCommand("NEW Score L2 Left", new alignL2Score());
 
     configureBindings();
   }

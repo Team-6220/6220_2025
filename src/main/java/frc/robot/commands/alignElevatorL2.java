@@ -12,18 +12,18 @@ import frc.robot.subsystems.ElevatorSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class alignElevatorL4 extends ParallelCommandGroup {
+public class alignElevatorL2 extends ParallelCommandGroup {
   /** Creates a new alignElevatorL4. */
   photonAlignCmd autonAlign;
-  Stage4CMD autonL4;
+  Stage4CMD autonL2;
   ElevatorSubsystem elevator;
-  public alignElevatorL4() {
+  public alignElevatorL2() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    autonAlign = new photonAlignCmd(0, null, 0, 0);
-    autonL4 = new Stage4CMD(true);
+    // autonAlign = new photonAlignCmd(0, null, 0, 0);
+    autonL2 = new Stage4CMD(true);
     elevator = ElevatorSubsystem.getInstance();
-    addCommands(autonAlign, autonL4);
+    addCommands(autonAlign, autonL2);
   }
 
   public BooleanSupplier isDone() {
