@@ -7,7 +7,6 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.VisionConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Swerve;
 
@@ -17,16 +16,15 @@ import frc.robot.subsystems.Swerve;
 public class alignElevatorL2 extends ParallelCommandGroup {
   /** Creates a new alignElevatorL4. */
   photonAlignCmd autonAlign;
-  Stage4CMD autonL2;
+  Stage2CMD autonL2;
   ElevatorSubsystem elevator;
-  Swerve swerve;
-  public alignElevatorL4(Swerve swerve) {
+  public alignElevatorL2(Swerve swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    this.swerve = swerve;
-    autonAlign = new photonAlignCmd(0, swerve, VisionConstants.leftReefX, VisionConstants.leftReefY);
-    autonL4 = new Stage4CMD(true);
+    // autonAlign = new photonAlignCmd(0, null, 0, 0);
+    autonL2 = new Stage2CMD(true);
     elevator = ElevatorSubsystem.getInstance();
+    autonAlign = new photonAlignCmd(0, swerve, 0, 0);
     addCommands(autonAlign, autonL2);
   }
 

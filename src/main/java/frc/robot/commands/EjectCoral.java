@@ -47,9 +47,6 @@ public class EjectCoral extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (isAuto && range.isObjectInWrist()) {
-      return true;
-    }
     return false;
   }
 }

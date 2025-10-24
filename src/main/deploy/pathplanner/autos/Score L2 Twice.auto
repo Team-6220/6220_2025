@@ -13,13 +13,13 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "NEW Score L2 Left"
           }
         }
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": null,
   "choreoAuto": false
 }

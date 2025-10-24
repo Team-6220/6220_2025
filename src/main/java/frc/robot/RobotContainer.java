@@ -52,6 +52,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.Autos.StraightAuto;
+import frc.robot.commands.Autos.TestAuto;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -155,7 +156,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand("ejectCoral ", new EjectCoral());
     NamedCommands.registerCommand("Score L2 Right", new InstantCommand(() -> System.out.println("aligning tehe")));
     NamedCommands.registerCommand("ejectCoral ", new InstantCommand(() -> System.out.println("ejecting")));
-    NamedCommands.registerCommand("NEW Score L2 Left", new alignL2Score());
+    NamedCommands.registerCommand("NEW Score L2 Left", new alignL2Score(s_Swerve));
 
     configureBindings();
   }
@@ -239,7 +240,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("Score L2 Twice");
+    // return new PathPlannerAuto("Score L2 Twice");
+    return new TestAuto(s_Swerve);
     // An example command will be run in autonomous
     //return autoChooser.getSelected();
   }

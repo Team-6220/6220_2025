@@ -21,7 +21,7 @@ public class alignOutake extends ParallelDeadlineGroup {
     // Add the deadline command in the super() call. Add other commands using
     // addCommands().
     super(new EjectCoral());
-    addCommands(new Stage4CMD(true));
+    addCommands(new Stage2CMD(true));
     // addCommands(new FooCommand(), new BarCommand());
   }
 }
