@@ -100,6 +100,8 @@ public class RobotContainer {
   // make CG banlanced
   // on both sides
 
+  private final Trigger reConfigureAuto = new Trigger(() -> m_buttonBoard.getRawButton(20));
+
   private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
   private final Trigger twisterTest =
       new Trigger(() -> m_buttonBoard.getRawButton(22)); // turn right
@@ -194,6 +196,8 @@ public class RobotContainer {
     lowerOuttakeCoral.whileTrue(new OutakeCoralLowerIntake());
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
     // lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
+
+    reConfigureAuto.onTrue(new InstantCommand(() -> s_Swerve.configureAutoBuilder()));
 
     m_driverController
         .leftTrigger(.75)

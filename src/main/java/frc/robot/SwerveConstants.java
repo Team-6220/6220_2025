@@ -20,7 +20,7 @@ public final class SwerveConstants {
 
   public static final int pigeonID = 1;
 
-  public static final double translation_kP = 2.518;
+  public static final double translation_kP = 2.518; //3.182
   public static final double translation_kI = 0.6;
   public static final double translation_kD = 0.0;
   public static final double rotation_kP = 1.35;
