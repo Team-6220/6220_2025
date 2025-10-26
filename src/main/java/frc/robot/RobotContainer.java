@@ -131,11 +131,12 @@ public class RobotContainer {
     autoChooser.addOption("Straight Auto", new StraightAuto(s_Swerve));
     autoChooser.addOption("testScoreBlueB", getAutonomousCommand());
     autoChooser.addOption("Score L2 right", new PathPlannerAuto("Score L2 Twice"));
+    autoChooser.addOption("Test Auto", new TestAuto(s_Swerve));
     // autoChooser.addOption("test red", new TestingAutoRed(s_Swerve));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    frontIntake.setDefaultCommand(new lowerIntakeSet());
+    // frontIntake.setDefaultCommand(new lowerIntakeSet());
 
     // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
