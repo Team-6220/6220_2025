@@ -11,6 +11,8 @@ import frc.robot.commands.EjectCoral;
 import frc.robot.commands.IntakeCoral;
 import frc.robot.commands.IntakeGround;
 import frc.robot.commands.LowerIntakeManual;
+import frc.robot.commands.LowerIntakeMoveTo0;
+import frc.robot.commands.LowerIntakeMoveTo90;
 import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
@@ -79,6 +81,9 @@ public class RobotContainer {
   private final Trigger setLowerIntakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
   private final Trigger lowerOuttakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(8));
+  private final Trigger lowerIntakeMoveTo90 = new Trigger(() -> m_joystick.getRawButton(10));
+  private final Trigger lowerIntakeMoveTo0 = new Trigger(() -> m_joystick.getRawButton(12));
+
   // private final Trigger lowerIntakeForClimbing = new Trigger(() ->
   // m_buttonBoard.getRawButton(7));// NO SPIN, just put
   private final Trigger deAlgaeL2 = new Trigger(() -> m_buttonBoard.getRawButton(17));
@@ -120,7 +125,7 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    frontIntake.setDefaultCommand(new lowerIntakeSet());
+    frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
     // frontIntake.setDefaultCommand(new LowerIntakeManual(m_joystick));
 
@@ -167,6 +172,8 @@ public class RobotContainer {
     setLowerIntakeAlgae.whileFalse(new lowerIntakeSet());
     lowerOuttakeCoral.whileTrue(new OutakeCoralLowerIntake());
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
+    lowerIntakeMoveTo90.whileTrue(new LowerIntakeMoveTo90());
+    lowerIntakeMoveTo0.whileTrue(new LowerIntakeMoveTo0());
     // lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
 
     m_driverController
