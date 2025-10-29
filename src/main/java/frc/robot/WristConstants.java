@@ -20,6 +20,7 @@ public final class WristConstants {
   // (RPM)
   // public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
   /*on branch tune_lower_intake PID&FF end (not really tuned) */
+  public static final double ZERO_OFFSET = 0.6370544;
   public static final double L2 = -48.8018;
   public static final double L3 = -46.2412;
   public static final double L4 = -8;

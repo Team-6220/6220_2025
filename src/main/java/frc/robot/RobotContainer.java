@@ -184,7 +184,7 @@ public class RobotContainer {
         .rightTrigger(.75)
         .whileTrue(
             new photonAlignCmd(
-                1, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
+                0, s_Swerve, VisionConstants.rightReefX, VisionConstants.rightReefY));
     m_driverController
         .b()
         .whileTrue(

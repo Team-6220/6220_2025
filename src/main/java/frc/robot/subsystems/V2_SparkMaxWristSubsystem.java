@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.TunableNumber;
 import frc.robot.WristConstants;
+import frc.robot.commands.wristUpOneDegree;
 
 public class V2_SparkMaxWristSubsystem extends SubsystemBase {
   /** Creates a new V2_SparkMaxWristSubsystem. */
@@ -71,7 +72,7 @@ public class V2_SparkMaxWristSubsystem extends SubsystemBase {
         .inverted(WristConstants.encoderInverted)
         .positionConversionFactor(
             360) // basically this turns the encoder reading from radians to degrees
-        .zeroOffset(0.9570457)
+        .zeroOffset(WristConstants.ZERO_OFFSET)
         .zeroCentered(true);
 
     // wristMotorConfig.absoluteEncoder.zeroOffset(.2);//Don't know if we need this
