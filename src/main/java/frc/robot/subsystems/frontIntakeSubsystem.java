@@ -153,6 +153,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(
         tableKey + "intakeMotorStatorCurrentLimit",
         frontMotor.getStatorCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey + "left temp", pivotMotorLeft.getMotorTemperature());
+    SmartDashboard.putNumber(tableKey + "right temp", pivotMotorRight.getMotorTemperature());
 
     if (FrontIntakeKp.hasChanged() || FrontIntakeKi.hasChanged() || FrontIntakeKd.hasChanged()) {
       m_Controller.setPID(FrontIntakeKp.get(), FrontIntakeKi.get(), FrontIntakeKd.get());

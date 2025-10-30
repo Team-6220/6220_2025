@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmForwardOuttakeCmd;
 import frc.robot.commands.OuttakeAlgaeLowerIntake;
 import frc.robot.subsystems.Swerve;
-
+import frc.robot.subsystems.frontIntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
@@ -22,6 +23,7 @@ public class StraightAuto extends SequentialCommandGroup {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    frontIntakeSubsystem frontintake = frontIntakeSubsystem.getInstance();
     addCommands(
         // AutoBuilder.pathfindToPose(new Pose2d(-1, 0, new Rotation2d()),
         // AutoConstants.pathConstraints),
@@ -31,7 +33,7 @@ public class StraightAuto extends SequentialCommandGroup {
             .withTimeout(2.5),
         new RunCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, false, false)),
         new ArmForwardOuttakeCmd().withTimeout(2),
-        new ArmForwardOuttakeCmd().alongWith(new OuttakeAlgaeLowerIntake()).withTimeout(2),
+        new ArmForwardOuttakeCmd().alongWith(new InstantCommand(()->frontintake.setFront(5))).withTimeout(2),
         new PrintCommand("done")
         );
   }

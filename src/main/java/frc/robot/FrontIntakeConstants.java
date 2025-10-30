@@ -14,14 +14,14 @@ public final class FrontIntakeConstants {
 
   public static final boolean enableCurrentLimit = true;
   public static final double maxCurrent = 25;
-  public static final double currentLimit = 20;
+  public static final double currentLimit = 25;
   public static final double maxCurrentTime = 2;
 
   public static final boolean enableStatorCurrentLimit = true;
   public static final double maxStatorCurrent = 40;
 
-  public static final int stallLimit = 25; // amps
-  public static final int freeLimit = 25; // amps
+  public static final int stallLimit = 45; // amps
+  public static final int freeLimit = 45; // amps
 
   public static final int frontMotorID = 19;
 

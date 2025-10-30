@@ -14,6 +14,7 @@ public class EjectCoral extends Command {
 
   public EjectCoral() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(wristIntake);
   }
 
   // Called when the command is initially scheduled.
@@ -31,6 +32,7 @@ public class EjectCoral extends Command {
   public void end(boolean interrupted) {
     // wristIntake.simpleDrive(interrupted, 0);
     wristIntake.endOccupied();
+    wristIntake.simpleVoltageDrive(true,0.0);
   }
 
   // Returns true when the command should end.
