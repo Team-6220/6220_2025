@@ -109,7 +109,7 @@ public final class SwerveConstants {
   public static final double turnKI = 1.7;
   public static final double turnMaxVel = 400;
   public static final double turnMaxAccel = 800;
-  public static final double turnTolerance = 1.75;
+  public static final double turnTolerance = 5;
   public static final double turnIZone = .4;
 
   // X + Y position Pid Constants for Vision autos

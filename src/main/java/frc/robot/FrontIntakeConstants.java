@@ -48,7 +48,7 @@ public final class FrontIntakeConstants {
   public static final double maxDegrees = 120;
   public static final double minDegrees = -10;
 
-  public static final double frontOuttakeAngle = 65;
+  public static final double frontOuttakeAngle = 72;
   public static final double intakeAlgeaSetpoint = 65;
   public static final double intakeCoralSetpoint = -5;
   public static final double idleSetpoint = 106;

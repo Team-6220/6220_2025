@@ -35,7 +35,7 @@ public class LowerIntakeManual extends Command {
     } else {
       frontIntake.spinFront(false, true);
     }
-    if (m_joystick.getRawButton(1)) {
+    if (m_joystick.getRawButton(4)) {
       frontIntake.spinFront(true, false);
     } else {
       frontIntake.spinFront(false, true);

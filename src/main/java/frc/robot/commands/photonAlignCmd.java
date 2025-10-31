@@ -110,7 +110,7 @@ public class photonAlignCmd extends Command {
             SmartDashboard.putNumber("y pid out", yout);
             SmartDashboard.putNumber("theta pid out", thetaout);
             s_Swerve.setAutoTurnHeading(VisionConstants.aprilTagAngle[tar.getFiducialId() - 1]);
-            s_Swerve.drive(new Translation2d(-xout, -yout), -thetaout, false, false);
+            s_Swerve.drive(new Translation2d(-xout*2, -yout*2), -thetaout, false, false);
             SmartDashboard.putNumber("camera to pose x", currentPose.getX());
             SmartDashboard.putNumber("camera to pose y", currentPose.getY());
             SmartDashboard.putNumber("camera to pose z", currentPose.getZ());
