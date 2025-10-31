@@ -7,7 +7,9 @@ package frc.robot.commands.Autos;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmForwardOuttakeCmd;
+import frc.robot.commands.FontOuttakeArmCmd;
 import frc.robot.commands.OuttakeAlgaeLowerIntake;
+import frc.robot.commands.SpinFrontOuttakeRoller;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.frontIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -29,11 +31,11 @@ public class StraightAuto extends SequentialCommandGroup {
         // AutoConstants.pathConstraints),
         // new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),
         new PrintCommand("starting"),
-        new RunCommand(() -> s_swerve.drive(new Translation2d(-0.3, 0), 0, false, false))
+        new RunCommand(() -> s_swerve.drive(new Translation2d(-0.75, 0), 0, false, false))
             .withTimeout(2.5),
-        new RunCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, false, false)),
-        new ArmForwardOuttakeCmd().withTimeout(2),
-        new ArmForwardOuttakeCmd().alongWith(new InstantCommand(()->frontintake.setFront(5))).withTimeout(2),
+        new RunCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, false, false)).withTimeout(0.2),
+        new FontOuttakeArmCmd().withTimeout(2),
+        new SpinFrontOuttakeRoller().withTimeout(2),
         new PrintCommand("done")
         );
   }

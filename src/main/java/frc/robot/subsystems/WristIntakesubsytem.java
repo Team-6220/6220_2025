@@ -65,13 +65,13 @@ public class WristIntakesubsytem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // if (!occupied && intakeMotor.getTorqueCurrent().getValueAsDouble() > currentLimitToHold) {
-    //   // intakeMotor.set(-0.04);
-    //   intakeMotor.setVoltage(-0.5);
-    // }
-    // if (intakeMotor.getTorqueCurrent().getValueAsDouble() <= currentLimitToHold) {
-    //   intakeMotor.setVoltage(-0.15);
-    // }
+    if (!occupied && intakeMotor.getTorqueCurrent().getValueAsDouble() > currentLimitToHold) {
+      // intakeMotor.set(-0.04);
+      intakeMotor.setVoltage(-0.5);
+    }
+    if (intakeMotor.getTorqueCurrent().getValueAsDouble() <= currentLimitToHold) {
+      intakeMotor.setVoltage(-0.15);
+    }
     SmartDashboard.putNumber(
         tableKey + "stator current", intakeMotor.getStatorCurrent().getValueAsDouble());
     SmartDashboard.putNumber(

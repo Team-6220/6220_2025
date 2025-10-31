@@ -10,6 +10,6 @@ public final class WristIntakeConstants {
 
   public static final boolean enableCurrentLimit = true;
   public static final double maxCurrent = 20;
-  public static final double currentLimit = 10;
+  public static final double currentLimit = 5;//10 for new intake
   public static final double maxCurrentTime = 1;
 }

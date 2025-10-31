@@ -17,6 +17,7 @@ import frc.robot.commands.Stage3CMD;
 import frc.robot.commands.Stage4CMD;
 import frc.robot.commands.OutakeCoralLowerIntake;
 import frc.robot.commands.OuttakeAlgaeLowerIntake;
+import frc.robot.commands.SpinFrontOuttakeRoller;
 import frc.robot.commands.Stage2CMD;
 // import frc.robot.commands.Autos;
 import frc.robot.commands.TeleopSwerve;
@@ -24,6 +25,7 @@ import frc.robot.commands.lowerIntakeAlgeaPickUp;
 import frc.robot.commands.lowerIntakeSet;
 import frc.robot.commands.Autos.BasicBlue;
 import frc.robot.commands.ElevatorManuel;
+import frc.robot.commands.FontOuttakeArmCmd;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.photonAlignCmd;
 import frc.robot.commands.wristDownOneDegree;
@@ -78,6 +80,8 @@ public class RobotContainer {
   private final Trigger wristUpOneDeg = new Trigger(() -> m_buttonBoard.getRawButton(13));
   private final Trigger wristDownOneDeg = new Trigger(() -> m_buttonBoard.getRawButton(14));
   private final Trigger groundIntake = new Trigger(() -> m_buttonBoard.getRawButton(15));
+  private final Trigger setFrontOuttakeArm = new Trigger(() -> m_buttonBoard.getRawButton(16));
+  private final Trigger spinFrontOuttakeRoller = new Trigger(() -> m_buttonBoard.getRawButton(18));
   private final Trigger setLowerIntakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
   private final Trigger lowerOuttakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(8));
@@ -174,6 +178,9 @@ public class RobotContainer {
     lowerOuttakeAlgae.whileTrue(new OuttakeAlgaeLowerIntake());
     lowerIntakeMoveTo90.whileTrue(new LowerIntakeMoveTo90());
     lowerIntakeMoveTo0.whileTrue(new LowerIntakeMoveTo0());
+
+    setFrontOuttakeArm.whileTrue(new FontOuttakeArmCmd());
+    spinFrontOuttakeRoller.whileTrue(new SpinFrontOuttakeRoller());
     // lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
 
     m_driverController
