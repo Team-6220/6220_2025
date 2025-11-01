@@ -45,8 +45,8 @@ public final class ElevatorConstants {
       5; // I think you don't need to tune this one but you can//meters per second square
 
   // These values should be percents
-  public static final double E_L2 = 0.485757; // This one should be good
-  public static final double E_L3 = .837;
+  public static final double E_L2 = 0.485757; //0.55
+  public static final double E_L3 = .837; //0.87
    // This one should be good
   public static final double E_L4 = 1.3; // Maybe final tune this?
   public static final double E_CoralStation = .195796; // Maybe final tune this?

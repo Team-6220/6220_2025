@@ -587,6 +587,8 @@ public class Swerve extends SubsystemBase {
         .addNumber("where the bot think it is swerve X", () -> getPose().getX());
     Shuffleboard.getTab(title)
         .addNumber("where the bot think it is swerve Y", () -> getPose().getY());
+    Shuffleboard.getTab(title)
+        .addNumber("where the bot think it is swerve degree", () -> getPose().getRotation().getDegrees());
     // SmartDashboard.putString("getRobotPoseField 2d", field2d.getRobotPose().toString());
 
     for (SwerveModule mod : mSwerveMods) {

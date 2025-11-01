@@ -20,20 +20,20 @@ public class Stage2CMD extends Command {
   private TunableNumber elevHeight = new TunableNumber("l2 elev height", ElevatorConstants.E_L2);
   private TunableNumber wristDegrees = new TunableNumber("l2 wrist", WristConstants.L2);
 
-  private LEDCANdle candle;
+  // private LEDCANdle candle;
 
   private int autoCounter = 0;
   private boolean isAuto;
 
   public Stage2CMD(boolean isAuto) {
     elevator = ElevatorSubsystem.getInstance();
-    candle = LEDCANdle.getInstance();
+    // candle = LEDCANdle.getInstance();
     wrist = V2_SparkMaxWristSubsystem.getInstance();
     autoCounter = 0;
     this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);
-    addRequirements(candle);
+    // addRequirements(candle);
     // addRequirements(s_Swerve);
   }
 
@@ -42,7 +42,7 @@ public class Stage2CMD extends Command {
   public void initialize() {
     elevator.setGoal(ElevatorConstants.E_L2);
     wrist.setGoal(WristConstants.L2);
-    candle.setColor(255, 255, 0, 30, 8, 100);
+    // candle.setColor(255, 255, 0, 30, 8, 100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

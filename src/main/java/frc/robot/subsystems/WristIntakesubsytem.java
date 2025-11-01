@@ -44,14 +44,19 @@ public class WristIntakesubsytem extends SubsystemBase {
     intakeMotor.set(speed);
   }
 
+  public void simpleVoltageDrive(boolean reversed, double voltage){
+    voltage = reversed? voltage * -1: voltage;
+    intakeMotor.setVoltage(voltage);
+  }
+
   public void intakeCoral() {
     occupied = true;
-    simpleDrive(false, WristIntakeConstants.intakeSpeed);
+    simpleVoltageDrive(false, WristIntakeConstants.intakeVoltage);
   }
 
   public void ejectCoral() {
     occupied = true;
-    simpleDrive(true, WristIntakeConstants.ejectSpeed);
+    simpleVoltageDrive(true, WristIntakeConstants.ejectVoltage);
   }
 
   public void endOccupied() {

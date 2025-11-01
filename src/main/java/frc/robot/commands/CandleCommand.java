@@ -54,6 +54,10 @@ public class CandleCommand extends Command {
       m_LEDCANdle.setModifiable((int) ((m_driverController.getLeftX() + 1) * 127));
       System.out.println((int) ((m_driverController.getLeftX() + 1) * 127));
     }
+    if (mode.equals("comp"))
+    {
+      m_LEDCANdle.setGold();
+    }
   }
 
   // Called once the command ends or is interrupted.

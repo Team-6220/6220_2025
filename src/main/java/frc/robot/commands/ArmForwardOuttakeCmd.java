@@ -5,31 +5,36 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.V2_SparkMaxWristSubsystem;
+import frc.robot.FrontIntakeConstants;
+import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class WristPIDTest extends Command {
-  /** Creates a new WristPIDTest. */
-  V2_SparkMaxWristSubsystem wrist = V2_SparkMaxWristSubsystem.getInstance();
-
-  public WristPIDTest() {
+public class ArmForwardOuttakeCmd extends Command {
+  /** Creates a new ArmForwardOuttakeCmd. */
+  frontIntakeSubsystem frontintake = frontIntakeSubsystem.getInstance();
+  public ArmForwardOuttakeCmd() {
+    addRequirements(frontintake);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(wrist);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    frontintake.resetPID();
+    frontintake.setGoal(FrontIntakeConstants.frontOuttakeAngle);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // wrist.driveToGoal(-107);
+    frontintake.swingToGoal();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    frontintake.simpleDrive(0);
+  }
 
   // Returns true when the command should end.
   @Override

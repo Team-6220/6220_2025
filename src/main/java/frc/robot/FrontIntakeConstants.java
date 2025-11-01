@@ -12,16 +12,16 @@ public final class FrontIntakeConstants {
   public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
   public static final boolean leftMotorInvert = false;
 
-  public static final boolean enableCurrentLimit = true;
-  public static final double maxCurrent = 25;
-  public static final double currentLimit = 20;
-  public static final double maxCurrentTime = 2;
+  public static final boolean enableCurrentLimit = false;
+  public static final double maxIntakeCurrent = 45;
+  public static final double intakeCurrentLimit = 45;
+  public static final double intakeMaxCurrentTime = 2;
 
   public static final boolean enableStatorCurrentLimit = true;
-  public static final double maxStatorCurrent = 40;
+  public static final double pivotMaxStatorCurrent = 40;
 
-  public static final int stallLimit = 25; // amps
-  public static final int freeLimit = 25; // amps
+  public static final int pivotStallLimit = 45; // amps
+  public static final int pivotFreeLimit = 45; // amps
 
   public static final int frontMotorID = 19;
 
@@ -43,11 +43,12 @@ public final class FrontIntakeConstants {
   /** volts, used for intake and only intake */
   public static final double wheelSpeed = 5;
 
-  public static final double idleSpinVoltage = 2.5;
+  public static final double idleSpinVoltage = 0;
 
   public static final double maxDegrees = 120;
   public static final double minDegrees = -10;
 
+  public static final double frontOuttakeAngle = 72;
   public static final double intakeAlgeaSetpoint = 65;
   public static final double intakeCoralSetpoint = -5;
   public static final double idleSetpoint = 106;

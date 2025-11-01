@@ -89,23 +89,23 @@ public class frontIntakeSubsystem extends SubsystemBase {
 
     lowerIntakeConfig.CurrentLimits.SupplyCurrentLimitEnable =
         FrontIntakeConstants.enableCurrentLimit;
-    lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = FrontIntakeConstants.maxCurrent;
-    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = FrontIntakeConstants.currentLimit;
-    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = FrontIntakeConstants.maxCurrentTime;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLimit = FrontIntakeConstants.maxIntakeCurrent;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerLimit = FrontIntakeConstants.intakeCurrentLimit;
+    lowerIntakeConfig.CurrentLimits.SupplyCurrentLowerTime = FrontIntakeConstants.intakeMaxCurrentTime;
     lowerIntakeConfig.CurrentLimits.StatorCurrentLimitEnable =
         FrontIntakeConstants.enableStatorCurrentLimit;
-    lowerIntakeConfig.CurrentLimits.StatorCurrentLimit = FrontIntakeConstants.maxStatorCurrent;
+    lowerIntakeConfig.CurrentLimits.StatorCurrentLimit = FrontIntakeConstants.pivotMaxStatorCurrent;
 
     frontMotor.getConfigurator().apply(lowerIntakeConfig);
 
     motorLeftConfig
         .inverted(FrontIntakeConstants.leftMotorInvert)
         .idleMode(FrontIntakeConstants.leftMotorIdleMode)
-        .smartCurrentLimit(FrontIntakeConstants.stallLimit, FrontIntakeConstants.freeLimit);
+        .smartCurrentLimit(FrontIntakeConstants.pivotStallLimit, FrontIntakeConstants.pivotFreeLimit);
     motorRightConfig
         .inverted(FrontIntakeConstants.rightMotorInvert)
         .idleMode(FrontIntakeConstants.rightMotorIdleMode)
-        .smartCurrentLimit(FrontIntakeConstants.stallLimit, FrontIntakeConstants.freeLimit);
+        .smartCurrentLimit(FrontIntakeConstants.pivotStallLimit, FrontIntakeConstants.pivotFreeLimit);
 
     pivotMotorLeft.configure(
         motorLeftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -153,6 +153,8 @@ public class frontIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber(
         tableKey + "intakeMotorStatorCurrentLimit",
         frontMotor.getStatorCurrent().getValueAsDouble());
+    SmartDashboard.putNumber(tableKey + "left temp", pivotMotorLeft.getMotorTemperature());
+    SmartDashboard.putNumber(tableKey + "right temp", pivotMotorRight.getMotorTemperature());
 
     if (FrontIntakeKp.hasChanged() || FrontIntakeKi.hasChanged() || FrontIntakeKd.hasChanged()) {
       m_Controller.setPID(FrontIntakeKp.get(), FrontIntakeKi.get(), FrontIntakeKd.get());
