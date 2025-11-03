@@ -29,7 +29,7 @@ public class LowerIntakeManual extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    frontIntake.simpleDrive(m_joystick.getRawAxis(2)*12);
+    frontIntake.simpleDrive(m_joystick.getRawAxis(2)*5*m_joystick.getRawAxis(3));
     if (m_joystick.getRawButton(3)) {
       frontIntake.spinFront(true, true);
     } else {

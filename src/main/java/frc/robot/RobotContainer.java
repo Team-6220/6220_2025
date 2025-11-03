@@ -80,9 +80,9 @@ public class RobotContainer {
   private final Trigger wristUpOneDeg = new Trigger(() -> m_buttonBoard.getRawButton(13));
   private final Trigger wristDownOneDeg = new Trigger(() -> m_buttonBoard.getRawButton(14));
 
-  private final Trigger groundIntake = new Trigger(() -> m_buttonBoard.getRawButton(15));
+  private final Trigger groundIntake = new Trigger(() -> m_buttonBoard.getRawButton(4));
   private final Trigger setFrontOuttakeArm = new Trigger(() -> m_buttonBoard.getRawButton(16));
-  private final Trigger spinFrontOuttakeRoller = new Trigger(() -> m_buttonBoard.getRawButton(18));
+  private final Trigger spinFrontOuttakeRoller = new Trigger(() -> m_buttonBoard.getRawButton(6));
   // private final Trigger setLowerIntakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(4));
   // private final Trigger lowerOuttakeCoral = new Trigger(() -> m_buttonBoard.getRawButton(6));
   // private final Trigger lowerOuttakeAlgae = new Trigger(() -> m_buttonBoard.getRawButton(8));
@@ -173,7 +173,7 @@ public class RobotContainer {
     coralStation.onTrue(new CoralStationCmd());
     elevatorIntake.whileTrue(new IntakeCoral());
     elevatorOuttake.whileTrue(new EjectCoral());
-    groundIntake.onTrue(new IntakeGround());
+    groundIntake.whileTrue(new IntakeGround());
     groundIntake.onFalse(new lowerIntakeSet());
     // setLowerIntakeAlgae.whileTrue(new lowerIntakeAlgeaPickUp());
     // setLowerIntakeAlgae.whileFalse(new lowerIntakeSet());
@@ -184,8 +184,8 @@ public class RobotContainer {
 
     setFrontOuttakeArm.onTrue(new ArmForwardOuttakeCmd());
     setFrontOuttakeArm.onFalse(new lowerIntakeSet());
-    spinFrontOuttakeRoller.onTrue(new FrontOuttakeRollerSpinCmd());
-    spinFrontOuttakeRoller.onFalse(new FrontOuttakeRollerSpinCmd());
+    spinFrontOuttakeRoller.whileTrue(new FrontOuttakeRollerSpinCmd());
+    spinFrontOuttakeRoller.onFalse(new lowerIntakeSet());
     // lowerIntakeForClimbing.onTrue(new lowerIntakeForClimbing());
 
     m_driverController

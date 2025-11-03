@@ -21,8 +21,8 @@ public final class WristConstants {
   // public static final double wristMaxDegrees = 87, wristMinDegrees = -144;
   /*on branch tune_lower_intake PID&FF end (not really tuned) */
   public static final double ZERO_OFFSET = 0.9570457;
-  public static final double L2 = -48.8018;//-55
-  public static final double L3 = -46.2412; //-48
+  public static final double L2 = -51.24620056;//-55     -48.8018
+  public static final double L3 = -52.96010971; //-48B      -46.2412
   public static final double L4 = -8;
   public static final double coralStation = 35.81813;
 
