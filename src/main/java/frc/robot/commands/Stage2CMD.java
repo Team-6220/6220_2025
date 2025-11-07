@@ -33,8 +33,6 @@ public class Stage2CMD extends Command {
     this.isAuto = isAuto;
     addRequirements(elevator);
     addRequirements(wrist);
-    // addRequirements(candle);
-    // addRequirements(s_Swerve);
   }
 
   // Called when the command is initially scheduled.
