@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.FrontIntakeConstants;
 import frc.robot.subsystems.frontIntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -19,7 +20,6 @@ public class LowerIntakeManual extends Command {
     frontIntake = frontIntakeSubsystem.getInstance();
     this.m_joystick = m_joystick;
     addRequirements(frontIntake);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +31,7 @@ public class LowerIntakeManual extends Command {
   public void execute() {
     frontIntake.simpleDrive(m_joystick.getRawAxis(2)*12);
     if (m_joystick.getRawButton(3)) {
-      frontIntake.spinFront(true, true);
+      frontIntake.setFront(FrontIntakeConstants.wheelSpeed);
     } else {
       frontIntake.spinFront(false, true);
     }

@@ -222,8 +222,6 @@ public class RobotContainer {
     // VisionConstants.leftReefY));
     // rightReef.whileTrue(new photonAlignCmd(0, s_Swerve, VisionConstants.rightReefX,
     // VisionConstants.rightReefY));
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
 
   }
 

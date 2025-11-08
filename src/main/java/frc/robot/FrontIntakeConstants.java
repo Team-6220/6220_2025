@@ -4,11 +4,11 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public final class FrontIntakeConstants {
   // TODO: TUNE ALL THESE VALUES
-  public static final int rightMotorID = 15; // nonclimber
+  public static final int rightMotorID = 35; // nonclimber
   public static final IdleMode rightMotorIdleMode = IdleMode.kBrake;
   public static final boolean rightMotorInvert = true;
 
-  public static final int leftMotorID = 16; // climber
+  public static final int leftMotorID = 45; // climber
   public static final IdleMode leftMotorIdleMode = IdleMode.kBrake;
   public static final boolean leftMotorInvert = false;
 
