@@ -45,8 +45,8 @@ public final class FrontIntakeConstants {
 
   public static final double idleSpinVoltage = 5;
 
-  public static final double maxDegrees = 120;
-  public static final double minDegrees = -10;
+  public static final double maxDegrees = 100;
+  public static final double minDegrees = 50;
 
   public static final double frontOuttakeAngle = 0;
   public static final double intakeAlgeaSetpoint = 72;
