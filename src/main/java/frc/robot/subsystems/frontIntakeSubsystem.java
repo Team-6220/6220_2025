@@ -217,26 +217,14 @@ public class frontIntakeSubsystem extends SubsystemBase {
   }
 
   public void swingToGoal() {
-    feedForwardOutput =
-        m_Feedforward.calculate(
-            (m_Controller.getSetpoint().position) * Math.PI / 180,
-            m_Controller.getSetpoint().velocity * Math.PI / 180);
-
-    lastUpdate = Timer.getFPGATimestamp();
-
-    PIDOutput = m_Controller.calculate(getPosition());
-
-    double calculatedOutput = PIDOutput + feedForwardOutput;
-
-    SmartDashboard.putNumber(tableKey + "ffOut", feedForwardOutput);
-    SmartDashboard.putNumber(tableKey + "pidOut", PIDOutput);
-    SmartDashboard.putNumber(tableKey + "calculatedOutput", calculatedOutput);
-    SmartDashboard.putNumber(tableKey + "setPoint", m_Controller.getSetpoint().position);
-    SmartDashboard.putNumber(tableKey + "setPointVelocity", m_Controller.getSetpoint().velocity);
-    SmartDashboard.putBoolean(tableKey + "atsetpoint", m_Controller.atSetpoint());
+    //calculate feedforward output
+    //calculate pid output
+    //calculate sum of pid and feedforard
+    //apply that sum to the motor
+    //optional -- smartdashboard output things for debugging
+    
+    //example for smartdashboard output
     SmartDashboard.putNumber(tableKey + "goal", m_Controller.getGoal().position);
-    pivotMotorLeft.setVoltage(calculatedOutput);
-    pivotMotorRight.setVoltage(calculatedOutput);
   }
 
   public void resetPID() {
