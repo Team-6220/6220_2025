@@ -205,7 +205,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Controller.reset(getElevatorPositionMeters());
   }
 
-  /** In meters */
+  /* In meters */
   public double getElevatorPositionMeters() {
     // Pivit position
     double elevatorPosition =
