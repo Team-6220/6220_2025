@@ -165,6 +165,8 @@ public class RobotContainer {
         .y()
         .onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(m_driverController.getHID())));
 
+    m_driverController.rightBumper().onTrue(new TeleopSwerve(s_Swerve, m_driverController, m_driverController.leftBumper()));
+
     resetEncoder.onTrue(new InstantCommand(() -> elevator.resetEncoder()));
     stage2.onTrue(new Stage2CMD(false));
     stage3.onTrue(new Stage3CMD(false));
