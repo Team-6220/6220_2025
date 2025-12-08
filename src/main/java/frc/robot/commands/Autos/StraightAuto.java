@@ -29,9 +29,9 @@ public class StraightAuto extends SequentialCommandGroup {
         // AutoConstants.pathConstraints),
         // new InstantCommand(() -> s_swerve.setPose(AutoConstants.startPosesBlue[0])),
         new PrintCommand("starting"),
-        new RunCommand(() -> s_swerve.drive(new Translation2d(-0.75, 0), 0, false, false))
-            .withTimeout(2.5),
-        new RunCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, false, false)).withTimeout(0.2),
+        new RunCommand(() -> s_swerve.drive(new Translation2d(1, 0), 0, true, false))
+            .withTimeout(5),
+        new RunCommand(() -> s_swerve.drive(new Translation2d(0, 0), 0, true, false)).withTimeout(0.2),
         new ArmForwardOuttakeCmd().withTimeout(2),
         new FrontOuttakeRollerSpinCmd().withTimeout(2),
         new PrintCommand("done")
