@@ -9,6 +9,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+repositories {
+    mavenCentral()
+    google()
+}
+
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
@@ -77,11 +82,6 @@ dependencies {
     //github workflow checkstyle
     checkstyle 'com.puppycrawl.tools:checkstyle:10.12.7'
     checkstyle 'com.google.guava:guava:33.0.0-jre'
-}
-
-repositories {
-    mavenCentral()
-    google()
 }
 
 test {
