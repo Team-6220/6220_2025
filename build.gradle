@@ -87,7 +87,6 @@ dependencies {
     
     //github workflow checkstyle
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
-    checkstyle "group:artifact:version"
 }
 
 test {
