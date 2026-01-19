@@ -33,5 +33,5 @@ jobs:
             ${{ runner.os }}-gradle-
       
       - name: Run Spotless Check
-      run: ./gradlew spotlessCheck --no-daemon
+        run: ./gradlew spotlessCheck --no-daemon
 
