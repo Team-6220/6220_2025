@@ -86,7 +86,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     
     //github workflow checkstyle
-    checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
+    //checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
 }
 
 test {
