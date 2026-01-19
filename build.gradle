@@ -1,9 +1,8 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2025.3.2"
-    id "checkstyle"
+    id "com.diffplug.spotless" version "6.23.3"   
 }
-
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -114,9 +113,13 @@ tasks.withType(JavaCompile) {
 }
 
 //for github workflow
-checkstyle {
-    toolVersion = '10.12.7'
-    ignoreFailures = false
+spotless {
+    java {
+        googleJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
 
 test {

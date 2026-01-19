@@ -32,5 +32,6 @@ jobs:
           restore-keys:  |
             ${{ runner.os }}-gradle-
       
-      - name: Run Checkstyle
-        run: ./gradlew checkstyleMain checkstyleTest --no-daemon
+      - name: Run Spotless Check
+      run: ./gradlew spotlessCheck --no-daemon
+
