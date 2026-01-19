@@ -75,7 +75,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     
     //github workflow checkstyle
-    checkstyle 'com.google.guava:guava:33.0.0-jre'
+    checkstyle 'com.puppycrawl.tools:checkstyle:10.12.7'
 }
 
 test {
