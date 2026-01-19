@@ -4,11 +4,6 @@ plugins {
     id "checkstyle"
 }
 
-configurations. all {
-    resolutionStrategy {
-        force 'com.google.guava:guava:33.0.0-jre'
-    }
-}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
