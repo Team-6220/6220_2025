@@ -76,6 +76,7 @@ dependencies {
     
     //github workflow checkstyle
     checkstyle 'com.puppycrawl.tools:checkstyle:10.12.7'
+    implementation 'com.google.guava:guava:33.0.0-jre'
 }
 
 test {
