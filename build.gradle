@@ -79,6 +79,10 @@ dependencies {
     checkstyle 'com.google.guava:guava:33.0.0-jre'
 }
 
+repositories {
+    mavenCentral()
+}
+
 test {
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
