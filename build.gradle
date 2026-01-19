@@ -73,6 +73,9 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    //github workflow checkstyle
+    checkstyle 'com.google.guava:guava:33.0.0-jre'
 }
 
 test {
