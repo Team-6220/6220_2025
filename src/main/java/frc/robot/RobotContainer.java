@@ -90,26 +90,6 @@ public class RobotContainer {
   private final Trigger lowerIntakeMoveTo0 = new Trigger(() -> m_joystick.getRawButton(12));
   private final Trigger manuelLowerIntake = new Trigger(() -> m_joystick.getRawButton(6));
 
-  // private final Trigger lowerIntakeForClimbing = new Trigger(() ->
-  // m_buttonBoard.getRawButton(7));// NO SPIN, just put
-  // private final Trigger deAlgaeL2 = new Trigger(() -> m_buttonBoard.getRawButton(17));
-  // private final Trigger deAlgaeL3 = new Trigger(() -> m_buttonBoard.getRawButton(18));
-  // it down at 0 to
-  // make CG banlanced
-  // on both sides
-
-  // private final Trigger test = new Trigger(() -> m_joystick.getRawButton(5));
-  // private final Trigger twisterTest =
-      // new Trigger(() -> m_buttonBoard.getRawButton(22)); // turn right
-  // private final Trigger lowerIntake = new Trigger(() ->
-  // m_buttonBoard.getRawButton(4));
-  // private final Trigger lowerOuttake = new Trigger(() ->
-  // m_buttonBoard.getRawButton(6));
-
-  // private final Trigger coralStation = new Trigger(() ->
-  // m_Joystick.getRawButton(1));
-  // private final Trigger leftReef = new Trigger(() -> m_joystick.getRawButton(3));
-  // private final Trigger rightReef = new Trigger(() -> m_joystick.getRawButton(4));
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

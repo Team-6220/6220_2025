@@ -29,11 +29,10 @@ public class Stage3CMD extends Command {
 
     autoCounter = 0;
     this.isAuto = isAuto;
-    // this.s_Swerve = s_Swerve;
-    // addRequirements(s_Photon);
+
     addRequirements(elevator);
     addRequirements(wrist);
-    // addRequirements(s_Swerve);
+
   }
 
   // Called when the command is initially scheduled.
